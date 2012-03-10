@@ -1,0 +1,45 @@
+/
+  **************************************
+  *** Playlist
+  ***
+#playlist
+  .navigation
+    nav
+      .button.show-current-track
+        .icon
+      
+      .input-wrap.sources
+        p
+        a.change: span: span change
+      
+      .input-wrap.search
+        input type="text" name="search" value="Search"
+        .icon
+  
+  .list
+    header
+      .title
+        span Title
+      .artist
+        span Artist
+      .album
+        span Album
+    
+    .tracks-wrapper
+      .nothing-here
+  
+  footer
+    .intestines 0 tracks found
+  
+  
+  
+  script#track_template type="text/template"
+    |
+      <li class="track">
+        <div class="title"><span><%= title %></span></div>
+        <div class="artist"><span><%= artist %></span></div>
+        <div class="album"><span><%= album %></span></div>
+      </li>
+  
+  javascript:
+    soundManagerFlashURL = "#{{asset_path('soundmanager2/dependencies/soundmanager2_flash9.swf')}}";

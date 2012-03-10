@@ -1,0 +1,240 @@
+$button_height: 52px;
+
+#controller {
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: $controller_width;
+  
+  -webkit-font-smoothing: antialiased;
+  
+  & > div { position: relative }
+  
+  /**************************************
+   *  Now Playing
+   */
+  .now-playing {
+    color: #fff;
+    border: 1px solid rgba(#000, .04);
+    font-size: 11px;
+    font-weight: 200;
+    line-height: 58px;
+    
+    @include single-box-shadow(rgba(#000, .29), 0, 6px, 9px, 0, 'inset');
+    @include single-text-shadow(rgba(#000, .53), 0, 0, 2px);
+    
+    .time {
+      font-size: 18px;
+      font-weight: 100;
+      left: 19px;
+      position: absolute;
+      top: 0;
+    }
+    
+    &, .what { height: 53px; overflow: hidden }
+       .what {
+      margin: 0 19px 0 78px;
+      line-height: 61px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .what strong { font-weight: 700 }
+  }
+  
+  /**************************************
+   *  Progress Bar
+   */
+  .progress-bar {
+    background: rgba(#000, .19);
+    height: 4px;
+    margin: 8px 1px 0;
+    overflow: hidden;
+    
+    &, .progress { height: 4px }
+    
+    .progress {
+      background: #fff;
+      width: 0;
+      
+      &.loading { @include opacity(.6) }
+    }
+  }
+  
+  /**************************************
+   *  Buttons
+   */
+  .controls {
+    background: transparent image-url('controller/almost_invisible_pattern.png') 0 0 repeat;
+    border: 1px solid rgba(#000, .04);
+    margin-top: 12px;
+    overflow: hidden;
+    padding: 9px 12px;
+    
+    & > a {
+      border-bottom: 1px solid rgba(#000, .19);
+      cursor: pointer;
+      float: left;
+      margin-right: 6px;
+      padding: 1px;
+      
+      @include background-image(linear-gradient(rgba(#000, .11), rgba(#000, .19)));
+      @include border-radius(4px);
+      
+      &.no-margin,
+      &:last-child { margin-right: 0 }
+    }
+    
+    & > a:active {
+      border-bottom-color: rgba(#fff, .51);
+    }
+    
+    .line {
+      height: $button_height;
+      float: left;
+      width: 11px;
+    
+      .hr { background: rgba(#000, .19); height: 1px; margin-top: $button_height / 2 + 1 }
+    }
+    
+    .switch, .button, .button-column, .knob {
+      height: $button_height;
+      overflow: hidden;
+      position: relative;
+      
+      @include background-image(linear-gradient(#fff, rgba(#fff, .87)));
+      @include border-radius(3px);
+    }
+    
+    //// <button>
+    .button {
+      width: $button_height;
+      
+      .light {
+        background: #dadada;
+        height: 5px;
+        margin: 8px auto 0;
+        width: 20px;
+        
+        @include border-radius(4px);
+        
+        &.on {
+          background: #bcf865;
+          
+          @include single-box-shadow(#bcf865, 0, 0, 25px, 2px);
+        }
+        
+        .overlay {
+          height: 5px;
+          position: absolute;
+          width: 20px;
+          
+          @include background-image(linear-gradient(left, rgba(#fff, .38), rgba(#fff, 0)));
+          @include border-radius(4px);
+        }
+      }
+      
+      .name {
+        color: lighten(#000, 33%);
+        font-size: 10px;
+        font-weight: 400;
+        margin-top: 4px;
+        text-align: center;
+      }
+      
+      .icon {
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        bottom: 7px;
+        height: 20px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+      }
+      
+      &.play-pause .icon { background-image: image-url('controller/media-play_pause.png') }
+    }
+    
+    //// <button-column>
+    .button-column {
+    
+      .btn {
+        background-position: center;
+        background-repeat: no-repeat;
+        height: $button_height / 2;
+        padding: 0 10px;
+        width: 16px;
+        
+        &.previous { background-image: image-url('controller/media-previous.png') }
+        &.next     { background-image: image-url('controller/media-next.png')     }
+      }
+      
+      .btn:first-child { border-bottom: 1px solid #e8eced }
+    
+    }
+    
+    //// <switch>
+    .switch {
+      padding: 0 10px;
+      width: 16px;
+      
+      .light {
+        background: #dadada;
+        height: 6px;
+        margin: 8px auto 0;
+        width: 6px;
+        
+        @include border-radius(6px);
+        
+        &.on {
+          background: #00ccff;
+          
+          @include single-box-shadow(#00ccff, 0, 0, 25px, 2px);
+        }
+      }
+      
+      .icon {
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        bottom: 7px;
+        height: 20px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+      }
+      
+      &.shuffle .icon { background-image: image-url('controller/media-shuffle.png') }
+      &.repeat .icon  { background-image: image-url('controller/media-repeat.png')  }
+      &.volume .icon  { background-image: image-url('controller/media-volume.png')  }
+    }
+    
+    //// <knob>
+    .knob {
+      width: $button_height;
+     
+      .it {
+        background: darken(#f2f2f2, 5%) image-url('controller/knob.png') center no-repeat;
+        height: 36px;
+        margin: $button_height / 2 - 36 / 2 auto 0;
+        position: relative;
+        width: 36px;
+        z-index: 2;
+        
+        @include single-box-shadow(lighten(#d1d1d1, 2%), 0, 2px, 8px, 0);
+        @include border-radius(36px);
+      }
+      
+      .lines {
+        background: transparent image-url('controller/knob-lines.png') center top no-repeat;
+        height: 7px;
+        margin: -8px auto 0;
+        position: relative;
+        width: 38px;
+        z-index: 3;
+        
+        @include opacity(.49);
+      }
+    }
+  }
+
+}

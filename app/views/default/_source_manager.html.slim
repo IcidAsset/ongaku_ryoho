@@ -1,0 +1,46 @@
+/
+  **************************************
+  *** Source manager –
+  ***
+#source-manager
+  .background
+  .wrapper
+    
+    .window.main
+      header: p Sources
+      section
+    
+    .window.add
+      header: p Add
+      section
+        .select-wrapper
+          select data-placeholder="Choose a source type" style="width: 213px"
+            option value="server" Ongaku Ryoho Server
+        
+        .forms-wrapper
+          = form_tag("/servers", method: "post", class: 'server') do
+            = label_tag("server[location]", "Server address")
+            = text_field_tag("server[location]")
+            = submit_tag("Add")
+  
+  
+  
+  script#source_template type="text/template"
+    |
+      <li<% if (available) { print(' class="available"') } %>>
+        <input type="checkbox" <% if (available) { print('checked="checked"') } %> disabled="disabled">
+        
+        <label title="<%= label %>">
+          <strong><%= label %></strong>
+          <br>
+          <%
+            if (status.match(/(unprocessed|waiting|processing)/gi) !== null) {
+              print('<span>' + status + '</span>');
+            
+            } else {
+              print('<span>' + tracks.length + ' tracks</span>');
+            
+            }
+          %>
+        </label>
+      </li>

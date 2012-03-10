@@ -1,0 +1,263 @@
+
+$track_height : 28px;
+
+#playlist {
+  margin-left: $controller_width + $body_margin;
+  min-width: 493px;
+  
+  @include single-box-shadow(rgba(#000, .41), 0, 0, 30px, 0);
+  
+  /**************************************
+   *  Navigation
+   */
+  .navigation {
+    height: 55px;
+    
+    @include background-image(
+      linear-gradient(lighten(#757a80, 3%), darken(#4b4e52, 3%))
+    );
+    
+    &, & > nav { overflow: hidden }
+       & > nav {
+      height: 53px;
+      margin: 1px;
+      padding-left: 14px + 27 + 2 + 5;
+      padding-right: 14px + 210 + 2 + 5;
+      position: relative;
+      
+      @include background-image(linear-gradient(#6c7075, #595d61));
+    }
+    
+    .button, .input-wrap {
+      border: 1px solid #65686e;
+      height: 27px;
+      margin-top: 52px / 2 - 28px / 2 + 1;
+      
+      @include single-box-shadow(#2d2e30, 0, 1px, 3px, 0, 'inset');
+    }
+    
+    input, .sources p {
+      color: #b6babf;
+      font-size: 13px;
+      font-weight: 700;
+      height: 27px;
+    }
+    
+    // button
+    .button {
+      cursor: pointer;
+      
+      @include background-image(linear-gradient(#525559, #3d3f42));
+      
+      &, .icon { width: 27px }
+         .icon {
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 27px;
+      }
+      
+      &:active { border-bottom-color: #8d9299 }
+      
+      &.show-current-track {
+        position: absolute;
+        left: 13px;
+        top: 0;
+      }
+      
+      &.show-current-track .icon { background-image: image-url('playlist/lightbulb.png') }
+    }
+    
+    // input
+    .input-wrap {
+      position: relative;
+      
+      @include background-image(linear-gradient(#343538, #3d3f42));
+      
+      .icon {
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 16px;
+        margin-top: -7px;
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        width: 16px;
+      }
+      
+      &, input { overflow: hidden }
+      
+      &.search .icon { background-image: image-url('playlist/magnifier.png') }
+    }
+    
+    input {
+      background: none;
+      border: none;
+      color: #6c7075;
+      display: block;
+      padding: 0 34px 0 7px;
+      width: 100%;
+      
+      @include box-sizing(border-box);
+      
+      &.dont, &:focus { color: #b6babf; outline: none }
+    }
+    
+    .input-wrap.search {
+      position: absolute;
+      right: 13px;
+      top: 0;
+      width: 210px;
+    }
+    
+    // sources
+    .sources { padding: 0 8px; position: relative }
+    .sources p {
+      line-height: 28px;
+      margin-right: 39px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .change {
+      cursor: pointer;
+      float: right;
+      font-size: 10px;
+      line-height: 16px;
+      padding: 1px;
+      position: absolute;
+      right: 8px;
+      text-indent: -10000px;
+      top: 4px;
+      
+      @include background-image(linear-gradient(#65686e, #3d3f42));
+      @include border-radius(3px);
+    }
+    
+    .change > span {
+      display: block;
+      height: 16px;
+      overflow: hidden;
+      padding: 0 7px 1px;
+      
+      @include background-image(linear-gradient(#525559, #3d3f42));
+      @include border-radius(2px);
+    }
+    
+    .change span span {
+      background: transparent image-url('playlist/cloud.png') center no-repeat;
+      display: block;
+      height: 18px;
+      width: 16px;
+    }
+    
+    .change:active {
+      @include background-image(linear-gradient(#54daff, #0090b8));
+      @include single-box-shadow(rgba(#54daff, 0.43), 0, 0, 19px, 3px);
+      
+      & > span  { @include background-image(linear-gradient(#00c8ff, #008ab0)) }
+      span span { background-image: image-url('playlist/cloud-white.png') }
+    }
+  }
+  
+  /**************************************
+   *  List
+   */
+  .list {
+    background: #fff;
+    
+    @include alternate-font;
+    
+    header, .track {
+      overflow: hidden;
+      
+      .title, .artist, .album { float: left }
+      
+      .title  { width: 40% }
+      .artist { width: 30% }
+      .album  { width: 30% }
+      
+      span { display: block; padding: 0 7px }
+      
+      .title span { padding-left: 10px }
+      .album span { padding-right: 10px }
+    }
+    
+    header {
+      border: 1px solid #e3e3e3;
+      border-bottom: 1px solid #f0f0f0;
+      border-top: none;
+      color: #aaa;
+      font-size: 10px;
+      font-weight: bold;
+      height: 24px;
+      line-height: 27px;
+      
+      @include background-image(linear-gradient(#fff, #fafafa));
+      
+      span { border-right: 1px solid #f0f0f0 }
+      .album span { border: none }
+    }
+    
+    .tracks-wrapper {
+      min-height: 228px;
+      position: relative;
+    }
+    
+    .tracks {
+      font-size: 11px;
+      font-weight: 400;
+      list-style-type: none;
+    }
+    
+    .track {
+      color: lighten(#4a4a4a, 10%);
+      cursor: pointer;
+      height: $track_height;
+      line-height: $track_height;
+      white-space: nowrap;
+      
+      &.alt { background-color: #fbfbfb }
+      &.playing { span { text-decoration: line-through }}
+      
+      &:active { background-color: #54daff; color: #fff }
+      
+      span { overflow: hidden; text-overflow: ellipsis }
+    }
+    
+    .nothing-here {
+      background: transparent image-url('playlist/pacman-ghost.png') center no-repeat;
+      position: absolute;
+      height: 112px;
+      left: 0;
+      margin-top: -(112px / 2) - 1;
+      top: 50%;
+      width: 100%;
+      
+      &.hidden { display: none }
+    }
+  }
+  
+  /**************************************
+   *  Footer
+   */
+  footer {
+    border-top: 1px solid #44464a;
+    color: darken(#b6babf, 13%);
+    font-size: 11px;
+    font-weight: 200;
+    padding: 1px;
+    text-align: center;
+    
+    @include background-image(linear-gradient(#63666b, #313336));
+    
+    .intestines {
+      height: 25px;
+      line-height: 24px;
+      padding: 0 5px;
+    
+      @include background-image(linear-gradient(#525559, #3d3f42));
+    }
+  }
+  
+}
