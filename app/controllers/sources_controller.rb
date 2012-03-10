@@ -1,4 +1,5 @@
 class SourcesController < ApplicationController
+  before_filter :require_login
   layout false
   
   # GET 'sources'
@@ -15,5 +16,4 @@ class SourcesController < ApplicationController
     # render
     render json: @sources
   end
-  
 end

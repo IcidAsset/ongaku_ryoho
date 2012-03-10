@@ -28,6 +28,8 @@ $controller_width:  321px;
   user-select: none;
 }
 
+html, body { min-height: 100% }
+
 body {
   margin: $body_margin;
   overflow: hidden;
@@ -39,5 +41,3 @@ body {
 }
   
   #wrapper { position: relative; z-index: 0 }
-  
-  

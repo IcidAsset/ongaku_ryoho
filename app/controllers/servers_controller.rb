@@ -1,4 +1,5 @@
 class ServersController < ApplicationController
+  before_filter :require_login
   layout false
   
   # GET 'servers/:id'
@@ -38,5 +39,4 @@ class ServersController < ApplicationController
   def edit; end
   def update; end
   def destroy; end
-
 end

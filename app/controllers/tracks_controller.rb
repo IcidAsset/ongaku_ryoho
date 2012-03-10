@@ -1,4 +1,5 @@
 class TracksController < ApplicationController
+  before_filter :require_login
   layout false
   
   def index
@@ -18,5 +19,4 @@ class TracksController < ApplicationController
     # render
     render json: @tracks
   end
-  
 end
