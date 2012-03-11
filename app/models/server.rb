@@ -1,7 +1,7 @@
 class Server < Source
   
   key :name,       String,   :required => true
-  key :location,   String,   :required => true, :unique => true
+  key :location,   String,   :required => true
   
   alias :label :location
   
@@ -80,7 +80,9 @@ class Server < Source
   
   def enqueue_for_processing
     Navvy::Job.enqueue(Server, :process, self)
-    self.set(status: 'waiting to be processed')
+    
+    self.status = 'waiting to be processed'
+    self.user.save
   end
   
   
@@ -88,14 +90,16 @@ class Server < Source
     require 'net/http'
     
     # processing
-    server.set(status: 'processing')
+    server.status = 'processing'
+    server.user.save
     
     # get json data from server
     begin
       uri     = URI.parse(server.location)
       reponse = Net::HTTP.get(uri)
     rescue
-      server.set(status: 'unprocessed / server not found')
+      server.status = 'unprocessed / server not found'
+      server.user.save
       
       return false
     end
@@ -105,8 +109,9 @@ class Server < Source
     
     # no music =(
     if tracks.empty?
-      server.set(status: 'unprocessed / no music found')
-      
+      server.status = 'unprocessed / no music found'
+      server.user.save
+
       return false
     end
     
@@ -114,7 +119,9 @@ class Server < Source
     server.add_new_tracks(tracks)
     
     # processed
-    server.set(status: 'processed', activated: true)
+    server.status = 'processed'
+    server.activated = true
+    server.user.save
   end
   
 end

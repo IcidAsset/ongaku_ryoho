@@ -4,6 +4,8 @@ class User
   key :email,       String
   key :password,    String
 
+  many :sources
+
   authenticates_with_sorcery!
 
   validates_confirmation_of :password
