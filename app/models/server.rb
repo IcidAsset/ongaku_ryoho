@@ -55,51 +55,33 @@ class Server < Source
     missing_files.each do |missing_file_location|
       self.tracks.delete_if { |track| track.location === missing_file_location }
     end
-    
-    self.save
+
+    server = Server.find(self.user, self.id.to_s, { return_array: true })
+    server.tracks = self.tracks
     
     # new_tracks
-    self.add_new_tracks(new_tracks)
+    Server.add_new_tracks_to_each(server, new_tracks, { dont_save: true })
     
     # last checked
-    self.set(status: "last updated at #{ Time.now.strftime('%d %b %y / %I:%M %p') }")
+    Server.set_on_each(server, :status, "last updated at #{ Time.now.strftime('%d %b %y / %I:%M %p') }")
   end
   
   
-  def add_new_tracks(new_tracks)
-    server = self
-    
-    new_tracks.each do |new_track_tags|
-      new_track_tags['url'] = server.location + new_track_tags['location']
-      
-      track = Track.new(new_track_tags)
-      server.push(tracks: track.to_mongo)
-    end
-  end
-  
-  
-  def enqueue_for_processing
-    Navvy::Job.enqueue(Server, :process, self)
-    
-    self.status = 'waiting to be processed'
-    self.user.save
-  end
-  
-  
-  def self.process(server)
+  def process
     require 'net/http'
-    
+
+    # set
+    server = Server.find(self.user, self.id.to_s, { return_array: true })
+
     # processing
-    server.status = 'processing'
-    server.user.save
+    Server.set_on_each(server, :status, 'processing')
     
     # get json data from server
     begin
-      uri     = URI.parse(server.location)
+      uri     = URI.parse(self.location)
       reponse = Net::HTTP.get(uri)
     rescue
-      server.status = 'unprocessed / server not found'
-      server.user.save
+      Server.set_on_each(server, :status, 'unprocessed / server not found')
       
       return false
     end
@@ -109,19 +91,48 @@ class Server < Source
     
     # no music =(
     if tracks.empty?
-      server.status = 'unprocessed / no music found'
-      server.user.save
+      Server.set_on_each(server, :status, 'unprocessed / no music found')
 
       return false
     end
     
     # put them tracks in them database
-    server.add_new_tracks(tracks)
-    
-    # processed
-    server.status = 'processed'
-    server.activated = true
-    server.user.save
+    Server.add_new_tracks_to_each(server, tracks)
   end
+
+  handle_asynchronously :process
   
+
+  def self.add_new_tracks_to_each(selected_servers, new_tracks, options={})
+    selected_servers.each do |server|
+      new_tracks.each do |new_track_tags|
+        new_track_tags['url'] = server.location + new_track_tags['location']
+        
+        track = Track.new(new_track_tags)
+        server.tracks << track
+      end
+
+      server.status = 'processed'
+      server.activated = true
+      server.user.save unless options[:dont_save]
+    end
+  end
+
+
+  def self.set_on_each(selected_servers, attribute, value, options={})
+    selected_servers.each do |server|
+      server[attribute] = value
+      server.user.save unless options[:dont_save]
+    end
+  end
+
+
+  def self.find(user, id, options={})
+    server = user.sources.select { |source|
+      source._type == 'Server' and source.id.to_s == id
+    }
+
+    return options[:return_array] ? server : server.try(:first)
+  end
+
 end

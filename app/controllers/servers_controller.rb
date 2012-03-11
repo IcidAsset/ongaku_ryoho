@@ -4,9 +4,7 @@ class ServersController < ApplicationController
   
   # GET 'servers/:id'
   def show
-    @server = current_user.sources.select { |source|
-      source._type == 'Server' and source.id.to_s == params[:id]
-    }.first
+    @server = Server.find(current_user, params[:id])
   end
   
   # GET 'servers/new'
@@ -35,7 +33,7 @@ class ServersController < ApplicationController
         @server = server
 
         # process
-        @server.enqueue_for_processing
+        @server.process
 
         # redirect
         return redirect_to @server
