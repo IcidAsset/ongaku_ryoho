@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  layout 'sessions'
+
   # GET 'users/new'
   def new
     @user = User.new

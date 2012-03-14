@@ -1,5 +1,7 @@
+h1 New user
+
 = form_for @user do |f|
-  
+
   - if @user.errors.any?
     .error-messages
       h2 Form in invalid
@@ -8,15 +10,14 @@
           li= message
 
   .fields
-    = f.label :email
-    = f.text_field :email
+    .text
+      = f.text_field :email, title: "ongaku@ryoho.com"
 
-    = f.label :password
-    = f.password_field :password
+    .text
+      = f.password_field :password, title: "password"
 
-    = f.label :password_confirmation
-    = f.password_field :password_confirmation
+    .text
+      = f.password_field :password_confirmation, title: "password"
 
-    = f.submit
-
-= link_to 'Login', login_path
+    .submit
+      = f.submit

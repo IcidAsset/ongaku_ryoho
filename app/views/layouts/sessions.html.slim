@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"
+
+    title Ongaku Ryoho
+
+    = stylesheet_link_tag "fonts/stylesheet"
+    = stylesheet_link_tag "sessions"
+    = csrf_meta_tags
+
+  body
+    #wrapper
+      = yield
+
+      / - flash.each do |name, msg|
+      /   = content_tag :div, msg, id: "flash_#{name}"
+
+    = javascript_include_tag 'jquery'
+    = javascript_include_tag 'noisy'
+    = javascript_include_tag 'labelify'
+
+    javascript:
+      $('body').noisy({
+        intensity: 0.9,
+        opacity: 0.125
+      });
+
+      $('input').labelify();

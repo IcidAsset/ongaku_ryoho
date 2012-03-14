@@ -1,0 +1,14 @@
+#wrapper {
+  left: 50%;
+  margin-left: -(364px / 2);
+  margin-top: -(208px / 2);
+  position: absolute;
+  top: 50%;
+  width: 364px;
+}
+
+h1 {
+  color: rgba($dark_purple, .275);
+  font: normal 40px 'OstrichSansMedium', 'Lato';
+  text-align: center;
+}
