@@ -5,10 +5,45 @@
   position: absolute;
   top: 50%;
   width: 364px;
+
+  @include alternate-font;
 }
 
 h1 {
   color: rgba($dark_purple, .275);
   font: normal 40px 'OstrichSansMedium', 'Lato';
   text-align: center;
+}
+
+.flash {
+  border: 1px dashed rgba($dark_purple, .115);
+  color: rgba($dark_purple, .475);
+  font-style: italic;
+  margin-top: 23px;
+  padding: 14px 13px 13px 38px;
+  position: relative;
+
+  i {
+    background-position: left center;
+    background-repeat: no-repeat;
+    height: 16px;
+    left: 13px;
+    margin-top: -7px;
+    position: absolute;
+    top: 50%;
+    width: 16px;
+
+    @include opacity(.75);
+  }
+}
+
+.flash.alert {
+  i { background-image: image-url('icons/user-gray.png') }
+}
+
+.flash.error {
+  border-color: rgba(#d41f1f, .135);
+  color: rgba(#d41f1f, .475);
+
+  i { background-image: image-url('icons/fire-big.png') }
 }

@@ -14,8 +14,8 @@ html
     #wrapper
       = yield
 
-      / - flash.each do |name, msg|
-      /   = content_tag :div, msg, id: "flash_#{name}"
+      - flash.each do |name, msg|
+        = content_tag :div, content_tag(:i) + msg, class: "flash #{name}"
 
     = javascript_include_tag 'jquery'
     = javascript_include_tag 'noisy'
