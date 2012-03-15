@@ -22,6 +22,7 @@ end
 
 gem 'rails-backbone'
 gem 'slim'
+gem 'fugue_icons_rails'
 
 gem 'ruby-mp3info', :require => 'mp3info'
 

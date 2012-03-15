@@ -71,6 +71,8 @@ GEM
       multipart-post (~> 1.1)
       rack (~> 1.1)
     fssm (0.2.8.1)
+    fugue_icons_rails (3.3.3)
+      railties (>= 3.1.0)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.3)
@@ -171,6 +173,7 @@ DEPENDENCIES
   daemons
   delayed_job
   delayed_job_mongo_mapper!
+  fugue_icons_rails
   mongo_mapper
   rack
   rails (~> 3.2)
