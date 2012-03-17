@@ -1,0 +1,22 @@
+h1 New user
+
+= form_for @user do |f|
+
+  .fields
+    .text
+      = f.text_field :email, title: "ongaku@ryoho.com"
+
+    .text
+      = f.password_field :password, title: "password"
+
+    .text
+      = f.password_field :password_confirmation, title: "password"
+
+    .submit
+      = f.submit
+
+
+- if @user.errors.any?
+  .flash.error
+    = @user.errors.full_messages.first
+    i

@@ -11,9 +11,9 @@
 .scrollbar-handle {
   width: 7px;
   background: #bcbcbc;
-  
+
   @include border-radius(3px);
-  
+
   &:hover { background: #6c7075 }
   &.move  { background: #595d61 }
 }

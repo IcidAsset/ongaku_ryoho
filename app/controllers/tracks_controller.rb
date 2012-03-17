@@ -1,11 +1,13 @@
 class TracksController < ApplicationController
+  before_filter :require_login
   layout false
   
   def index
     @tracks = []
     
     # get tracks from sources
-    Source.where(:activated => true).each do |source|
+    sources = current_user.sources.select { |source| source.activated == true }
+    sources.each do |source|
       next unless source.available?
       
       @tracks << source.tracks
@@ -18,5 +20,4 @@ class TracksController < ApplicationController
     # render
     render json: @tracks
   end
-  
 end

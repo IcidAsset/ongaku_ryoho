@@ -6,7 +6,10 @@ html
     
     title Ongaku Ryoho
     
+    = stylesheet_link_tag "application"
     = csrf_meta_tags
     
-  body
+  body style=custom_background?
     = yield
+    
+    = javascript_include_tag 'application'

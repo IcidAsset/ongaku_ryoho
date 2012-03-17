@@ -9,18 +9,15 @@
              /____/                          /____/
 
 
-  Main CSS file with a touch of SASS (.*)
+  Sessions CSS file with a touch of SASS (.*)
 
 */
 
 @import 'compass';
 @import 'reset';
-@import 'chosen';
 
 @import 'base';
 @import 'scrollbar';
 
-@import 'application/general';
-@import 'application/controller';
-@import 'application/playlist';
-@import 'application/source_manager';
+@import 'sessions/general';
+@import 'sessions/forms';

@@ -1,0 +1,51 @@
+form {
+  margin-top: 35px;
+
+  div { margin-top: 9px }
+  div:last-child { text-align: center }
+
+  .text input {
+    background: none;
+    border: 1px solid rgba($dark_purple, .055);
+    color: rgba($dark_purple, .475);
+    display: block;
+    padding: 12px 11px 8px;
+    width: 100%;
+
+    -webkit-appearance: none;
+    @include box-sizing(border-box);
+    @include single-box-shadow(rgba($dark_purple, .165), 0, 6px, 9px, 0, true);
+    @include single-text-shadow(rgba($dark_purple, .150), 0, 0, 2px);
+
+    &.labelify {
+      color: rgba($dark_purple, .275);
+    }
+
+    &:focus {
+      outline-color: rgba(#fff, 0);
+      outline-offset: 100000px;
+      // Hack for fixing a Chrome bug,
+      // Chrome doesn't compute: box-shadow + (focus -> outline: none).
+    }
+  }
+
+  .submit input {
+    border: none;
+    color: rgba(#fff, .75);
+    cursor: pointer;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: bold;
+    margin: 0;
+    padding: 6px 9px 4px;
+    text-transform: uppercase;
+
+    @include background-image(linear-gradient(#F67280, #C06C84));
+    @include border-radius(3px);
+    @include opacity(.35);
+
+    &:hover,
+    &:active,
+    &:focus { @include opacity(1) }
+  }
+}

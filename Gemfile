@@ -6,7 +6,10 @@ gem 'unicorn'
 
 gem 'mongo_mapper'
 gem 'bson_ext'
-gem 'navvy'
+gem 'delayed_job'
+gem 'delayed_job_mongo_mapper', :git => "git://github.com/thisduck/delayed_job_mongo_mapper.git"
+gem 'daemons'
+gem 'sorcery'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -19,6 +22,7 @@ end
 
 gem 'rails-backbone'
 gem 'slim'
+gem 'fugue_icons_rails'
 
 gem 'ruby-mp3info', :require => 'mp3info'
 

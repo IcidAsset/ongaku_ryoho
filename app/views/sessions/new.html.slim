@@ -1,0 +1,15 @@
+h1 Ongaku Ryoho
+
+= form_tag sessions_path do
+
+  .fields
+    = hidden_field_tag :remember_me, 1
+
+    .text
+      = text_field_tag :email, params[:email], title: "ongaku@ryoho.com"
+
+    .text
+      = password_field_tag :password, "", title: "password"
+
+    .submit
+      = submit_tag "LOG IN"
