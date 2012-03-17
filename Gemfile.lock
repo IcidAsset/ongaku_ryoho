@@ -98,6 +98,7 @@ GEM
     plucky (0.4.4)
       mongo (~> 1.5)
     polyglot (0.3.3)
+    proxies (0.2.1)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -129,6 +130,8 @@ GEM
     rdoc (3.12)
       json (~> 1.4)
     ruby-mp3info (0.7)
+    s3 (0.3.11)
+      proxies (~> 0.2.0)
     sass (3.1.15)
     sass-rails (3.2.4)
       railties (~> 3.2.0)
@@ -179,6 +182,7 @@ DEPENDENCIES
   rails (~> 3.2)
   rails-backbone
   ruby-mp3info
+  s3
   sass-rails (~> 3.2.3)
   slim
   sorcery
