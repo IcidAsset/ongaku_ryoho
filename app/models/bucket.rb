@@ -37,21 +37,29 @@ class Bucket < Source
       return false
     end
 
-    # find music
-    music_collection = s3_bucket.objects.select { |obj| obj.key =~ /.*\.(mp3)/ }
+    # find json file
+    begin
+      json_s3_object = s3_bucket.objects.find('ongaku_ryoho.json')
+      json_file = json_s3_object.content
 
-    # no music =(
-    if music_collection.empty?
-      Bucket.set_on_each(bucket, :status, 'unprocessed / no music found')
+    rescue
+      Bucket.set_on_each(bucket, :status, 'unprocessed / \'ongaku_ryoho.json\' not found')
 
       return false
     end
 
-    # process music
-    tracks = Bucket.process_s3_objects(music_collection)
+    # parse json
+    tracks = JSON.parse(json_file)
+
+    # no music =(
+    if tracks.empty?
+      Server.set_on_each(server, :status, 'unprocessed / no music found')
+
+      return false
+    end
 
     # put them tracks in them database
-    Bucket.add_new_tracks_to_each(bucket, tracks)
+    Bucket.add_new_tracks_to_each(bucket, s3_bucket, tracks)
   end
 
   handle_asynchronously :process
@@ -71,79 +79,13 @@ class Bucket < Source
   end
 
 
-  def self.process_s3_objects(music_collection)
-    tracks = []
+  def self.add_new_tracks_to_each(selected_buckets, s3_bucket, new_tracks, options={})
+    s3_objects = s3_bucket.objects
 
-    music_collection.each do |s3_object|
-      track = Bucket.process_s3_object(s3_object)
-      tracks << track if track
-    end
-
-    return tracks
-  end
-
-
-  def self.process_s3_object(s3_object)
-    require 'open-uri'
-    require 'taglib'
-
-    rpartition = s3_object.key.rpartition('/')
-    filename   = rpartition[2]
-
-    # track object
-    track = {}
-
-    # create temporary file (downloaded file from s3)
-    fname = File.basename($0) << '.' << $$.to_s
-
-    File.open(fname, 'wb') do |f|
-      f.print open(s3_object.url).read
-    end
-
-    # open file
-    file = case File.extname(filename)
-    when '.mp3'
-      ::TagLib::MPEG::File.new(fname)
-    end
-
-    # get tags
-    tag = file.id3v2_tag
-
-    # set
-    tags = {
-      title:    tag.title,
-      artist:   tag.artist,
-      album:    tag.album,
-      year:     tag.year,
-      tracknr:  tag.track,
-      genre:    tag.genre
-    }
-
-    tags.each do |key, value|
-      tags[key] = 'Unknown' if value.nil? or (value.respond_to?(:empty) and value.empty?)
-    end
-
-    tags.merge!({ filename: filename, location: s3_object.key, url: s3_object.url })
-
-    track = tags.clone
-
-    # delete file
-    File.delete(fname)
-
-    # add to collection
-    if track.empty?
-      return false
-    else
-      return track
-    end
-  end
-
-
-  def self.add_new_tracks_to_each(selected_buckets, new_tracks, options={})
     selected_buckets.each do |bucket|
       new_tracks.each do |new_track_tags|
-        track = Track.new(new_track_tags)
-        bucket.tracks << track
+        s3_object = s3_objects.select { |x| x.key == new_track_tags['location'] }.first
+        bucket.tracks << Track.new( new_track_tags.merge({ url: s3_object.url }) ) if s3_object
       end
 
       bucket.status = 'processed'

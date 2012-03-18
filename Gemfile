@@ -10,7 +10,7 @@ gem 'delayed_job'
 gem 'delayed_job_mongo_mapper', :git => 'git://github.com/thisduck/delayed_job_mongo_mapper.git'
 gem 'daemons'
 gem 'sorcery'
-gem 's3'
+gem 's3', :git => 'git://github.com/alexstaubo/s3.git'
 
 group :assets do
   gem 'sass-rails',    '~> 3.2.3'
@@ -22,8 +22,6 @@ end
 gem 'slim'
 gem 'rails-backbone'
 gem 'fugue_icons_rails'
-
-gem 'taglib-ruby'
 
 group :test do
   gem 'turn', '0.8.2', :require => false
