@@ -23,7 +23,7 @@ gem 'slim'
 gem 'rails-backbone'
 gem 'fugue_icons_rails'
 
-gem 'ruby-mp3info', :require => 'mp3info'
+gem 'taglib-ruby'
 
 group :test do
   gem 'turn', '0.8.2', :require => false

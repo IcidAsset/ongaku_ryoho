@@ -1,0 +1,5 @@
+= form_for @bucket, url: { action: "create" } do |f|
+  = f.text_field :access_key_id, title: "access key id"
+  = f.text_field :secret_access_key, title: "secret access key"
+  = f.text_field :bucket, title: "bucket name"
+  = f.submit "ADD TO SOURCES"
