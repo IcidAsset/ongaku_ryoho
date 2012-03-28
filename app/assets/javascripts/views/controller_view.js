@@ -39,16 +39,25 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
    *  Render
    */
   render_time : function() {
-    var time       = this.model.get('time'),
-        duration   = this.model.get('duration'),
-        
-        minutes    = Math.floor( (time / 1000) / 60 ),
-        seconds    = Math.floor( (time / 1000) - (minutes * 60) ),
-        
-        progress   = (time / duration) * 100,
-        
-        time_html  = (minutes.toString().length === 1 ? '0' + minutes : minutes) + ':' +
-                     (seconds.toString().length === 1 ? '0' + seconds : seconds);
+    var time, duration, minutes, seconds, progress, time_html;
+    
+    // set
+    time       = this.model.get('time');
+    duration   = this.model.get('duration');
+    
+    // duration? really?
+    if ((!duration || duration === 0) && this.current_track) {
+      duration = this.current_track.durationEstimate;
+    }
+    
+    // set
+    minutes    = Math.floor( (time / 1000) / 60 );
+    seconds    = Math.floor( (time / 1000) - (minutes * 60) );
+    
+    progress   = (time / duration) * 100;
+    
+    time_html  = (minutes.toString().length === 1 ? '0' + minutes : minutes) + ':' +
+                 (seconds.toString().length === 1 ? '0' + seconds : seconds);
     
     // time
     this.$now_playing.children('.time').html(
@@ -57,12 +66,13 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     // progress bar
     this.$progress_bar
-        .children('.progress')
-        .css('width', progress + '%')
+        .children('.progress.track')
+        .css('width', progress + '%');
     
     // chain
     return this;
   },
+  
   
   render_now_playing : function() {
     // stop current animation
@@ -99,27 +109,35 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   insert_track : function(track) {
+    var this_controller_view;
+    
+    // destroy current track
     if (this.current_track) {
       soundManager.destroySound(this.current_track.sID);
     }
     
-    var this_controller_view = this;
-    this.$progress_bar.children('.progress').addClass('loading');
+    // this controller view
+    this_controller_view = this;
     
+    // create sound
     var sound = soundManager.createSound({
       id:           track.id,
       url:          track.url,
       
       volume:       50,
       autoLoad:     true,
+      autoPlay:     true,
+      stream:       true,
       
       onload:       this_controller_view.sound_onload,
       whileloading: this_controller_view.sound_whileloading,
       whileplaying: this_controller_view.sound_whileplaying
     });
     
+    // current track
     this.current_track = sound;
     
+    // controller attributes
     var controller_attributes = {
       time:        0,
       duration:    0,
@@ -137,9 +155,6 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   sound_onload : function() {
     Controller.set({ duration: this.duration });
-    
-    ControllerView.$progress_bar.children('.progress').removeClass('loading');
-    ControllerView.play();
   },
   
   
@@ -147,7 +162,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     var percent_loaded = ((this.bytesLoaded / this.bytesTotal) * 100) + '%';
     
     ControllerView.$progress_bar
-      .children('.progress')
+      .children('.progress.loader')
       .css('width', percent_loaded);
   },
   

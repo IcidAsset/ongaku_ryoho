@@ -46,18 +46,31 @@ $button_height: 52px;
    *  Progress Bar
    */
   .progress-bar {
-    background: rgba(#000, .19);
+    background: rgba(#000, .1);
     height: 4px;
     margin: 8px 1px 0;
     overflow: hidden;
+    position: relative;
     
     &, .progress { height: 4px }
     
     .progress {
       background: #fff;
+      left: 0;
+      position: absolute;
+      top: 0;
       width: 0;
+    }
+    
+    .progress.track {
+      z-index: 2;
+    }
+    
+    .progress.loader {
+      background: #000;
+      z-index: 1;
       
-      &.loading { @include opacity(.6) }
+      @include opacity(.09);
     }
   }
   
