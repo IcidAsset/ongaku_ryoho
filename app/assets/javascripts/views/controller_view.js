@@ -226,16 +226,16 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
    *  Controller buttons
    */
   setup_controller_buttons : function() {
-  	var $controls, $buttons, $switches, $knobs;
-  	
-  	// set
-  	$controls  = this.$el.children('.controls');
-  	$buttons   = $controls.find('a .button');
-  	$switches  = $controls.find('a .switch');
-  	$knobs     = $controls.find('a .knob');
-  	
-  	// play/pause button
-  	$buttons.filter('.play-pause').bind('click', this.button_playpause_click_handler);
+    var $controls, $buttons, $switches, $knobs;
+    
+    // set
+    $controls  = this.$el.children('.controls');
+    $buttons   = $controls.find('a .button');
+    $switches  = $controls.find('a .switch');
+    $knobs     = $controls.find('a .knob');
+    
+    // play/pause button
+    $buttons.filter('.play-pause').bind('click', this.button_playpause_click_handler);
   },
   
   
@@ -261,15 +261,6 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     } else {
       $button.children('.light').addClass('on');
-    
-    }
-    
-    // text
-    if (state == 'playing') {
-      $button.children('.name').text('PLAY');
-    
-    } else {
-      $button.children('.name').text('PAUSE');
     
     }
   },

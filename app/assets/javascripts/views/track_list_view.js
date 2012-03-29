@@ -119,13 +119,19 @@ OngakuRyoho.Views.TrackListView = Backbone.View.extend({
    *  Play track
    */
   play_track : function(e) {
-    var track;
+    var track, $playpause_button_light;
 
     // set
     track = Tracks.getByCid( $(e.currentTarget).attr('rel') );
 
     // insert track
     ControllerView.insert_track( track );
+    
+    // set elements
+    $playpause_button_light = ControllerView.$el.find('.controls a .button.play-pause .light');
+    
+    // turn the play button light on
+    $playpause_button_light.addClass('on');
   },
 
 
