@@ -109,20 +109,23 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   insert_track : function(track) {
-    var this_controller_view;
+    var track_attributes, this_controller_view;
     
     // destroy current track
     if (this.current_track) {
       soundManager.destroySound(this.current_track.sID);
     }
     
+    // track attributes
+    track_attributes = track.toJSON();
+    
     // this controller view
     this_controller_view = this;
     
     // create sound
-    var sound = soundManager.createSound({
-      id:           track.id,
-      url:          track.url,
+    var new_sound = soundManager.createSound({
+      id:           track_attributes.id,
+      url:          track_attributes.url,
       
       volume:       50,
       autoLoad:     true,
@@ -135,21 +138,24 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     });
     
     // current track
-    this.current_track = sound;
+    this.current_track = new_sound;
     
     // controller attributes
     var controller_attributes = {
       time:        0,
       duration:    0,
       
-      artist:      track.artist,
-      title:       track.title,
-      album:       track.album,
+      artist:      track_attributes.artist,
+      title:       track_attributes.title,
+      album:       track_attributes.album,
       
-      now_playing: track.artist + ' - <strong>' + track.title + '</strong>'
+      now_playing: track_attributes.artist + ' - <strong>' + track_attributes.title + '</strong>'
     };
     
     Controller.set(controller_attributes);
+    
+    // add playing class to track
+    PlaylistView.track_list_view.add_playing_class_to_track( track );
   },
   
   
@@ -173,18 +179,18 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   play : function() {
-    var track, $track;
+    var track_sound, track, $track;
     
     // set
-    track = this.current_track;
+    track_sound = this.current_track;
     
     // if track set, resume or play
-    if (track) {
-      if (track.paused) {
-        soundManager.resume(track.sID);
+    if (track_sound) {
+      if (track_sound.paused) {
+        soundManager.resume(track_sound.sID);
       
       } else {
-        soundManager.play(track.sID);
+        soundManager.play(track_sound.sID);
       
       }
       
@@ -192,15 +198,11 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     }
     
     // if not, play first track from playlist
-    $track  = PlaylistView.track_list_view.$el.find('.track:first');
-    track   = Tracks.getByCid( $track.attr('rel') ).toJSON();
+    $track = PlaylistView.track_list_view.$el.find('.track:first');
+    track = Tracks.getByCid( $track.attr('rel') );
     
     // insert track
     this.insert_track( track );
-    
-    // add playing class
-    $track.parent().find('.track.playing').removeClass('playing');
-    $track.addClass('playing');
   },
   
   

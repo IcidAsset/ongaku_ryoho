@@ -9,7 +9,7 @@ OngakuRyoho.Views.TrackListView = Backbone.View.extend({
    *  Initialize
    */
   initialize : function() {
-    _.bindAll(this, 'render', 'resize', 'activate_scrollbar');
+    _.bindAll(this, 'render', 'resize', 'activate_scrollbar', 'add_playing_class_to_track');
 
     this.collection = Tracks;
     this.collection.bind('reset', this.render);
@@ -98,25 +98,35 @@ OngakuRyoho.Views.TrackListView = Backbone.View.extend({
   activate_scrollbar : function() {
     this.$el.scrollbar({ arrows: false });
   },
+  
+  
+  /**************************************
+  *  Add playing class to track
+  */
+  add_playing_class_to_track : function(track) {
+    var $track;
+    
+    // set elements
+    $track = this.$el.find('.track[rel="' + track.cid + '"]');
+    
+    // set classes
+    $track.parent().children('.track.playing').removeClass('playing');
+    $track.addClass('playing');
+  },
 
 
   /**************************************
    *  Play track
    */
   play_track : function(e) {
-    var track, $track;
+    var track;
 
     // set
-    $track  = $(e.currentTarget);
-    track   = Tracks.getByCid( $track.attr('rel') ).toJSON();
+    track = Tracks.getByCid( $(e.currentTarget).attr('rel') );
 
     // insert track
     ControllerView.insert_track( track );
-
-    // add playing class
-    $track.parent().find('.track.playing').removeClass('playing');
-    $track.addClass('playing');
-  }
+  },
 
 
 });
