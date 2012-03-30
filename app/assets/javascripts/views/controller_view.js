@@ -284,7 +284,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   */
   setup_progress_bar : function() {
     // mouse events
-    this.$progress_bar.bind('click', this.progress_bar_click_handler);
+    this.$progress_bar.parent().bind('click', this.progress_bar_click_handler);
   },
   
   

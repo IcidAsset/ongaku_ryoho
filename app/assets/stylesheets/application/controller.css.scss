@@ -45,10 +45,15 @@ $button_height: 52px;
   /**************************************
    *  Progress Bar
    */
+  .progress-bar-wrapper {
+    cursor: pointer;
+    margin: 3px 0 0;
+    padding: 5px 1px;
+  }
+  
   .progress-bar {
     background: rgba(#000, .1);
     height: 4px;
-    margin: 8px 1px 0;
     overflow: hidden;
     position: relative;
     
@@ -80,7 +85,7 @@ $button_height: 52px;
   .controls {
     background: transparent image-url('controller/almost_invisible_pattern.png') 0 0 repeat;
     border: 1px solid rgba(#000, .04);
-    margin-top: 12px;
+    margin-top: 7px;
     overflow: hidden;
     padding: 9px 12px;
     
