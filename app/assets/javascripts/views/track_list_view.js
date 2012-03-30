@@ -120,6 +120,9 @@ OngakuRyoho.Views.TrackListView = Backbone.View.extend({
    */
   play_track : function(e) {
     var track, $playpause_button_light;
+    
+    // check
+    if (!ControllerView.sound_manager.ready) { return; }
 
     // set
     track = Tracks.getByCid( $(e.currentTarget).attr('rel') );

@@ -95,6 +95,10 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
    *  Sound manager
    */
   setup_sound_manager : function() {
+    // ready state
+    this.sound_manager = { ready: false };
+    
+    // sound manager settings
     soundManager.url = soundManagerFlashURL;
     soundManager.flashVersion = 9;
     soundManager.useFlashBlock = false;
@@ -102,7 +106,9 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     soundManager.flashPollingInterval = 250;
     soundManager.html5PollingInterval = 250;
     
+    // when sound manager is ready
     soundManager.onready(function() {
+      ControllerView.sound_manager.ready = true;
       console.log('# Sound Manager is ready to make some noise!');
     });
   },
@@ -241,6 +247,9 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   button_playpause_click_handler : function(e) {
     var $button, state;
+    
+    // check
+    if (!this.sound_manager.ready) { return; }
     
     // set
     $button  = $(e.currentTarget);
