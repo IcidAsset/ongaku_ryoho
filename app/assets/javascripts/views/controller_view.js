@@ -17,6 +17,9 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
               'setup_controller_buttons',
               'button_playpause_click_handler',
               
+              'setup_progress_bar',
+              'progress_bar_click_handler',
+              
               'now_playing_marquee', 'now_playing_marquee_animation'
              );
     
@@ -32,6 +35,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     this.setup_sound_manager();
     this.setup_controller_buttons();
+    this.setup_progress_bar();
   },
   
   
@@ -272,6 +276,29 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
       $button.children('.light').addClass('on');
     
     }
+  },
+  
+  
+  /**************************************
+  *  Setup progress bar
+  */
+  setup_progress_bar : function() {
+    // mouse events
+    this.$progress_bar.bind('click', this.progress_bar_click_handler);
+  },
+  
+  
+  progress_bar_click_handler : function(e) {
+    var percent;
+    
+    // check
+    if (!this.current_track) { return; }
+    
+    // set
+    percent = (e.pageX - this.$progress_bar.offset().left) / this.$progress_bar.width();
+    
+    // seek
+    this.current_track.setPosition( this.current_track.duration * percent );
   },
   
   
