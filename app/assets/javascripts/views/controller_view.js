@@ -16,6 +16,10 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
               
               'setup_controller_buttons',
               'button_playpause_click_handler',
+              'button_previous_click_handler',
+              'button_next_click_handler',
+              'switch_shuffle_click_handler',
+              'switch_repeat_click_handler',
               
               'setup_progress_bar',
               'progress_bar_click_handler',
@@ -26,6 +30,9 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     this.model = Controller;
     this.model.on('change:time', this.render_time);
     this.model.on('change:now_playing', this.render_now_playing);
+    
+    this.shuffle_track_history = [];
+    this.shuffle_track_history_index = 0;
     
     this.$now_playing  = this.$el.find('.now-playing');
     this.$progress_bar = this.$el.find('.progress-bar');
@@ -142,6 +149,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
       autoPlay:     true,
       stream:       true,
       
+      onfinish:     this_controller_view.sound_onfinish,
       onload:       this_controller_view.sound_onload,
       whileloading: this_controller_view.sound_whileloading,
       whileplaying: this_controller_view.sound_whileplaying
@@ -185,6 +193,21 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   sound_whileplaying : function() {
     Controller.set({ time: this.position });
+  },
+  
+  
+  sound_onfinish : function() {
+    var repeat;
+    
+    // set
+    repeat = Controller.get('repeat');
+    
+    // action
+    if (repeat) {
+      PlaylistView.track_list_view.$el.find('.track.playing').trigger('dblclick');
+    } else {
+      ControllerView.button_next_click_handler();
+    }
   },
   
   
@@ -236,16 +259,30 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
    *  Controller buttons
    */
   setup_controller_buttons : function() {
-    var $controls, $buttons, $switches, $knobs;
+    var $controls, $buttons, $button_columns, $switches, $knobs;
     
     // set
-    $controls  = this.$el.children('.controls');
-    $buttons   = $controls.find('a .button');
-    $switches  = $controls.find('a .switch');
-    $knobs     = $controls.find('a .knob');
+    $controls        = this.$el.children('.controls');
+    $buttons         = $controls.find('a .button');
+    $button_columns  = $controls.find('a .button-column');
+    $switches        = $controls.find('a .switch');
+    $knobs           = $controls.find('a .knob');
     
     // play/pause button
     $buttons.filter('.play-pause').bind('click', this.button_playpause_click_handler);
+    
+    // previous and next
+    $button_columns.filter('.previous-next')
+      .children('.btn.previous')
+      .bind('click', this.button_previous_click_handler).end()
+      .children('.btn.next')
+      .bind('click', this.button_next_click_handler);
+    
+    // shuffle
+    $switches.filter('.shuffle').bind('click', this.switch_shuffle_click_handler);
+    
+    // repeat
+    $switches.filter('.repeat').bind('click', this.switch_repeat_click_handler);
   },
   
   
@@ -256,8 +293,8 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     if (!this.sound_manager.ready) { return; }
     
     // set
-    $button  = $(e.currentTarget);
-    state    = (this.current_track && !this.current_track.paused) ? 'playing' : 'not playing';
+    $button = $(e.currentTarget);
+    state = (this.current_track && !this.current_track.paused) ? 'playing' : 'not playing';
     
     // action
     if (state == 'playing') {
@@ -274,6 +311,142 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     } else {
       $button.children('.light').addClass('on');
+    
+    }
+  },
+  
+  
+  button_previous_click_handler : function(e) {
+    var shuffle, shuffle_th, track, $tracks, $track;
+    
+    // set
+    shuffle = Controller.get('shuffle');
+    shuffle_th = this.shuffle_track_history_index;
+    
+    $tracks = PlaylistView.track_list_view.$el.find('.track');
+    
+    // if there's no active track
+    if (!this.current_track) {
+      return;
+    
+    // if so
+    } else {
+      if (shuffle) {
+        if (shuffle_th > 0) {
+          track = Tracks.find(function(t) {
+            return t.get('id') === ControllerView.shuffle_track_history[shuffle_th - 1];
+          });
+        } else {
+          return;
+        }
+        
+        this.shuffle_track_history_index--;
+        $track = $tracks.filter('[rel="' + track.cid + '"]');
+        
+      } else {
+        $track = $tracks.filter('.playing').prev('.track');
+        if (!$track.length) { $track = $tracks.last(); }
+        
+      }
+      
+    }
+    
+    $track.trigger('dblclick');
+  },
+  
+  
+  button_next_click_handler : function(e) {
+    var shuffle, shuffle_th, track, $tracks, $track;
+    
+    // set
+    shuffle = Controller.get('shuffle');
+    shuffle_th = this.shuffle_track_history_index;
+    
+    $tracks = PlaylistView.track_list_view.$el.find('.track');
+    
+    // if there's no active track
+    if (!this.current_track) {
+      if (shuffle) {
+        $track = $( _.shuffle($tracks)[0] );
+        
+        this.shuffle_track_history.push(
+          Tracks.getByCid( $track.attr('rel') ).get('id')
+        );
+        
+      } else {
+        $track = $tracks.first();
+        
+      }
+    
+    // if so
+    } else {
+      if (shuffle) {
+        if (shuffle_th < this.shuffle_track_history.length - 1) {
+          track = Tracks.find(function(t) {
+            return t.get('id') === ControllerView.shuffle_track_history[shuffle_th + 1];
+          });
+          
+        } else {
+          track = _.shuffle(Tracks.reject(function(t) {
+            return _.include(ControllerView.shuffle_track_history, t.get('id'));
+          }))[0];
+          
+          this.shuffle_track_history.push( track.get('id') );
+          
+        }
+        
+        this.shuffle_track_history_index++;
+        $track = $tracks.filter('[rel="' + track.cid + '"]');
+        
+      } else {
+        $track = $tracks.filter('.playing').next('.track');
+        if (!$track.length) { $track = $tracks.first(); }
+        
+      }
+    
+    }
+    
+    $track.trigger('dblclick');
+  },
+  
+  
+  switch_shuffle_click_handler : function(e) {
+    var $switch, state;
+    
+    // set
+    $switch = $(e.currentTarget);
+    state = Controller.get('shuffle');
+    
+    // switch
+    Controller.set('shuffle', !state);
+    
+    // light
+    if (state) {
+      $switch.children('.light').removeClass('on');
+    
+    } else {
+      $switch.children('.light').addClass('on');
+    
+    }
+  },
+  
+  
+  switch_repeat_click_handler : function(e) {
+    var $switch, state;
+    
+    // set
+    $switch = $(e.currentTarget);
+    state = Controller.get('repeat');
+    
+    // switch
+    Controller.set('repeat', !state);
+    
+    // light
+    if (state) {
+      $switch.children('.light').removeClass('on');
+    
+    } else {
+      $switch.children('.light').addClass('on');
     
     }
   },
