@@ -652,6 +652,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     this.now_playing_marquee_animation($span.parent());
   },
   
+  
   now_playing_marquee_animation : function($thing_that_scrolls) {
     // width of text, etc.
     var text_width = $thing_that_scrolls.children('span:first').outerWidth(),
