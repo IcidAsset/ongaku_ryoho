@@ -272,9 +272,25 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
       return;
     }
     
-    // if not, play first track from playlist
-    $track = PlaylistView.track_list_view.$el.find('.track:first');
+    // if not ...
+    var shuffle, $tracks;
+    
+    shuffle = Controller.get('shuffle');
+    $tracks = PlaylistView.track_list_view.$el.find('.track');
+    
+    if (shuffle) {
+      $track = $( _.shuffle($tracks)[0] );
+    } else {
+      $track = $tracks.first();
+    }
+    
     track = Tracks.getByCid( $track.attr('rel') );
+    
+    if (shuffle) {
+      this.shuffle_track_history.push(
+        Tracks.getByCid( $track.attr('rel') ).get('id')
+      );
+    }
     
     // insert track
     this.insert_track( track );
