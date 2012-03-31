@@ -15,7 +15,7 @@ class TracksController < ApplicationController
     
     # sort tracks
     @tracks.flatten!
-    @tracks = @tracks.sort { |a,b| a.artist.downcase <=> b.artist.downcase }
+    @tracks = @tracks.sort_by { |t| [t.artist.downcase, t.album.downcase, t.tracknr, t.title.downcase] }
     
     # render
     render json: @tracks
