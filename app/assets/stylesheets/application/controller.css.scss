@@ -231,7 +231,7 @@ $button_height: 52px;
       width: $button_height;
      
       .it {
-        background: darken(#f2f2f2, 5%) image-url('controller/knob.png') center no-repeat;
+        background: darken(#f2f2f2, 5%);
         height: 36px;
         margin: $button_height / 2 - 36 / 2 auto 0;
         position: relative;
@@ -239,7 +239,16 @@ $button_height: 52px;
         z-index: 2;
         
         @include single-box-shadow(lighten(#d1d1d1, 2%), 0, 2px, 8px, 0);
-        @include border-radius(36px);
+        &, & > div { @include border-radius(36px) }
+      }
+      
+      .it > div {
+        background: transparent image-url('controller/knob.png') center no-repeat;
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
       }
       
       .lines {

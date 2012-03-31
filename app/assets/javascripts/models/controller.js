@@ -5,7 +5,9 @@ OngakuRyoho.Models.Controller = Backbone.Model.extend({
     duration     : 0,
     now_playing  : 'Music Therapy - <strong>Ongaku Ryoho</strong>',
     shuffle      : false,
-    repeat       : false
+    repeat       : false,
+    mute         : false,
+    volume       : 50
   }
   
 });

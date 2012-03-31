@@ -11,7 +11,9 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     _.bindAll(this,
               'render_time', 'render_now_playing',
               
-              'setup_sound_manager', 'insert_track',
+              'setup_sound_manager',
+              'set_volume', 'set_mute',
+              'insert_track', 'sound_onplay',
               'play', 'pause', 'stop',
               
               'setup_controller_buttons',
@@ -20,6 +22,11 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
               'button_next_click_handler',
               'switch_shuffle_click_handler',
               'switch_repeat_click_handler',
+              'knob_volume_mousedown_handler',
+              'document_mousemove_handler_for_volume_knob',
+              'document_mouseup_handler_for_volume_knob',
+              'knob_volume_doubleclick_handler',
+              'switch_volume_click_handler',
               
               'setup_progress_bar',
               'progress_bar_click_handler',
@@ -30,6 +37,8 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     this.model = Controller;
     this.model.on('change:time', this.render_time);
     this.model.on('change:now_playing', this.render_now_playing);
+    this.model.on('change:volume', this.set_volume);
+    this.model.on('change:mute', this.set_mute);
     
     this.shuffle_track_history = [];
     this.shuffle_track_history_index = 0;
@@ -125,6 +134,24 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   },
   
   
+  set_volume : function() {
+    if (this.current_track) {
+      this.current_track.setVolume( Controller.get('volume') );
+    }
+  },
+  
+  
+  set_mute : function() {
+    if (this.current_track) {
+      if (Controller.get('mute')) {
+        this.current_track.mute();
+      } else {
+        this.current_track.unmute();
+      }
+    }
+  },
+  
+  
   insert_track : function(track) {
     var track_attributes, this_controller_view;
     
@@ -144,19 +171,24 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
       id:           track_attributes.id,
       url:          track_attributes.url,
       
-      volume:       50,
+      volume:       0,
       autoLoad:     true,
       autoPlay:     true,
       stream:       true,
       
       onfinish:     this_controller_view.sound_onfinish,
       onload:       this_controller_view.sound_onload,
+      onplay:       this_controller_view.sound_onplay,
       whileloading: this_controller_view.sound_whileloading,
       whileplaying: this_controller_view.sound_whileplaying
     });
     
     // current track
     this.current_track = new_sound;
+    
+    // volume
+    this.set_mute();
+    this.set_volume();
     
     // controller attributes
     var controller_attributes = {
@@ -177,8 +209,29 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   },
   
   
+  sound_onfinish : function() {
+    var repeat;
+    
+    // set
+    repeat = Controller.get('repeat');
+    
+    // action
+    if (repeat) {
+      PlaylistView.track_list_view.$el.find('.track.playing').trigger('dblclick');
+    } else {
+      ControllerView.button_next_click_handler();
+    }
+  },
+  
+  
   sound_onload : function() {
     Controller.set({ duration: this.duration });
+  },
+  
+  
+  sound_onplay : function() {
+    this.set_mute();
+    this.set_volume();
   },
   
   
@@ -196,21 +249,6 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   },
   
   
-  sound_onfinish : function() {
-    var repeat;
-    
-    // set
-    repeat = Controller.get('repeat');
-    
-    // action
-    if (repeat) {
-      PlaylistView.track_list_view.$el.find('.track.playing').trigger('dblclick');
-    } else {
-      ControllerView.button_next_click_handler();
-    }
-  },
-  
-  
   play : function() {
     var track_sound, track, $track;
     
@@ -219,6 +257,10 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     // if track set, resume or play
     if (track_sound) {
+      if (Controller.get('mute')) {
+        soundManager.mute(track_sound.sID);
+      }
+      
       if (track_sound.paused) {
         soundManager.resume(track_sound.sID);
       
@@ -283,6 +325,13 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     // repeat
     $switches.filter('.repeat').bind('click', this.switch_repeat_click_handler);
+    
+    // volume
+    $knobs.filter('.volume')
+      .bind('mousedown', this.knob_volume_mousedown_handler)
+      .bind('dblclick', this.knob_volume_doubleclick_handler);
+    
+    $switches.filter('.volume').bind('click', this.switch_volume_click_handler);
   },
   
   
@@ -447,6 +496,89 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     } else {
       $switch.children('.light').addClass('on');
+    
+    }
+  },
+  
+  
+  knob_volume_mousedown_handler : function(e) {
+    $(e.currentTarget).unbind('mousedown', this.knob_volume_mousedown_handler);
+    $(document).bind('mousemove', this.document_mousemove_handler_for_volume_knob);
+    $(document).bind('mouseup', this.document_mouseup_handler_for_volume_knob);
+  },
+  
+  
+  document_mousemove_handler_for_volume_knob : function(e) {
+    var knob_x, knob_y, mouse_x, mouse_y,
+        kx, ky, mx, my, angle, volume, $t;
+    
+    // set
+    $t = $(e.currentTarget).find('.it div');
+    knob_x = $t.offset().left + $t.width() / 2;
+    knob_y = $t.offset().top + $t.height() / 2;
+    mouse_x = e.pageX;
+    mouse_y = e.pageY;
+    
+    mx = mouse_x - knob_x;
+    my = mouse_y - knob_y
+    kx = 0;
+    ky = 0;
+    
+    angle = -(Math.atan2( kx - mx, ky - my ) * ( 180 / Math.PI ));
+    
+    if (angle > 135) { angle = 135; }
+    else if (angle < -135) { angle = -135; }
+    
+    // rotate
+    helpers.css.rotate($t, angle);
+    
+    // set volume
+    volume = 50 + (angle / 135) * 50;
+    Controller.set('volume', volume);
+  },
+  
+  
+  document_mouseup_handler_for_volume_knob : function(e) {
+    // unbind
+    $(document).unbind('mousemove', this.document_mousemove_handler_for_volume_knob);
+    $(document).unbind('mouseup', this.document_mouseup_handler_for_volume_knob);
+    
+    // rebind
+    this.$el
+      .find('.controls .knob.volume')
+      .bind('mousedown', this.knob_volume_mousedown_handler);
+  },
+  
+  
+  knob_volume_doubleclick_handler : function(e) {
+    var $t;
+    
+    // set
+    $t = $(e.currentTarget).find('.it div');
+    
+    // reset rotation
+    helpers.css.rotate($t, 0);
+    
+    // set volume
+    Controller.set('volume', 50)
+  },
+  
+  
+  switch_volume_click_handler : function(e) {
+    var $light, state;
+    
+    // set
+    $light = $(e.currentTarget).children('.light');
+    state = Controller.get('mute');
+    
+    // light
+    if (state) {
+      Controller.set('mute', false);
+      $light.addClass('on');
+    
+    } else {
+      Controller.set('mute', true);
+      $light.removeClass('on');
     
     }
   },
