@@ -57,7 +57,7 @@ class Server < Source
     end
 
     server = Server.find(self.user, self.id.to_s, { return_array: true })
-    server.tracks = self.tracks
+    server[0].tracks = self.tracks
     
     # new_tracks
     Server.add_new_tracks_to_each(server, new_tracks, { dont_save: true })

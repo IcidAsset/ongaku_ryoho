@@ -12,6 +12,8 @@ class SourcesController < ApplicationController
 
       if source.status.include?('unprocessed') or source.status == 'waiting to be processed'
         source.process
+      else
+        source.check
       end
     end
 
