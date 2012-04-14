@@ -32,11 +32,12 @@ $dark_purple: darken(#72577C, 30%);
 html, body { min-height: 100% }
 
 body {
+  background: #615C60;
   font: normal 13px/16px 'Helvetica Neue', 'Lato', sans-serif;
   margin: $body_margin;
   overflow: hidden;
 
-  @include background-image(linear-gradient(#72577C, #8E8CA3, #A9C2C9, #C5F7F0));
+  @include background-image(linear-gradient(#644E74, #724562, darken(#9B5161, 2%)  ));
 }
 
   #wrapper {
