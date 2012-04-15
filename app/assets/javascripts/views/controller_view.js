@@ -327,27 +327,27 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     $knobs           = $controls.find('a .knob');
     
     // play/pause button
-    $buttons.filter('.play-pause').bind('click', this.button_playpause_click_handler);
+    $buttons.filter('.play-pause').on('click', this.button_playpause_click_handler);
     
     // previous and next
     $button_columns.filter('.previous-next')
       .children('.btn.previous')
-      .bind('click', this.button_previous_click_handler).end()
+      .on('click', this.button_previous_click_handler).end()
       .children('.btn.next')
-      .bind('click', this.button_next_click_handler);
+      .on('click', this.button_next_click_handler);
     
     // shuffle
-    $switches.filter('.shuffle').bind('click', this.switch_shuffle_click_handler);
+    $switches.filter('.shuffle').on('click', this.switch_shuffle_click_handler);
     
     // repeat
-    $switches.filter('.repeat').bind('click', this.switch_repeat_click_handler);
+    $switches.filter('.repeat').on('click', this.switch_repeat_click_handler);
     
     // volume
     $knobs.filter('.volume')
-      .bind('mousedown', this.knob_volume_mousedown_handler)
-      .bind('dblclick', this.knob_volume_doubleclick_handler);
+      .on('mousedown', this.knob_volume_mousedown_handler)
+      .on('dblclick', this.knob_volume_doubleclick_handler);
     
-    $switches.filter('.volume').bind('click', this.switch_volume_click_handler);
+    $switches.filter('.volume').on('click', this.switch_volume_click_handler);
   },
   
   
@@ -518,9 +518,9 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   knob_volume_mousedown_handler : function(e) {
-    $(e.currentTarget).unbind('mousedown', this.knob_volume_mousedown_handler);
-    $(document).bind('mousemove', this.document_mousemove_handler_for_volume_knob);
-    $(document).bind('mouseup', this.document_mouseup_handler_for_volume_knob);
+    $(e.currentTarget).off('mousedown', this.knob_volume_mousedown_handler);
+    $(document).on('mousemove', this.document_mousemove_handler_for_volume_knob);
+    $(document).on('mouseup', this.document_mouseup_handler_for_volume_knob);
   },
   
   
@@ -556,13 +556,13 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   document_mouseup_handler_for_volume_knob : function(e) {
     // unbind
-    $(document).unbind('mousemove', this.document_mousemove_handler_for_volume_knob);
-    $(document).unbind('mouseup', this.document_mouseup_handler_for_volume_knob);
+    $(document).off('mousemove', this.document_mousemove_handler_for_volume_knob);
+    $(document).off('mouseup', this.document_mouseup_handler_for_volume_knob);
     
     // rebind
     this.$el
       .find('.controls .knob.volume')
-      .bind('mousedown', this.knob_volume_mousedown_handler);
+      .on('mousedown', this.knob_volume_mousedown_handler);
   },
   
   
@@ -605,7 +605,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   */
   setup_progress_bar : function() {
     // mouse events
-    this.$progress_bar.parent().bind('click', this.progress_bar_click_handler);
+    this.$progress_bar.parent().on('click', this.progress_bar_click_handler);
   },
   
   

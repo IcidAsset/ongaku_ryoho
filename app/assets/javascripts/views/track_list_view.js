@@ -12,10 +12,10 @@ OngakuRyoho.Views.TrackListView = Backbone.View.extend({
     _.bindAll(this, 'render', 'resize', 'activate_scrollbar', 'add_playing_class_to_track');
 
     this.collection = Tracks;
-    this.collection.bind('reset', this.render);
+    this.collection.on('reset', this.render);
 
     // track list (window) resize
-    $(window).bind('resize', this.resize)
+    $(window).on('resize', this.resize)
              .trigger('resize');
   },
 

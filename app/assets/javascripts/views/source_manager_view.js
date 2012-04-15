@@ -45,7 +45,7 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
     $select.chosen();
 
     // when the 'source selection' has changed
-    $select.bind('change', function() {
+    $select.on('change', function() {
       var $t    = $(this),
           klass = '.' + $t.val();
 
