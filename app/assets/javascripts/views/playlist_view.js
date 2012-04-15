@@ -18,7 +18,7 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     this.$search = this.$el.find('.navigation .search input');
     
     // setup views
-    this.track_list_view = new OngakuRyoho.Views.TrackListView({ el: this.$el.find('.tracks-wrapper') });
+    this.track_list_view = new OngakuRyoho.Views.TrackList({ el: this.$el.find('.tracks-wrapper') });
     this.setup_search();
     
     // get content

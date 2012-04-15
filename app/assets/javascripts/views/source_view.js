@@ -1,4 +1,4 @@
-OngakuRyoho.Views.SourceView = Backbone.View.extend({
+OngakuRyoho.Views.Source = Backbone.View.extend({
   
   
   /**************************************

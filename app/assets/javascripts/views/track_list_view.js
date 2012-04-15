@@ -1,4 +1,4 @@
-OngakuRyoho.Views.TrackListView = Backbone.View.extend({
+OngakuRyoho.Views.TrackList = Backbone.View.extend({
 
   events : {
     'dblclick .track' : 'play_track'
@@ -31,7 +31,7 @@ OngakuRyoho.Views.TrackListView = Backbone.View.extend({
 
     // sources html
     this.collection.each(function(track) {
-      var track_view = new OngakuRyoho.Views.TrackView({ model: track });
+      var track_view = new OngakuRyoho.Views.Track({ model: track });
       html += track_view.render().el.innerHTML;
     }, this);
 

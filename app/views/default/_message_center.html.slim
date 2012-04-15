@@ -1,1 +1,10 @@
 #message-center
+
+
+
+script#message_template type="text/template"
+  |
+    <div class="message">
+      <% if (icon && icon_type) { print('<i class="' + icon_type + '"></i>'); } %>
+      <%= text %>
+    </div>

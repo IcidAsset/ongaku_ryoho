@@ -19,7 +19,7 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
     $add_section      = this.$el.find('.window.add section');
 
     // main section
-    this.source_list_view = new OngakuRyoho.Views.SourceListView({ el: $source_list_view  });
+    this.source_list_view = new OngakuRyoho.Views.SourceList({ el: $source_list_view  });
 
     // add section
     this.setup_add_section($add_section);

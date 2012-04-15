@@ -1,4 +1,4 @@
-OngakuRyoho.Views.SourceListView = Backbone.View.extend({
+OngakuRyoho.Views.SourceList = Backbone.View.extend({
   
   
   /**************************************
@@ -23,7 +23,7 @@ OngakuRyoho.Views.SourceListView = Backbone.View.extend({
     
     // sources html
     this.collection.each(function(source) {
-      var source_view = new OngakuRyoho.Views.SourceView({ model: source });
+      var source_view = new OngakuRyoho.Views.Source({ model: source });
       html += source_view.render().el.innerHTML;
     }, this);
     

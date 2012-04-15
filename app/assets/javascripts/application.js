@@ -37,19 +37,22 @@ var _dom_init;
 _dom_init = function() {
   var $controller     = $('#controller'),
       $playlist       = $('#playlist'),
-      $source_manager = $('#source-manager');
+      $source_manager = $('#source-manager'),
+      $message_center = $('#message-center');
 
   // Backbone models
-  window.Controller        = new OngakuRyoho.Models.Controller;
+  window.Controller          = new OngakuRyoho.Models.Controller;
 
   // Backbone collections
-  window.Tracks            = new OngakuRyoho.Collections.Tracks;
-  window.Sources           = new OngakuRyoho.Collections.Sources;
+  window.Tracks              = new OngakuRyoho.Collections.Tracks;
+  window.Sources             = new OngakuRyoho.Collections.Sources;
+  window.Messages            = new OngakuRyoho.Collections.Messages;
 
   // Backbone views
-  window.ControllerView    = new OngakuRyoho.Views.Controller(   { el: $controller     });
-  window.PlaylistView      = new OngakuRyoho.Views.Playlist(     { el: $playlist       });
-  window.SourceManagerView = new OngakuRyoho.Views.SourceManager({ el: $source_manager });
+  window.ControllerView      = new OngakuRyoho.Views.Controller({ el: $controller });
+  window.PlaylistView        = new OngakuRyoho.Views.Playlist({ el: $playlist });
+  window.SourceManagerView   = new OngakuRyoho.Views.SourceManager({ el: $source_manager });
+  window.MessageCenterView   = new OngakuRyoho.Views.MessageCenter({ el: $message_center });
 
   // Background
   $('body').noisy({
