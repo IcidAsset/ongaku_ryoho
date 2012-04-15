@@ -1,0 +1,43 @@
+#message-center {
+  margin-top: 26px;
+  
+  @include alternate-font;
+  
+  .message {
+    border: 1px dashed rgba(#fff, .17);
+    color: rgba(#fff, .6);
+    font-size: 11px;
+    line-height: 20px;
+    margin-bottom: 4px;
+    padding: 14px 17px 13px;
+    position: relative;
+    
+    & > div { display: none }
+  }
+  
+  i {
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 16px;
+    margin-right: 9px;
+    position: relative;
+    top: 4px;
+    width: 16px;
+    
+    @include opacity(.8);
+  }
+  
+  .message.loading { padding-left: 42px }
+  .message.loading > div {
+    bottom: 0;
+    display: block;
+    left: 17px;
+    position: absolute;
+    top: 0;
+    width: 16px;
+    
+    @include opacity(.8);
+  }
+  
+}

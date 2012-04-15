@@ -23,6 +23,7 @@
 //= require 'chosen'
 //= require 'noisy'
 //= require 'labelify'
+//= require 'spin'
 //= require 'soundmanager2/soundmanager2'
 //= provide 'soundmanager2/dependencies'
 

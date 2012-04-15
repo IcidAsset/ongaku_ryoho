@@ -1,10 +1,7 @@
 $button_height: 52px;
 
 #controller {
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: $controller_width;
+  position: relative;
   
   -webkit-font-smoothing: antialiased;
   

@@ -37,7 +37,7 @@ body {
   margin: $body_margin;
   overflow: hidden;
 
-  @include background-image(linear-gradient(#644E74, #724562, darken(#9B5161, 2%)  ));
+  @include background-image(linear-gradient(#644E74, #724562, #944D5D));
 }
 
   #wrapper {
