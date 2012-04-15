@@ -10,10 +10,15 @@ class SourcesController < ApplicationController
       source[:available] = source.available?
       source[:label]     = source.label
 
-      if source.status.include?('unprocessed') or source.status == 'waiting to be processed'
-        source.process
-      else
-        source.check
+      unless source.in_queue
+        source.in_queue = true
+        source.user.save
+        
+        if source.status.include?('unprocessed')
+          source.process
+        else
+          source.check
+        end
       end
     end
 

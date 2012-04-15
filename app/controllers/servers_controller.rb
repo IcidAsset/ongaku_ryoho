@@ -21,6 +21,7 @@ class ServersController < ApplicationController
     server.location = "http://#{server.location}" unless server.location.include?('http://')
     server.location << (server.location.end_with?('/') ? '' : '/')
     server.name = server.location.gsub('http://', '').gsub('/', '')
+    server.in_queue = true
 
     existing_source = current_user.sources.select { |source|
       source._type == 'Server' and source.location == server.location

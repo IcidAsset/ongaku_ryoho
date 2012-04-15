@@ -31,6 +31,9 @@ class Server < Source
   def check
     require 'net/http'
     
+    # in queue
+    Server.set_on_each(server, :in_queue, false)
+    
     # make file list
     file_list = []
     
@@ -65,8 +68,10 @@ class Server < Source
     # last checked
     Server.set_on_each(server, :status, "last updated at #{ Time.now.strftime('%d %b %y / %I:%M %p') }")
   end
-  
-  
+
+  handle_asynchronously :check
+
+
   def process
     require 'net/http'
 
@@ -74,7 +79,8 @@ class Server < Source
     server = Server.find(self.user, self.id.to_s, { return_array: true })
 
     # processing
-    Server.set_on_each(server, :status, 'processing')
+    Server.set_on_each(server, :status, 'processing', { dont_save: true })
+    Server.set_on_each(server, :in_queue, false)
     
     # get json data from server
     begin
@@ -101,7 +107,7 @@ class Server < Source
   end
 
   handle_asynchronously :process
-  
+
 
   def self.add_new_tracks_to_each(selected_servers, new_tracks, options={})
     selected_servers.each do |server|

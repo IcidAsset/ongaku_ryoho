@@ -6,7 +6,7 @@ li class="#{source.available? ? 'available' : ''}"
     strong = source.label
     = "<br>"
     
-    - if source.status =~ /(unprocessed|waiting|processing)/i
+    - if source.status =~ /(unprocessed|processing)/i
       = "<span>#{source.status}</span>"
     
     - else

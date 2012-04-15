@@ -31,7 +31,7 @@
           <strong><%= label %></strong>
           <br>
           <%
-            if (status.match(/(unprocessed|waiting|processing)/gi) !== null) {
+            if (status.match(/(unprocessed|processing)/gi) !== null) {
               print('<span>' + status + '</span>');
 
             } else {
