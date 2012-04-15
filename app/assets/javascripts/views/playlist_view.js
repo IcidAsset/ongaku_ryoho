@@ -10,7 +10,10 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
    *  Initialize
    */
   initialize : function() {
-    _.bindAll(this, 'setup_search', 'show_current_track', 'set_footer_contents');
+    _.bindAll(this,
+      'setup_search', 'search_input_change', 'search',
+      'show_current_track', 'set_footer_contents'
+    );
     
     this.$search = this.$el.find('.navigation .search input');
     
@@ -35,8 +38,50 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
    *  Search
    */
   setup_search : function() {
+    // mouse interactions
     this.$search.bind('focus', helpers.mouse_interactions.focus)
                 .bind('blur', helpers.mouse_interactions.blur);
+    
+    // change
+    this.$search.on('change', this.search_input_change);
+  },
+  
+  
+  search_input_change : function(e) {
+    var $t, value;
+    
+    // set
+    $t = $(e.currentTarget);
+    value = $t.val();
+    
+    // search
+    this.search(value);
+  },
+  
+  
+  search : function(query) {
+    var data;
+    
+    // set
+    data = { filter: query };
+    
+    // fetch tracks
+    $.when(Tracks.fetch({ data: data }))
+     .done(this.search_success);
+  },
+  
+  
+  search_success : function() {
+    var current_track, track;
+    
+    // set
+    current_track = ControllerView.current_track;
+    
+    // add playing class
+    if (current_track) {
+      track = Tracks.find(function(track) { return track.get('id') == current_track.sID });
+      PlaylistView.track_list_view.add_playing_class_to_track( track );
+    }
   },
   
   
