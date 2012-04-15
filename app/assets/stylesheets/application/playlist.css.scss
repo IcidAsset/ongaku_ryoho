@@ -92,14 +92,15 @@ $track_height : 28px;
     input {
       background: none;
       border: none;
-      color: #6c7075;
+      color: #b6babf;
       display: block;
       padding: 0 34px 0 7px;
       width: 100%;
 
       @include box-sizing(border-box);
 
-      &.dont, &:focus { color: #b6babf; outline: none }
+      &:focus { outline: none }
+      &.labelify { color: #6c7075 }
     }
 
     .input-wrap.search {

@@ -38,9 +38,8 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
    *  Search
    */
   setup_search : function() {
-    // mouse interactions
-    this.$search.on('focus', helpers.mouse_interactions.focus)
-                .on('blur', helpers.mouse_interactions.blur);
+    // labelify
+    this.$search.labelify();
     
     // change
     this.$search.on('change', this.search_input_change);
