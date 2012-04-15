@@ -31,8 +31,11 @@ class Server < Source
   def check
     require 'net/http'
     
-    # in queue
-    Server.set_on_each(server, :in_queue, false)
+    # set
+    server = Server.find(self.user, self.id.to_s, { return_array: true })
+    
+    # processing
+    Server.set_on_each(server, :status, 'processing')
     
     # make file list
     file_list = []
@@ -46,6 +49,9 @@ class Server < Source
       uri      = URI.parse(self.location + 'check')
       response = Net::HTTP.post_form(uri, { file_list: file_list.to_json })
     rescue
+      Server.set_on_each(server, :status, 'processed', { dont_save: true })
+      Server.set_on_each(server, :in_queue, false)
+      
       return false
     end
     
@@ -58,15 +64,15 @@ class Server < Source
     missing_files.each do |missing_file_location|
       self.tracks.delete_if { |track| track.location === missing_file_location }
     end
-
-    server = Server.find(self.user, self.id.to_s, { return_array: true })
+    
     server[0].tracks = self.tracks
     
     # new_tracks
     Server.add_new_tracks_to_each(server, new_tracks, { dont_save: true })
     
     # last checked
-    Server.set_on_each(server, :status, "last updated at #{ Time.now.strftime('%d %b %y / %I:%M %p') }")
+    Server.set_on_each(server, :status, "last updated at #{ Time.now.strftime('%d %b %y / %I:%M %p') }", { dont_save: true })
+    Server.set_on_each(server, :in_queue, false)
   end
 
   handle_asynchronously :check
@@ -79,15 +85,15 @@ class Server < Source
     server = Server.find(self.user, self.id.to_s, { return_array: true })
 
     # processing
-    Server.set_on_each(server, :status, 'processing', { dont_save: true })
-    Server.set_on_each(server, :in_queue, false)
+    Server.set_on_each(server, :status, 'processing')
     
     # get json data from server
     begin
       uri     = URI.parse(self.location)
       reponse = Net::HTTP.get(uri)
     rescue
-      Server.set_on_each(server, :status, 'unprocessed / server not found')
+      Server.set_on_each(server, :status, 'unprocessed / server not found', { dont_save: true })
+      Server.set_on_each(server, :in_queue, false)
       
       return false
     end
@@ -97,13 +103,15 @@ class Server < Source
     
     # no music =(
     if tracks.empty?
-      Server.set_on_each(server, :status, 'unprocessed / no music found')
+      Server.set_on_each(server, :status, 'unprocessed / no music found', { dont_save: true })
+      Server.set_on_each(server, :in_queue, false)
 
       return false
     end
     
     # put them tracks in them database
     Server.add_new_tracks_to_each(server, tracks)
+    Server.set_on_each(server, :in_queue, false)
   end
 
   handle_asynchronously :process
