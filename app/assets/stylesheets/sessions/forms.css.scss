@@ -6,19 +6,19 @@ form {
 
   .text input {
     background: none;
-    border: 1px solid rgba($dark_purple, .055);
-    color: rgba($dark_purple, .475);
+    border: 1px solid rgba($dark_purple, .065);
+    color: rgba($dark_purple, .575);
     display: block;
     padding: 12px 11px 8px;
     width: 100%;
 
     -webkit-appearance: none;
     @include box-sizing(border-box);
-    @include single-box-shadow(rgba($dark_purple, .165), 0, 6px, 9px, 0, true);
-    @include single-text-shadow(rgba($dark_purple, .150), 0, 0, 2px);
+    @include single-box-shadow(rgba($dark_purple, .185), 0, 6px, 9px, 0, true);
+    @include single-text-shadow(rgba($dark_purple, .110), 0, 0, 2px);
 
     &.labelify {
-      color: rgba($dark_purple, .275);
+      color: rgba($dark_purple, .320);
     }
 
     &:focus {
@@ -42,7 +42,7 @@ form {
 
     @include background-image(linear-gradient(#F67280, #C06C84));
     @include border-radius(3px);
-    @include opacity(.35);
+    @include opacity(.435);
 
     &:hover,
     &:active,
