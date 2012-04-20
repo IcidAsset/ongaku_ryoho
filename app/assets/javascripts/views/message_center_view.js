@@ -31,7 +31,7 @@ OngakuRyoho.Views.MessageCenter = Backbone.View.extend({
     
     // append html
     this.$el.append(view.render().el.innerHTML);
-    this.$el.find('.message:last').fadeIn(450);
+    this.$el.find('.message:last').fadeIn(500);
     
     // loading animation?
     if (message.get('loading')) {
@@ -43,7 +43,7 @@ OngakuRyoho.Views.MessageCenter = Backbone.View.extend({
   remove_message : function(message) {
     this.$el
       .find('.message[rel="' + message.cid + '"]')
-      .delay(500).fadeOut(450, function() { $(this).remove(); });
+      .stop(true).fadeOut(500, function() { $(this).remove(); });
   },
   
   

@@ -22,7 +22,7 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     this.setup_search();
 
     // get content
-    Tracks.fetch();
+    this.load_tracks();
   },
 
 
@@ -30,13 +30,21 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
    *  Tracks
    */
   load_tracks : function(options) {
-    var dfd;
+    var dfd, message;
     
     // set dfd
     dfd = $.Deferred();
     
     // check options
     options = options || {};
+    
+    // show message
+    message = new OngakuRyoho.Models.Message({
+      text: 'Loading tracks',
+      loading: true
+    });
+    
+    Messages.add(message);
     
     // load tracks
     $.when(
@@ -46,6 +54,8 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     ).then(function() {
       PlaylistView.track_list_view.add_playing_class_to_track( ControllerView.get_current_track() )
       PlaylistView.show_current_track();
+      
+      Messages.remove(message);
       
       dfd.resolve();
 
