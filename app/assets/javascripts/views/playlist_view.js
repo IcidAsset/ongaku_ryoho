@@ -29,15 +29,30 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
   /**************************************
    *  Tracks
    */
-  load_tracks : function() {
+  load_tracks : function(options) {
+    var dfd;
+    
+    // set dfd
+    dfd = $.Deferred();
+    
+    // check options
+    options = options || {};
+    
+    // load tracks
     $.when(
-      Tracks.fetch()
-
+      Tracks.fetch(options)
+    
+    // when tracks have finished loading
     ).then(function() {
       PlaylistView.track_list_view.add_playing_class_to_track( ControllerView.get_current_track() )
       PlaylistView.show_current_track();
+      
+      dfd.resolve();
 
     });
+    
+    // promise
+    return dfd.promise();
   },
 
 
@@ -80,7 +95,7 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     data = { filter: query };
 
     // fetch tracks
-    $.when(Tracks.fetch({ data: data }))
+    $.when(this.load_tracks({ data: data }))
      .done(this.search_success);
   },
 
