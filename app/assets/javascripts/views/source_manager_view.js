@@ -64,8 +64,10 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
       
       $.when.apply(null, unprocessing)
        .then(function() {
-         Messages.remove(unprocessing_message);
+         SourceManagerView.requires_reload = true;
          SourceManagerView.find_sources_to_check(unprocessed_sources);
+         
+         Messages.remove(unprocessing_message);
        });
     
     } else {
@@ -76,10 +78,18 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
 
 
   find_sources_to_check : function(unprocessed_sources) {
-    var sources_to_check, checking, checking_message;
+    var sources_to_check, checking, checking_message, after;
     
     // check
     unprocessed_sources = unprocessed_sources || [];
+    
+    // after
+    after = function() {
+      PlaylistView.load_tracks();
+      Sources.fetch();
+      
+      SourceManagerView.requires_reload = false;
+    };
     
     // find
     sources_to_check = _.difference(Sources.models, unprocessed_sources);
@@ -99,12 +109,13 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
       
       $.when.apply(null, checking)
        .then(function() {
+         after();
+         
          Messages.remove(checking_message);
-         PlaylistView.load_tracks();
        });
     
     } else {
-      PlaylistView.load_tracks();
+      if (this.requires_reload) { after(); }
       
     }
   },
