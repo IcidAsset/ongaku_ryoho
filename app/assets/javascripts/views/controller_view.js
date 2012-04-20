@@ -141,7 +141,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     soundManager.url = soundManagerFlashURL;
     soundManager.flashVersion = 9;
     soundManager.useFlashBlock = false;
-    soundManager.preferFlash = true;
+    soundManager.preferFlash = false;
     soundManager.flashPollingInterval = 250;
     soundManager.html5PollingInterval = 250;
     
