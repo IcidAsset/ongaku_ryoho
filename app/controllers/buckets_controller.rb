@@ -29,10 +29,6 @@ class BucketsController < ApplicationController
       if bucket.save
         @bucket = bucket
 
-        # process
-        @bucket.process
-
-        # redirect
         return redirect_to @bucket
       end
     end

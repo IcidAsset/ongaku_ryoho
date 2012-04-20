@@ -62,8 +62,6 @@ class Bucket < Source
     Bucket.add_new_tracks_to_each(bucket, s3_bucket, tracks)
   end
 
-  handle_asynchronously :process
-
 
   def self.get_s3_bucket(bucket)
     service = S3::Service.new(

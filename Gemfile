@@ -6,10 +6,7 @@ gem 'unicorn'
 
 gem 'mongo_mapper'
 gem 'bson_ext'
-gem 'delayed_job'
-gem 'delayed_job_mongo_mapper', :git => 'git://github.com/thisduck/delayed_job_mongo_mapper.git'
-gem 'daemons'
-gem 'sorcery'
+gem 'sorcery', '0.7.10'
 gem 's3', :git => 'git://github.com/alexstaubo/s3.git'
 
 group :assets do

@@ -106,6 +106,9 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
   add_playing_class_to_track : function(track) {
     var $track;
     
+    // check
+    if (!track) { return; }
+    
     // set elements
     $track = this.$el.find('.track[rel="' + track.cid + '"]');
     

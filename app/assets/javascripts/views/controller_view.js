@@ -9,6 +9,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
    */
   initialize : function() {
     _.bindAll(this,
+              'get_current_track',
               'render_time', 'render_now_playing',
               
               'setup_sound_manager',
@@ -56,6 +57,24 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   /**************************************
+   *  Current track
+   */
+  get_current_track : function() {
+    var current_sound, track;
+    
+    // set
+    current_sound = this.current_sound;
+    
+    // get
+    if (current_sound) {
+      track = Tracks.find(function(track) { return track.get('id') == current_sound.sID });
+    }
+    
+    return track;
+  },
+  
+  
+  /**************************************
    *  Render
    */
   render_time : function() {
@@ -66,8 +85,8 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     duration   = this.model.get('duration');
     
     // duration? really?
-    if ((!duration || duration === 0) && this.current_track) {
-      duration = this.current_track.durationEstimate;
+    if ((!duration || duration === 0) && this.current_sound) {
+      duration = this.current_sound.durationEstimate;
     }
     
     // set
@@ -135,18 +154,18 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   set_volume : function() {
-    if (this.current_track) {
-      this.current_track.setVolume( Controller.get('volume') );
+    if (this.current_sound) {
+      this.current_sound.setVolume( Controller.get('volume') );
     }
   },
   
   
   set_mute : function() {
-    if (this.current_track) {
+    if (this.current_sound) {
       if (Controller.get('mute')) {
-        this.current_track.mute();
+        this.current_sound.mute();
       } else {
-        this.current_track.unmute();
+        this.current_sound.unmute();
       }
     }
   },
@@ -156,8 +175,8 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     var track_attributes, this_controller_view;
     
     // destroy current track
-    if (this.current_track) {
-      soundManager.destroySound(this.current_track.sID);
+    if (this.current_sound) {
+      soundManager.destroySound(this.current_sound.sID);
     }
     
     // track attributes
@@ -184,7 +203,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     });
     
     // current track
-    this.current_track = new_sound;
+    this.current_sound = new_sound;
     
     // volume
     this.set_mute();
@@ -253,7 +272,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     var track_sound, track, $track;
     
     // set
-    track_sound = this.current_track;
+    track_sound = this.current_sound;
     
     // if track set, resume or play
     if (track_sound) {
@@ -298,15 +317,15 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   pause : function() {
-    if (this.current_track) {
-      soundManager.pause(this.current_track.sID);
+    if (this.current_sound) {
+      soundManager.pause(this.current_sound.sID);
     }
   },
   
   
   stop : function() {
-    if (this.current_track) {
-      soundManager.stop(this.current_track.sID);
+    if (this.current_sound) {
+      soundManager.stop(this.current_sound.sID);
     }
     
     Controller.set({ time: 0 });
@@ -359,7 +378,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     // set
     $button = $(e.currentTarget);
-    state = (this.current_track && !this.current_track.paused) ? 'playing' : 'not playing';
+    state = (this.current_sound && !this.current_sound.paused) ? 'playing' : 'not playing';
     
     // action
     if (state == 'playing') {
@@ -391,7 +410,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     $tracks = PlaylistView.track_list_view.$el.find('.track');
     
     // if there's no active track
-    if (!this.current_track) {
+    if (!this.current_sound) {
       return;
     
     // if so
@@ -430,7 +449,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     $tracks = PlaylistView.track_list_view.$el.find('.track');
     
     // if there's no active track
-    if (!this.current_track) {
+    if (!this.current_sound) {
       if (shuffle) {
         $track = $( _.shuffle($tracks)[0] );
         
@@ -613,13 +632,13 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     var percent;
     
     // check
-    if (!this.current_track) { return; }
+    if (!this.current_sound) { return; }
     
     // set
     percent = (e.pageX - this.$progress_bar.offset().left) / this.$progress_bar.width();
     
     // seek
-    this.current_track.setPosition( this.current_track.duration * percent );
+    this.current_sound.setPosition( this.current_sound.duration * percent );
   },
   
   

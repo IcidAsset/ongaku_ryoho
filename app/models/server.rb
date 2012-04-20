@@ -75,8 +75,6 @@ class Server < Source
     Server.set_on_each(server, :in_queue, false)
   end
 
-  handle_asynchronously :check
-
 
   def process
     require 'net/http'
@@ -113,8 +111,6 @@ class Server < Source
     Server.add_new_tracks_to_each(server, tracks)
     Server.set_on_each(server, :in_queue, false)
   end
-
-  handle_asynchronously :process
 
 
   def self.add_new_tracks_to_each(selected_servers, new_tracks, options={})
