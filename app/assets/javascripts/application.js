@@ -39,7 +39,10 @@ _dom_init = function() {
       $playlist       = $('#playlist'),
       $source_manager = $('#source-manager'),
       $message_center = $('#message-center');
-
+  
+  // Helpers
+  helpers.initialize();
+  
   // Backbone models
   window.Controller          = new OngakuRyoho.Models.Controller;
 

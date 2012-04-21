@@ -84,7 +84,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     track_info = Controller.get('artist') + ' – ' + Controller.get('title');
     
     // set document title
-    helpers.set_document_title('▶ ' + track_info, true);
+    helpers.set_document_title('▶ ' + track_info);
   },
   
   

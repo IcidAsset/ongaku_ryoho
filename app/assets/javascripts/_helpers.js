@@ -2,6 +2,14 @@ var helpers = {
   
   
   /**************************************
+   *  Initialize
+   */
+  initialize : function() {
+    this.original_document_title = document.title;
+  },
+  
+  
+  /**************************************
    *  CSS Helpers
    */
   css : {
