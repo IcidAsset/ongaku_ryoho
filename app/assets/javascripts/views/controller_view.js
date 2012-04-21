@@ -567,7 +567,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   document_mousemove_handler_for_volume_knob : function(e) {
-    var knob_x, knob_y, mouse_x, mouse_y,
+    var knob_x, knob_y, mouse_x, mouse_y, distance,
         kx, ky, mx, my, angle, volume, $t;
     
     // set
@@ -581,6 +581,9 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     my = mouse_y - knob_y
     kx = 0;
     ky = 0;
+    
+    distance = Math.sqrt( Math.pow(mx - kx, 2) + Math.pow(my - ky, 2) );
+    if (distance < 15) { return; }
     
     angle = -(Math.atan2( kx - mx, ky - my ) * ( 180 / Math.PI ));
     
