@@ -38,7 +38,8 @@ _dom_init = function() {
   var $controller     = $('#controller'),
       $playlist       = $('#playlist'),
       $source_manager = $('#source-manager'),
-      $message_center = $('#message-center');
+      $message_center = $('#message-center'),
+      $visualizations = $('#visualizations');
   
   // Helpers
   helpers.initialize();
@@ -53,6 +54,8 @@ _dom_init = function() {
 
   // Backbone views
   window.MessageCenterView   = new OngakuRyoho.Views.MessageCenter({ el: $message_center });
+  window.VisualizationsView  = new OngakuRyoho.Views.Visualizations({ el: $visualizations });
+  
   window.ControllerView      = new OngakuRyoho.Views.Controller({ el: $controller });
   window.PlaylistView        = new OngakuRyoho.Views.Playlist({ el: $playlist });
   window.SourceManagerView   = new OngakuRyoho.Views.SourceManager({ el: $source_manager });

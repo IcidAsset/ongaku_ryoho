@@ -154,10 +154,10 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     soundManager.url = soundManagerFlashURL;
     soundManager.flashVersion = 9;
     soundManager.useFlashBlock = false;
-    soundManager.preferFlash = false;
-    soundManager.flashPollingInterval = 250;
-    soundManager.html5PollingInterval = 250;
+    soundManager.preferFlash = true;
     soundManager.debugMode = false;
+    soundManager.useFastPolling = true;
+    soundManager.flash9Options = { usePeakData: true };
     
     // when sound manager is ready
     soundManager.onready(function() {
@@ -200,19 +200,19 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     // create sound
     var new_sound = soundManager.createSound({
-      id:           track_attributes.id,
-      url:          track_attributes.url,
+      id:             track_attributes.id,
+      url:            track_attributes.url,
       
-      volume:       0,
-      autoLoad:     true,
-      autoPlay:     true,
-      stream:       true,
+      volume:         0,
+      autoLoad:       true,
+      autoPlay:       true,
+      stream:         true,
       
-      onfinish:     this_controller_view.sound_onfinish,
-      onload:       this_controller_view.sound_onload,
-      onplay:       this_controller_view.sound_onplay,
-      whileloading: this_controller_view.sound_whileloading,
-      whileplaying: this_controller_view.sound_whileplaying
+      onfinish:       this_controller_view.sound_onfinish,
+      onload:         this_controller_view.sound_onload,
+      onplay:         this_controller_view.sound_onplay,
+      whileloading:   this_controller_view.sound_whileloading,
+      whileplaying:   this_controller_view.sound_whileplaying
     });
     
     // current track
@@ -281,6 +281,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   sound_whileplaying : function() {
     Controller.set({ time: this.position });
+    VisualizationsView.visualize('peak_data', this.peakData);
   },
   
   
