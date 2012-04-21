@@ -9,7 +9,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
    */
   initialize : function() {
     _.bindAll(this,
-              'get_current_track',
+              'get_current_track', 'set_current_track_in_document_title',
               'render_time', 'render_now_playing',
               
               'setup_sound_manager',
@@ -71,6 +71,20 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     }
     
     return track;
+  },
+  
+  
+  /**************************************
+   *  Set track info in document title
+   */
+  set_current_track_in_document_title : function() {
+    var track_info;
+    
+    // set
+    track_info = Controller.get('artist') + ' – ' + Controller.get('title');
+    
+    // set document title
+    helpers.set_document_title('▶ ' + track_info, true);
   },
   
   
@@ -225,6 +239,9 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     // add playing class to track
     PlaylistView.track_list_view.add_playing_class_to_track( track );
+    
+    // document title
+    this.set_current_track_in_document_title();
   },
   
   
@@ -288,6 +305,8 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
       
       }
       
+      this.set_current_track_in_document_title();
+      
       return;
     }
     
@@ -319,6 +338,8 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   pause : function() {
     if (this.current_sound) {
       soundManager.pause(this.current_sound.sID);
+      
+      helpers.set_document_title(helpers.original_document_title);
     }
   },
   
@@ -326,6 +347,8 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   stop : function() {
     if (this.current_sound) {
       soundManager.stop(this.current_sound.sID);
+      
+      helpers.set_document_title(helpers.original_document_title);
     }
     
     Controller.set({ time: 0 });

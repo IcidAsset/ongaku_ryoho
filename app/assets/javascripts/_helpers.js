@@ -2,8 +2,8 @@ var helpers = {
   
   
   /**************************************
-  *  CSS Helpers
-  */
+   *  CSS Helpers
+   */
   css : {
     
     rotate : function($el, degrees) {
@@ -23,8 +23,8 @@ var helpers = {
   
   
   /**************************************
-  *  Loading animation
-  */
+   *  Loading animation
+   */
   add_loading_animation : function($target) {
     var opts = {
       lines: 6,
@@ -40,6 +40,15 @@ var helpers = {
     
     spinner = new Spinner(opts).spin($target[0]);
     return spinner;
+  },
+  
+  
+  /**************************************
+   *  Set document title
+   */
+  set_document_title : function(text, set_original_title) {
+    if (set_original_title) { this.original_document_title = document.title }
+    document.title = text;
   }
   
   
