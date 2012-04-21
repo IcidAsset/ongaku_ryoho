@@ -37,13 +37,19 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
    *  Tracks
    */
   load_tracks : function(options) {
-    var dfd, message;
+    var dfd, filter, message;
     
     // set dfd
     dfd = $.Deferred();
     
     // check options
     options = options || {};
+    
+    // search?
+    filter = this.$search.val();
+    if ($.trim(filter.length) > 0) {
+      options.data = { filter: filter };
+    }
     
     // show message
     message = new OngakuRyoho.Models.Message({
