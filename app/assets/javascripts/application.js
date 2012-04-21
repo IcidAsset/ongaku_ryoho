@@ -49,10 +49,10 @@ _dom_init = function() {
   window.Messages            = new OngakuRyoho.Collections.Messages;
 
   // Backbone views
+  window.MessageCenterView   = new OngakuRyoho.Views.MessageCenter({ el: $message_center });
   window.ControllerView      = new OngakuRyoho.Views.Controller({ el: $controller });
   window.PlaylistView        = new OngakuRyoho.Views.Playlist({ el: $playlist });
   window.SourceManagerView   = new OngakuRyoho.Views.SourceManager({ el: $source_manager });
-  window.MessageCenterView   = new OngakuRyoho.Views.MessageCenter({ el: $message_center });
 
   // Background
   $('body').noisy({

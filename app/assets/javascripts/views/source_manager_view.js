@@ -28,8 +28,7 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
     this.setup_add_section($add_section);
 
     // get and check content
-    $.when(Sources.fetch())
-     .then(this.check_sources);
+    Sources.fetch();
   },
   
   

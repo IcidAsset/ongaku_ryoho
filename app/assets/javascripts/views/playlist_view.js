@@ -22,7 +22,14 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     this.setup_search();
 
     // get content
-    this.load_tracks();
+    $.when(
+      this.load_tracks()
+      
+    )
+    .then(function() {
+      _.delay(SourceManagerView.check_sources, 3000);
+    
+    });
   },
 
 
