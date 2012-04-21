@@ -219,9 +219,16 @@ $track_height : 28px;
       white-space: nowrap;
 
       &.alt { background-color: #fbfbfb }
-      &.playing { span { text-decoration: line-through }}
-
-      &:active { background-color: #54daff; color: #fff }
+      
+      &.playing {
+        background-color: #E0676C;
+        color: lighten(#E0676C, 27.5%);
+      }
+      
+      &:active {
+        background: #00ccff;
+        color: lighten(#00ccff, 42.5%);
+      }
 
       span { overflow: hidden; text-overflow: ellipsis }
     }
