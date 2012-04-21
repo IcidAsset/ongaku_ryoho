@@ -158,11 +158,11 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     soundManager.preferFlash = false;
     soundManager.flashPollingInterval = 250;
     soundManager.html5PollingInterval = 250;
+    soundManager.debugMode = false;
     
     // when sound manager is ready
     soundManager.onready(function() {
       ControllerView.sound_manager.ready = true;
-      console.log('# Sound Manager is ready to make some noise!');
     });
   },
   
