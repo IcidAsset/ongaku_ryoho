@@ -16,11 +16,10 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
               'set_volume', 'set_mute',
               'insert_track', 'sound_onplay',
               'play', 'pause', 'stop',
+              'prev', 'next', 'reset_shuffle_history',
               
               'setup_controller_buttons',
               'button_playpause_click_handler',
-              'button_previous_click_handler',
-              'button_next_click_handler',
               'switch_shuffle_click_handler',
               'switch_repeat_click_handler',
               'knob_volume_mousedown_handler',
@@ -255,7 +254,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     if (repeat) {
       PlaylistView.track_list_view.$el.find('.track.playing').trigger('dblclick');
     } else {
-      ControllerView.button_next_click_handler();
+      ControllerView.next();
     }
   },
   
@@ -355,6 +354,111 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   },
   
   
+  prev : function() {
+    var shuffle, shuffle_th, track, $tracks, $track;
+    
+    // set
+    shuffle = Controller.get('shuffle');
+    shuffle_th = this.shuffle_track_history_index;
+    
+    $tracks = PlaylistView.track_list_view.$el.find('.track');
+    
+    // if there's no active track
+    if (!this.current_sound) {
+      return;
+    
+    // if so
+    } else {
+      if (shuffle) {
+        if (shuffle_th > 0) {
+          track = Tracks.find(function(t) {
+            return t.get('id') === ControllerView.shuffle_track_history[shuffle_th - 1];
+          });
+        } else {
+          return;
+        }
+        
+        this.shuffle_track_history_index--;
+        $track = $tracks.filter('[rel="' + track.cid + '"]');
+        
+      } else {
+        $track = $tracks.filter('.playing').prev('.track');
+        if (!$track.length) { $track = $tracks.last(); }
+        
+      }
+      
+    }
+    
+    $track.trigger('dblclick');
+  },
+  
+  
+  next : function() {
+    var shuffle, shuffle_th, track, $tracks, $track;
+    
+    // set
+    shuffle = Controller.get('shuffle');
+    shuffle_th = this.shuffle_track_history_index;
+    
+    $tracks = PlaylistView.track_list_view.$el.find('.track');
+    
+    // if there's no active track
+    if (!this.current_sound) {
+      if (shuffle) {
+        $track = $( _.shuffle($tracks)[0] );
+        
+        this.shuffle_track_history.push(
+          Tracks.getByCid( $track.attr('rel') ).get('id')
+        );
+        
+      } else {
+        $track = $tracks.first();
+        
+      }
+    
+    // if so
+    } else {
+      if (shuffle) {
+        if (shuffle_th < this.shuffle_track_history.length - 1) {
+          track = Tracks.find(function(t) {
+            return t.get('id') === ControllerView.shuffle_track_history[shuffle_th + 1];
+          });
+          
+        } else {
+          track = _.shuffle(Tracks.reject(function(t) {
+            return _.include(ControllerView.shuffle_track_history, t.get('id'));
+          }))[0];
+          
+          if (!track) {
+            this.reset_shuffle_history();
+            this.next();
+            return;
+          }
+          
+          this.shuffle_track_history.push( track.get('id') );
+          
+        }
+        
+        this.shuffle_track_history_index++;
+        $track = $tracks.filter('[rel="' + track.cid + '"]');
+        
+      } else {
+        $track = $tracks.filter('.playing').next('.track');
+        if (!$track.length) { $track = $tracks.first(); }
+        
+      }
+    
+    }
+    
+    $track.trigger('dblclick');
+  },
+  
+  
+  reset_shuffle_history : function() { console.log('reset shuffle history');
+    this.shuffle_track_history = [];
+  },
+  
+  
   /**************************************
    *  Controller buttons
    */
@@ -374,9 +478,9 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     // previous and next
     $button_columns.filter('.previous-next')
       .children('.btn.previous')
-      .on('click', this.button_previous_click_handler).end()
+      .on('click', this.prev).end()
       .children('.btn.next')
-      .on('click', this.button_next_click_handler);
+      .on('click', this.next);
     
     // shuffle
     $switches.filter('.shuffle').on('click', this.switch_shuffle_click_handler);
@@ -423,100 +527,6 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   },
   
   
-  button_previous_click_handler : function(e) {
-    var shuffle, shuffle_th, track, $tracks, $track;
-    
-    // set
-    shuffle = Controller.get('shuffle');
-    shuffle_th = this.shuffle_track_history_index;
-    
-    $tracks = PlaylistView.track_list_view.$el.find('.track');
-    
-    // if there's no active track
-    if (!this.current_sound) {
-      return;
-    
-    // if so
-    } else {
-      if (shuffle) {
-        if (shuffle_th > 0) {
-          track = Tracks.find(function(t) {
-            return t.get('id') === ControllerView.shuffle_track_history[shuffle_th - 1];
-          });
-        } else {
-          return;
-        }
-        
-        this.shuffle_track_history_index--;
-        $track = $tracks.filter('[rel="' + track.cid + '"]');
-        
-      } else {
-        $track = $tracks.filter('.playing').prev('.track');
-        if (!$track.length) { $track = $tracks.last(); }
-        
-      }
-      
-    }
-    
-    $track.trigger('dblclick');
-  },
-  
-  
-  button_next_click_handler : function(e) {
-    var shuffle, shuffle_th, track, $tracks, $track;
-    
-    // set
-    shuffle = Controller.get('shuffle');
-    shuffle_th = this.shuffle_track_history_index;
-    
-    $tracks = PlaylistView.track_list_view.$el.find('.track');
-    
-    // if there's no active track
-    if (!this.current_sound) {
-      if (shuffle) {
-        $track = $( _.shuffle($tracks)[0] );
-        
-        this.shuffle_track_history.push(
-          Tracks.getByCid( $track.attr('rel') ).get('id')
-        );
-        
-      } else {
-        $track = $tracks.first();
-        
-      }
-    
-    // if so
-    } else {
-      if (shuffle) {
-        if (shuffle_th < this.shuffle_track_history.length - 1) {
-          track = Tracks.find(function(t) {
-            return t.get('id') === ControllerView.shuffle_track_history[shuffle_th + 1];
-          });
-          
-        } else {
-          track = _.shuffle(Tracks.reject(function(t) {
-            return _.include(ControllerView.shuffle_track_history, t.get('id'));
-          }))[0];
-          
-          this.shuffle_track_history.push( track.get('id') );
-          
-        }
-        
-        this.shuffle_track_history_index++;
-        $track = $tracks.filter('[rel="' + track.cid + '"]');
-        
-      } else {
-        $track = $tracks.filter('.playing').next('.track');
-        if (!$track.length) { $track = $tracks.first(); }
-        
-      }
-    
-    }
-    
-    $track.trigger('dblclick');
-  },
-  
-  
   switch_shuffle_click_handler : function(e) {
     var $switch, state;
     
@@ -526,6 +536,11 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     // switch
     Controller.set('shuffle', !state);
+    
+    // reset shuffle history?
+    if (state) {
+      this.reset_shuffle_history();
+    }
     
     // light
     if (state) {
