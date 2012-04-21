@@ -47,7 +47,7 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     
     // search?
     filter = this.$search.val();
-    if ($.trim(filter.length) > 0) {
+    if ($.trim(filter.length) > 0 && !this.$search.hasClass('labelify')) {
       options.data = { filter: filter };
     }
     
