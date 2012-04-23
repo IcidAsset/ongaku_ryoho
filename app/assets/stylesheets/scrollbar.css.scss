@@ -10,7 +10,7 @@
 
 .scrollbar-handle {
   width: 7px;
-  background: #bcbcbc;
+  background: rgba(#000, .25);
 
   @include border-radius(3px);
 
