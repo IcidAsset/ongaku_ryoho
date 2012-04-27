@@ -1,35 +1,39 @@
 var helpers = {
-  
-  
+
+
   /**************************************
    *  Initialize
    */
   initialize : function() {
     this.original_document_title = document.title;
+
+    // when the page loses focus, disable animations
+    $(window).on('focus', helpers.enable_jquery_animations)
+             .on('blur', helpers.disable_jquery_animations);
   },
-  
-  
+
+
   /**************************************
    *  CSS Helpers
    */
   css : {
-    
+
     rotate : function($el, degrees) {
       var css;
-      
+
       css = {};
-      
+
       css['-webkit-transform'] = 'rotate(' + degrees + 'deg)';
       css['-moz-transform'] = css['-webkit-transform'];
       css['-o-transform'] = css['-webkit-transform'];
       css['-ms-tranform'] = css['-webkit-transform'];
-      
+
       $el.css(css);
     }
-    
+
   },
-  
-  
+
+
   /**************************************
    *  Loading animation
    */
@@ -45,19 +49,31 @@ var helpers = {
       trail: 60,
       shadow: false
     },
-    
+
     spinner = new Spinner(opts).spin($target[0]);
     return spinner;
   },
-  
-  
+
+
   /**************************************
    *  Set document title
    */
   set_document_title : function(text, set_original_title) {
     if (set_original_title) { this.original_document_title = document.title }
     document.title = text;
+  },
+
+
+  /**************************************
+   *  Enable / disable jQuery animations
+   */
+  enable_jquery_animations : function() { console.log('enable')
+    $.fx.off = false;
+  },
+
+  disable_jquery_animations : function() { console.log('disable')
+    $.fx.off = true;
   }
-  
-  
+
+
 };
