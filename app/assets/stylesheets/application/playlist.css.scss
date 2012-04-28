@@ -222,15 +222,17 @@ $track_height : 28px;
       
       &.playing {
         background-color: #E0676C;
-        color: lighten(#E0676C, 27.5%);
+        & > div { color: lighten(#E0676C, 27.5%) }
       }
       
       &:active {
         background: #00ccff;
-        color: lighten(#00ccff, 42.5%);
+        & > div { color: lighten(#00ccff, 42.5%) }
       }
 
       span { overflow: hidden; text-overflow: ellipsis }
+
+      .artist { font-weight: bold }
     }
 
     .nothing-here {

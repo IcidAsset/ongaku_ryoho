@@ -37,7 +37,7 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
    *  Tracks
    */
   load_tracks : function(options) {
-    var dfd, filter, message;
+    var dfd, filter, message, tlv;
     
     // set dfd
     dfd = $.Deferred();
@@ -65,8 +65,16 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     
     // when tracks have finished loading
     ).then(function() {
-      PlaylistView.track_list_view.add_playing_class_to_track( ControllerView.get_current_track() )
-      PlaylistView.show_current_track();
+      tlv = PlaylistView.track_list_view;
+
+      if (tlv.count_tracks() === 0) {
+        tlv.$el.html('<div class="nothing-here" />');
+
+      } else {
+        tlv.add_playing_class_to_track( ControllerView.get_current_track() )
+        PlaylistView.show_current_track();
+
+      }
       
       Messages.remove(message);
       
@@ -146,7 +154,7 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     $current_track = this.track_list_view.$el.find('.track.playing');
 
     // scroll to current track
-    if ($current_track.length) {
+    if ($current_track.length && PlaylistView.track_list_view.has_scrollbar()) {
       this.track_list_view.$el.scrollbar('scrollto', $current_track.position().top);
     }
   },

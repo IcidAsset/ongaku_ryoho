@@ -9,7 +9,10 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
    *  Initialize
    */
   initialize : function() {
-    _.bindAll(this, 'render', 'resize', 'activate_scrollbar', 'add_playing_class_to_track');
+    _.bindAll(this,
+      'render', 'resize', 'activate_scrollbar',
+      'has_scrollbar', 'add_playing_class_to_track'
+    );
 
     this.collection = Tracks;
     this.collection.on('reset', this.render);
@@ -80,7 +83,7 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
       if ($tw.find('ol.tracks').height() <= new_height) {
         $tw.scrollbar('unscrollbar');
 
-      } else if ($tw.find('.scrollbar-pane').length === 0) {
+      } else if (!this.has_scrollbar()) {
         this.activate_scrollbar();
 
       } else {
@@ -97,6 +100,14 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
    */
   activate_scrollbar : function() {
     this.$el.scrollbar({ arrows: false });
+  },
+
+
+  /**************************************
+   *  Activate scrollbar
+   */
+  has_scrollbar : function() {
+    return (this.$el.children('.scrollbar-pane').length !== 0);
   },
   
   
@@ -139,6 +150,14 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
     // turn the play button light on
     $playpause_button_light.addClass('on');
   },
+
+
+  /**************************************
+   *  Count tracks
+   */
+  count_tracks : function() {
+    return this.$el.find('.track').length;
+  }
 
 
 });

@@ -67,11 +67,11 @@ var helpers = {
   /**************************************
    *  Enable / disable jQuery animations
    */
-  enable_jquery_animations : function() { console.log('enable')
+  enable_jquery_animations : function() {
     $.fx.off = false;
   },
 
-  disable_jquery_animations : function() { console.log('disable')
+  disable_jquery_animations : function() {
     $.fx.off = true;
   }
 
