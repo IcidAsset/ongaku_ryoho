@@ -9,10 +9,12 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
    */
   initialize : function() {
     _.bindAll(this,
+              'save_settings_in_cookie', 'apply_settings_from_cookie', 'check_the_lights',
               'get_current_track', 'set_current_track_in_document_title',
               'render_time', 'render_now_playing',
               
               'setup_sound_manager',
+              'set_shuffle', 'set_repeat',
               'set_volume', 'set_mute',
               'insert_track', 'sound_onplay',
               'play', 'pause', 'stop',
@@ -37,6 +39,8 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     this.model = Controller;
     this.model.on('change:time', this.render_time);
     this.model.on('change:now_playing', this.render_now_playing);
+    this.model.on('change:shuffle', this.set_shuffle);
+    this.model.on('change:repeat', this.set_repeat);
     this.model.on('change:volume', this.set_volume);
     this.model.on('change:mute', this.set_mute);
     
@@ -45,13 +49,60 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     this.$now_playing  = this.$el.find('.now-playing');
     this.$progress_bar = this.$el.find('.progress-bar');
-    
+
+    this.apply_settings_from_cookie();
+    this.check_the_lights();
+
     this.render_time();
     this.render_now_playing();
     
     this.setup_sound_manager();
     this.setup_controller_buttons();
     this.setup_progress_bar();
+  },
+
+
+  /**************************************
+   *  Settings cookie
+   */
+  save_settings_in_cookie : function() {
+    var settings;
+
+    // set settings
+    settings = _.pick(this.model.attributes, 'shuffle', 'repeat', 'mute', 'volume');
+
+    // set cookie
+    $.cookie(
+      'controller_settings',
+      JSON.stringify(settings),
+      { raw: true, expires: 365, path: '/' }
+    );
+  },
+
+  apply_settings_from_cookie : function() {
+    var cookie, settings;
+
+    // find cookie
+    cookie = $.cookie('controller_settings');
+
+    // check
+    if (!cookie) { return; }
+
+    // parse cookie
+    settings = $.parseJSON( cookie );
+
+    // apply settings
+    this.model.set(settings);
+  },
+
+
+  /**************************************
+   *  Check the lights
+   */
+  check_the_lights : function() {
+    this.set_shuffle();
+    this.set_repeat();
+    this.set_mute();
   },
   
   
@@ -167,22 +218,101 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   set_volume : function() {
+    var volume, angle;
+
+    // volume
+    volume = Controller.get('volume');
+
+    // rotate volume button
+    angle = ((volume - 50) * 135) / 50;
+    helpers.css.rotate(this.$el.find('.controls a .knob.volume .it div'), angle);
+
+    // sound
     if (this.current_sound) {
-      this.current_sound.setVolume( Controller.get('volume') );
+      this.current_sound.setVolume(volume);
     }
+
+    // save
+    this.save_settings_in_cookie();
   },
   
   
   set_mute : function() {
+    var $light, state;
+    
+    // set
+    $light = this.$el.find('.controls a .switch.volume .light');
+    state = Controller.get('mute');
+    
+    // light
+    if (state) {
+      $light.removeClass('on');
+    
+    } else {
+      $light.addClass('on');
+    
+    }
+
+    // sound
     if (this.current_sound) {
-      if (Controller.get('mute')) {
+      if (state) {
         this.current_sound.mute();
       } else {
         this.current_sound.unmute();
       }
     }
+
+    // save
+    this.save_settings_in_cookie();
   },
-  
+
+
+  set_shuffle : function() {
+    var $light, state;
+    
+    // set
+    $light = this.$el.find('.controls a .switch.shuffle .light');
+    state = Controller.get('shuffle');
+    
+    // reset shuffle history?
+    if (state) {
+      this.reset_shuffle_history();
+    }
+    
+    // light
+    if (state) {
+      $light.addClass('on');
+    
+    } else {
+      $light.removeClass('on');
+    
+    }
+
+    // save
+    this.save_settings_in_cookie();
+  },
+
+
+  set_repeat : function() {
+    var $light, state;
+    
+    // set
+    $light = this.$el.find('.controls a .switch.repeat .light');
+    state = Controller.get('repeat');
+    
+    // light
+    if (state) {
+      $light.addClass('on');
+    
+    } else {
+      $light.removeClass('on');
+    
+    }
+
+    // save
+    this.save_settings_in_cookie();
+  },
+
   
   insert_track : function(track) {
     var track_attributes, this_controller_view;
@@ -455,7 +585,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   },
   
   
-  reset_shuffle_history : function() { console.log('reset shuffle history');
+  reset_shuffle_history : function() {
     this.shuffle_track_history = [];
   },
   
@@ -529,49 +659,12 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   switch_shuffle_click_handler : function(e) {
-    var $switch, state;
-    
-    // set
-    $switch = $(e.currentTarget);
-    state = Controller.get('shuffle');
-    
-    // switch
-    Controller.set('shuffle', !state);
-    
-    // reset shuffle history?
-    if (state) {
-      this.reset_shuffle_history();
-    }
-    
-    // light
-    if (state) {
-      $switch.children('.light').removeClass('on');
-    
-    } else {
-      $switch.children('.light').addClass('on');
-    
-    }
+    Controller.set('shuffle', !Controller.get('shuffle'));
   },
   
   
   switch_repeat_click_handler : function(e) {
-    var $switch, state;
-    
-    // set
-    $switch = $(e.currentTarget);
-    state = Controller.get('repeat');
-    
-    // switch
-    Controller.set('repeat', !state);
-    
-    // light
-    if (state) {
-      $switch.children('.light').removeClass('on');
-    
-    } else {
-      $switch.children('.light').addClass('on');
-    
-    }
+    Controller.set('repeat', !Controller.get('repeat'));
   },
   
   
@@ -606,9 +699,6 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     if (angle > 135) { angle = 135; }
     else if (angle < -135) { angle = -135; }
     
-    // rotate
-    helpers.css.rotate($t, angle);
-    
     // set volume
     volume = 50 + (angle / 135) * 50;
     Controller.set('volume', volume);
@@ -642,22 +732,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
   
   
   switch_volume_click_handler : function(e) {
-    var $light, state;
-    
-    // set
-    $light = $(e.currentTarget).children('.light');
-    state = Controller.get('mute');
-    
-    // light
-    if (state) {
-      Controller.set('mute', false);
-      $light.addClass('on');
-    
-    } else {
-      Controller.set('mute', true);
-      $light.removeClass('on');
-    
-    }
+    Controller.set('mute', !Controller.get('mute'));
   },
   
   

@@ -24,6 +24,7 @@
 //= require 'noisy'
 //= require 'labelify'
 //= require 'spin'
+//= require 'jquery-cookie'
 //= require 'soundmanager2/soundmanager2'
 //= provide 'soundmanager2/dependencies'
 
