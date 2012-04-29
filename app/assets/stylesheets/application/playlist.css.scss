@@ -228,8 +228,8 @@ $track_height : 28px;
       &.alt { background-color: #fbfbfb }
       
       &.playing {
-        background-color: #E0676C;
-        & > div { color: lighten(#E0676C, 27.5%) }
+        background-color: $red;
+        & > div { color: lighten($red, 27.5%) }
       }
       
       &:active {

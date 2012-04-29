@@ -26,9 +26,11 @@ OngakuRyoho.Views.Message = Backbone.View.extend({
     // add cid
     $message.attr('rel', this.model.cid);
     
-    // loading animation?
+    // loading or error?
     if (this.model.get('loading')) {
       $message.addClass('loading').append('<div></div>');
+    } else if (this.model.get('error')) {
+      $message.addClass('error');
     }
 
     return this;

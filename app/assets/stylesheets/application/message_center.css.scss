@@ -40,5 +40,10 @@
     
     @include opacity(.8);
   }
+
+  .message.error {
+    border-color: $red;
+    color: $red;
+  }
   
 }
