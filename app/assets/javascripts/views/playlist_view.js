@@ -2,7 +2,9 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
 
   events : {
     'click .navigation .sources .change' : 'show_source_manager',
-    'click .navigation .show-current-track' : 'show_current_track'
+    'click .navigation .show-current-track' : 'show_current_track',
+    'click .navigation .theater-mode' : 'theater_mode_button_click_handler',
+    'click .navigation .check-sources' : 'check_sources_button_click_handler'
   },
 
 
@@ -104,6 +106,20 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     if ($current_track.length && PlaylistView.track_list_view.has_scrollbar()) {
       this.track_list_view.$el.scrollbar('scrollto', $current_track.position().top);
     }
+  },
+
+  theater_mode_button_click_handler : function(e) {
+    var state;
+
+    // state
+    state = $(e.currentTarget).hasClass('on') ? 'off' : 'on';
+
+    // enable / disable
+    helpers.set_theater_mode(state);
+  },
+
+  check_sources_button_click_handler : function(e) {
+    SourceManagerView.check_sources();
   },
 
 

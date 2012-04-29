@@ -43,7 +43,7 @@ _dom_init = function() {
       $visualizations = $('#visualizations');
   
   // Helpers
-  helpers.initialize();
+  helpers.initialize_before();
   
   // Backbone models
   window.Controller          = new OngakuRyoho.Models.Controller;
@@ -60,6 +60,9 @@ _dom_init = function() {
   window.ControllerView      = new OngakuRyoho.Views.Controller({ el: $controller });
   window.PlaylistView        = new OngakuRyoho.Views.Playlist({ el: $playlist });
   window.SourceManagerView   = new OngakuRyoho.Views.SourceManager({ el: $source_manager });
+
+  // Helpers
+  helpers.initialize_after();
 
   // Background
   $('body').noisy({

@@ -4,12 +4,17 @@ var helpers = {
   /**************************************
    *  Initialize
    */
-  initialize : function() {
+  initialize_before : function() {
     this.original_document_title = document.title;
 
     // when the page loses focus, disable animations
     $(window).on('focus', helpers.enable_jquery_animations)
              .on('blur', helpers.disable_jquery_animations);
+  },
+
+  initialize_after : function() {
+    // check theater mode
+    this.check_theater_mode_cookie({ disable_animation: true });
   },
 
 
@@ -73,6 +78,53 @@ var helpers = {
 
   disable_jquery_animations : function() {
     $.fx.off = true;
+  },
+
+
+  /**************************************
+   *  Enable / disable jQuery animations
+   */
+  set_theater_mode : function(state, options) {
+    var animation_duration, $button, $color_overlay;
+
+    // check options
+    options = options || {};
+
+    // set
+    animation_duration = options.disable_animation ? 0 : 950;
+
+    // set elements
+    $button = PlaylistView.$el.find('.navigation .button.theater-mode');
+    $color_overlay = $('#color-overlay');
+
+    // go
+    if (state == 'off') {
+      $button.removeClass('on');
+      $color_overlay.fadeOut(animation_duration);
+
+    } else {
+      $button.addClass('on');
+      $color_overlay.fadeIn(animation_duration);
+
+    }
+
+    // save state in cookie
+    $.cookie('theater_mode_state', state, { expires: 365, path: '/' });
+  },
+
+  check_theater_mode_cookie : function(options) {
+    var cookie;
+
+    // check options
+    options = options || {};
+
+    // set
+    cookie = $.cookie('theater_mode_state');
+
+    // check
+    if (cookie && cookie == 'on') {
+      helpers.set_theater_mode('on' ,options);
+    }
   }
 
 
