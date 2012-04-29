@@ -21,11 +21,12 @@ $track_height : 28px;
        & > nav {
       height: 53px;
       margin: 1px;
-      padding-left: 14px + 27 + 2 + 5;
-      padding-right: 14px + 210 + 2 + 5;
+      padding-left: 13px;
+      padding-right: 13px;
       position: relative;
 
       @include background-image(linear-gradient(#6c7075, #595d61));
+      @include display-box;
     }
 
     .button, .input-wrap {
@@ -33,6 +34,7 @@ $track_height : 28px;
       height: 27px;
       margin-top: 52px / 2 - 28px / 2 + 1;
 
+      @include display-box;
       @include single-box-shadow(#2d2e30, 0, 1px, 3px, 0, 'inset');
     }
 
@@ -48,6 +50,7 @@ $track_height : 28px;
       cursor: pointer;
 
       @include background-image(linear-gradient(#525559, #3d3f42));
+      @include box-ordinal-group(1);
 
       &, .icon { width: 27px }
          .icon {
@@ -57,14 +60,12 @@ $track_height : 28px;
       }
 
       &:active { border-bottom-color: #8d9299 }
+    }
 
-      &.show-current-track {
-        position: absolute;
-        left: 13px;
-        top: 0;
-      }
+    .button.show-current-track {
+      margin-right: 6px;
 
-      &.show-current-track .icon { background-image: image-url('playlist/lightbulb.png') }
+      .icon { background-image: image-url('playlist/lightbulb.png') }
     }
 
     // input
@@ -103,11 +104,18 @@ $track_height : 28px;
       &.labelify { color: #6c7075 }
     }
 
+    .input-wrap.sources {
+      width: auto;
+
+      @include box-flex(1);
+      @include box-ordinal-group(2);
+    }
+
     .input-wrap.search {
-      position: absolute;
-      right: 13px;
-      top: 0;
+      margin-left: 6px;
       width: 210px;
+
+      @include box-ordinal-group(3);
     }
 
     // sources
