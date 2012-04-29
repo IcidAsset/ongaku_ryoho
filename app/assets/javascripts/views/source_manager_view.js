@@ -77,7 +77,7 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
 
 
   find_sources_to_check : function(unprocessed_sources) {
-    var sources_to_check, checking, checking_message, after;
+    var sources_to_check, checking, checking_message, after, changes;
     
     // check
     unprocessed_sources = unprocessed_sources || [];
@@ -108,7 +108,12 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
       
       $.when.apply(null, checking)
        .then(function() {
-         after();
+         changes = _.map(arguments, function(x) { return x[0].changed });
+         changes = _.include(changes, true);
+
+         if (changes || SourceManagerView.requires_reload) {
+           after();
+         }
          
          Messages.remove(checking_message);
        });

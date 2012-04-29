@@ -33,7 +33,7 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
       
     )
     .then(function() {
-      _.delay(SourceManagerView.check_sources, 3000);
+      SourceManagerView.check_sources();
     
     });
   },

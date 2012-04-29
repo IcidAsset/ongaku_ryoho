@@ -17,7 +17,9 @@ class Bucket < Source
 
   # check if there is any music added or removed from the s3 bucket
   # and then add and/or remove from the database
-  def check; end
+  def check
+    return false
+  end
 
 
   def process

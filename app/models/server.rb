@@ -73,6 +73,12 @@ class Server < Source
     # last checked
     Server.set_on_each(server, :status, "last updated at #{ Time.now.strftime('%d %b %y / %I:%M %p') }", { dont_save: true })
     Server.set_on_each(server, :in_queue, false)
+
+    # did something change?
+    changed = new_tracks.length + missing_files.length === 0 ? false : true 
+
+    # return
+    return changed
   end
 
 
