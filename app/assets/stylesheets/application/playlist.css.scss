@@ -104,7 +104,17 @@ $track_height : 28px;
     }
 
     .input-wrap.sources {
+      padding: 0 8px;
+      position: relative;
       width: auto;
+
+      p {
+        line-height: 28px;
+        margin-right: 39px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
 
       @include box-flex(1);
       @include box-ordinal-group(2);
@@ -117,16 +127,7 @@ $track_height : 28px;
       @include box-ordinal-group(3);
     }
 
-    // sources
-    .sources { padding: 0 8px; position: relative }
-    .sources p {
-      line-height: 28px;
-      margin-right: 39px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
+    // sources change button
     .change {
       cursor: pointer;
       float: right;
