@@ -84,7 +84,7 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
     
     // after
     after = function() {
-      PlaylistView.load_tracks();
+      Tracks.fetch();
       Sources.fetch();
       
       SourceManagerView.requires_reload = false;

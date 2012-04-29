@@ -11,79 +11,29 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
    */
   initialize : function() {
     _.bindAll(this,
-      'load_tracks', 'setup_search', 'search_input_change',
+      'setup_search', 'search_input_change',
       'search', 'show_current_track', 'set_footer_contents'
     );
 
     this.$search = this.$el.find('.navigation .search input');
 
-    // setup views
-    this.track_list_view = new OngakuRyoho.Views.TrackList({ el: this.$el.find('.tracks-wrapper') });
+    // tracklist view
+    this.track_list_view = new OngakuRyoho.Views.TrackList(
+      { el: this.$el.find('.tracks-wrapper') }
+    );
+
+    // search
     this.setup_search();
 
     // get content
     $.when(
-      this.load_tracks()
+      Tracks.fetch()
       
     )
     .then(function() {
       _.delay(SourceManagerView.check_sources, 3000);
     
     });
-  },
-
-
-  /**************************************
-   *  Tracks
-   */
-  load_tracks : function(options) {
-    var dfd, filter, message, tlv;
-    
-    // set dfd
-    dfd = $.Deferred();
-    
-    // check options
-    options = options || {};
-    
-    // search?
-    filter = this.$search.val();
-    if ($.trim(filter.length) > 0 && !this.$search.hasClass('labelify')) {
-      options.data = { filter: filter };
-    }
-    
-    // show message
-    message = new OngakuRyoho.Models.Message({
-      text: 'Loading tracks',
-      loading: true
-    });
-    
-    Messages.add(message);
-    
-    // load tracks
-    $.when(
-      Tracks.fetch(options)
-    
-    // when tracks have finished loading
-    ).then(function() {
-      tlv = PlaylistView.track_list_view;
-
-      if (tlv.count_tracks() === 0) {
-        tlv.$el.html('<div class="nothing-here" />');
-
-      } else {
-        tlv.add_playing_class_to_track( ControllerView.get_current_track() )
-        PlaylistView.show_current_track();
-
-      }
-      
-      Messages.remove(message);
-      
-      dfd.resolve();
-
-    });
-    
-    // promise
-    return dfd.promise();
   },
 
 
@@ -120,13 +70,10 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
 
 
   search : function(query) {
-    var data;
-
-    // set
-    data = { filter: query };
+    this.track_list_view.collection.filter = query;
 
     // fetch tracks
-    $.when(this.load_tracks({ data: data }))
+    $.when(Tracks.fetch())
      .done(this.search_success);
   },
 

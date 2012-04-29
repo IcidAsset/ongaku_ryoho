@@ -11,11 +11,13 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
   initialize : function() {
     _.bindAll(this,
       'render', 'resize', 'activate_scrollbar',
-      'has_scrollbar', 'add_playing_class_to_track'
+      'fetching', 'fetched', 'has_scrollbar', 'add_playing_class_to_track'
     );
 
     this.collection = Tracks;
     this.collection.on('reset', this.render);
+    this.collection.on('fetching', this.fetching);
+    this.collection.on('fetched', this.fetched);
 
     // track list (window) resize
     $(window).on('resize', this.resize)
@@ -56,6 +58,24 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
 
     // chain
     return this;
+  },
+
+
+  /**************************************
+   *  Fetching and fetched events
+   */
+  fetching : function() {},
+
+
+  fetched : function() {
+    if (this.count_tracks() === 0) {
+      this.$el.html('<div class="nothing-here" />');
+
+    } else {
+      this.add_playing_class_to_track( ControllerView.get_current_track() );
+      PlaylistView.show_current_track();
+
+    }
   },
 
 
