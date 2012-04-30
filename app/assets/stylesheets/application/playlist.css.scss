@@ -64,7 +64,15 @@ $track_height : 28px;
     }
 
     .button.show-current-track {
-      .icon { background-image: image-url('playlist/lightbulb.png') }
+      .icon { background-image: image-url('playlist/music.png') }
+    }
+    
+    .button.theater-mode {
+      .icon { background-image: image-url('playlist/contrast.png') }
+    }
+    
+    .button.check-sources {
+      .icon { background-image: image-url('playlist/reload.png') }
     }
 
     // input
