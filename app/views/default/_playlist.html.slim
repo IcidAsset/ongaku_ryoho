@@ -17,8 +17,13 @@
       .button.show-source-manager
         .icon
       
-      .input-wrap.sources
-        p
+      .input-wrap.sort-by
+        select
+          option[selected="selected" value="artist"] Artist
+          option[value="title"] Title
+          option[value="album"] Album
+          option[value="created_at"] Added to library
+        .icon
       
       .input-wrap.search
         input type="text" name="search" title="Search"

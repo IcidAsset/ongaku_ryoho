@@ -18,6 +18,10 @@ $controller_width: 321px;
 $dark_purple: darken(#72577C, 30%);
 $red: #E0676C;
 
+@mixin default-font {
+  font-family: 'Helvetica Neue', 'Lato', sans-serif;
+}
+
 @mixin alternate-font {
   font-family: 'Lato', 'Helvetica Neue', sans-serif;
 }
@@ -34,11 +38,13 @@ html, body { min-height: 100% }
 
 body {
   background: #615C60;
-  font: normal 13px/16px 'Helvetica Neue', 'Lato', sans-serif;
+  font-size: 13px;
+  line-height: 16px;
   margin: $body_margin;
   overflow: hidden;
 
   @include background-image(linear-gradient(#644E74, #724562, #944D5D));
+  @include default-font;
 }
 
   #wrapper {
@@ -46,7 +52,7 @@ body {
     z-index: 0;
   }
 
-  input, textarea {
+  input, textarea, select {
     font-size: 13px;
     font-weight: normal;
     line-height: 18px;

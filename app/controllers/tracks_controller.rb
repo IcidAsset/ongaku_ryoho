@@ -29,7 +29,14 @@ class TracksController < ApplicationController
     tracks = tracks.slice((page - 1) * per_page, per_page)
     
     # sort
-    tracks = tracks.sort_by { |t| [t.artist.downcase, t.album.downcase, t.tracknr, t.title.downcase] }
+    tracks = case params[:sort_by].try(:to_sym)
+    when :title
+      tracks.sort_by { |t| [t.title.downcase, t.tracknr, t.artist.downcase, t.album.downcase] }
+    when :album
+      tracks.sort_by { |t| [t.album.downcase, t.tracknr, t.artist.downcase, t.title.downcase] }
+    else
+      tracks.sort_by { |t| [t.artist.downcase, t.album.downcase, t.tracknr, t.title.downcase] }
+    end
     
     # render
     render json: {

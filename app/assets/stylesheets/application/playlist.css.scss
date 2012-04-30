@@ -38,13 +38,6 @@ $track_height : 28px;
       @include single-box-shadow(#2d2e30, 0, 1px, 3px, 0, 'inset');
     }
 
-    input, .sources p {
-      color: #b6babf;
-      font-size: 13px;
-      font-weight: 700;
-      height: 27px;
-    }
-
     // button
     .button {
       cursor: pointer;
@@ -62,10 +55,6 @@ $track_height : 28px;
 
       &:active { border-bottom-color: #8d9299 }
     }
-    
-    .button.show-source-manager {
-      .icon { background-image: image-url('playlist/connect.png') }
-    }
 
     .button.show-current-track {
       .icon { background-image: image-url('playlist/compass.png') }
@@ -77,6 +66,12 @@ $track_height : 28px;
     
     .button.check-sources {
       .icon { background-image: image-url('playlist/reload.png') }
+    }
+    
+    .button.show-source-manager {
+      @include background-image(linear-gradient(#644E74, darken(#644E74, 6.5%)));
+      
+      .icon { background-image: image-url('playlist/connect.png') }
     }
 
     // input
@@ -94,48 +89,50 @@ $track_height : 28px;
         right: 6px;
         top: 50%;
         width: 16px;
+        z-index: 1;
       }
 
-      &, input { overflow: hidden }
+      &, input, select { overflow: hidden }
 
+      &.sort-by .icon { background-image: image-url('playlist/list-ordered.png') }
       &.search .icon { background-image: image-url('playlist/magnifier.png') }
     }
 
-    input {
+    input, select {
       background: none;
       border: none;
       color: #b6babf;
       display: block;
+      font-size: 13px;
+      font-weight: bold;
+      height: 27px;
       padding: 0 34px 0 7px;
       width: 100%;
+      z-index: 0;
 
+      -webkit-appearance: none;
+      
       @include box-sizing(border-box);
 
       &:focus { outline: none }
       &.labelify { color: #6c7075 }
     }
-
-    .input-wrap.sources {
+    
+    select {
+      line-height: 28px;
+    }
+    
+    .input-wrap.sort-by {
       margin-right: 6px;
-      padding: 0 8px;
-      position: relative;
-      width: auto;
-
-      p {
-        line-height: 28px;
-        margin-right: 39px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      @include box-flex(1);
+      width: 27.5%;
+      
       @include box-ordinal-group(2);
     }
 
     .input-wrap.search {
-      width: 210px;
+      width: auto;
 
+      @include box-flex(1);
       @include box-ordinal-group(3);
     }
   }
@@ -210,8 +207,6 @@ $track_height : 28px;
       }
 
       span { overflow: hidden; text-overflow: ellipsis }
-
-      .artist { font-weight: bold }
     }
 
     .nothing-here {

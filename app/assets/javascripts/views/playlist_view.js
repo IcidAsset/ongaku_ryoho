@@ -1,10 +1,13 @@
 OngakuRyoho.Views.Playlist = Backbone.View.extend({
 
   events : {
-    'click .navigation .show-source-manager' : 'show_source_manager',
     'click .navigation .show-current-track' : 'show_current_track',
     'click .navigation .theater-mode' : 'theater_mode_button_click_handler',
-    'click .navigation .check-sources' : 'check_sources_button_click_handler'
+    'click .navigation .check-sources' : 'check_sources_button_click_handler',
+    'click .navigation .show-source-manager' : 'show_source_manager',
+    
+    'change .navigation .sort-by select' : 'sort_by_change_handler',
+    'change .navigation .search input' : 'search_input_change'
   },
 
 
@@ -15,8 +18,11 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     var after_track_fetch;
     
     _.bindAll(this,
-      'setup_search', 'search_input_change',
-      'search', 'show_current_track', 'set_footer_contents'
+      'show_source_manager', 'show_current_track',
+      'setup_search', 'search_input_change', 'search', 'search_success',
+      'theater_mode_button_click_handler',
+      'check_sources_button_click_handler',
+      'set_footer_contents'
     );
 
     this.$search = this.$el.find('.navigation .search input');
@@ -48,17 +54,36 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
   show_source_manager : function() {
     SourceManagerView.show();
   },
+  
+  
+  /**************************************
+   *  Sort by
+   */
+  sort_by_change_handler : function(e) {
+    var $t, value;
+    
+    // set
+    $t = $(e.currentTarget);
+    value = $t.children('option:selected').val();
+    
+    // search
+    if (value) { this.sort_by(value); }
+  },
+  
+  
+  sort_by : function(query) {
+    this.track_list_view.collection.sort_by = query;
+    
+    // fetch tracks
+    Tracks.fetch();
+  },
 
 
   /**************************************
    *  Search
    */
   setup_search : function() {
-    // labelify
     this.$search.labelify();
-
-    // change
-    this.$search.on('change', this.search_input_change);
   },
 
 

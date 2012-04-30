@@ -13,6 +13,7 @@ OngakuRyoho.Collections.Tracks = Backbone.Collection.extend({
     this.page = 1;
     this.per_page = 250;
     this.filter = '';
+    this.sort_by = 'artist'
   },
  
 
@@ -40,7 +41,8 @@ OngakuRyoho.Collections.Tracks = Backbone.Collection.extend({
     $.extend(options.data, {
       page: this.page,
       per_page: this.per_page,
-      filter: this.filter
+      filter: this.filter,
+      sort_by: this.sort_by
     });
 
     // success
