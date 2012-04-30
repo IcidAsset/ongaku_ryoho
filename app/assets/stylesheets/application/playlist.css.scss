@@ -62,9 +62,13 @@ $track_height : 28px;
 
       &:active { border-bottom-color: #8d9299 }
     }
+    
+    .button.show-source-manager {
+      .icon { background-image: image-url('playlist/connect.png') }
+    }
 
     .button.show-current-track {
-      .icon { background-image: image-url('playlist/music.png') }
+      .icon { background-image: image-url('playlist/compass.png') }
     }
     
     .button.theater-mode {
@@ -112,6 +116,7 @@ $track_height : 28px;
     }
 
     .input-wrap.sources {
+      margin-right: 6px;
       padding: 0 8px;
       position: relative;
       width: auto;
@@ -129,51 +134,9 @@ $track_height : 28px;
     }
 
     .input-wrap.search {
-      margin-left: 6px;
       width: 210px;
 
       @include box-ordinal-group(3);
-    }
-
-    // sources change button
-    .change {
-      cursor: pointer;
-      float: right;
-      font-size: 10px;
-      line-height: 16px;
-      padding: 1px;
-      position: absolute;
-      right: 8px;
-      text-indent: -10000px;
-      top: 4px;
-
-      @include background-image(linear-gradient(#65686e, #3d3f42));
-      @include border-radius(3px);
-    }
-
-    .change > span {
-      display: block;
-      height: 16px;
-      overflow: hidden;
-      padding: 0 7px 1px;
-
-      @include background-image(linear-gradient(#525559, #3d3f42));
-      @include border-radius(2px);
-    }
-
-    .change span span {
-      background: transparent image-url('playlist/cloud.png') center no-repeat;
-      display: block;
-      height: 18px;
-      width: 16px;
-    }
-
-    .change:active {
-      @include background-image(linear-gradient(#54daff, #0090b8));
-      @include single-box-shadow(rgba(#54daff, 0.43), 0, 0, 19px, 3px);
-
-      & > span  { @include background-image(linear-gradient(#00c8ff, #008ab0)) }
-      span span { background-image: image-url('playlist/cloud-white.png') }
     }
   }
 

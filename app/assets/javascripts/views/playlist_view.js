@@ -1,7 +1,7 @@
 OngakuRyoho.Views.Playlist = Backbone.View.extend({
 
   events : {
-    'click .navigation .sources .change' : 'show_source_manager',
+    'click .navigation .show-source-manager' : 'show_source_manager',
     'click .navigation .show-current-track' : 'show_current_track',
     'click .navigation .theater-mode' : 'theater_mode_button_click_handler',
     'click .navigation .check-sources' : 'check_sources_button_click_handler'
