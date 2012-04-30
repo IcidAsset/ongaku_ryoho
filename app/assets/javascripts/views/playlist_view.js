@@ -12,6 +12,8 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
    *  Initialize
    */
   initialize : function() {
+    var after_track_fetch;
+    
     _.bindAll(this,
       'setup_search', 'search_input_change',
       'search', 'show_current_track', 'set_footer_contents'
@@ -26,16 +28,17 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
 
     // search
     this.setup_search();
+    
+    // after fetching tracks
+    after_track_fetch = function() {
+      SourceManagerView.check_sources();
+    };
 
     // get content
-    $.when(
-      Tracks.fetch()
-      
-    )
-    .then(function() {
-      SourceManagerView.check_sources();
-    
-    });
+    $.when(Sources.fetch())
+     .then(function() {
+       Tracks.fetch({ success: after_track_fetch });
+     });
   },
 
 

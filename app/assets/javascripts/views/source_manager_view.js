@@ -26,9 +26,6 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
 
     // add section
     this.setup_add_section($add_section);
-
-    // get and check content
-    Sources.fetch();
   },
   
   
@@ -108,7 +105,12 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
       
       $.when.apply(null, checking)
        .then(function() {
-         changes = _.map(arguments, function(x) { return x[0].changed });
+         if (arguments.length == 1) {
+           changes = _.pluck(arguments, 'changed');
+         } else {
+           changes = _.map(arguments, function(x) { return x[0].changed; });
+         }
+         
          changes = _.include(changes, true);
 
          if (changes || SourceManagerView.requires_reload) {
