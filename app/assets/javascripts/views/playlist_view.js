@@ -5,6 +5,7 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     'click .navigation .theater-mode' : 'theater_mode_button_click_handler',
     'click .navigation .check-sources' : 'check_sources_button_click_handler',
     'click .navigation .show-source-manager' : 'show_source_manager',
+    'click .navigation .change-sort-direction' : 'change_sort_direction',
     
     'change .navigation .sort-by select' : 'sort_by_change_handler',
     'change .navigation .search input' : 'search_input_change'
@@ -75,6 +76,32 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     this.track_list_view.collection.sort_by = query;
     
     // fetch tracks
+    Tracks.fetch();
+  },
+  
+  
+  change_sort_direction : function(e) {
+    var current_direction, new_direction, $t;
+    
+    // set
+    current_direction = this.track_list_view.collection.sort_direction;
+    $t = $(e.currentTarget);
+    
+    // switch
+    if (current_direction == 'asc') {
+      new_direction = 'desc';
+      $t.addClass('on');
+      
+    } else {
+      new_direction = 'asc';
+      $t.removeClass('on');
+      
+    }
+    
+    // change
+    this.track_list_view.collection.sort_direction = new_direction;
+    
+    // reload tracks
     Tracks.fetch();
   },
 

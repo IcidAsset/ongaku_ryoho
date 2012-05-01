@@ -38,6 +38,9 @@ class TracksController < ApplicationController
       tracks.sort_by { |t| [t.artist.downcase, t.album.downcase, t.tracknr, t.title.downcase] }
     end
     
+    # sort direction
+    tracks.reverse! if params[:sort_direction] == 'desc'
+    
     # render
     render json: {
       page: page,
