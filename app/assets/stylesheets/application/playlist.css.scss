@@ -78,7 +78,7 @@ $track_height : 28px;
       @include box-ordinal-group(3);
       
       .icon { background-image: image-url('playlist/inverse.png') }
-      &.on .icon { @include rotate(180deg) }
+      &.on .icon { margin-left: 1px; @include rotate(180deg) }
     }
 
     // input

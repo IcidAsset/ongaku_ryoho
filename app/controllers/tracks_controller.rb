@@ -20,13 +20,6 @@ class TracksController < ApplicationController
       filter_regex = /^.*#{params[:filter]}.*$/i
       tracks.select! { |t| t.title =~ filter_regex or t.artist =~ filter_regex or t.album =~ filter_regex }
     end
-
-    # pagination
-    page = params[:page].to_i
-    per_page = params[:per_page].to_i
-    total = tracks.length
-
-    tracks = tracks.slice((page - 1) * per_page, per_page)
     
     # sort
     tracks = case params[:sort_by].try(:to_sym)
@@ -40,6 +33,13 @@ class TracksController < ApplicationController
     
     # sort direction
     tracks.reverse! if params[:sort_direction] == 'desc'
+    
+    # pagination
+    page = params[:page].to_i
+    per_page = params[:per_page].to_i
+    total = tracks.length
+    
+    tracks = tracks.slice((page - 1) * per_page, per_page)
     
     # render
     render json: {
