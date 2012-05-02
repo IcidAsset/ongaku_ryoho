@@ -27,8 +27,8 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
     // add section
     this.setup_add_section($add_section);
   },
-  
-  
+
+
   /**************************************
    *  Check sources
    */
@@ -39,90 +39,90 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
 
   find_sources_to_process : function() {
     var unprocessed_sources, unprocessing, unprocessing_message;
-    
+
     // find
     unprocessed_sources = _.filter(Sources.models, function(source) {
       return source.get('status').indexOf('unprocessed') != -1
     });
-    
+
     // exec
     if (unprocessed_sources.length > 0) {
       unprocessing = _.map(unprocessed_sources, function(unprocessed_source, idx) {
                        return SourceManagerView.process_source(unprocessed_source);
                      });
-      
+
       unprocessing_message = new OngakuRyoho.Models.Message({
         text: 'Processing sources',
         loading: true
       });
-      
+
       Messages.add(unprocessing_message);
-      
+
       $.when.apply(null, unprocessing)
        .then(function() {
          SourceManagerView.requires_reload = true;
          SourceManagerView.find_sources_to_check(unprocessed_sources);
-         
+
          Messages.remove(unprocessing_message);
        });
-    
+
     } else {
       this.find_sources_to_check();
-    
+
     }
   },
 
 
   find_sources_to_check : function(unprocessed_sources) {
     var sources_to_check, checking, checking_message, after, changes;
-    
+
     // check
-    unprocessed_sources = unprocessed_sources || [];
-    
+    unprocessed_sources = unprocessed_sources || [];
+
     // after
     after = function() {
       Tracks.fetch();
       Sources.fetch();
-      
+
       SourceManagerView.requires_reload = false;
     };
-    
+
     // find
     sources_to_check = _.difference(Sources.models, unprocessed_sources);
-    
+
     // exec
     if (sources_to_check.length > 0) {
       checking = _.map(sources_to_check, function(source_to_check, idx) {
                    return SourceManagerView.check_source(source_to_check);
                  });
-      
+
       checking_message = new OngakuRyoho.Models.Message({
         text: 'Checking out sources',
         loading: true
       });
-      
+
       Messages.add(checking_message);
-      
+
       $.when.apply(null, checking)
        .then(function() {
-         if (arguments.length == 1) {
+         if (_.has(arguments[0], 'changed')) {
            changes = _.pluck(arguments, 'changed');
          } else {
            changes = _.map(arguments, function(x) { return x[0].changed; });
          }
-         
+
          changes = _.include(changes, true);
 
          if (changes || SourceManagerView.requires_reload) {
            after();
          }
-         
+
          Messages.remove(checking_message);
        });
-    
+
     } else {
       if (this.requires_reload) { after(); }
-      
+
     }
   },
 
