@@ -41,10 +41,10 @@ _dom_init = function() {
       $source_manager = $('#source-manager'),
       $message_center = $('#message-center'),
       $visualizations = $('#visualizations');
-  
+
   // Helpers
   helpers.initialize_before();
-  
+
   // Backbone models
   window.Controller          = new OngakuRyoho.Models.Controller;
 

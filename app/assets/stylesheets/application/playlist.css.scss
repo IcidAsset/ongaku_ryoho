@@ -1,6 +1,4 @@
 
-$track_height : 28px;
-
 #playlist {
   margin-left: $controller_width + $body_margin;
   min-width: 493px;
@@ -11,7 +9,7 @@ $track_height : 28px;
    *  Navigation
    */
   .navigation {
-    height: 55px;
+    height: 51px;
 
     @include background-image(
       linear-gradient(lighten(#757a80, 3%), darken(#4b4e52, 3%))
@@ -19,10 +17,10 @@ $track_height : 28px;
 
     &, & > nav { overflow: hidden }
        & > nav {
-      height: 53px;
+      height: 49px;
       margin: 1px;
-      padding-left: 13px;
-      padding-right: 13px;
+      padding-left: 10px;
+      padding-right: 10px;
       position: relative;
 
       @include background-image(linear-gradient(#6c7075, #595d61));
@@ -31,8 +29,8 @@ $track_height : 28px;
 
     .button, .input-wrap {
       border: 1px solid #65686e;
-      height: 27px;
-      margin-top: 52px / 2 - 28px / 2 + 1;
+      height: 25px;
+      margin-top: 50px / 2 - 26px / 2;
 
       @include display-box;
       @include single-box-shadow(#2d2e30, 0, 1px, 3px, 0, 'inset');
@@ -41,16 +39,18 @@ $track_height : 28px;
     // button
     .button {
       cursor: pointer;
-      margin-right: 6px;
+      margin-left: 6px;
 
       @include background-image(linear-gradient(#525559, #3d3f42));
-      @include box-ordinal-group(1);
+      @include box-ordinal-group(3);
 
-      &, .icon { width: 27px }
+      &, .icon { width: 19px }
          .icon {
         background-position: center;
         background-repeat: no-repeat;
-        height: 27px;
+        height: 25px;
+        
+        @include background-size(60%);
       }
 
       &:active { border-bottom-color: #8d9299 }
@@ -69,16 +69,17 @@ $track_height : 28px;
     }
     
     .button.show-source-manager {
-      @include background-image(linear-gradient(#644E74, darken(#644E74, 6.5%)));
+      @include background-image(linear-gradient(#27503E, #203331));
       
       .icon { background-image: image-url('playlist/connect.png') }
     }
     
     .button.change-sort-direction {
-      @include box-ordinal-group(3);
-      
       .icon { background-image: image-url('playlist/inverse.png') }
-      &.on .icon { margin-left: 1px; @include rotate(180deg) }
+      
+      &.on .icon {
+        @include rotate(180deg);
+      }
     }
 
     // input
@@ -97,6 +98,8 @@ $track_height : 28px;
         top: 50%;
         width: 16px;
         z-index: 1;
+        
+        @include background-size(80%);
       }
 
       &, input, select { overflow: hidden }
@@ -110,9 +113,9 @@ $track_height : 28px;
       border: none;
       color: #b6babf;
       display: block;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: bold;
-      height: 27px;
+      height: 25px;
       padding: 0 34px 0 7px;
       width: 100%;
       z-index: 0;
@@ -126,12 +129,12 @@ $track_height : 28px;
     }
     
     select {
-      line-height: 28px;
+      line-height: 26px;
     }
     
     .input-wrap.sort-by {
-      margin-right: 6px;
-      width: 27.5%;
+      margin-left: 6px;
+      width: 29%;
       
       @include box-ordinal-group(2);
     }
@@ -140,7 +143,7 @@ $track_height : 28px;
       width: auto;
 
       @include box-flex(1);
-      @include box-ordinal-group(3);
+      @include box-ordinal-group(1);
     }
   }
 
@@ -149,8 +152,6 @@ $track_height : 28px;
    */
   .list {
     background: #fff;
-
-    @include alternate-font;
 
     header, .track {
       overflow: hidden;
@@ -178,6 +179,7 @@ $track_height : 28px;
       line-height: 27px;
 
       @include background-image(linear-gradient(#fff, #fafafa));
+      @include lato-font;
 
       span { border-right: 1px solid #f0f0f0 }
       .album span { border: none }
@@ -192,13 +194,15 @@ $track_height : 28px;
       font-size: 11px;
       font-weight: 400;
       list-style-type: none;
+      
+      @include ptsans-font;
     }
 
     .track {
       color: lighten(#4a4a4a, 10%);
       cursor: pointer;
-      height: $track_height;
-      line-height: $track_height;
+      height: 26px;
+      line-height: 28px;
       white-space: nowrap;
 
       &.alt { background-color: #fbfbfb }
@@ -235,20 +239,47 @@ $track_height : 28px;
   footer {
     border-top: 1px solid #44464a;
     color: darken(#b6babf, 13%);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 200;
     padding: 1px;
+    position: relative;
     text-align: center;
 
     @include background-image(linear-gradient(#63666b, #313336));
 
     .intestines {
-      height: 25px;
-      line-height: 24px;
-      padding: 0 5px;
+      height: 24px;
+      line-height: 22px;
+      padding: 0 10px;
 
       @include background-image(linear-gradient(#525559, #3d3f42));
     }
+    
+    .page-nav {
+      font-size: 0;
+      height: 24px;
+      left: 8px;
+      line-height: 0;
+      overflow: hidden;
+      position: absolute;
+      text-align: left;
+      top: 0;
+      width: 25%;
+    }
+    
+    .page-nav a {
+      background-position: center;
+      background-repeat: no-repeat;
+      display: inline-block;
+      height: 26px;
+      margin-right: 7px;
+      width: 16px;
+      
+      &.disabled { @include opacity(.45) }
+    }
+    
+    .page-nav .previous { background-image: image-url('playlist/arrow_left.png') }
+    .page-nav .next { background-image: image-url('playlist/arrow_right.png') }
   }
 
 }

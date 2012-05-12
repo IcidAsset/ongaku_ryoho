@@ -6,12 +6,12 @@
   top: 50%;
   width: 364px;
 
-  @include alternate-font;
+  @include lato-font;
 }
 
 h1 {
   color: rgba($dark_purple, .275);
-  font: normal 40px 'OstrichSansMedium', 'Lato';
+  font: normal 40px 'OstrichSansMedium', sans-serif;
   text-align: center;
 }
 

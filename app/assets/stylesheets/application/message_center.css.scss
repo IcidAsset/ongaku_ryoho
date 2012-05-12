@@ -1,7 +1,7 @@
 #message-center {
   margin-top: 26px;
   
-  @include alternate-font;
+  @include lato-font;
   
   .message {
     border: 1px dashed rgba(#fff, .17);

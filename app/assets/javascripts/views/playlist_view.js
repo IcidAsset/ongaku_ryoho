@@ -8,7 +8,10 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     'click .navigation .change-sort-direction' : 'change_sort_direction',
     
     'change .navigation .sort-by select' : 'sort_by_change_handler',
-    'change .navigation .search input' : 'search_input_change'
+    'change .navigation .search input' : 'search_input_change',
+    
+    'click footer .page-nav .previous:not(.disabled)' : 'previous_page_button_click_handler',
+    'click footer .page-nav .next:not(.disabled)' : 'next_page_button_click_handler'
   },
 
 
@@ -16,17 +19,16 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
    *  Initialize
    */
   initialize : function() {
-    var after_track_fetch;
-    
     _.bindAll(this,
       'show_source_manager', 'show_current_track',
       'setup_search', 'search_input_change', 'search', 'search_success',
       'theater_mode_button_click_handler',
       'check_sources_button_click_handler',
+      'check_page_navigation',
+      'previous_page_button_click_handler',
+      'next_page_button_click_handler',
       'set_footer_contents'
     );
-
-    this.$search = this.$el.find('.navigation .search input');
 
     // tracklist view
     this.track_list_view = new OngakuRyoho.Views.TrackList(
@@ -34,18 +36,12 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     );
 
     // search
+    this.$search = this.$el.find('.navigation .search input');
     this.setup_search();
-    
-    // after fetching tracks
-    after_track_fetch = function() {
-      SourceManagerView.check_sources();
-    };
 
     // get content
     $.when(Sources.fetch())
-     .then(function() {
-       Tracks.fetch({ success: after_track_fetch });
-     });
+     .then(function() { Tracks.fetch({ success: SourceManagerView.check_sources }); });
   },
 
 
@@ -175,6 +171,34 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
 
   check_sources_button_click_handler : function(e) {
     SourceManagerView.check_sources();
+  },
+
+
+  /**************************************
+   *  Page navigation
+   */
+  check_page_navigation : function() {
+    var page_info, $previous, $next;
+    
+    // set
+    page_info = this.track_list_view.collection.page_info();
+    $previous = this.$el.find('footer .page-nav .previous');
+    $next = this.$el.find('footer .page-nav .next');
+    
+    // check
+    if (!page_info.prev) { $previous.addClass('disabled'); }
+    else { $previous.removeClass('disabled'); }
+    
+    if (!page_info.next) { $next.addClass('disabled'); }
+    else { $next.removeClass('disabled'); }
+  },
+  
+  previous_page_button_click_handler : function(e) {
+    this.track_list_view.collection.previous_page();
+  },
+  
+  next_page_button_click_handler : function(e) {
+    this.track_list_view.collection.next_page();
   },
 
 

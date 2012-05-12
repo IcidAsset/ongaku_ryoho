@@ -22,8 +22,12 @@ $red: #E0676C;
   font-family: 'Helvetica Neue', 'Lato', sans-serif;
 }
 
-@mixin alternate-font {
+@mixin lato-font {
   font-family: 'Lato', 'Helvetica Neue', sans-serif;
+}
+
+@mixin ptsans-font {
+  font-family: 'PT Sans', 'Lato', 'Helvetica Neue', sans-serif;
 }
 
 @mixin disable-user-select {
@@ -37,13 +41,13 @@ $red: #E0676C;
 html, body { min-height: 100% }
 
 body {
-  background: #615C60;
+  background: darken(#615C60, 4%);
   font-size: 13px;
   line-height: 16px;
   margin: $body_margin;
   overflow: hidden;
 
-  @include background-image(linear-gradient(#644E74, #724562, #944D5D));
+  // @include background-image(linear-gradient(#644E74, #724562, #944D5D));
   @include default-font;
 }
 
@@ -57,5 +61,5 @@ body {
     font-weight: normal;
     line-height: 18px;
 
-    @include alternate-font;
+    @include lato-font;
   }

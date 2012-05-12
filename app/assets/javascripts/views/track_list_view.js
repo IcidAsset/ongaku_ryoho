@@ -29,10 +29,10 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
    *  Render
    */
   render : function() {
-    var html = '';
-
+    var html, message, page_info, word;
+    
     // opening html
-    html += '<ol class="tracks">';
+    html = '<ol class="tracks">';
 
     // sources html
     this.collection.each(function(track) {
@@ -53,7 +53,23 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
     $(window).trigger('resize');
 
     // set footer contents
-    var message = this.$el.find('.track').length + ' tracks found';
+    if (this.count_tracks() === 0) {
+      message = "";
+
+    } else {
+      page_info = this.collection.page_info();
+      
+      word = {
+        pages: (page_info.pages === 1 ? 'page' : 'pages'),
+        tracks: (page_info.total === 1 ? 'track' : 'tracks')
+      };
+
+      message = page_info.total + ' ' + word.tracks +
+                ' found &mdash; page ' + page_info.page +
+                ' / ' + page_info.pages;
+
+    }
+    
     PlaylistView.set_footer_contents(message);
 
     // chain
@@ -68,6 +84,8 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
 
 
   fetched : function() {
+    PlaylistView.check_page_navigation();
+    
     if (this.count_tracks() === 0) {
       this.$el.html('<div class="nothing-here" />');
 

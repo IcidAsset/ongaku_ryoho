@@ -5,6 +5,9 @@
 #playlist
   .navigation
     nav
+      .button.change-sort-direction
+        .icon
+
       .button.show-current-track
         .icon
 
@@ -13,10 +16,10 @@
 
       .button.check-sources
         .icon
-      
+
       .button.show-source-manager
         .icon
-      
+
       .input-wrap.sort-by
         select
           option[selected="selected" value="artist"] Artist
@@ -24,14 +27,11 @@
           option[value="album"] Album
           option[value="created_at"] Added to library
         .icon
-      
-      .button.change-sort-direction
-        .icon
-      
+
       .input-wrap.search
         input type="text" name="search" title="Search"
         .icon
-  
+
   .list
     header
       .title
@@ -40,15 +40,18 @@
         span Artist
       .album
         span Album
-    
+
     .tracks-wrapper
       .nothing-here
-  
+
   footer
-    .intestines 0 tracks found
-  
-  
-  
+    .intestines
+    .page-nav
+      a.previous.disabled
+      a.next.disabled
+
+
+
   script#track_template type="text/template"
     |
       <li class="track">
@@ -56,6 +59,6 @@
         <div class="artist"><span><%= artist %></span></div>
         <div class="album"><span><%= album %></span></div>
       </li>
-  
+
   javascript:
     soundManagerFlashURL = "#{{asset_path('soundmanager2/dependencies/soundmanager2_flash9.swf')}}";
