@@ -163,13 +163,10 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
 
     // load forms
     $.when(
-      $.get('/buckets/new'),
       $.get('/servers/new')
 
-    ).then(function(buckets_form, servers_form) {
-      $forms_wrapper
-        .append( buckets_form[0] )
-        .append( servers_form[0] );
+    ).then(function(servers_form) {
+      $forms_wrapper.append( servers_form );
 
       $forms = $forms_wrapper.children('form');
       $forms.find('input').labelify();

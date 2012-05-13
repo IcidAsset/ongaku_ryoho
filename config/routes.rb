@@ -11,7 +11,6 @@ OngakuRyoho::Application.routes.draw do
   end
 
   resources :servers, :except => [:index]
-  resources :buckets, :except => [:index]
 
   # sessions/users
   get 'logout' => 'sessions#destroy', :as => 'logout'
