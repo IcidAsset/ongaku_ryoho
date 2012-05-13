@@ -1,10 +1,11 @@
 class User
-  include MongoMapper::Document
+  include Mongoid::Document
+  include Mongoid::Timestamps
 
-  key :email,       String
-  key :password,    String
+  field :email,       type: String
+  field :password,    type: String
 
-  many :sources
+  embeds_many :sources
 
   authenticates_with_sorcery!
 

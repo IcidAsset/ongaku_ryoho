@@ -1,13 +1,11 @@
 class Source
-  include MongoMapper::EmbeddedDocument
+  include Mongoid::Document
+  include Mongoid::Timestamps
   
-  key :activated,   Boolean
-  key :in_queue,    Boolean,   :default => false
-  key :status,      String,    :required => true
+  field :activated,   type: Boolean
+  field :status,      type: String,    required: true
   
-  many :tracks
+  embeds_many :tracks
   embedded_in :user
-  
-  timestamps!
   
 end

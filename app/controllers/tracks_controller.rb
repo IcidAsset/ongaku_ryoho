@@ -6,7 +6,7 @@ class TracksController < ApplicationController
     tracks = []
     
     # get tracks from sources
-    sources = current_user.sources.select { |source| source.activated == true }
+    sources = current_user.sources.where(activated: true).all
     sources.each do |source|
       next unless source.available?
       

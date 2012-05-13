@@ -1,7 +1,7 @@
 class Server < Source
   
-  key :name,       String,   :required => true
-  key :location,   String,   :required => true
+  field :name,       type: String,   required: true
+  field :location,   type: String,   required: true
   
   alias :label :location
   
@@ -28,14 +28,11 @@ class Server < Source
   
   # check if there is any music added or removed from the server
   # and then add and/or remove from the database
-  def check
+  def check_tracks
     require 'net/http'
     
-    # set
-    server = Server.find(self.user, self.id.to_s, { return_array: true })
-    
     # processing
-    Server.set_on_each(server, :status, 'processing')
+    self.status = 'processing'
     
     # make file list
     file_list = []
@@ -49,8 +46,8 @@ class Server < Source
       uri      = URI.parse(self.location + 'check')
       response = Net::HTTP.post_form(uri, { file_list: file_list.to_json })
     rescue
-      Server.set_on_each(server, :status, 'processed', { dont_save: true })
-      Server.set_on_each(server, :in_queue, false)
+      self.status = 'processed'
+      self.save
       
       return false
     end
@@ -65,39 +62,36 @@ class Server < Source
       self.tracks.delete_if { |track| track.location === missing_file_location }
     end
     
-    server[0].tracks = self.tracks
-    
     # new_tracks
-    Server.add_new_tracks_to_each(server, new_tracks, { dont_save: true })
+    Server.add_new_tracks(self, new_tracks)
     
     # last checked
-    Server.set_on_each(server, :status, "last updated at #{ Time.now.strftime('%d %b %y / %I:%M %p') }", { dont_save: true })
-    Server.set_on_each(server, :in_queue, false)
+    self.status = "last updated at #{ Time.now.strftime('%d %b %y / %I:%M %p') }"
 
     # did something change?
-    changed = new_tracks.length + missing_files.length === 0 ? false : true 
+    changed = (new_tracks.length + missing_files.length === 0) ? false : true 
 
+    # the end
+    self.save
+    
     # return
     return changed
   end
 
 
-  def process
+  def process_tracks
     require 'net/http'
 
-    # set
-    server = Server.find(self.user, self.id.to_s, { return_array: true })
-
     # processing
-    Server.set_on_each(server, :status, 'processing')
+    self.status = 'processing'
     
     # get json data from server
     begin
       uri     = URI.parse(self.location)
       reponse = Net::HTTP.get(uri)
     rescue
-      Server.set_on_each(server, :status, 'unprocessed / server not found', { dont_save: true })
-      Server.set_on_each(server, :in_queue, false)
+      self.status = 'unprocessed / server not found'
+      self.save
       
       return false
     end
@@ -107,48 +101,28 @@ class Server < Source
     
     # no music =(
     if tracks.empty?
-      Server.set_on_each(server, :status, 'unprocessed / no music found', { dont_save: true })
-      Server.set_on_each(server, :in_queue, false)
+      self.status = 'unprocessed / no music found'
+      self.save
 
       return false
     end
     
     # put them tracks in them database
-    Server.add_new_tracks_to_each(server, tracks)
-    Server.set_on_each(server, :in_queue, false)
+    Server.add_new_tracks(self, tracks)
+    
+    # the end
+    self.save
   end
 
 
-  def self.add_new_tracks_to_each(selected_servers, new_tracks, options={})
-    selected_servers.each do |server|
-      new_tracks.each do |new_track_tags|
-        new_track_tags['url'] = server.location + new_track_tags['location']
-        
-        track = Track.new(new_track_tags)
-        server.tracks << track
-      end
-
-      server.status = 'processed'
-      server.activated = true
-      server.user.save unless options[:dont_save]
+  def self.add_new_tracks(server, new_tracks)
+    new_tracks.each do |new_track_tags|
+      new_track_tags['url'] = server.location + new_track_tags['location']
+      server.tracks.build(new_track_tags)
     end
-  end
 
-
-  def self.set_on_each(selected_servers, attribute, value, options={})
-    selected_servers.each do |server|
-      server[attribute] = value
-      server.user.save unless options[:dont_save]
-    end
-  end
-
-
-  def self.find(user, id, options={})
-    server = user.sources.select { |source|
-      source._type == 'Server' and source.id.to_s == id
-    }
-
-    return options[:return_array] ? server : server.try(:first)
+    server.status = 'processed'
+    server.activated = true
   end
 
 end

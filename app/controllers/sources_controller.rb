@@ -20,7 +20,7 @@ class SourcesController < ApplicationController
     source = current_user.sources.find(params[:id])
     
     # process if needed
-    source.process if source and source.status.include?('unprocessed') and !source.status.include?('processing')
+    source.process_tracks if source and source.status.include?('unprocessed') and !source.status.include?('processing')
   end
   
   # GET 'sources/:id/check'
@@ -28,7 +28,7 @@ class SourcesController < ApplicationController
     source = current_user.sources.find(params[:id])
     
     # check if possible
-    render json: { changed: source.check } if source and !source.status.include?('processing')
+    render json: { changed: source.check_tracks } if source and !source.status.include?('processing')
   end
   
 end

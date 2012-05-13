@@ -1,8 +1,8 @@
 class Bucket < Source
 
-  key :access_key_id,       String,   :required => true
-  key :secret_access_key,   String,   :required => true
-  key :bucket,              String,   :required => true
+  field :access_key_id,       type: String,   required: true
+  field :secret_access_key,   type: String,   required: true
+  field :bucket,              type: String,   required: true
 
   alias :label :bucket
 
@@ -17,25 +17,24 @@ class Bucket < Source
 
   # check if there is any music added or removed from the s3 bucket
   # and then add and/or remove from the database
-  def check
+  def check_tracks
     return false
   end
 
 
-  def process
+  def process_tracks
     require 'open-uri'
 
-    # set
-    bucket = Bucket.find(self.user, self.id.to_s, { return_array: true })
-
     # processing
-    Bucket.set_on_each(bucket, :status, 'processing')
+    self.status = 'processing'
 
     # get s3 bucket
     s3_bucket = Bucket.get_s3_bucket(self)
 
     unless s3_bucket
-      Bucket.set_on_each(bucket, :status, 'unprocessed / bucket not found')
+      self.status = 'unprocessed / bucket not found'
+      self.save
+      
       return false
     end
 
@@ -45,7 +44,8 @@ class Bucket < Source
       json_file = json_s3_object.content
 
     rescue
-      Bucket.set_on_each(bucket, :status, 'unprocessed / \'ongaku_ryoho.json\' not found')
+      self.status = 'unprocessed / \'ongaku_ryoho.json\' not found'
+      self.save
 
       return false
     end
@@ -55,13 +55,17 @@ class Bucket < Source
 
     # no music =(
     if tracks.empty?
-      Server.set_on_each(server, :status, 'unprocessed / no music found')
+      self.status = 'unprocessed / no music found'
+      self.save
 
       return false
     end
 
     # put them tracks in them database
-    Bucket.add_new_tracks_to_each(bucket, s3_bucket, tracks)
+    Bucket.add_new_tracks(self, s3_bucket, tracks)
+    
+    # the end
+    self.save
   end
 
 
@@ -79,36 +83,16 @@ class Bucket < Source
   end
 
 
-  def self.add_new_tracks_to_each(selected_buckets, s3_bucket, new_tracks, options={})
+  def self.add_new_tracks(bucket, s3_bucket, new_tracks)
     s3_objects = s3_bucket.objects
 
-    selected_buckets.each do |bucket|
-      new_tracks.each do |new_track_tags|
-        s3_object = s3_objects.select { |x| x.key == new_track_tags['location'] }.first
-        bucket.tracks << Track.new( new_track_tags.merge({ url: s3_object.url }) ) if s3_object
-      end
-
-      bucket.status = 'processed'
-      bucket.activated = true
-      bucket.user.save unless options[:dont_save]
+    new_tracks.each do |new_track_tags|
+      s3_object = s3_objects.select { |x| x.key == new_track_tags['location'] }.first
+      bucket.tracks.build( new_track_tags.merge({ url: s3_object.url }) ) if s3_object
     end
-  end
 
-
-  def self.set_on_each(selected_buckets, attribute, value, options={})
-    selected_buckets.each do |bucket|
-      bucket[attribute] = value
-      bucket.user.save unless options[:dont_save]
-    end
-  end
-
-
-  def self.find(user, id, options={})
-    bucket = user.sources.select { |source|
-      source._type == 'Bucket' and source.id.to_s == id
-    }
-
-    return options[:return_array] ? bucket : bucket.try(:first)
+    bucket.status = 'processed'
+    bucket.activated = true
   end
 
 end

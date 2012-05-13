@@ -1,16 +1,16 @@
 class Track
-  include MongoMapper::EmbeddedDocument
+  include Mongoid::Document
 
-  key :title,      String
-  key :artist,     String
-  key :album,      String
-  key :genre,      String
+  field :title,      type: String
+  field :artist,     type: String
+  field :album,      type: String
+  field :genre,      type: String
 
-  key :tracknr,    Integer
-  key :year,       Integer
+  field :tracknr,    type: Integer
+  field :year,       type: Integer
 
-  key :filename,   String
-  key :location,   String
-  key :url,        String
+  field :filename,   type: String
+  field :location,   type: String
+  field :url,        type: String
 
 end

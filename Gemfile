@@ -4,9 +4,9 @@ gem 'rails', '~> 3.2'
 gem 'rack'
 gem 'unicorn'
 
-gem 'mongo_mapper'
+gem 'mongoid'
 gem 'bson_ext'
-gem 'sorcery', '0.7.10'
+gem 'sorcery'
 gem 's3', :git => 'git://github.com/alexstaubo/s3.git'
 
 group :assets do

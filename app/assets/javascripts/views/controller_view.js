@@ -330,7 +330,7 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     
     // create sound
     var new_sound = soundManager.createSound({
-      id:             track_attributes.id,
+      id:             track_attributes._id,
       url:            track_attributes.url,
       
       volume:         0,

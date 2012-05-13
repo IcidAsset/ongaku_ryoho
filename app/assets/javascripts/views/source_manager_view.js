@@ -128,12 +128,12 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
 
 
   process_source : function(source) {
-    return $.get('/sources/' + source.get('id') + '/process');
+    return $.get('/sources/' + source.get('_id') + '/process');
   },
 
 
   check_source : function(source) {
-    return $.get('/sources/' + source.get('id') + '/check');
+    return $.get('/sources/' + source.get('_id') + '/check');
   },
 
 
