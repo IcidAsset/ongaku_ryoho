@@ -9,7 +9,7 @@
    *  Navigation
    */
   .navigation {
-    height: 51px;
+    height: 52px;
 
     @include background-image(
       linear-gradient(lighten(#757a80, 3%), darken(#4b4e52, 3%))
@@ -17,7 +17,7 @@
 
     &, & > nav { overflow: hidden }
        & > nav {
-      height: 49px;
+      height: 50px;
       margin: 1px;
       padding-left: 10px;
       padding-right: 10px;
