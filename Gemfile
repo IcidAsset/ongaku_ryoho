@@ -20,5 +20,7 @@ gem 'rails-backbone'
 gem 'fugue_icons_shadowless_rails'
 
 group :test do
-  gem 'turn', '0.8.2', :require => false
+  gem 'turn', :require => false
+  gem 'mongoid-minitest'
+  gem 'factory_girl_rails', '~> 3.0'
 end

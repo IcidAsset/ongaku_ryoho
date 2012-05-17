@@ -16,8 +16,6 @@ class ServersController < ApplicationController
   def create
     server = Server.new(params[:server])
 
-    server.activated = false
-    server.status = 'unprocessed'
     server.location = "http://#{server.location}" unless server.location.include?('http://')
     server.location << (server.location.end_with?('/') ? '' : '/')
     server.name = server.location.gsub('http://', '').gsub('/', '')
