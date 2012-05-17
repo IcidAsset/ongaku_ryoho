@@ -58,9 +58,7 @@ class Server < Source
     new_tracks     = parsed_reponse['new_tracks']
     
     # missing files
-    missing_files.each do |missing_file_location|
-      self.tracks.delete_if { |track| track.location === missing_file_location }
-    end
+    Server.remove_tracks(self, missing_files)
     
     # new_tracks
     Server.add_new_tracks(self, new_tracks)
@@ -111,6 +109,7 @@ class Server < Source
     Server.add_new_tracks(self, tracks)
     
     # the end
+    server.status = 'processed'
     self.save
   end
 
@@ -120,9 +119,13 @@ class Server < Source
       new_track_tags['url'] = server.location + new_track_tags['location']
       server.tracks.build(new_track_tags)
     end
-
-    server.status = 'processed'
+    
     server.activated = true
+  end
+  
+  
+  def self.remove_tracks(server, missing_files)
+    server.tracks.any_in(location: missing_files).delete_all
   end
 
 end

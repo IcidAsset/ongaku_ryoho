@@ -12,5 +12,7 @@ class Track
   field :filename,   type: String
   field :location,   type: String
   field :url,        type: String
+  
+  embedded_in :source
 
 end
