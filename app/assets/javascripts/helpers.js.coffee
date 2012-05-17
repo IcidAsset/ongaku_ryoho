@@ -92,7 +92,7 @@ window.helpers =
   #
   #  Check theather mode cookie
   #
-  check_theater_mode_cookie : (options={}) ->
+  check_theater_mode_cookie: (options={}) ->
     cookie = $.cookie('theater_mode_state')
 
     # check
