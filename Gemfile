@@ -7,12 +7,11 @@ gem 'unicorn'
 gem 'mongoid'
 gem 'bson_ext'
 gem 'sorcery'
-gem 's3', :git => 'git://github.com/alexstaubo/s3.git'
 
 group :assets do
   gem 'sass-rails',    '~> 3.2.3'
   gem 'coffee-rails',  '~> 3.2.1'
-  gem 'compass-rails', '~> 1.0.0.rc'
+  gem 'compass-rails', '~> 1.0.0'
   gem 'uglifier',      '>= 1.0.3'
 end
 
