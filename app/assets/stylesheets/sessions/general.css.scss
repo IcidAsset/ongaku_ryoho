@@ -1,7 +1,7 @@
 #wrapper {
   left: 50%;
   margin-left: -(364px / 2);
-  margin-top: -116px;
+  margin-top: -(274px / 2);
   position: absolute;
   top: 50%;
   width: 364px;
@@ -10,40 +10,42 @@
 }
 
 h1 {
-  color: rgba($dark_purple, .275);
+  color: rgba(black, .275);
   font: normal 40px 'OstrichSans', sans-serif;
   text-align: center;
 }
 
 .flash {
-  border: 1px dashed rgba($dark_purple, .115);
-  color: rgba($dark_purple, .475);
+  border: 1px dashed rgba(black, .175);
+  color: rgba(black, .65);
   font-style: italic;
   margin-top: 23px;
-  padding: 14px 13px 13px 38px;
+  padding: 15px 13px 15px 43px;
   position: relative;
 
   i {
     background-position: left center;
     background-repeat: no-repeat;
-    height: 16px;
+    font-family: "IcoMoon";
+    font-size: 18px;
+    height: 18px;
     left: 13px;
-    margin-top: -7px;
+    margin-top: -8px;
     position: absolute;
     top: 50%;
-    width: 16px;
+    width: 18px;
 
     @include opacity(.75);
   }
 }
 
 .flash.alert {
-  // i { background-image: image-url('fugue-icons-shadowless/user-gray.png') }
+  i:after { content: "\002c" }
 }
 
 .flash.error {
-  border-color: rgba(#d41f1f, .135);
-  color: rgba(#d41f1f, .475);
+  border-color: rgba(#E0676C, .35);
+  color: rgba(#E0676C, .8);
 
-  // i { background-image: image-url('fugue-icons-shadowless/fire-big.png') }
+  i:after { content: "\005f" }
 }
