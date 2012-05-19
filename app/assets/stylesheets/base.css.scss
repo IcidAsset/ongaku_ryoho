@@ -17,6 +17,7 @@ $body_margin: 50px;
 $controller_width: 321px;
 
 $red: #E0676C;
+$yellow: #FFDD00;
 
 @mixin default-font {
   font-family: 'Helvetica Neue', 'Lato', sans-serif;
@@ -28,6 +29,10 @@ $red: #E0676C;
 
 @mixin ptsans-font {
   font-family: 'PT_Sans', 'PT Sans', 'Lato', 'Helvetica Neue', sans-serif;
+}
+
+@mixin icon-font {
+  font-family: 'IcoMoon';
 }
 
 @mixin disable-user-select {

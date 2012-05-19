@@ -1,7 +1,9 @@
 OngakuRyoho.Views.TrackList = Backbone.View.extend({
 
   events : {
-    'dblclick .track' : 'play_track'
+    'dblclick .track' : 'play_track',
+    'mouseenter .track .rating i' : 'track_rating_star_mouseenter',
+    'mouseleave .track .rating i' : 'track_rating_star_mouseleave'
   },
 
 
@@ -142,7 +144,7 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
 
 
   /**************************************
-   *  Activate scrollbar
+   *  Has scrollbar?
    */
   has_scrollbar : function() {
     return (this.$el.children('.scrollbar-pane').length !== 0);
@@ -195,6 +197,34 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
    */
   count_tracks : function() {
     return this.$el.find('.track').length;
+  },
+  
+  
+  /**************************************
+   *  Track rating star mouseenter event
+   */
+  track_rating_star_mouseenter : function(e) {
+    var $t;
+    
+    // set
+    $t = $(e.currentTarget);
+    
+    // add class
+    $t.parent().find('i').slice(0, $t.index() + 1).addClass('light-up');
+  },
+  
+  
+  /**************************************
+   *  Track rating star mouseleave event
+   */
+  track_rating_star_mouseleave : function(e) {
+    var $t;
+    
+    // set
+    $t = $(e.currentTarget);
+    
+    // add class
+    $t.parent().find('i').removeClass('light-up');
   }
 
 

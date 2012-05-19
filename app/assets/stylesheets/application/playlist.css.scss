@@ -139,16 +139,17 @@
     header, .track {
       overflow: hidden;
 
-      .title, .artist, .album { float: left }
+      .title, .artist, .album, .rating { float: left }
 
-      .title  { width: 40% }
-      .artist { width: 30% }
-      .album  { width: 30% }
+      .title  { width: 34% }
+      .artist { width: 25% }
+      .album  { width: 25% }
+      .rating { width: 16% }
 
       span { display: block; padding: 0 7px }
 
       .title span { padding-left: 10px }
-      .album span { padding-right: 10px }
+      .rating span { padding-right: 10px }
     }
 
     header {
@@ -165,7 +166,7 @@
       @include lato-font;
 
       span { border-right: 1px solid #f0f0f0 }
-      .album span { border: none }
+      .rating span { border: none }
     }
 
     .tracks-wrapper {
@@ -185,19 +186,50 @@
       color: lighten(#4a4a4a, 10%);
       cursor: pointer;
       height: 26px;
-      line-height: 28px;
+      line-height: 30px;
       white-space: nowrap;
 
       &.alt { background-color: #fbfbfb }
       
       &.playing {
         background-color: $red;
-        & > div { color: lighten($red, 27.5%) }
+        
+        & > div, .rating i { color: lighten($red, 27.5%) }
       }
       
       &:active {
         background: #00ccff;
-        & > div { color: lighten(#00ccff, 42.5%) }
+        
+        & > div, .rating i { color: lighten(#00ccff, 42.5%) }
+      }
+      
+      .rating {
+        line-height: 26px;
+        
+        &:hover span i:nth-child(-n+5) {
+          opacity: .35;
+        }
+        
+        i {
+          color: #aaa;
+          font-size: 13px;
+          opacity: .35;
+          
+          @include icon-font;
+        }
+        
+        &[data-rating="5"] i:nth-child(-n+5),
+        &[data-rating="4"] i:nth-child(-n+4),
+        &[data-rating="3"] i:nth-child(-n+3),
+        &[data-rating="2"] i:nth-child(-n+2),
+        &[data-rating="1"] i:nth-child(-n+1) { opacity: 1 }
+        
+        i.light-up {
+          color: $yellow;
+          opacity: 1 !important
+        }
+        
+        i:after { content: "\0039" }
       }
 
       span { overflow: hidden; text-overflow: ellipsis }

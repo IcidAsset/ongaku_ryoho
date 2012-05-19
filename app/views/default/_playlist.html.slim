@@ -40,6 +40,8 @@
         span Artist
       .album
         span Album
+      .rating
+        span Rating
 
     .tracks-wrapper
       .nothing-here
@@ -58,6 +60,7 @@
         <div class="title"><span><%= title %></span></div>
         <div class="artist"><span><%= artist %></span></div>
         <div class="album"><span><%= album %></span></div>
+        <div class="rating" data-rating="<%= 0 %>"><span><i></i><i></i><i></i><i></i><i></i></span></div>
       </li>
 
   javascript:

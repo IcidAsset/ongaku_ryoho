@@ -1,3 +1,50 @@
 #special-filters {
   margin-top: 26px;
 }
+
+
+
+/**************************************
+ *  Favourites
+ */
+#special-filters #favourites {
+  
+  a[href="favourites"] {
+    border: 1px solid rgba(black, .13);
+    color: rgba(#fff, .87);
+    display: block;
+    text-decoration: none;
+    
+    & > div {
+      border-top: 3px solid rgba(black, .07);
+      padding: 7px 17px 10px;
+      position: relative;
+    }
+    
+    span {
+      font-weight: 600;
+      line-height: 20px;
+    }
+    
+    i {
+      font-size: 15px;
+      height: 16px;
+      line-height: 16px;
+      margin-top: -8px;
+      opacity: .4;
+      position: absolute;
+      right: 17px;
+      text-align: right;
+      top: 50%;
+      width: 16px;
+    }
+    
+    &:hover {
+      color: rgba($yellow, 1);
+      
+      & > div { border-top-color: rgba(black, .09) }
+      & > div i { opacity: 1 }
+    }
+  }
+  
+}
