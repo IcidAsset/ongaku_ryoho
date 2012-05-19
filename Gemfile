@@ -17,7 +17,6 @@ end
 
 gem 'slim'
 gem 'rails-backbone'
-gem 'fugue_icons_shadowless_rails'
 
 group :test do
   gem 'turn', :require => false
