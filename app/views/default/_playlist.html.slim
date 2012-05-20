@@ -6,19 +6,19 @@
   .navigation
     nav
       .button.change-sort-direction
-        .icon.icon-arrow-22
+        .icon[data-icon="&#xe032;"]
 
       .button.show-current-track
-        .icon.icon-song
+        .icon[data-icon="&#x0074;"]
 
       .button.theater-mode
-        .icon.icon-sun-2
+        .icon[data-icon="&#xe02d;"]
 
       .button.check-sources
-        .icon.icon-install
+        .icon[data-icon="&#x007a;"]
 
       .button.show-source-manager
-        .icon.icon-flash
+        .icon[data-icon="&#x0053;"]
 
       .input-wrap.sort-by
         select
@@ -29,7 +29,7 @@
         .icon
 
       .input-wrap.search
-        input type="text" name="search" title="Search"
+        input type="text" name="search" placeholder="Search"
         .icon
 
   .list
@@ -49,8 +49,8 @@
   footer
     .intestines
     .page-nav
-      a.previous.icon-triangle.disabled
-      a.next.icon-triangle-4.disabled
+      a.previous.disabled.icon[data-icon="&#xe020;"]
+      a.next.disabled.icon[data-icon="&#xe023;"]
 
 
 
@@ -60,7 +60,7 @@
         <div class="title"><span><%= title %></span></div>
         <div class="artist"><span><%= artist %></span></div>
         <div class="album"><span><%= album %></span></div>
-        <div class="rating" data-rating="<%= 0 %>"><span><i></i><i></i><i></i><i></i><i></i></span></div>
+        <div class="rating" data-rating="<%= 0 %>"><span></span></div>
       </li>
 
   javascript:

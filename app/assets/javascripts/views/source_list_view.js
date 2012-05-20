@@ -33,11 +33,6 @@ OngakuRyoho.Views.SourceList = Backbone.View.extend({
     // set html
     this.$el.html(html);
     
-    // scrollbar
-    this.$el
-      .find('.source-list')
-      .scrollbar({ arrows: false });
-    
     // chain
     return this;
   }

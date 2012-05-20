@@ -43,10 +43,15 @@ $yellow: #FFDD00;
   user-select: none;
 }
 
+@mixin input-placeholder($color) {
+  &:-moz-placeholder { color: $color }
+  &::-webkit-input-placeholder { color: $color } 
+}
+
 html, body { min-height: 100% }
 
 body {
-  background: darken(#615C60, 4%);
+  background: darken(#615C60, 4%) image-url('background.png') 0 0 repeat;
   font-size: 13px;
   line-height: 16px;
   margin: $body_margin;

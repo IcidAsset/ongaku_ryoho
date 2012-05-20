@@ -21,7 +21,7 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
   initialize : function() {
     _.bindAll(this,
       'show_source_manager', 'show_current_track',
-      'setup_search', 'search_input_change', 'search', 'search_success',
+      'search_input_change', 'search', 'search_success',
       'theater_mode_button_click_handler',
       'check_sources_button_click_handler',
       'check_page_navigation',
@@ -37,7 +37,6 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
 
     // search
     this.$search = this.$el.find('.navigation .search input');
-    this.setup_search();
 
     // get content
     $.when(Sources.fetch())
@@ -105,11 +104,6 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
   /**************************************
    *  Search
    */
-  setup_search : function() {
-    this.$search.labelify();
-  },
-
-
   search_input_change : function(e) {
     var $t, value;
 
@@ -145,8 +139,8 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
 
 
   /**************************************
-  *  A bit of everything
-  */
+   *  A bit of everything
+   */
   show_current_track : function() {
     var $current_track;
 
@@ -154,8 +148,8 @@ OngakuRyoho.Views.Playlist = Backbone.View.extend({
     $current_track = this.track_list_view.$el.find('.track.playing');
 
     // scroll to current track
-    if ($current_track.length && PlaylistView.track_list_view.has_scrollbar()) {
-      this.track_list_view.$el.scrollbar('scrollto', $current_track.position().top);
+    if ($current_track.length) {
+      this.track_list_view.$el.scrollTop($current_track.position().top);
     }
   },
 

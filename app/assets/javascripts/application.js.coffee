@@ -17,11 +17,6 @@
 #= require 'backbone'
 #= require 'backbone_rails_sync'
 #= require 'backbone_datalink'
-#= require 'mousewheel'
-#= require 'scroll'
-#= require 'chosen'
-#= require 'noisy'
-#= require 'labelify'
 #= require 'spin'
 #= require 'jquery-cookie'
 #= require 'soundmanager2/soundmanager2'
@@ -62,6 +57,3 @@ $(document).ready ->
 
   # helpers
   helpers.initialize_after()
-
-  # background
-  $('body').noisy intensity: 0.9, opacity: 0.125

@@ -141,16 +141,11 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
    *  Setup add forms
    */
   setup_add_section : function($add_section) {
-    var $select,
-        $forms_wrapper,
-        $forms;
+    var $select, $forms_wrapper;
 
     // set elements
     $select = $add_section.find('.select-wrapper select');
     $forms_wrapper = $add_section.find('.forms-wrapper');
-
-    // activate chosen plugin on 'source select'
-    $select.chosen();
 
     // when the 'source selection' has changed
     $select.on('change', function() {
@@ -167,9 +162,7 @@ OngakuRyoho.Views.SourceManager = Backbone.View.extend({
 
     ).then(function(servers_form) {
       $forms_wrapper.append( servers_form );
-
-      $forms = $forms_wrapper.children('form');
-      $forms.find('input').labelify();
+      $forms_wrapper.children('form:first').show(0);
 
     });
   },

@@ -12,8 +12,8 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
    */
   initialize : function() {
     _.bindAll(this,
-      'render', 'resize', 'activate_scrollbar',
-      'fetching', 'fetched', 'has_scrollbar', 'add_playing_class_to_track'
+      'render', 'resize', 'fetching', 'fetched',
+      'add_playing_class_to_track'
     );
 
     this.collection = Tracks;
@@ -51,7 +51,7 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
     // odd
     this.$el.find('.track:odd').addClass('alt');
 
-    // trigger resize for the scrollbar
+    // trigger resize
     $(window).trigger('resize');
 
     // set footer contents
@@ -114,46 +114,13 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
 
         $tw = this.$el;
 
-    if ($tw) {
-
-      // height
-      $tw.height(new_height);
-
-      // scrollbar
-      if ($tw.find('ol.tracks').height() <= new_height) {
-        $tw.scrollbar('unscrollbar');
-
-      } else if (!this.has_scrollbar()) {
-        this.activate_scrollbar();
-
-      } else {
-        $tw.scrollbar('repaint');
-
-      }
-
-    }
-  },
-
-
-  /**************************************
-   *  Activate scrollbar
-   */
-  activate_scrollbar : function() {
-    this.$el.scrollbar({ arrows: false });
-  },
-
-
-  /**************************************
-   *  Has scrollbar?
-   */
-  has_scrollbar : function() {
-    return (this.$el.children('.scrollbar-pane').length !== 0);
+    if ($tw) { $tw.height(new_height); }
   },
   
   
   /**************************************
-  *  Add playing class to track
-  */
+   *  Add playing class to track
+   */
   add_playing_class_to_track : function(track) {
     var $track;
     

@@ -9,7 +9,7 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
   #
   initialize: () ->
     @page = 1
-    @per_page = 1000
+    @per_page = 500
     @filter = ""
     @sort_by = "artist"
     @sort_direction = "asc"
@@ -86,7 +86,7 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
     if @page > 1
       info.prev = @page - 1
 
-    if @page < @pages
+    if @page < info.pages
       info.next = @page + 1
 
     # return

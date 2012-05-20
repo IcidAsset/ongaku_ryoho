@@ -108,7 +108,10 @@
       @include box-sizing(border-box);
 
       &:focus { outline: none }
-      &.labelify { color: #6c7075 }
+    }
+    
+    input {
+      @include input-placeholder(#6c7075);
     }
     
     select {
@@ -171,6 +174,7 @@
 
     .tracks-wrapper {
       min-height: 228px;
+      overflow: auto;
       position: relative;
     }
 

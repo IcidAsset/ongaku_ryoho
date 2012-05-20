@@ -140,12 +140,15 @@ $section-height:  288px;
       input[type=text] {
         background: #fcfcfc;
         border: 1px solid #f2f2f2;
-        color: #d3d3d3;
+        color: #3d3f42;
         margin-top: 0;
         padding: 7px 7px 5px;
         
-        &.dont, &:focus { color: #3d3f42 }
+        -webkit-appearance: none;
+        
         &:focus { outline: none }
+        
+        @include input-placeholder(#d3d3d3);
       }
       
       input[type=submit] {

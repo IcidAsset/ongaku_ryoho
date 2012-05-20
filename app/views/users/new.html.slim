@@ -4,13 +4,13 @@ h1 New user
 
   .fields
     .text
-      = f.text_field :email, title: "ongaku@ryoho.com"
+      = f.text_field :email, placeholder: "ongaku@ryoho.com"
 
     .text
-      = f.password_field :password, title: "password"
+      = f.password_field :password, placeholder: "password"
 
     .text
-      = f.password_field :password_confirmation, title: "password"
+      = f.password_field :password_confirmation, placeholder: "repeat password"
 
     .submit
       = f.submit

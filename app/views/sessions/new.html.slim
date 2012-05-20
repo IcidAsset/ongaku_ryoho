@@ -6,10 +6,10 @@ h1 Ongaku Ryoho
     = hidden_field_tag :remember_me, 1
 
     .text
-      = text_field_tag :email, params[:email], title: "ongaku@ryoho.com"
+      = text_field_tag :email, params[:email], placeholder: "ongaku@ryoho.com"
 
     .text
-      = password_field_tag :password, "", title: "password"
+      = password_field_tag :password, "", placeholder: "password"
 
     .submit
       = submit_tag "LOG IN"

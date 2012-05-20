@@ -17,15 +17,3 @@ html
 
       - flash.each do |name, msg|
         = content_tag :div, content_tag(:i) + msg, class: "flash #{name}"
-
-    = javascript_include_tag 'jquery'
-    = javascript_include_tag 'noisy'
-    = javascript_include_tag 'labelify'
-
-    javascript:
-      $('body').noisy({
-        intensity: 0.9,
-        opacity: 0.125
-      });
-
-      $('input').labelify();
