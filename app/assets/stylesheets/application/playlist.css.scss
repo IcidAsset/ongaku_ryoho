@@ -142,17 +142,17 @@
     header, .track {
       overflow: hidden;
 
-      .title, .artist, .album, .rating { float: left }
+      .favourite, .title, .artist, .album { float: left }
 
-      .title  { width: 34% }
-      .artist { width: 25% }
-      .album  { width: 25% }
-      .rating { width: 16% }
+      .favourite { width: 10px + 7 + 12 }
+      .title  { width: 38% }
+      .artist { width: 28% }
+      .album  { width: 28% }
 
       span { display: block; padding: 0 7px }
 
-      .title span { padding-left: 10px }
-      .rating span { padding-right: 10px }
+      .favourite span { padding-left: 10px; @include icon-font }
+      .album span { padding-right: 10px }
     }
 
     header {
@@ -169,7 +169,7 @@
       @include lato-font;
 
       span { border-right: 1px solid #f0f0f0 }
-      .rating span { border: none }
+      .album span { border: none }
     }
 
     .tracks-wrapper {
@@ -193,50 +193,49 @@
       line-height: 30px;
       white-space: nowrap;
 
-      &.alt { background-color: #fbfbfb }
+      &.alt {
+        background-color: #fbfbfb;
+      }
       
       &.playing {
         background-color: $red;
         
-        & > div, .rating i { color: lighten($red, 27.5%) }
+        & > div { color: lighten($red, 27.5%) }
+        .favourite { color: lighten($red, 13.75%) }
+        
+        .favourite[data-favourite=true],
+        .favourite:hover { color: lighten($red, 27.5%) !important }
       }
       
       &:active {
         background: #00ccff;
         
-        & > div, .rating i { color: lighten(#00ccff, 42.5%) }
+        & > div { color: lighten(#00ccff, 42.5%) }
+        .favourite { color: lighten(#00ccff, 21.25%) }
+        
+        .favourite[data-favourite=true],
+        .favourite:hover { color: lighten(#00ccff, 42.5%) !important }
       }
       
-      .rating {
+      .favourite {
+        cursor: pointer;
+        font-size: 13px;
         line-height: 26px;
         
-        &:hover span i:nth-child(-n+5) {
-          opacity: .35;
-        }
-        
-        i {
-          color: #aaa;
-          font-size: 13px;
-          opacity: .35;
-          
-          @include icon-font;
-        }
-        
-        &[data-rating="5"] i:nth-child(-n+5),
-        &[data-rating="4"] i:nth-child(-n+4),
-        &[data-rating="3"] i:nth-child(-n+3),
-        &[data-rating="2"] i:nth-child(-n+2),
-        &[data-rating="1"] i:nth-child(-n+1) { opacity: 1 }
-        
-        i.light-up {
+        &:hover,
+        &[data-favourite=true] {
           color: $yellow;
-          opacity: 1 !important
         }
         
-        i:after { content: "\0039" }
+        &, &[data-favourite=true]:hover {
+          color: rgba(#aaa, .2);
+        }
       }
 
-      span { overflow: hidden; text-overflow: ellipsis }
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     .nothing-here {
@@ -298,9 +297,6 @@
       
       &.disabled { @include opacity(.45) }
     }
-    
-    //.page-nav .previous { background-image: image-url('playlist/arrow_left.png') }
-    //.page-nav .next { background-image: image-url('playlist/arrow_right.png') }
   }
 
 }

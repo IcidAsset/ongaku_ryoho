@@ -34,14 +34,14 @@
 
   .list
     header
+      .favourite
+        span &nbsp;
       .title
         span Title
       .artist
         span Artist
       .album
         span Album
-      .rating
-        span Rating
 
     .tracks-wrapper
       .nothing-here
@@ -57,10 +57,10 @@
   script#track_template type="text/template"
     |
       <li class="track">
+        <div class="favourite" data-favourite="false"><span>&#x0039;</span></div>
         <div class="title"><span><%= title %></span></div>
         <div class="artist"><span><%= artist %></span></div>
         <div class="album"><span><%= album %></span></div>
-        <div class="rating" data-rating="<%= 0 %>"><span></span></div>
       </li>
 
   javascript:

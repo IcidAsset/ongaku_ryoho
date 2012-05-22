@@ -40,9 +40,10 @@
     }
     
     &:hover {
-      color: rgba($yellow, 1);
+      border-color: rgba(white, .13);
+      border-bottom-color: rgba(white, .28);
       
-      & > div { border-top-color: rgba(black, .09) }
+      & > div { border-top-color: rgba(white, .09) }
       & > div i { opacity: 1 }
     }
   }

@@ -13,40 +13,15 @@
 
 */
 
+@import 'mixins';
+
 $body_margin: 50px;
 $controller_width: 321px;
 
 $red: #E0676C;
-$yellow: #FFDD00;
+$yellow: #FBB829;
 
-@mixin default-font {
-  font-family: 'Helvetica Neue', 'Lato', sans-serif;
-}
 
-@mixin lato-font {
-  font-family: 'Lato', 'Helvetica Neue', sans-serif;
-}
-
-@mixin ptsans-font {
-  font-family: 'PT_Sans', 'PT Sans', 'Lato', 'Helvetica Neue', sans-serif;
-}
-
-@mixin icon-font {
-  font-family: 'IcoMoon';
-}
-
-@mixin disable-user-select {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-
-@mixin input-placeholder($color) {
-  &:-moz-placeholder { color: $color }
-  &::-webkit-input-placeholder { color: $color } 
-}
 
 html, body { min-height: 100% }
 
