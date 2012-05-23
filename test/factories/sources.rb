@@ -5,8 +5,8 @@ FactoryGirl.define do
   
   # server
   factory :server do
-    name 'test'
-    location 'localhost:4567'
+    name "test"
+    location "localhost:4567"
   end
 
 end
