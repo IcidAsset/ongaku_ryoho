@@ -35,6 +35,7 @@ $(document).ready ->
   $source_manager   = $('#source-manager')
   $message_center   = $('#message-center')
   $visualizations   = $('#visualizations')
+  $special_filters  = $('#special-filters')
 
   # helpers
   helpers.initialize_before()
@@ -46,10 +47,12 @@ $(document).ready ->
   window.Tracks               = new OngakuRyoho.Collections.Tracks
   window.Sources              = new OngakuRyoho.Collections.Sources
   window.Messages             = new OngakuRyoho.Collections.Messages
+  window.Favourites           = new OngakuRyoho.Collections.Favourites
 
   # backbone views
   window.MessageCenterView    = new OngakuRyoho.Views.MessageCenter({ el: $message_center })
   window.VisualizationsView   = new OngakuRyoho.Views.Visualizations({ el: $visualizations })
+  window.SpecialFiltersView   = new OngakuRyoho.Views.SpecialFilters({ el: $special_filters })
 
   window.ControllerView       = new OngakuRyoho.Views.Controller({ el: $controller })
   window.PlaylistView         = new OngakuRyoho.Views.Playlist({ el: $playlist })

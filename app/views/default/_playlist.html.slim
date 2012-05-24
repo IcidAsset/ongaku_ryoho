@@ -56,8 +56,8 @@
 
   script#track_template type="text/template"
     |
-      <li class="track">
-        <div class="favourite" data-favourite="false"><span>&#x0039;</span></div>
+      <li class="track<% if (!available) { %> unavailable<% } %>">
+        <div class="favourite" data-favourite="<%= favourite %>"><span>&#x0039;</span></div>
         <div class="title"><span><%= title %></span></div>
         <div class="artist"><span><%= artist %></span></div>
         <div class="album"><span><%= album %></span></div>

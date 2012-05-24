@@ -207,6 +207,10 @@
         .favourite:hover { color: lighten($red, 27.5%) !important }
       }
       
+      &.unavailable {
+        color: #999;
+      }
+      
       &:active {
         background: #00ccff;
         
@@ -218,6 +222,7 @@
       }
       
       .favourite {
+        color: rgba(#aaa, .2);
         cursor: pointer;
         font-size: 13px;
         line-height: 26px;
@@ -225,10 +230,6 @@
         &:hover,
         &[data-favourite=true] {
           color: $yellow;
-        }
-        
-        &, &[data-favourite=true]:hover {
-          color: rgba(#aaa, .2);
         }
       }
 

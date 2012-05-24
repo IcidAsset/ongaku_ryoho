@@ -6,6 +6,7 @@ class User
   field :password,    type: String
 
   embeds_many :sources
+  embeds_many :favourites
 
   authenticates_with_sorcery!
 

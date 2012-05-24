@@ -15,6 +15,38 @@ class TracksController < ApplicationController
     
     tracks.flatten!
     
+    # favourites
+    favourites = current_user.favourites.all
+    
+    tracks.each do |t|
+      favourite_matches = favourites.select { |f|
+        f.track_title == t.title and f.track_artist == t.artist
+      }
+      
+      t[:favourite] = favourite_matches.length > 0
+      t[:available] = true
+      
+      favourites = favourites - favourite_matches
+    end
+    
+    if params[:favourites] == "true"
+      favourite_tracks = tracks.select(&:favourite)
+      
+      favourites.each do |f|
+        favourite_tracks << Track.new({
+          title: f.track_title,
+          artist: f.track_artist,
+          album: "",
+          tracknr: "",
+          genre: "",
+          favourite: true,
+          available: false
+        })
+      end
+      
+      tracks = favourite_tracks
+    end
+    
     # filter
     unless params[:filter].blank?
       filter_regex = /^.*#{params[:filter]}.*$/i

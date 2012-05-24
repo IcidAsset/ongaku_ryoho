@@ -9,7 +9,7 @@
  */
 #special-filters #favourites {
   
-  a[href="favourites"] {
+  a[href="#/favourites"] {
     border: 1px solid rgba(black, .13);
     color: rgba(#fff, .87);
     display: block;
@@ -39,11 +39,12 @@
       width: 16px;
     }
     
-    &:hover {
-      border-color: rgba(white, .13);
-      border-bottom-color: rgba(white, .28);
+    &.on, &:hover {
+      color: rgba(white, .85);
       
-      & > div { border-top-color: rgba(white, .09) }
+      @include single-box-shadow(rgba(white, .1), 0, 0, 10px, 0, true);
+      
+      & > div { border-top-color: rgba(white, .1) }
       & > div i { opacity: 1 }
     }
   }

@@ -14,8 +14,8 @@ OngakuRyoho.Views.Visualizations = Backbone.View.extend({
   
   
   /**************************************
-  *  Visualize
-  */
+   *  Visualize
+   */
   visualize : function(type, data) {
     this[type](data);
   },

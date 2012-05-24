@@ -7,18 +7,21 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
   #
   #  Initialize
   #
-  initialize: () ->
+  initialize: () =>
     @page = 1
     @per_page = 500
     @filter = ""
     @sort_by = "artist"
     @sort_direction = "asc"
+    
+    # special filters
+    @favourites = off
 
 
   #
   #  Fetch
   #
-  fetch: (options={}) ->
+  fetch: (options={}) =>
     success = options.success
 
     # show message
@@ -38,7 +41,9 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
       per_page: @per_page,
       filter: @filter,
       sort_by: @sort_by,
-      sort_direction: @sort_direction
+      sort_direction: @sort_direction,
+      
+      favourites: @favourites
     }
 
     # success

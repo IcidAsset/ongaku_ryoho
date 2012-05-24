@@ -2,8 +2,7 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
 
   events : {
     'dblclick .track' : 'play_track',
-    'mouseenter .track .rating i' : 'track_rating_star_mouseenter',
-    'mouseleave .track .rating i' : 'track_rating_star_mouseleave'
+    'click .track .favourite' : 'track_rating_star_click'
   },
 
 
@@ -140,13 +139,16 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
    *  Play track
    */
   play_track : function(e) {
-    var track, $playpause_button_light;
+    var track, $t, $playpause_button_light;
+    
+    // set
+    $t = $(e.currentTarget);
     
     // check
-    if (!ControllerView.sound_manager.ready) { return; }
+    if (!ControllerView.sound_manager.ready || $t.hasClass('unavailable')) { return; }
 
     // set
-    track = Tracks.getByCid( $(e.currentTarget).attr('rel') );
+    track = Tracks.getByCid( $t.attr('rel') );
 
     // insert track
     ControllerView.insert_track( track );
@@ -168,30 +170,47 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
   
   
   /**************************************
-   *  Track rating star mouseenter event
+   *  Track rating star click event
    */
-  track_rating_star_mouseenter : function(e) {
-    var $t;
+  track_rating_star_click : function(e) {
+    var title, artist, favourite, $t, $track;
     
     // set
     $t = $(e.currentTarget);
+    $track = $t.closest('.track');
     
-    // add class
-    $t.parent().find('i').slice(0, $t.index() + 1).addClass('light-up');
-  },
-  
-  
-  /**************************************
-   *  Track rating star mouseleave event
-   */
-  track_rating_star_mouseleave : function(e) {
-    var $t;
+    title = $track.find('.title span').text();
+    artist = $track.find('.artist span').text();
     
-    // set
-    $t = $(e.currentTarget);
+    // check
+    if ($t.data('favourite')) {
+      $t.attr('data-favourite', false);
+      $t.data('favourite', false);
+      
+      var favourites = Favourites.where({
+        track_title: title,
+        track_artist: artist
+      });
+      
+      _.each(favourites, function(f) {
+        f.destroy();
+      });
+      
+    } else {
+      $t.attr('data-favourite', true);
+      $t.data('favourite', true);
+      
+      Favourites.create({
+        track_title: title,
+        track_artist: artist
+      });
+      
+    }
     
-    // add class
-    $t.parent().find('i').removeClass('light-up');
+    // prevent default
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
   }
 
 
