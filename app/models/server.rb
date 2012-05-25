@@ -109,7 +109,7 @@ class Server < Source
     Server.add_new_tracks(self, tracks)
     
     # the end
-    server.status = 'processed'
+    self.status = 'processed'
     self.save
   end
 
