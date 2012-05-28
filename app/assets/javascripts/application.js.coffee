@@ -39,6 +39,9 @@ $(document).ready ->
 
   # helpers
   helpers.initialize_before()
+  
+  # make new people
+  window.SoundGuy             = new OngakuRyoho.People.SoundGuy
 
   # backbone models
   window.Controller           = new OngakuRyoho.Models.Controller
@@ -57,6 +60,14 @@ $(document).ready ->
   window.ControllerView       = new OngakuRyoho.Views.Controller({ el: $controller })
   window.PlaylistView         = new OngakuRyoho.Views.Playlist({ el: $playlist })
   window.SourceManagerView    = new OngakuRyoho.Views.SourceManager({ el: $source_manager })
+
+  # teach people
+  SoundGuy.learn_basics
+    controller: Controller
+    tracks: Tracks
+    controller_view: ControllerView
+    visualizations_view: VisualizationsView
+    playlist_view: PlaylistView
 
   # helpers
   helpers.initialize_after()

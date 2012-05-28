@@ -91,7 +91,7 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
       this.$el.html('<div class="nothing-here" />');
 
     } else {
-      this.add_playing_class_to_track( ControllerView.get_current_track() );
+      this.add_playing_class_to_track( SoundGuy.get_current_track() );
       PlaylistView.show_current_track();
 
     }
@@ -145,13 +145,13 @@ OngakuRyoho.Views.TrackList = Backbone.View.extend({
     $t = $(e.currentTarget);
     
     // check
-    if (!ControllerView.sound_manager.ready || $t.hasClass('unavailable')) { return; }
+    if (!SoundGuy.sound_manager.ready || $t.hasClass('unavailable')) { return; }
 
     // set
     track = Tracks.getByCid( $t.attr('rel') );
 
     // insert track
-    ControllerView.insert_track( track );
+    SoundGuy.insert_track( track );
     
     // set elements
     $playpause_button_light = ControllerView.$el.find('.controls a .button.play-pause .light');
