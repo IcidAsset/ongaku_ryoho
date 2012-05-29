@@ -26,13 +26,17 @@ $yellow: #FBB829;
 html, body { min-height: 100% }
 
 body {
-  background: darken(#615C60, 4%) image-url('background.png') 0 0 repeat;
+  // background: darken(#615C60, 4%) image-url('background.png') 0 0 repeat;
   font-size: 13px;
   line-height: 16px;
   margin: $body_margin;
   overflow: hidden;
 
-  // @include background-image(linear-gradient(#644E74, #724562, #944D5D));
+  @include background(
+    image-url('background.png') 0 0 repeat,
+    linear-gradient(#644E74, #724562, #944D5D) 0 0 repeat-x
+  );
+  
   @include default-font;
 }
 

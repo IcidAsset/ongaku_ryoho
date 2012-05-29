@@ -58,7 +58,7 @@
     }
     
     .button.show-source-manager {
-      @include background-image(linear-gradient(#27503E, #203331));
+      @include background-image(linear-gradient(#644E74, darken(#644E74, 6.5%)));
     }
     
     .button.change-sort-direction {
