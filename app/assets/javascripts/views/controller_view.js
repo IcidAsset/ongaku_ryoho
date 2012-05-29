@@ -72,8 +72,8 @@ OngakuRyoho.Views.Controller = Backbone.View.extend({
     duration   = this.model.get('duration');
     
     // duration? really?
-    if ((!duration || duration === 0) && this.current_sound) {
-      duration = this.current_sound.durationEstimate;
+    if ((!duration || duration === 0) && SoundGuy.current_sound) {
+      duration = SoundGuy.current_sound.durationEstimate;
     }
     
     // set

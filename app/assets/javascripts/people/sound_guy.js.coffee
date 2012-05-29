@@ -238,7 +238,7 @@ class OngakuRyoho.People.SoundGuy
     if repeat
       @playlist_view.track_list_view.$el.find('.track.playing').trigger('dblclick')
     else
-      @controller_view.next()
+      this.select_next_track()
 
 
 
@@ -366,7 +366,7 @@ class OngakuRyoho.People.SoundGuy
     # if shuffle
     if shuffle
       return if shuffle_th is 0
-      
+
       track = @tracks.find (t) => t.get('_id') is @shuffle_track_history[shuffle_th - 1]
 
       if track
@@ -399,19 +399,19 @@ class OngakuRyoho.People.SoundGuy
     if shuffle
       if shuffle_th < @shuffle_track_history.length - 1
         track = @tracks.find (t) => t.get('_id') is @shuffle_track_history[shuffle_th + 1]
-        
+
       else
         track = _.shuffle(@tracks.reject((t) =>
           return _.include(@shuffle_track_history, t.get('_id'))
         ))[0]
-        
+
         unless track
           this.reset_shuffle_history()
           this.select_next_track()
           return
-        
+
         @shuffle_track_history.push(track.get('_id'))
-      
+
       @shuffle_track_history_index++
       $track = $tracks.filter('[rel="' + track.cid + '"]')
 
