@@ -31,7 +31,7 @@ class OngakuRyoho.Views.Controller extends Backbone.View
   #  Set track info in document title
   #
   set_current_track_in_document_title: () =>
-    helpers.set_document_title("▶ #{@model.get('artist')} – #{@model.get('title')}")
+    helpers.set_document_title("▶ #{@model.get("artist")} – #{@model.get("title")}")
   
   
   
@@ -57,7 +57,7 @@ class OngakuRyoho.Views.Controller extends Backbone.View
     seconds = "0#{seconds}" if seconds.toString().length is 1
     
     # time
-    this.$now_playing.children('.time').html(
+    this.$now_playing.children(".time").html(
       this.time_template({ time: "#{minutes}:#{seconds}" })
     )
     
@@ -73,10 +73,10 @@ class OngakuRyoho.Views.Controller extends Backbone.View
   
   render_now_playing: () =>
     # stop current animation
-    this.$now_playing.find('.what .marquee-wrapper').stop(true, true)
+    this.$now_playing.find(".what .marquee-wrapper").stop(true, true)
     
     # set content
-    this.$now_playing.children('.what').html(
+    this.$now_playing.children(".what").html(
       this.now_playing_template({ now_playing: @model.get("now_playing") })
     )
     
@@ -99,27 +99,27 @@ class OngakuRyoho.Views.Controller extends Backbone.View
     $knobs           = $controls.find("a .knob")
     
     # play/pause button
-    $buttons.filter('.play-pause').on('click', this.button_playpause_click_handler)
+    $buttons.filter(".play-pause").on("click", this.button_playpause_click_handler)
     
     # previous and next
-    $button_columns.filter('.previous-next')
-      .children('.btn.previous')
-      .on('click', SoundGuy.select_previous_track).end()
-      .children('.btn.next')
-      .on('click', SoundGuy.select_next_track)
+    $button_columns.filter(".previous-next")
+      .children(".btn.previous")
+      .on("click", SoundGuy.select_previous_track).end()
+      .children(".btn.next")
+      .on("click", SoundGuy.select_next_track)
     
     # shuffle
-    $switches.filter('.shuffle').on('click', this.switch_shuffle_click_handler)
+    $switches.filter(".shuffle").on("click", this.switch_shuffle_click_handler)
     
     # repeat
-    $switches.filter('.repeat').on('click', this.switch_repeat_click_handler)
+    $switches.filter(".repeat").on("click", this.switch_repeat_click_handler)
     
     # volume
-    $knobs.filter('.volume')
-      .on('mousedown', this.knob_volume_mousedown_handler)
-      .on('dblclick', this.knob_volume_doubleclick_handler)
+    $knobs.filter(".volume")
+      .on("mousedown", this.knob_volume_mousedown_handler)
+      .on("dblclick", this.knob_volume_doubleclick_handler)
     
-    $switches.filter('.volume').on('click', this.switch_volume_click_handler)
+    $switches.filter(".volume").on("click", this.switch_volume_click_handler)
   
   
   
@@ -134,38 +134,38 @@ class OngakuRyoho.Views.Controller extends Backbone.View
       "not playing"
     
     # action
-    if state is 'playing'
+    if state is "playing"
       SoundGuy.pause_current_track()
     else
       SoundGuy.play_track()
     
     # light
-    if state is 'playing'
-      $button.children('.light').removeClass('on')
+    if state is "playing"
+      $button.children(".light").removeClass("on")
     else
-      $button.children('.light').addClass('on')
+      $button.children(".light").addClass("on")
   
   
   
   switch_shuffle_click_handler: (e) =>
-    @model.set('shuffle', !@model.get('shuffle'))
+    @model.set("shuffle", !@model.get("shuffle"))
   
   
   
   switch_repeat_click_handler: (e) =>
-    @model.set('repeat', !@model.get('repeat'))
+    @model.set("repeat", !@model.get("repeat"))
   
   
   
   knob_volume_mousedown_handler: (e) =>
-    $(e.currentTarget).off('mousedown', this.knob_volume_mousedown_handler)
-    $(document).on('mousemove', this.document_mousemove_handler_for_volume_knob)
-    $(document).on('mouseup', this.document_mouseup_handler_for_volume_knob)
+    $(e.currentTarget).off("mousedown", this.knob_volume_mousedown_handler)
+    $(document).on("mousemove", this.document_mousemove_handler_for_volume_knob)
+    $(document).on("mouseup", this.document_mouseup_handler_for_volume_knob)
   
   
   
   document_mousemove_handler_for_volume_knob: (e) =>
-    $t = $(e.currentTarget).find('.it div')
+    $t = $(e.currentTarget).find(".it div")
     knob_x = $t.offset().left + $t.width() / 2
     knob_y = $t.offset().top + $t.height() / 2
     mouse_x = e.pageX
@@ -186,35 +186,35 @@ class OngakuRyoho.Views.Controller extends Backbone.View
     
     # set volume
     volume = 50 + (angle / 135) * 50
-    @model.set('volume', volume)
+    @model.set("volume", volume)
   
   
   
   document_mouseup_handler_for_volume_knob: (e) =>
     # unbind
-    $(document).off('mousemove', this.document_mousemove_handler_for_volume_knob)
-    $(document).off('mouseup', this.document_mouseup_handler_for_volume_knob)
+    $(document).off("mousemove", this.document_mousemove_handler_for_volume_knob)
+    $(document).off("mouseup", this.document_mouseup_handler_for_volume_knob)
     
     # rebind
     this.$el
-      .find('.controls .knob.volume')
-      .on('mousedown', this.knob_volume_mousedown_handler)
+      .find(".controls .knob.volume")
+      .on("mousedown", this.knob_volume_mousedown_handler)
   
   
   
   knob_volume_doubleclick_handler: (e) =>
-    $t = $(e.currentTarget).find('.it div')
+    $t = $(e.currentTarget).find(".it div")
     
     # reset rotation
     helpers.css.rotate($t, 0)
     
     # set volume
-    @model.set('volume', 50)
+    @model.set("volume", 50)
   
   
   
   switch_volume_click_handler: (e) =>
-    @model.set('mute', !@model.get('mute'))
+    @model.set("mute", !@model.get("mute"))
   
   
   
@@ -223,7 +223,7 @@ class OngakuRyoho.Views.Controller extends Backbone.View
   #
   setup_progress_bar: () =>
     # mouse events
-    this.$progress_bar.parent().on('click', this.progress_bar_click_handler)
+    this.$progress_bar.parent().on("click", this.progress_bar_click_handler)
   
   
   
@@ -242,8 +242,8 @@ class OngakuRyoho.Views.Controller extends Backbone.View
   #  Now playing marquee
   #
   now_playing_marquee: () =>
-    $what = this.$el.find('.now-playing .what')
-    $span = $what.children('span')
+    $what = this.$el.find(".now-playing .what")
+    $span = $what.children("span")
     wrap_width = $what.width()
     text_width = $span.width()
     
@@ -251,15 +251,15 @@ class OngakuRyoho.Views.Controller extends Backbone.View
     return if text_width < wrap_width
     
     # css stuff
-    $what.css({ position: 'relative' })
+    $what.css({ position: "relative" })
     $span
-      .wrap('<div class="marquee-wrapper"></div>')
-      .css({ float: 'left', paddingRight: '65px' })
+      .wrap("<div class=\"marquee-wrapper\"></div>")
+      .css({ float: "left", paddingRight: "65px" })
       .parent()
       .css(
-        overflow: 'hidden'
-        position: 'absolute'
-        width: '5000px'
+        overflow: "hidden"
+        position: "absolute"
+        width: "5000px"
       )
     
     $span.after($span.clone())
@@ -271,7 +271,7 @@ class OngakuRyoho.Views.Controller extends Backbone.View
   
   now_playing_marquee_animation: ($thing_that_scrolls) =>
     # width of text, etc.
-    text_width = $thing_that_scrolls.children('span:first').outerWidth()
+    text_width = $thing_that_scrolls.children("span:first").outerWidth()
     anim_speed = text_width * 39.5
     wait_for   = 3000
     
@@ -279,10 +279,10 @@ class OngakuRyoho.Views.Controller extends Backbone.View
     
     # animate
     $thing_that_scrolls.delay(wait_for).animate(
-      { left: -text_width }, anim_speed, 'linear',
+      { left: -text_width }, anim_speed, "linear",
       (e) ->
         $t = $(this)
-        $t.css('left', 0)
+        $t.css("left", 0)
         
         controller_view.now_playing_marquee_animation($t)
     )

@@ -4,7 +4,7 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
   #  Events
   #
   events:
-    'click .message' : 'message_click_handler'
+    "click .message" : "message_click_handler"
 
 
 
@@ -13,8 +13,8 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
   #
   initialize: () =>
     @collection = Messages
-    @collection.on('add', this.add_message)
-    @collection.on('remove', this.remove_message)
+    @collection.on("add", this.add_message)
+    @collection.on("remove", this.remove_message)
 
 
 
@@ -28,13 +28,13 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
     this.$el.append(view.render().el.innerHTML)
     
     # the $message
-    $message = this.$el.find('.message:last')
+    $message = this.$el.find(".message:last")
     
     # fade in message
     $message.fadeIn(500)
     
     # loading animation?
-    helpers.add_loading_animation($message.children('div')) if message.get('loading')
+    helpers.add_loading_animation($message.children("div")) if message.get("loading")
 
 
 
@@ -52,10 +52,10 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
     $t = $(e.currentTarget)
     
     # check
-    return if $t.hasClass('loading')
+    return if $t.hasClass("loading")
     
     # set
-    cid = $t.attr('rel')
+    cid = $t.attr("rel")
     message = Messages.find (m) -> m.cid is cid
      
     # remove message

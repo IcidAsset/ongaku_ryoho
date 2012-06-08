@@ -4,7 +4,7 @@ class OngakuRyoho.Views.SpecialFilters extends Backbone.View
   #  Events
   #
   events:
-    'click #favourites a' : 'favourites_switch_click'
+    "click #favourites a" : "favourites_switch_click"
 
 
 
@@ -12,7 +12,7 @@ class OngakuRyoho.Views.SpecialFilters extends Backbone.View
   #  Initialize
   #
   initialize: () =>
-    this.$favourites = this.$el.children('#favourite')
+    this.$favourites = this.$el.children("#favourite")
 
 
 
@@ -24,11 +24,11 @@ class OngakuRyoho.Views.SpecialFilters extends Backbone.View
     
     # switch
     if Tracks.favourites
-      $t.removeClass('on')
+      $t.removeClass("on")
       Tracks.favourites = off
       
     else
-      $t.addClass('on')
+      $t.addClass("on")
       Tracks.favourites = on
     
     

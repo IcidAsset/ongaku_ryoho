@@ -84,7 +84,10 @@ class OngakuRyoho.People.SoundGuy
   #  Current track
   #
   get_current_track: () =>
-    track = Tracks.find (track) -> track.get('_id') is @current_sound.sID if @current_sound
+    if @current_sound
+      track = Tracks.find (track) => track.get('_id') is @current_sound.sID
+    else
+      null
 
 
 

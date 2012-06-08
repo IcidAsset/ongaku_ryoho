@@ -2,7 +2,7 @@ OngakuRyoho::Application.routes.draw do
   
   resources :default, :only => [:index]
   resources :tracks,  :only => [:index]
-  resources :favourites, :only => [:index, :create, :destroy]
+  resources :favourites, :only => [:index, :create, :destroy, :update]
 
   resources :sources, :only => [:index] do
     member do

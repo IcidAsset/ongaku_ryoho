@@ -7,8 +7,8 @@ window.helpers =
     this.original_document_title = document.title
 
     # when the page loses focus, disable animations
-    $(window).on('focus', helpers.enable_jquery_animations)
-             .on('blur', helpers.disable_jquery_animations)
+    $(window).on("focus", helpers.enable_jquery_animations)
+             .on("blur", helpers.disable_jquery_animations)
 
 
   #
@@ -25,10 +25,10 @@ window.helpers =
     rotate: ($el, degrees) ->
       css = {}
 
-      css['-webkit-transform'] = 'rotate(' + degrees + 'deg)'
-      css['-moz-transform'] = css['-webkit-transform']
-      css['-o-transform'] = css['-webkit-transform']
-      css['-ms-tranform'] = css['-webkit-transform']
+      css["-webkit-transform"] = "rotate(" + degrees + "deg)"
+      css["-moz-transform"] = css["-webkit-transform"]
+      css["-o-transform"] = css["-webkit-transform"]
+      css["-ms-tranform"] = css["-webkit-transform"]
 
       $el.css(css)
 
@@ -43,7 +43,7 @@ window.helpers =
       width: 1
       radius: 3
       rotate: 90
-      color: '#fff'
+      color: "#fff"
       speed: 1
       trail: 60
       shadow: false
@@ -73,27 +73,27 @@ window.helpers =
     animation_duration = options.disable_animation ? 0 : 950
 
     # set elements
-    $button = PlaylistView.$el.find('.navigation .button.theater-mode')
-    $color_overlay = $('#color-overlay')
+    $button = PlaylistView.$el.find(".navigation .button.theater-mode")
+    $color_overlay = $("#color-overlay")
 
     # go
-    if state is 'off'
-      $button.removeClass('on')
+    if state is "off"
+      $button.removeClass("on")
       $color_overlay.fadeOut(animation_duration)
 
     else
-      $button.addClass('on')
+      $button.addClass("on")
       $color_overlay.fadeIn(animation_duration)
 
     # save state in cookie
-    $.cookie('theater_mode_state', state, { expires: 365, path: '/' })
+    $.cookie("theater_mode_state", state, { expires: 365, path: "/" })
 
 
   #
   #  Check theather mode cookie
   #
   check_theater_mode_cookie: (options={}) ->
-    cookie = $.cookie('theater_mode_state')
+    cookie = $.cookie("theater_mode_state")
 
     # check
-    helpers.set_theater_mode('on', options) if cookie is 'on'
+    helpers.set_theater_mode("on", options) if cookie is "on"
