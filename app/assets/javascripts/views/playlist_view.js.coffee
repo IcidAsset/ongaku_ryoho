@@ -4,9 +4,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
   #  Events
   #
   events:
-    "click .navigation .show-current-track" : "show_current_track"
     "click .navigation .theater-mode" : "theater_mode_button_click_handler"
-    "click .navigation .check-sources" : "check_sources_button_click_handler"
     "click .navigation .show-source-manager" : "show_source_manager"
     "click .navigation .change-sort-direction" : "change_sort_direction"
     
@@ -131,11 +129,6 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
 
     # enable / disable
     helpers.set_theater_mode(state)
-
-
-
-  check_sources_button_click_handler: (e) =>
-    SourceManagerView.check_sources()
 
 
 

@@ -56,8 +56,8 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
       page_info = @collection.page_info()
       
       word = {
-        pages: (page_info.pages is 1 ? "page" : "pages"),
-        tracks: (page_info.total is 1 ? "track" : "tracks")
+        pages: (if page_info.pages is 1 then "page" else "pages")
+        tracks: (if page_info.total is 1 then "track" else "tracks")
       }
 
       message =  "#{page_info.total} #{word.tracks} found &mdash;

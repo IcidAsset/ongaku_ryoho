@@ -39,7 +39,7 @@
     // button
     .button {
       cursor: pointer;
-      margin-left: 6px;
+      margin-left: 5px;
 
       @include background-image(linear-gradient(#525559, #3d3f42));
       @include box-ordinal-group(3);
@@ -55,14 +55,15 @@
       }
 
       &:active { border-bottom-color: #8d9299 }
+      &.on .icon { color: lighten(#b6babf, 12%) }
     }
-    
+
+    .button.change-sort-direction {
+      &.on .icon:after { content: "\0e01a" }
+    }
+
     .button.show-source-manager {
       @include background-image(linear-gradient(#644E74, darken(#644E74, 6.5%)));
-    }
-    
-    .button.change-sort-direction {
-      &.on .icon { color: lighten(#b6babf, 12%) }
     }
 
     // input
@@ -119,7 +120,7 @@
     }
     
     .input-wrap.sort-by {
-      margin-left: 6px;
+      margin-left: 5px;
       width: 29%;
       
       @include box-ordinal-group(2);
