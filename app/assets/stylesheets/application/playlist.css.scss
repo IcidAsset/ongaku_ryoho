@@ -112,6 +112,8 @@
     }
     
     input {
+      line-height: normal;
+      
       @include input-placeholder(#6c7075);
     }
     
