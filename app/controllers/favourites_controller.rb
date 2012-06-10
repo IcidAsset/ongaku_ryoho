@@ -13,13 +13,19 @@ class FavouritesController < ApplicationController
     current_user.favourites << favourite
     
     # save favourite
-    render json: { success: favourite.save }
+    favourite.save()
+    
+    # render json
+    render json: favourite
   end
   
   def destroy
     favourite = current_user.favourites.find(params[:id], Favourite)
     
     # destroy favourite
-    render json: { success: favourite.destroy }
+    favourite.destroy()
+    
+    # render json
+    render json: favourite
   end
 end

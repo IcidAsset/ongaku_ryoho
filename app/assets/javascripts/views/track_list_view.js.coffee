@@ -169,23 +169,34 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
       $t.attr("data-favourite", false)
       $t.data("favourite", false)
       
-      favourites = Favourites.where({
-        track_title: title,
-        track_artist: artist
-      })
-      
-      _.each(favourites, (f) -> f.destroy({ wait: true }))
+      this.remove_matching_favourites(title, artist)
       
     else
       $t.attr("data-favourite", true)
       $t.data("favourite", true)
       
-      Favourites.create({
-        track_title: title,
-        track_artist: artist
-      }, { wait: true })
+      this.create_new_favourite(title, artist)
     
     # prevent default
     e.preventDefault()
     e.stopPropagation()
     return false
+
+
+
+  create_new_favourite: (title, artist) =>
+    Favourites.create({
+      track_title: title,
+      track_artist: artist
+    })
+
+
+
+  remove_matching_favourites: (title, artist) =>
+    favourites = Favourites.where({
+      track_title: title,
+      track_artist: artist
+    })
+    
+    # destroy each
+    _.each favourites, (f) -> f.destroy()
