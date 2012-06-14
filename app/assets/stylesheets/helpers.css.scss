@@ -1,8 +1,16 @@
 /*
 
-  Mixins
+  Helpers
 
 */
+
+// colors
+$blue: #00CCFF;
+$red: #E0676C;
+$yellow: #FBB829;
+
+
+// mixins
 @mixin default-font {
   font-family: 'Helvetica Neue', 'Lato', sans-serif;
 }
@@ -13,6 +21,10 @@
 
 @mixin ptsans-font {
   font-family: 'PT_Sans', 'PT Sans', 'Lato', 'Helvetica Neue', sans-serif;
+}
+
+@mixin ostrich-font {
+  font-family: 'OstrichSans', sans-serif;
 }
 
 @mixin icon-font {

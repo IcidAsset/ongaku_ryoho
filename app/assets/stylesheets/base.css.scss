@@ -13,20 +13,16 @@
 
 */
 
-@import 'mixins';
+@import 'helpers';
 
 $body_margin: 50px;
 $controller_width: 321px;
-
-$red: #E0676C;
-$yellow: #FBB829;
 
 
 
 html, body { min-height: 100% }
 
 body {
-  // background: darken(#615C60, 4%) image-url('background.png') 0 0 repeat;
   font-size: 13px;
   line-height: 16px;
   margin: $body_margin;

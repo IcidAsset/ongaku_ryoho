@@ -215,13 +215,13 @@
       }
       
       &:active {
-        background: #00ccff;
+        background: $blue;
         
-        & > div { color: lighten(#00ccff, 42.5%) }
-        .favourite { color: lighten(#00ccff, 21.25%) }
+        & > div { color: lighten($blue, 42.5%) }
+        .favourite { color: lighten($blue, 21.25%) }
         
         .favourite[data-favourite=true],
-        .favourite:hover { color: lighten(#00ccff, 42.5%) !important }
+        .favourite:hover { color: lighten($blue, 42.5%) !important }
       }
       
       .favourite {

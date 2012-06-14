@@ -12,6 +12,10 @@ OngakuRyoho::Application.routes.draw do
   end
 
   resources :servers, :except => [:index]
+  
+  # pages
+  get 'settings' => 'pages#settings'
+  get 'source-manager' => 'pages#source_manager'
 
   # sessions/users
   get 'logout' => 'sessions#destroy', :as => 'logout'

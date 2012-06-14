@@ -1,0 +1,110 @@
+$page_black: #2a2a2a;
+
+html, body { min-height: 100% }
+
+body {
+  background: white image-url('mirrored_squares.png');
+  color: $page_black;
+  font-size: 14px;
+  line-height: 24px;
+  margin: 50px;
+  
+  @include ptsans-font;
+}
+
+  .block-title {
+    background: $page_black;
+    color: white;
+    font-size: 10px;
+    letter-spacing: 2px;
+    line-height: 16px;
+    padding: 8px 12px 4px;
+    text-transform: uppercase;
+  }
+
+
+/**************************************
+ *  Aside
+ */
+aside {
+  background: $page_black image-url('cartographer.png');
+  bottom: 50px;
+  font-size: 14px;
+  left: 50px;
+  position: fixed;
+  top: 50px;
+  width: 250px;
+}
+
+aside nav {
+  line-height: 18px;
+  margin-top: 3px;
+  
+  a {
+    border-bottom: 1px solid rgba(white, .07);
+    color: #bbb;
+    display: block;
+    overflow: hidden;
+    padding: 13px 12px;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  a:hover,
+  a:focus,
+  a:active {
+    color: $blue;
+  }
+  
+  a.active {
+    color: white;
+    font-weight: bold;
+    
+    i { color: $yellow }
+  }
+  
+  a i {
+    display: inline-block;
+    margin-right: 6px;
+    position: relative;
+    top: 1px;
+    
+    @include icon-font;
+  }
+}
+
+
+
+/**************************************
+ *  Content
+ */
+#content {
+  background: white;
+  margin-left: 250px + 50;
+  overflow: hidden;
+  padding: 29px 30px 73px;
+  position: relative;
+  
+  .large-icon {
+    color: #efefef;
+    font-size: 120px;
+    position: absolute;
+    right: -24px;
+    top: 3px;
+    
+    @include icon-font;
+  }
+  
+  h1 {
+    font-size: 42px;
+    font-weight: lighter;
+    letter-spacing: -1px;
+    line-height: 42px;
+    margin-bottom: 34px;
+    
+    @include ostrich-font;
+  }
+
+
+}

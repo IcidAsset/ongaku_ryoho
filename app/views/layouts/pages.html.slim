@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"
+
+    title
+      | Ongaku Ryoho
+      = yield :title
+
+    = favicon_link_tag '/favicon.png'
+
+    = stylesheet_link_tag 'pages'
+    = csrf_meta_tags
+
+  body
+
+    / sidebar
+    aside
+      .block-title Navigation
+      nav
+        - pages.each do |page|
+          a[href=page[:url] class="#{request.path == page[:url] ? "active" : false}"]
+            i== page[:icon]
+            = page[:title]
+    
+    / content
+    section#content
+      = yield
+
+    = javascript_include_tag 'pages'
