@@ -19,8 +19,12 @@ html
     aside
       .block-title Navigation
       nav
+        a[href="/" class="application"]
+          i &#x0068;
+          | Application
+        
         - pages.each do |page|
-          a[href=page[:url] class="#{request.path == page[:url] ? "active" : false}"]
+          a[href=page[:url] class="#{request.path == page[:url] ? "active" : nil}"]
             i== page[:icon]
             = page[:title]
     

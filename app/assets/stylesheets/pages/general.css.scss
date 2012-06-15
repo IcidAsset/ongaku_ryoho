@@ -5,9 +5,11 @@ html, body { min-height: 100% }
 body {
   background: white image-url('mirrored_squares.png');
   color: $page_black;
-  font-size: 14px;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 32px;
   margin: 50px;
+  
+  -webkit-font-smoothing: antialiased;
   
   @include ptsans-font;
 }
@@ -54,7 +56,7 @@ aside nav {
   a:hover,
   a:focus,
   a:active {
-    color: $blue;
+    i { color: $blue }
   }
   
   a.active {
@@ -72,6 +74,8 @@ aside nav {
     
     @include icon-font;
   }
+  
+  .application { font-style: italic }
 }
 
 
@@ -97,13 +101,21 @@ aside nav {
   }
   
   h1 {
-    font-size: 42px;
-    font-weight: lighter;
-    letter-spacing: -1px;
-    line-height: 42px;
-    margin-bottom: 34px;
+    border-left: 1px solid #eee;
+    font-size: 26px;
+    letter-spacing: -2px;
+    line-height: 26px;
+    margin-bottom: 32px;
+    padding-bottom: 21px;
+    padding-left: 9px;
     
-    @include ostrich-font;
+    @include default-font;
+    
+    span { color: #eee }
+  }
+  
+  p {
+    color: #555;
   }
 
 
