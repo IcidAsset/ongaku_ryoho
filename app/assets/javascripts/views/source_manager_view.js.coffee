@@ -39,7 +39,8 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     )
     
     # check
-    return this.find_sources_to_check() if unprocessed_sources.length is 0
+    if unprocessed_sources.length is 0
+      return this.find_sources_to_check()
 
     # unprocessing function
     unprocessing = _.map(unprocessed_sources, (unprocessed_source, idx) =>
@@ -78,7 +79,11 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     sources_to_check = _.difference(Sources.models, unprocessed_sources)
 
     # check
-    return after() if sources_to_check.length is 0 and @requires_reload
+    if sources_to_check.length is 0
+      if @requires_reload
+        return after()
+      else
+        return false
 
     # checking function
     checking = _.map(sources_to_check, (source_to_check, idx) =>
