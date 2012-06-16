@@ -22,6 +22,8 @@ body {
     line-height: 16px;
     padding: 8px 12px 4px;
     text-transform: uppercase;
+    
+    @include border-radius(3px);
   }
 
 
@@ -36,6 +38,8 @@ aside {
   position: fixed;
   top: 50px;
   width: 250px;
+  
+  @include border-radius(3px);
 }
 
 aside nav {
@@ -83,35 +87,67 @@ aside nav {
 /**************************************
  *  Content
  */
-#content {
-  background: white;
+#wrapper {
   margin-left: 250px + 50;
-  overflow: hidden;
-  padding: 29px 30px 73px;
   position: relative;
+  z-index: 9;
+  
+  @include border-radius(3px);
+  
+  &:before,
+  &:after {
+    border: 10px solid white;
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    
+    @include border-radius(3px);
+    @include box-sizing(border-box);
+    @include single-box-shadow(rgba(black, .25), 0, 1px, 3px, 0);
+  }
+  
+  &:before { top: 4px; z-index: -1 }
+  &:after { top: 8px; z-index: -2 }
+  
+  #content {
+    background: white;
+    overflow: hidden;
+    padding: 30px 33px 76px;
+    position: relative;
+    
+    @include border-radius(3px);
+    @include single-box-shadow(rgba(black, .25), 0, 1px, 3px, 0);
+  }
   
   .large-icon {
-    color: #efefef;
+    color: #f8f8f8;
     font-size: 120px;
+    line-height: normal;
     position: absolute;
-    right: -24px;
-    top: 3px;
+    right: 20px;
+    top: -47px;
     
     @include icon-font;
   }
   
+  .h1-wrapper {
+    border-bottom: 1px dotted #eee;
+    margin: 0 -33px 36px;
+    padding-bottom: 25px;
+    
+    h1 { padding: 0 33px }
+  }
+  
   h1 {
-    border-left: 1px solid #eee;
     font-size: 26px;
     letter-spacing: -2px;
     line-height: 26px;
-    margin-bottom: 32px;
-    padding-bottom: 21px;
-    padding-left: 9px;
     
     @include default-font;
     
-    span { color: #eee }
+    span { color: #e1e1e1 }
   }
   
   p {

@@ -5,8 +5,8 @@ html
     meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"
 
     title
-      | Ongaku Ryoho
-      = yield :title
+      | Ongaku Ryoho &mdash; 
+      = @page[:title]
 
     = favicon_link_tag '/favicon.png'
 
@@ -23,13 +23,18 @@ html
           i &#x0068;
           | Application
         
-        - pages.each do |page|
-          a[href=page[:url] class="#{request.path == page[:url] ? "active" : nil}"]
-            i== page[:icon]
-            = page[:title]
+        - @pages.each do |page|
+          a[href=page[:url] class="#{"active" if page === @page}"]
+            | <i>#{{page[:icon]}}</i> #{page[:title]}
     
     / content
-    section#content
-      = yield
+    #wrapper
+      section#content
+        .large-icon== @page[:icon]
+        
+        .h1-wrapper
+          h1 #{@page[:title]}<br><span>#{@page[:subtitle]}</span>
+        
+        = yield
 
     = javascript_include_tag 'pages'

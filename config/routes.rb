@@ -14,8 +14,9 @@ OngakuRyoho::Application.routes.draw do
   resources :servers, :except => [:index]
   
   # pages
-  get 'settings' => 'pages#settings'
   get 'source-manager' => 'pages#source_manager'
+  get 'settings' => 'pages#settings'
+  get 'account' => 'pages#account'
 
   # sessions/users
   get 'logout' => 'sessions#destroy', :as => 'logout'
