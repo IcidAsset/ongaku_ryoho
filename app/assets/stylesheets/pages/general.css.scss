@@ -141,13 +141,16 @@ aside nav {
   }
   
   h1 {
-    font-size: 26px;
-    letter-spacing: -2px;
-    line-height: 26px;
+    font-size: 28px;
+    font-weight: bolder;
+    line-height: 28px;
     
-    @include default-font;
+    @include ostrich-font;
     
-    span { color: #e1e1e1 }
+    span {
+      color: #e1e1e1;
+      font-weight: normal;
+    }
   }
   
   p {
