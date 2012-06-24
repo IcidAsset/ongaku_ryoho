@@ -98,6 +98,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
 
   search: (query) =>
     @track_list_view.collection.filter = query
+    @track_list_view.collection.page = 1
 
     # fetch tracks
     $.when Tracks.fetch()
