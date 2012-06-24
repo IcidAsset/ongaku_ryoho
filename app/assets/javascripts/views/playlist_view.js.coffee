@@ -120,7 +120,9 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
     $current_track = @track_list_view.$el.find(".track.playing")
 
     # scroll to current track
-    @track_list_view.$el.scrollTop($current_track.position().top) if $current_track.length
+    if $current_track.length
+      new_scroll_top = @track_list_view.$el.scrollTop() + $current_track.position().top
+      @track_list_view.$el.scrollTop(new_scroll_top)
 
 
 

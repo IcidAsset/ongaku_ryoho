@@ -5,6 +5,14 @@ class OngakuRyoho.Views.Controller extends Backbone.View
 
 
   #
+  #  Events
+  #
+  events:
+    "click .now-playing" : "now_playing_click_handler"
+
+
+
+  #
   #  Initialize
   #
   initialize: () =>
@@ -286,3 +294,8 @@ class OngakuRyoho.Views.Controller extends Backbone.View
         
         controller_view.now_playing_marquee_animation($t)
     )
+
+
+
+  now_playing_click_handler: (e) ->
+    PlaylistView.show_current_track()
