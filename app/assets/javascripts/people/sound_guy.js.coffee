@@ -388,7 +388,7 @@ class OngakuRyoho.People.SoundGuy
       $track = $tracks.last() unless $track.length
 
     # trigger dblclick on track (in playlist)
-    $track.trigger('dblclick')
+    $track.trigger('dblclick') if $track
 
 
 
@@ -430,7 +430,7 @@ class OngakuRyoho.People.SoundGuy
       $track = $tracks.first() unless $track.length
 
     # trigger dblclick on track (in playlist)
-    $track.trigger('dblclick')
+    $track.trigger('dblclick') if $track
 
 
 

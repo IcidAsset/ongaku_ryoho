@@ -49,6 +49,7 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
     # success
     options.success = (response) =>
       success(this, response) if success
+      SoundGuy.reset_shuffle_history()
       this.trigger("fetched")
       Messages.remove(message)
 
