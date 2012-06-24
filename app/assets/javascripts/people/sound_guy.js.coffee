@@ -293,6 +293,12 @@ class OngakuRyoho.People.SoundGuy
     # insert track
     this.insert_track( track )
 
+    # set elements
+    $playpause_button_light = @controller_view.$el.find(".controls a .button.play-pause .light")
+    
+    # turn the play button light on
+    $playpause_button_light.addClass("on")
+
 
 
   #
@@ -416,7 +422,7 @@ class OngakuRyoho.People.SoundGuy
         @shuffle_track_history.push(track.get('_id'))
 
       @shuffle_track_history_index++
-      $track = $tracks.filter('[rel="' + track.cid + '"]')
+      $track = $tracks.filter("[rel=\"#{track.cid}\"]")
 
     # otherwise
     else
