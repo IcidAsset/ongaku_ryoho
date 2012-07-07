@@ -18,7 +18,6 @@
 #= require 'backbone_rails_sync'
 #= require 'backbone_datalink'
 #= require 'spin'
-#= require 'jquery-cookie'
 #= require 'soundmanager2/soundmanager2'
 #= provide 'soundmanager2/dependencies'
 

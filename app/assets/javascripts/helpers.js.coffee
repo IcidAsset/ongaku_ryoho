@@ -15,7 +15,7 @@ window.helpers =
   #  Initialize (after)
   #
   initialize_after: () ->
-    this.check_theater_mode_cookie({ disable_animation: true })
+    this.check_theater_mode({ disable_animation: true })
 
 
   #
@@ -85,15 +85,15 @@ window.helpers =
       $button.addClass("on")
       $color_overlay.fadeIn(animation_duration)
 
-    # save state in cookie
-    $.cookie("theater_mode_state", state, { expires: 365, path: "/" })
+    # save state in local storage
+    window.localStorage.setItem("theater_mode_state", state)
 
 
   #
-  #  Check theather mode cookie
+  #  Check theather mode
   #
-  check_theater_mode_cookie: (options={}) ->
-    cookie = $.cookie("theater_mode_state")
+  check_theater_mode: (options={}) ->
+    theater_mode_state = window.localStorage.getItem("theater_mode_state")
 
     # check
-    helpers.set_theater_mode("on", options) if cookie is "on"
+    helpers.set_theater_mode("on", options) if theater_mode_state is "on"

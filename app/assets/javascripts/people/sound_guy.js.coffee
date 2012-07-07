@@ -12,7 +12,7 @@ class OngakuRyoho.People.SoundGuy
   learn_basics: (necessary_materials) =>
     $.extend(this, necessary_materials)
 
-    this.apply_settings_from_cookie();
+    this.apply_settings_from_local_storage();
     this.setup_soundboard()
     this.check_the_lights()
 
@@ -29,29 +29,28 @@ class OngakuRyoho.People.SoundGuy
 
 
   #
-  #  Settings cookie
+  #  Settings in local storage
   #
-  save_settings_in_cookie: () =>
-    settings = _.pick(@controller.attributes, 'shuffle', 'repeat', 'mute', 'volume')
+  save_settings_in_local_storage: () =>
+    settings = _.pick(@controller.attributes, "shuffle", "repeat", "mute", "volume")
   
-    # set cookie
-    $.cookie(
-      'controller_settings',
-      JSON.stringify(settings),
-      { raw: true, expires: 365, path: '/' }
+    # store settings
+    window.localStorage.setItem(
+      "controller_settings",
+      JSON.stringify(settings)
     )
 
 
 
-  apply_settings_from_cookie: () =>
-    # find cookie
-    cookie = $.cookie('controller_settings')
+  apply_settings_from_local_storage: () =>
+    # find item
+    item = window.localStorage.getItem("controller_settings")
   
     # check
-    return unless cookie
+    return unless item
   
-    # parse cookie
-    settings = $.parseJSON( cookie )
+    # parse item
+    settings = JSON.parse(item)
   
     # apply settings
     @controller.set(settings)
@@ -105,7 +104,7 @@ class OngakuRyoho.People.SoundGuy
     @current_sound.setVolume(volume) if @current_sound
 
     # save
-    this.save_settings_in_cookie()
+    this.save_settings_in_local_storage()
 
 
 
@@ -130,7 +129,7 @@ class OngakuRyoho.People.SoundGuy
         @current_sound.unmute()
 
     # save
-    this.save_settings_in_cookie()
+    this.save_settings_in_local_storage()
 
 
 
@@ -151,7 +150,7 @@ class OngakuRyoho.People.SoundGuy
       $light.removeClass('on')
 
     # save
-    this.save_settings_in_cookie()
+    this.save_settings_in_local_storage()
 
 
 
@@ -169,7 +168,7 @@ class OngakuRyoho.People.SoundGuy
       $light.removeClass('on')
 
     # save
-    this.save_settings_in_cookie()
+    this.save_settings_in_local_storage()
 
 
 
