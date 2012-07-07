@@ -32,7 +32,6 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
 
 
   find_sources_to_process: () =>
-
     # find
     unprocessed_sources = _.filter(Sources.models, (source) ->
       source.get("status").indexOf("unprocessed") isnt -1
@@ -44,7 +43,7 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
 
     # unprocessing function
     unprocessing = _.map(unprocessed_sources, (unprocessed_source, idx) =>
-      this.process_source(unprocessed_source)
+      return () => this.process_source(unprocessed_source)
     )
 
     # add message
@@ -56,18 +55,16 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     Messages.add(unprocessing_message)
 
     # exec
-    $.when.apply(null, unprocessing)
-     .then(() =>
-       @requires_reload = true
-       this.find_sources_to_check(unprocessed_sources)
+    Deferred.chain(unprocessing).next(() =>
+      @requires_reload = true
+      this.find_sources_to_check(unprocessed_sources)
 
-       Messages.remove(unprocessing_message)
+      Messages.remove(unprocessing_message)
     )
 
 
 
   find_sources_to_check: (unprocessed_sources=[]) =>
-    
     # after
     after = () =>
       Tracks.fetch()
@@ -87,7 +84,7 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
 
     # checking function
     checking = _.map(sources_to_check, (source_to_check, idx) =>
-      return this.check_source(source_to_check)
+      return () => this.check_source(source_to_check)
     )
 
     # add message
@@ -99,32 +96,43 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     Messages.add(checking_message)
 
     # exec
-    $.when.apply(null, checking)
-     .then(() ->
-       if _.has(arguments[0], "changed")
-         changes = _.pluck(arguments, "changed")
-       else
-         changes = _.map(arguments, (x) -> return x[0].changed)
+    Deferred.chain(checking).next((x) ->
+      if _.has(arguments[0], "changed")
+        changes = _.pluck(arguments, "changed")
+      else
+        changes = _.map(arguments, (x) -> return x[0].changed)
 
-       # changes?
-       changes = _.include(changes, true)
+      # changes?
+      changes = _.include(changes, true)
 
-       # exec after function if needed
-       after() if changes or SourceManagerView.requires_reload
+      # exec after function if needed
+      after() if changes or SourceManagerView.requires_reload
 
-       # remove message
-       Messages.remove(checking_message)
+      # remove message
+      Messages.remove(checking_message)
     )
 
 
 
   process_source: (source) ->
-    return $.get("/sources/" + source.get("_id") + "/process")
+    def = new Deferred()
+
+    $.get("/sources/" + source.get("_id") + "/process",
+      (response) -> def.call(JSON.parse(response))
+    )
+
+    return def
 
 
 
   check_source: (source) ->
-    return $.get("/sources/" + source.get("_id") + "/check")
+    def = new Deferred()
+
+    $.get("/sources/" + source.get("_id") + "/check",
+      (response) -> def.call(JSON.parse(response))
+    )
+
+    return def
 
 
 
@@ -145,13 +153,9 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     )
 
     # load forms
-    $.when(
-      $.get("/servers/new")
-
-    ).then((servers_form) ->
-      $forms_wrapper.append( servers_form )
-      $forms_wrapper.children("form:first").show(0)
-
+    $.get("/servers/new", (servers_form) ->
+      $forms_wrapper.append(servers_form)
+      $forms_wrapper.children("form").first().show(0)
     )
 
 
@@ -160,9 +164,9 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
   #  Show & Hide
   #
   show: () =>
-    this.$el.stop(true, true).fadeIn(0)
+    this.$el.show(0)
 
 
 
   hide: () =>
-    this.$el.stop(true, true).fadeOut(0)
+    this.$el.hide(0)

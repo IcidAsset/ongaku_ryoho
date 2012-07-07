@@ -15,7 +15,7 @@ class OngakuRyoho.Views.Message extends Backbone.View
     this.$el.html(this.template( this.model.toJSON() ))
     
     # jquery object
-    $message = this.$el.children(".message:last")
+    $message = this.$el.children(".message").last()
     
     # add cid
     $message.attr("rel", @model.cid)

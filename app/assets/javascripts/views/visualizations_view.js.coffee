@@ -24,6 +24,8 @@ class OngakuRyoho.Views.Visualizations extends Backbone.View
     # animate
     this.$peak_data
       .children(".left")
-      .animate({ width: width_left }, animation_duration).end()
+      .animate({ width: width_left }, animation_duration)
+
+    this.$peak_data
       .children(".right")
       .animate({ width: width_right }, animation_duration)

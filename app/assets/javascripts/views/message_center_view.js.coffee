@@ -28,7 +28,7 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
     this.$el.append(view.render().el.innerHTML)
     
     # the $message
-    $message = this.$el.find(".message:last")
+    $message = this.$el.find(".message").last()
     
     # fade in message
     $message.fadeIn(500)
@@ -41,7 +41,7 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
   remove_message: (message) =>
     this.$el
       .find(".message[rel=\"#{message.cid}\"]")
-      .stop(true).fadeOut 500, () -> $(this).remove()
+      .fadeOut 500, () -> $(this).remove()
 
 
 

@@ -30,8 +30,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
     this.$search = this.$el.find(".navigation .search input")
 
     # get content
-    $.when Sources.fetch()
-     .then -> Tracks.fetch({ success: SourceManagerView.check_sources })
+    Sources.fetch({ success: () -> Tracks.fetch({ success: SourceManagerView.check_sources }) })
 
 
 
@@ -47,8 +46,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
   #  Sort by
   #
   sort_by_change_handler: (e) =>
-    $t = $(e.currentTarget)
-    value = $t.children("option:selected").val()
+    value = e.currentTarget.options[e.currentTarget.selectedIndex].value
     
     # sort by
     this.sort_by(value) if value
@@ -101,8 +99,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
     @track_list_view.collection.page = 1
 
     # fetch tracks
-    $.when Tracks.fetch()
-     .done this.search_success
+    Tracks.fetch({ success: this.search_success })
 
 
 
@@ -122,8 +119,8 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
 
     # scroll to current track
     if $current_track.length
-      new_scroll_top = @track_list_view.$el.scrollTop() + $current_track.position().top
-      @track_list_view.$el.scrollTop(new_scroll_top)
+      new_scroll_top = @track_list_view.el.scrollTop + ($current_track.offset().top - @track_list_view.$el.offset().top)
+      @track_list_view.el.scrollTop = new_scroll_top
 
 
 

@@ -12,17 +12,26 @@
 
 ###
 
-#= require 'jquery'
+#= require 'zepto'
 #= require 'underscore'
 #= require 'backbone'
 #= require 'backbone_rails_sync'
-#= require 'backbone_datalink'
+#= require 'jsdeferred'
 #= require 'spin'
 #= require 'soundmanager2/soundmanager2'
 #= provide 'soundmanager2/dependencies'
 
 #= require 'helpers'
 #= require 'ongaku_ryoho'
+
+
+
+soundManager.setup
+  url: soundManagerFlashURL
+  flashVersion: 9
+  useFlashBlock: false
+  debugMode: false
+  flash9Options: { usePeakData: true }
 
 
 

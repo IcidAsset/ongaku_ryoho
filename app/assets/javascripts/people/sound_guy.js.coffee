@@ -13,7 +13,6 @@ class OngakuRyoho.People.SoundGuy
     $.extend(this, necessary_materials)
 
     this.apply_settings_from_local_storage();
-    this.setup_soundboard()
     this.check_the_lights()
 
 
@@ -54,28 +53,6 @@ class OngakuRyoho.People.SoundGuy
   
     # apply settings
     @controller.set(settings)
-
-
-
-  #
-  #  Setups
-  #
-  setup_soundboard: () =>
-    # ready state
-    @sound_manager = { ready: false }
-
-    # sound manager settings
-    soundManager.url = soundManagerFlashURL
-    soundManager.flashVersion = 9
-    soundManager.useFlashBlock = false
-    soundManager.preferFlash = true
-    soundManager.debugMode = false
-    soundManager.useFastPolling = true
-    soundManager.flash9Options = { usePeakData: true }
-
-    # when sound manager is ready
-    soundManager.onready () =>
-     @sound_manager.ready = true
 
 
 

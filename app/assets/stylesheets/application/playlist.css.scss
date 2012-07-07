@@ -196,7 +196,7 @@
       line-height: 30px;
       white-space: nowrap;
 
-      &.alt {
+      &:nth-child(2n) {
         background-color: #fbfbfb;
       }
       

@@ -42,9 +42,6 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
     # set html
     this.$el.html(html)
 
-    # odd
-    this.$el.find(".track:odd").addClass("alt")
-
     # trigger resize
     $(window).trigger("resize")
 
@@ -130,7 +127,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
     $t = $(e.currentTarget)
     
     # check
-    return if not SoundGuy.sound_manager.ready or $t.hasClass("unavailable")
+    return if not soundManager.ok() or $t.hasClass("unavailable")
 
     # set
     track = Tracks.getByCid($t.attr("rel"))

@@ -13,7 +13,7 @@ class OngakuRyoho.Views.Track extends Backbone.View
   #
   render: () =>
     this.$el.html(@template( @model.toJSON() ))
-    this.$el.children(".track:last").attr("rel", @model.cid)
+    this.$el.children(".track").last().attr("rel", @model.cid)
     
     # chain
     return this

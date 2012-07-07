@@ -80,9 +80,6 @@ class OngakuRyoho.Views.Controller extends Backbone.View
   
   
   render_now_playing: () =>
-    # stop current animation
-    this.$now_playing.find(".what .marquee-wrapper").stop(true, true)
-    
     # set content
     this.$now_playing.children(".what").html(
       this.now_playing_template({ now_playing: @model.get("now_playing") })
@@ -110,9 +107,11 @@ class OngakuRyoho.Views.Controller extends Backbone.View
     $buttons.filter(".play-pause").on("click", this.button_playpause_click_handler)
     
     # previous and next
-    $button_columns.filter(".previous-next")
+    $button_columns
       .children(".btn.previous")
-      .on("click", SoundGuy.select_previous_track).end()
+      .on("click", SoundGuy.select_previous_track)
+    
+    $button_columns
       .children(".btn.next")
       .on("click", SoundGuy.select_next_track)
     
@@ -132,7 +131,7 @@ class OngakuRyoho.Views.Controller extends Backbone.View
   
   
   button_playpause_click_handler: (e) =>
-    return unless SoundGuy.sound_manager.ready
+    return unless soundManager.ok()
     
     # set
     $button = $(e.currentTarget)
@@ -264,11 +263,11 @@ class OngakuRyoho.Views.Controller extends Backbone.View
       .wrap("<div class=\"marquee-wrapper\"></div>")
       .css({ float: "left", paddingRight: "65px" })
       .parent()
-      .css(
-        overflow: "hidden"
-        position: "absolute"
+      .css({
+        overflow: "hidden",
+        position: "absolute",
         width: "5000px"
-      )
+      })
     
     $span.after($span.clone())
     
@@ -279,21 +278,23 @@ class OngakuRyoho.Views.Controller extends Backbone.View
   
   now_playing_marquee_animation: ($thing_that_scrolls) =>
     # width of text, etc.
-    text_width = $thing_that_scrolls.children("span:first").outerWidth()
+    text_width = $thing_that_scrolls.children("span").first().width()
     anim_speed = text_width * 39.5
     wait_for   = 3000
     
     controller_view = this
     
     # animate
-    $thing_that_scrolls.delay(wait_for).animate(
-      { left: -text_width }, anim_speed, "linear",
-      (e) ->
-        $t = $(this)
-        $t.css("left", 0)
-        
-        controller_view.now_playing_marquee_animation($t)
-    )
+    _.delay(() ->
+      $thing_that_scrolls.animate(
+        { left: -text_width }, anim_speed, "linear",
+        (e) ->
+          $t = $(this)
+          $t.css("left", 0)
+          
+          controller_view.now_playing_marquee_animation($t)
+      )
+    , wait_for)
 
 
 
