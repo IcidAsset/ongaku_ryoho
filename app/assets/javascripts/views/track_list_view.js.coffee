@@ -162,7 +162,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
     artist = $track.find(".artist span").text()
     
     # check
-    if $t.data("favourite")
+    if $t.data("favourite") is true or $t.data("favourite") is "true"
       $t.attr("data-favourite", false)
       $t.data("favourite", false)
       
