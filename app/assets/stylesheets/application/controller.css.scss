@@ -5,6 +5,7 @@ $button_height: 52px;
   
   -webkit-font-smoothing: antialiased;
   
+  & > .audio-container { display: none }
   & > div { position: relative }
   
   /**************************************
@@ -78,7 +79,7 @@ $button_height: 52px;
   }
   
   /**************************************
-   *  Buttons
+   *  Controls
    */
   .controls {
     background: transparent image-url('controller/almost_invisible_pattern.png') 0 0 repeat;
@@ -103,6 +104,33 @@ $button_height: 52px;
     
     & > a:active {
       border-bottom-color: rgba(#fff, .51);
+    }
+
+    .subtitle {
+      background: rgba(black, .17);
+      color: rgba(white, .65);
+      float: left;
+      font-size: 7px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      line-height: 10px;
+      margin-right: 6px;
+      margin-top: 7px;
+      padding: 4px 4px 3px;
+      text-align: center;
+      text-transform: uppercase;
+      width: $button_height + 2 - (2 * 4);
+
+      @include border-radius(2px);
+
+      span {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellisis;
+        //white-space: nowrap;
+      }
+
+      &:first-child { clear: both }
     }
     
     .line {
@@ -259,6 +287,32 @@ $button_height: 52px;
         
         @include opacity(.49);
       }
+    }
+  }
+
+  .controls.alt {
+    & > a:first-of-type,
+    .subtitle:first-of-type { margin-left: 1px }
+
+    & > a:last-of-type,
+    .subtitle:last-of-type { margin-right: 0 }
+  }
+
+  .controls.alt .knob {
+    background: rgba(white, .04);
+
+    .it {
+      background: rgba(white, .15);
+
+      @include single-box-shadow(rgba(lighten(#d1d1d1, 2%), .1), 0, 2px, 8px, 0);
+    }
+
+    .it > div {
+      bottom: 3px;
+      left: 3px;
+      opacity: .9;
+      right: 3px;
+      top: 3px;
     }
   }
 

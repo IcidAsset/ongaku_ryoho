@@ -4,6 +4,12 @@ class OngakuRyoho.People.SoundGuy
     @shuffle_track_history = []
     @shuffle_track_history_index = 0
 
+    @audio_context = new webkitAudioContext()
+    @mixing_console = {
+      volume_node: @audio_context.createGainNode(),
+      filters: []
+    }
+
 
 
   #
