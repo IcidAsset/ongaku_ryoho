@@ -4,7 +4,7 @@ class ServersController < ApplicationController
 
   # GET 'servers/:id'
   def show
-    @server = current_user.sources.find(params[:id], Server)
+    @server = Server.where("user_id = ? AND id = ?", current_user.id, params[:id]).first
   end
 
   # GET 'servers/new'
@@ -14,19 +14,20 @@ class ServersController < ApplicationController
 
   # POST 'servers'
   def create
-    server = Server.new(params[:server])
-
-    server.location = "http://#{server.location}" unless server.location.include?('http://')
-    server.location << (server.location.end_with?('/') ? '' : '/')
-    server.name = server.location.gsub('http://', '').gsub('/', '')
-
-    existing_source = current_user.sources.select { |source|
-      source._type == 'Server' and source.location == server.location
+    location = params[:server].delete(:location)
+    location = "http://#{location}" unless location.include?('http://')
+    location << (location.end_with?('/') ? '' : '/')
+    
+    server = Server.new
+    server.user_id = current_user.id
+    server.name = location.gsub('http://', '').gsub('/', '')
+    server.configuration = { location: location }
+    
+    existing_server = Server.all.select { |s|
+      s.configuration.location == location
     }.first
 
-    unless existing_source
-      current_user.sources << server
-
+    unless existing_server
       if server.save
         @server = server
 

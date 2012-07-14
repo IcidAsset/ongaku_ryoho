@@ -7,8 +7,9 @@ class SourcesController < ApplicationController
     @sources = current_user.sources.sort { |a,b| a.label <=> b.label }
 
     @sources.each do |source|
-      source[:available] = source.available?
-      source[:label]     = source.label
+      source[:available]    = source.available?
+      source[:label]        = source.label
+      source[:track_amount] = source.tracks.length
     end
 
     # render

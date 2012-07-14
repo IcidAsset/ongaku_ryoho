@@ -11,6 +11,52 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20120714202127) do
+
+  create_table "favourites", :force => true do |t|
+    t.string   "track_artist"
+    t.string   "track_title"
+    t.integer  "user_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "sources", :force => true do |t|
+    t.boolean  "activated",     :default => false
+    t.string   "configuration", :default => "--- {}\n"
+    t.string   "status",        :default => ""
+    t.string   "name"
+    t.string   "type"
+    t.integer  "user_id"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+  end
+
+  create_table "tracks", :force => true do |t|
+    t.string   "artist"
+    t.string   "title"
+    t.string   "album"
+    t.string   "genre"
+    t.integer  "tracknr"
+    t.integer  "year"
+    t.string   "filename"
+    t.string   "location"
+    t.string   "url"
+    t.integer  "source_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "email",                        :null => false
+    t.string   "crypted_password"
+    t.string   "salt"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.string   "remember_me_token"
+    t.datetime "remember_me_token_expires_at"
+  end
+
+  add_index "users", ["remember_me_token"], :name => "index_users_on_remember_me_token"
 
 end

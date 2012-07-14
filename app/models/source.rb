@@ -1,11 +1,10 @@
-class Source
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Source < ActiveRecord::Base
+  attr_accessible :activated, :configuration, :status, :name
+  serialize :configuration
   
-  field :activated,   type: Boolean,   default: false
-  field :status,      type: String,    default: "unprocessed"
+  belongs_to :user
+  has_many :tracks
   
-  embeds_many :tracks
-  embedded_in :user
-  
+  validates_presence_of :configuration
+  validates_presence_of :name
 end

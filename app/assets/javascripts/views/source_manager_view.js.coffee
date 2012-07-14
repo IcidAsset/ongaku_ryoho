@@ -117,7 +117,7 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
   process_source: (source) ->
     def = new Deferred()
 
-    $.get("/sources/" + source.get("_id") + "/process",
+    $.get("/sources/" + source.get("id") + "/process",
       (response) -> def.call(response)
     )
 
@@ -128,7 +128,7 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
   check_source: (source) ->
     def = new Deferred()
 
-    $.get("/sources/" + source.get("_id") + "/check",
+    $.get("/sources/" + source.get("id") + "/check",
       (response) -> def.call(JSON.parse(response))
     )
 

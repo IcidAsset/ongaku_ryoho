@@ -1,11 +1,10 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.2'
+gem 'rails', '3.2.6'
 gem 'rack'
 gem 'unicorn'
 
-gem 'mongoid'
-gem 'bson_ext'
+gem 'pg'
 gem 'sorcery'
 
 group :assets do
@@ -18,8 +17,12 @@ end
 gem 'slim'
 gem 'rails-backbone'
 
+group :test, :development do
+  gem 'minitest-rails'
+end
+
 group :test do
-  gem 'turn', :require => false
-  gem 'mongoid-minitest'
+  gem 'shoulda-matchers', require: false
   gem 'factory_girl_rails', '~> 3.0'
+  gem 'turn', require: false
 end

@@ -67,7 +67,7 @@ class OngakuRyoho.People.SoundGuy
   #
   get_current_track: () =>
     if @current_sound
-      track = Tracks.find (track) => track.get('_id') is @current_sound.sID
+      track = Tracks.find (track) => track.get('id') is @current_sound.sID
     else
       null
 
@@ -170,7 +170,7 @@ class OngakuRyoho.People.SoundGuy
 
     # create sound
     new_sound = soundManager.createSound
-      id:             track_attributes._id
+      id:             track_attributes.id
       url:            track_attributes.url
 
       volume:         0
@@ -270,7 +270,7 @@ class OngakuRyoho.People.SoundGuy
     track = Tracks.getByCid( $track.attr('rel') )
 
     # push to history stack if shuffle
-    @shuffle_track_history.push(track.get('_id')) if shuffle
+    @shuffle_track_history.push(track.get('id')) if shuffle
 
     # insert track
     this.insert_track( track )
@@ -358,7 +358,7 @@ class OngakuRyoho.People.SoundGuy
     if shuffle
       return if shuffle_th is 0
 
-      track = @tracks.find (t) => t.get('_id') is @shuffle_track_history[shuffle_th - 1]
+      track = @tracks.find (t) => t.get('id') is @shuffle_track_history[shuffle_th - 1]
 
       if track
         @shuffle_track_history_index--
@@ -389,11 +389,11 @@ class OngakuRyoho.People.SoundGuy
     # if shuffle
     if shuffle
       if shuffle_th < @shuffle_track_history.length - 1
-        track = @tracks.find (t) => t.get('_id') is @shuffle_track_history[shuffle_th + 1]
+        track = @tracks.find (t) => t.get('id') is @shuffle_track_history[shuffle_th + 1]
 
       else
         track = _.shuffle(@tracks.reject((t) =>
-          return _.include(@shuffle_track_history, t.get('_id'))
+          return _.include(@shuffle_track_history, t.get('id'))
         ))[0]
 
         unless track
@@ -401,7 +401,7 @@ class OngakuRyoho.People.SoundGuy
           this.select_next_track()
           return
 
-        @shuffle_track_history.push(track.get('_id'))
+        @shuffle_track_history.push(track.get('id'))
 
       @shuffle_track_history_index++
       $track = $tracks.filter("[rel=\"#{track.cid}\"]")
