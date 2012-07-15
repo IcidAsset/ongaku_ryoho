@@ -5,9 +5,9 @@ A music player / library (without the storage option)
 + Ongaku Ryoho Servers ([gem](https://github.com/icidasset/ongaku_ryoho_server))
 
 ## Specs
-+ MongoDB
-+ Rails 3.2
-+ Backbone.js / jQuery
++ Postgresql
++ Rails 3.2.*
++ Backbone.js / Zepto.js
 + SoundManager2
 
 ## How?

@@ -5,15 +5,14 @@ class PagesController < ApplicationController
   def settings
   end
   
-  # GET 'source-manager'
-  def source_manager
+  # GET 'account'
+  def account
   end
 
 private
 
   def pages
     [
-      { title: "Source Manager", subtitle: "Connections", url: "/source-manager", icon: "&#x0053;" },
       { title: "Settings", subtitle: "Application", url: "/settings", icon: "&#x0042;" },
       { title: "Account", subtitle: "Preferences", url: "/account", icon: "&#x002b;" }
     ]

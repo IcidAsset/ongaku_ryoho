@@ -14,7 +14,6 @@ OngakuRyoho::Application.routes.draw do
   resources :servers, :except => [:index]
   
   # pages
-  get 'source-manager' => 'pages#source_manager'
   get 'settings' => 'pages#settings'
   get 'account' => 'pages#account'
 
