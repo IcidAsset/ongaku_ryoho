@@ -4,7 +4,7 @@ class ServersController < ApplicationController
 
   # GET 'servers/:id'
   def show
-    @server = Server.where("user_id = ? AND id = ?", current_user.id, params[:id]).first
+    @server = current_user.servers.find(params[:id])
   end
 
   # GET 'servers/new'

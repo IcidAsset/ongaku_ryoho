@@ -6,14 +6,8 @@ class SourcesController < ApplicationController
   def index
     @sources = current_user.sources.sort { |a,b| a.label <=> b.label }
 
-    @sources.each do |source|
-      source[:available]    = source.available?
-      source[:label]        = source.label
-      source[:track_amount] = source.tracks.length
-    end
-
     # render
-    render json: @sources
+    render json: @sources.to_json(methods: [:available, :track_amount, :label])
   end
   
   # GET 'sources/:id/process'

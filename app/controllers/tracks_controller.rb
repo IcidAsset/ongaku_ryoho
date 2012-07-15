@@ -23,8 +23,8 @@ class TracksController < ApplicationController
         f.track_title == t.title and f.track_artist == t.artist
       }
       
-      t[:favourite] = favourite_matches.length > 0
-      t[:available] = true
+      t.favourite = favourite_matches.length > 0
+      t.available = true
       
       favourites = favourites - favourite_matches
     end
@@ -79,6 +79,6 @@ class TracksController < ApplicationController
       per_page: per_page,
       total: total,
       models: tracks
-    }.to_json
+    }.to_json(methods: [:favourite, :available])
   end
 end

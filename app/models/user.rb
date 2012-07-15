@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   authenticates_with_sorcery!
   
   has_many :sources
+  has_many :servers
+  
   has_many :favourites
   
   validates_presence_of :email

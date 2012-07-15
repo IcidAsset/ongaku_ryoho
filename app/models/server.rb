@@ -35,11 +35,7 @@ class Server < Source
     self.status = 'processing'
 
     # make file list
-    file_list = []
-
-    self.tracks.each do |track|
-      file_list << track.location
-    end
+    file_list = self.tracks.map(&:location)
 
     # get json data from server
     begin
@@ -115,15 +111,20 @@ class Server < Source
 
 
   def self.add_new_tracks(server, new_tracks)
-    new_tracks.each do |new_track_tags|
+    new_track_models = new_tracks.map do |new_track_tags|
       new_track_tags.delete('last_modified')
       
       new_track_tags['genre'] = new_track_tags.delete('genres') || ''
       new_track_tags['url'] = server.configuration[:location] + new_track_tags['location']
       
-      new_track = Track.new(new_track_tags)
-      new_track.source_id = server.id
-      new_track.save
+      new_track_model = Track.new(new_track_tags)
+      new_track_model.source_id = server.id
+      
+      new_track_model
+    end
+        
+    ActiveRecord::Base.transaction do
+      new_track_models.each(&:save)
     end
 
     server.activated = true
@@ -131,9 +132,7 @@ class Server < Source
 
 
   def self.remove_tracks(server, missing_files)
-    missing_files.each do |missing_file_location|
-      Track.where("source_id = ? AND location = ?", server.id, missing_file_location)
-    end
+    Track.destroy_all(location: missing_files, source_id: server.id) if missing_files.length > 0
   end
 
 end

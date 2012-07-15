@@ -9,21 +9,21 @@ class FavouritesController < ApplicationController
   def create
     favourite = Favourite.new(params[:favourite])
     
-    # add to collection
-    current_user.favourites << favourite
+    # favourite belongs to user
+    favourite.user_id = current_user.id
     
     # save favourite
-    favourite.save()
+    favourite.save
     
     # render json
     render json: favourite
   end
   
   def destroy
-    favourite = current_user.favourites.find(params[:id], Favourite)
+    favourite = current_user.favourites.find(params[:id])
     
     # destroy favourite
-    favourite.destroy()
+    favourite.destroy
     
     # render json
     render json: favourite

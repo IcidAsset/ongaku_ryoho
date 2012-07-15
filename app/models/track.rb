@@ -1,5 +1,6 @@
 class Track < ActiveRecord::Base
   attr_accessible :artist, :title, :album, :genre, :tracknr, :year, :filename, :location, :url
+  attr_accessor :favourite, :available
   belongs_to :source
   
   validates_presence_of :artist
