@@ -2,6 +2,30 @@ class TracksController < ApplicationController
   before_filter :require_login
   layout false
   
+  def new_index
+    available_sources = current_user.sources.where(activated: true).all
+    available_sources = available_sources.keep_if do |source|
+      source.available?
+    end
+    
+    available_source_ids = available_sources.map { |source| source.id }
+    
+    # pagination, order, etc.
+    page = params[:page].to_i
+    per_page = params[:per_page].to_i
+    sort_by = params[:sort_by].try(:to_sym)
+    sort_direction = params[:sort_direction].uppercase
+    
+    # select tracks
+    tracks = if params[:favourites] == "true"
+      favourite_selection(available_source_ids, page, per_page, sort_by, sort_direction)
+    else
+      default_selection(available_source_ids)
+    end
+  end
+  
+  
+  # DEPRECATED
   def index
     tracks = []
     
@@ -81,4 +105,37 @@ class TracksController < ApplicationController
       models: tracks
     }.to_json(methods: [:favourite, :available])
   end
+
+
+private
+
+
+  def default_selection(available_source_ids, page, per_page, sort_by, sort_direction)
+    # order
+    order = case sort_by
+    when :title
+      "LOWER(title), tracknr, LOWER(artist), LOWER(album)"
+    when :album
+      "LOWER(album), tracknr, LOWER(artist), LOWER(title)"
+    else
+      "LOWER(artist), LOWER(album), tracknr, LOWER(title)"
+    end
+    
+    # reverse?
+    order = order.split(", ").map { |o| "#{o} DESC" }.join(", ") if sort_direction == "DESC"
+    
+    # grab tracks
+    tracks = Track.find(:all,
+      offset: (page - 1) * per_page,
+      limit: per_page,
+      conditions: {
+        source_id: available_source_ids,
+        order: order
+      }
+    )
+  end
+  
+  def favourite_selection(available_source_ids)
+  end
+
 end
