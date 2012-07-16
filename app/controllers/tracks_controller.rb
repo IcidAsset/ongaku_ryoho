@@ -11,16 +11,19 @@ class TracksController < ApplicationController
     available_source_ids = available_sources.map { |source| source.id }
     
     # pagination, order, etc.
-    page = params[:page].to_i
-    per_page = params[:per_page].to_i
-    sort_by = params[:sort_by].try(:to_sym)
-    sort_direction = params[:sort_direction].uppercase
+    options = {
+      filter: params[:filter],
+      page: params[:page].to_i,
+      per_page: params[:per_page].to_i,
+      sort_by: params[:sort_by].try(:to_sym),
+      sort_direction: params[:sort_direction].upcase
+    }
     
     # select tracks
     tracks = if params[:favourites] == "true"
-      favourite_selection(available_source_ids, page, per_page, sort_by, sort_direction)
+      favourite_selection(available_source_ids, options)
     else
-      default_selection(available_source_ids)
+      default_selection(available_source_ids, options)
     end
   end
   
@@ -110,9 +113,12 @@ class TracksController < ApplicationController
 private
 
 
-  def default_selection(available_source_ids, page, per_page, sort_by, sort_direction)
+  def default_selection(available_source_ids, options)
+    offset = (options[:page] - 1) * options[:per_page]
+    limit = options[:per_page]
+    
     # order
-    order = case sort_by
+    order = case options[:sort_by]
     when :title
       "LOWER(title), tracknr, LOWER(artist), LOWER(album)"
     when :album
@@ -121,21 +127,33 @@ private
       "LOWER(artist), LOWER(album), tracknr, LOWER(title)"
     end
     
-    # reverse?
-    order = order.split(", ").map { |o| "#{o} DESC" }.join(", ") if sort_direction == "DESC"
+    # reverse order?
+    order = order.split(", ").map { |o| "#{o} DESC" }.join(", ") if options[:sort_direction] == "DESC"
     
     # grab tracks
-    tracks = Track.find(:all,
-      offset: (page - 1) * per_page,
-      limit: per_page,
-      conditions: {
-        source_id: available_source_ids,
-        order: order
-      }
-    )
+    tracks = if options[:filter].blank?
+      Track.find(:all,
+        offset: offset,
+        limit: limit,
+        conditions: {
+          source_id: available_source_ids,
+          order: order
+        }
+      )
+    else
+      sql_statement = "(to_tsvector('simple', title) @@ :q OR " +
+                      "to_tsvector('simple', artist) @@ :q OR " +
+                      "to_tsvector('simple', album) @@ :q) AND source_id IN [:s]"
+      
+      Track.where(sql_statement, q: options[:filter], s: available_source_ids)
+           .offset(offset)
+           .limit(limit)
+           .order(order)
+           .all
+    end
   end
   
-  def favourite_selection(available_source_ids)
+  def favourite_selection(available_source_ids, options)
   end
 
 end
