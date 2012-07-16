@@ -1,0 +1,24 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  database: ongaku_ryoho_development
+  pool: 5
+  username: StevenV
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  database: ongaku_ryoho_test
+  pool: 5
+  username: StevenV
+
+# production:
+#   adapter: postgresql
+#   encoding: unicode
+#   host: localhost
+#   database: ongaku_ryoho_production
+#   pool: 5
+#   username: ongaku_ryoho
+#   password: secret
