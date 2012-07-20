@@ -3,7 +3,8 @@ class FavouritesController < ApplicationController
   layout false
 
   def index
-    render json: current_user.favourites.all
+    render json: current_user.favourites.all,
+           except: [:search_vector]
   end
 
   def create

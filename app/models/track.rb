@@ -19,6 +19,6 @@ class Track < ActiveRecord::Base
   # Accessors
   #
   def available
-    true
+    @available.nil? ? true : @available
   end
 end

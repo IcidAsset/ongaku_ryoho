@@ -35,7 +35,10 @@ class TracksController < ApplicationController
       per_page: options[:per_page],
       total: tracks.length,
       models: tracks
-    }.to_json(methods: [:favourite, :available])
+    }.to_json(
+      methods: [:available],
+      except: [:search_vector]
+    )
   end
 
 
@@ -43,10 +46,11 @@ private
 
 
   def select_tracks(available_source_ids, options)
-    return [] if available_source_ids.length == 0
-
     filter = !options[:filter].blank?
     select_favourites = options[:select_favourites]
+
+    # check
+    return [] if available_source_ids.empty? and !select_favourites
 
     # order
     order = case options[:sort_by]
@@ -108,16 +112,19 @@ private
         if f.track_id
           track_ids << f.track_id
         else
-          index = tracks_placeholder.index(f.id)
-          tracks_placeholder[index] = Track.new({
+          imaginary_track = Track.new({
             title: f.title,
             artist: f.artist,
             album: f.album,
             tracknr: 0,
-            genre: "",
-            favourite: true,
-            available: false
+            genre: ""
           })
+
+          imaginary_track.favourite_id = f.id
+          imaginary_track.available = false
+
+          index = tracks_placeholder.index(f.id)
+          tracks_placeholder[index] = imaginary_track
         end
       end
 
