@@ -65,23 +65,18 @@ private
 
     # condition sql
     condition_sql = ""
+    condition_sql << "source_id IN (?)" unless select_favourites
     condition_sql << (
-      select_favourites ? "" : "source_id IN (?)"
-    )
-
-    condition_sql << (
-      filter ? " AND search_vector @@ to_tsquery('english', ?)" : ""
-    )
+      (condition_sql.blank? ? "" : " AND ") +
+      "search_vector @@ to_tsquery('english', ?)"
+    ) if filter
 
     # condition arguments
     condition_arguments = []
+    condition_arguments << available_source_ids unless select_favourites
     condition_arguments << (
-      select_favourites ? nil : available_source_ids
-    )
-
-    condition_arguments << (
-      filter ? options[:filter].strip.gsub(" ", " | ") : nil
-    )
+      options[:filter].strip.gsub(" ", " | ")
+    ) if filter
 
     # conditions
     conditions = [condition_sql] + condition_arguments.compact

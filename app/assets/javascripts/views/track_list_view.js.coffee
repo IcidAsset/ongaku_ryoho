@@ -194,7 +194,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
 
 
 
-  remove_matching_favourites: (title, artist) =>
+  remove_matching_favourites: (title, artist, album) =>
     favourites = Favourites.where({
       title: title,
       artist: artist,
