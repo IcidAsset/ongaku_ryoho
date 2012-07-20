@@ -27,6 +27,11 @@ class FavouritesController < ApplicationController
   def destroy
     favourite = current_user.favourites.find(params[:id])
 
+    # related track
+    track = favourite.track
+    track.favourite_id = nil
+    track.save
+
     # destroy favourite
     favourite.destroy
 
