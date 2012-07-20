@@ -5,9 +5,12 @@ describe Favourite do
 
   it { must belong_to(:user) }
 
-  it { must allow_mass_assignment_of(:track_artist) }
-  it { must allow_mass_assignment_of(:track_title) }
+  it { must allow_mass_assignment_of(:artist) }
+  it { must allow_mass_assignment_of(:title) }
+  it { must allow_mass_assignment_of(:album) }
+  it { must allow_mass_assignment_of(:track_id) }
 
-  it { must validate_presence_of(:track_artist) }
-  it { must validate_presence_of(:track_title) }
+  it { must validate_presence_of(:artist) }
+  it { must validate_presence_of(:title) }
+  it { must validate_presence_of(:album) }
 end

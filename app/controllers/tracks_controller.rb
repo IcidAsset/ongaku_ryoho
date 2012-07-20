@@ -4,10 +4,11 @@ class TracksController < ApplicationController
 
   def index
     available_sources = current_user.sources.where(activated: true).all
-    available_sources = available_sources.keep_if do |source|
+    available_sources.keep_if do |source|
       source.available?
     end
 
+    # available source ids
     available_source_ids = available_sources.map { |source| source.id }
 
     # filter, pagination, order, etc.
@@ -17,16 +18,16 @@ class TracksController < ApplicationController
       per_page: params[:per_page].to_i,
       sort_by: params[:sort_by].try(:to_sym),
       sort_direction: params[:sort_direction].upcase,
+      select_favourites: (params[:favourites] == "true")
     }
 
-    options[:offset] = (options[:page] - 1) * options[:per_page]
+    # options that depend on other options
+    options.merge!({
+      offset: (options[:page] - 1) * options[:per_page]
+    })
 
     # select tracks
-    tracks = if params[:favourites] == "true"
-      []
-    else
-      select_tracks(available_source_ids, options)
-    end
+    tracks = select_tracks(available_source_ids, options)
 
     # render
     render json: {
@@ -42,7 +43,10 @@ private
 
 
   def select_tracks(available_source_ids, options)
+    return [] if available_source_ids.length == 0
+
     filter = !options[:filter].blank?
+    select_favourites = options[:select_favourites]
 
     # order
     order = case options[:sort_by]
@@ -59,81 +63,88 @@ private
       order = order.split(", ").map { |o| "#{o} DESC" }.join(", ")
     end
 
-    # conditions
-    condition_sql  = "source_id IN (?)"
-    condition_sql += " AND search_vector @@ to_tsquery('english', ?)" if filter
-
-    condition_arguments  = [available_source_ids]
-    condition_arguments += [options[:filter].strip.gsub(" ", " | ")] if filter
-
-    conditions = [condition_sql] + condition_arguments
-
-    # grab tracks
-    tracks = Track.find(:all,
-      offset: options[:offset],
-      limit: options[:per_page],
-      conditions: conditions,
-      order: order
+    # condition sql
+    condition_sql = ""
+    condition_sql << (
+      select_favourites ? "" : "source_id IN (?)"
     )
 
-    # user's favourites
-    favourites = current_user.favourites.all
+    condition_sql << (
+      filter ? " AND search_vector @@ to_tsquery('english', ?)" : ""
+    )
 
-    # which are favourites?
-    tracks.each do |t|
-      favourite_matches = favourites.select do |f|
-        f.track_title == t.title and f.track_artist == t.artist
-      end
+    # condition arguments
+    condition_arguments = []
+    condition_arguments << (
+      select_favourites ? nil : available_source_ids
+    )
 
-      t.favourite = favourite_matches.length > 0
-      favourites = favourites - favourite_matches
-    end
+    condition_arguments << (
+      filter ? options[:filter].strip.gsub(" ", " | ") : nil
+    )
 
-    # give it to me
-    return tracks
-  end
+    # conditions
+    conditions = [condition_sql] + condition_arguments.compact
 
+    # grab tracks
+    tracks = unless select_favourites
+      Track.find(:all, {
+        offset: options[:offset],
+        limit: options[:per_page],
+        conditions: conditions,
+        order: order
+      })
 
-  def select_favourite_tracks(available_source_ids, options)
-    filter = options[:filter].blank?
-    tracks = []
-
-    # loop over favourites
-    favourites.each do |f|
-      favourite_track = Track.where(
-        "title = ? AND artist = ?", f.track_title, f.track_artist
-      ).first
-
-      unless favourite_track
-        tracks << Track.new({
-          title: f.track_title,
-          artist: f.track_artist,
-          album: "",
-          tracknr: "",
-          genre: "",
-          favourite: true,
-          available: false
-        })
-      else
-        tracks << favourite_track
-      end
-    end
-
-    # sort
-    tracks = case options[:sort_by]
-    when :title
-      tracks.sort_by { |t| [t.title.downcase, t.tracknr, t.artist.downcase, t.album.downcase] }
-    when :album
-      tracks.sort_by { |t| [t.album.downcase, t.tracknr, t.artist.downcase, t.title.downcase] }
     else
-      tracks.sort_by { |t| [t.artist.downcase, t.album.downcase, t.tracknr, t.title.downcase] }
+      favourites = Favourite.find(:all, {
+        offset: options[:offset],
+        limit: options[:per_page],
+        conditions: conditions,
+        order: order
+      })
+
+      track_ids = []
+      tracks_placeholder = favourites.map { |f| f.id }
+
+      source_ids = current_user.sources.all.map { |s| s.id }
+      unavailable_source_ids = source_ids - available_source_ids
+
+      favourites.each_with_index do |f, idx|
+        if f.track_id
+          track_ids << f.track_id
+        else
+          index = tracks_placeholder.index(f.id)
+          tracks_placeholder[index] = Track.new({
+            title: f.title,
+            artist: f.artist,
+            album: f.album,
+            tracknr: 0,
+            genre: "",
+            favourite: true,
+            available: false
+          })
+        end
+      end
+
+      _unavailable_tracks = Track.where(id: track_ids, source_id: unavailable_source_ids)
+      _unavailable_tracks.each do |ut|
+        ut.available = false
+
+        index = tracks_placeholder.index(ut.favourite_id)
+        tracks_placeholder[index] = ut
+
+        track_ids.delete(ut.id)
+      end
+
+      _tracks = Track.where(id: track_ids, source_id: available_source_ids)
+      _tracks.each do |t|
+        index = tracks_placeholder.index(t.favourite_id)
+        tracks_placeholder[index] = t
+      end
+
+      tracks_placeholder
+
     end
-
-    # reverse?
-    tracks.reverse! if options[:sort_direction] == "DESC"
-
-    # slice
-    tracks = tracks.slice(options[:offset], options[:per_page])
 
     # give it to me
     return tracks

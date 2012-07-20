@@ -1,7 +1,10 @@
 class Favourite < ActiveRecord::Base
-  attr_accessible :track_artist, :track_title
+  attr_accessible :artist, :title, :album, :track_id
+
   belongs_to :user
-  
-  validates_presence_of :track_artist
-  validates_presence_of :track_title
+  belongs_to :track
+
+  validates_presence_of :artist
+  validates_presence_of :title
+  validates_presence_of :album
 end

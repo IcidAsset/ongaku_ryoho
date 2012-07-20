@@ -14,6 +14,7 @@ class CreateTracks < ActiveRecord::Migration
       t.string :url
 
       t.integer :source_id
+      t.integer :favourite_id
 
       t.column :search_vector, 'tsvector'
 
@@ -21,6 +22,7 @@ class CreateTracks < ActiveRecord::Migration
     end
 
     add_index :tracks, :source_id
+    add_index :tracks, :favourite_id
 
     execute <<-EOS
       CREATE INDEX tracks_search_index ON tracks USING gin(search_vector)

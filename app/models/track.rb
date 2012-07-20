@@ -1,7 +1,11 @@
 class Track < ActiveRecord::Base
-  attr_accessible :artist, :title, :album, :genre, :tracknr, :year, :filename, :location, :url
-  attr_accessor :favourite, :available
+  attr_accessible :artist, :title, :album, :genre, :tracknr, :year,
+                  :filename, :location, :url
+
+  attr_accessor :available
+
   belongs_to :source
+  belongs_to :favourite
 
   validates_presence_of :artist
   validates_presence_of :title
@@ -11,6 +15,9 @@ class Track < ActiveRecord::Base
   validates_presence_of :location
   validates_presence_of :url
 
+  #
+  # Accessors
+  #
   def available
     true
   end

@@ -1,6 +1,6 @@
 class Server < Source
   attr_accessor :location
-  
+
   def label
     self.configuration[:location] rescue ""
   end
@@ -63,7 +63,7 @@ class Server < Source
     self.status = "last updated at #{ Time.now.strftime('%d %b %y / %I:%M %p') }"
 
     # did something change?
-    changed = (new_tracks.length + missing_files.length === 0) ? false : true 
+    changed = (new_tracks.length + missing_files.length === 0) ? false : true
 
     # the end
     self.save
@@ -113,16 +113,16 @@ class Server < Source
   def self.add_new_tracks(server, new_tracks)
     new_track_models = new_tracks.map do |new_track_tags|
       new_track_tags.delete('last_modified')
-      
+
       new_track_tags['genre'] = new_track_tags.delete('genres') || ''
       new_track_tags['url'] = server.configuration[:location] + new_track_tags['location']
-      
+
       new_track_model = Track.new(new_track_tags)
       new_track_model.source_id = server.id
-      
+
       new_track_model
     end
-        
+
     ActiveRecord::Base.transaction do
       new_track_models.each(&:save)
     end
@@ -132,7 +132,20 @@ class Server < Source
 
 
   def self.remove_tracks(server, missing_files)
-    Track.destroy_all(location: missing_files, source_id: server.id) if missing_files.length > 0
+    return if missing_files.length == 0
+
+    # collect tracks
+    tracks = Track.where(location: missing_files, source_id: server.id)
+    tracks_with_favourites = tracks.where("favourite_id IS NOT NULL").all
+
+    # remove track_id from related favourites
+    tracks_with_favourites.each do |track|
+      track.favourite.track_id = nil
+      track.favourite.save
+    end
+
+    # destroy tracks
+    tracks.destroy_all
   end
 
 end

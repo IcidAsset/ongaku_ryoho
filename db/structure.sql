@@ -34,9 +34,13 @@ SET default_with_oids = false;
 
 CREATE TABLE favourites (
     id integer NOT NULL,
-    track_artist character varying(255),
-    track_title character varying(255),
+    artist character varying(255),
+    title character varying(255),
+    album character varying(255),
+    tracknr integer DEFAULT 0,
     user_id integer,
+    track_id integer,
+    search_vector tsvector,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -123,6 +127,7 @@ CREATE TABLE tracks (
     location character varying(255),
     url character varying(255),
     source_id integer,
+    favourite_id integer,
     search_vector tsvector,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -244,10 +249,38 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: favourites_search_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX favourites_search_index ON favourites USING gin (search_vector);
+
+
+--
+-- Name: index_favourites_on_track_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_favourites_on_track_id ON favourites USING btree (track_id);
+
+
+--
+-- Name: index_favourites_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_favourites_on_user_id ON favourites USING btree (user_id);
+
+
+--
 -- Name: index_sources_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_sources_on_user_id ON sources USING btree (user_id);
+
+
+--
+-- Name: index_tracks_on_favourite_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_tracks_on_favourite_id ON tracks USING btree (favourite_id);
 
 
 --
@@ -276,6 +309,13 @@ CREATE INDEX tracks_search_index ON tracks USING gin (search_vector);
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: favourites_vector_update; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER favourites_vector_update BEFORE INSERT OR UPDATE ON favourites FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger('search_vector', 'pg_catalog.english', 'artist', 'title', 'album');
 
 
 --

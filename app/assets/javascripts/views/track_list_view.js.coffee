@@ -1,5 +1,5 @@
 class OngakuRyoho.Views.TrackList extends Backbone.View
-  
+
   #
   #  Events
   #
@@ -51,7 +51,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
 
     else
       page_info = @collection.page_info()
-      
+
       word = {
         pages: (if page_info.pages is 1 then "page" else "pages")
         tracks: (if page_info.total is 1 then "track" else "tracks")
@@ -59,7 +59,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
 
       message =  "#{page_info.total} #{word.tracks} found &mdash;
                   page #{page_info.page} / #{page_info.pages}"
-    
+
     PlaylistView.set_footer_contents(message)
 
     # chain
@@ -76,7 +76,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
 
   fetched: () =>
     PlaylistView.check_page_navigation()
-    
+
     if this.count_tracks() is 0
       this.$el.html("<div class=\"nothing-here\" />")
 
@@ -110,10 +110,10 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
   #
   add_playing_class_to_track: (track) =>
     return unless track
-    
+
     # set elements
     $track = this.$el.find(".track[rel=\"#{track.cid}\"]")
-    
+
     # set classes
     $track.parent().children(".track.playing").removeClass("playing")
     $track.addClass("playing")
@@ -125,7 +125,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
   #
   play_track: (e) =>
     $t = $(e.currentTarget)
-    
+
     # check
     return if not soundManager.ok() or $t.hasClass("unavailable")
 
@@ -134,10 +134,10 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
 
     # insert track
     SoundGuy.insert_track(track)
-    
+
     # set elements
     $playpause_button_light = ControllerView.$el.find(".controls a .button.play-pause .light")
-    
+
     # turn the play button light on
     $playpause_button_light.addClass("on")
 
@@ -157,23 +157,26 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
   track_rating_star_click: (e) =>
     $t = $(e.currentTarget)
     $track = $t.closest(".track")
-    
-    title = $track.find(".title span").text()
-    artist = $track.find(".artist span").text()
-    
+    track = Tracks.getByCid($track.attr("rel"))
+
+    title = track.get("title")
+    artist = track.get("artist")
+    album = track.get("album")
+    track_id = track.get("id")
+
     # check
     if $t.data("favourite") is true or $t.data("favourite") is "true"
       $t.attr("data-favourite", false)
       $t.data("favourite", false)
-      
-      this.remove_matching_favourites(title, artist)
-      
+
+      this.remove_matching_favourites(title, artist, album)
+
     else
       $t.attr("data-favourite", true)
       $t.data("favourite", true)
-      
-      this.create_new_favourite(title, artist)
-    
+
+      this.create_new_favourite(title, artist, album, track_id)
+
     # prevent default
     e.preventDefault()
     e.stopPropagation()
@@ -181,19 +184,22 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
 
 
 
-  create_new_favourite: (title, artist) =>
+  create_new_favourite: (title, artist, album, track_id) =>
     Favourites.create({
-      track_title: title,
-      track_artist: artist
+      title: title,
+      artist: artist,
+      album: album,
+      track_id: track_id
     })
 
 
 
   remove_matching_favourites: (title, artist) =>
     favourites = Favourites.where({
-      track_title: title,
-      track_artist: artist
+      title: title,
+      artist: artist,
+      album: album
     })
-    
+
     # destroy each
     _.each favourites, (f) -> f.destroy()
