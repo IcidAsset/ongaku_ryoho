@@ -5,6 +5,7 @@ module ApplicationHelper
         { title: "Application", url: "/", icon: "&#xe03a;" },
         { title: "About", url: "/about", icon: "&#x0060;" },
         { title: "Settings", url: "/settings", icon: "&#x0042;" },
+        { title: "Tools", url: "/tools", icon: "&#x0043;" },
         { title: "Account", url: "/account", icon: "&#x002b;" },
         { title: "Sign out", url: "/sign-out", icon: "&#x0024;" }
       ]

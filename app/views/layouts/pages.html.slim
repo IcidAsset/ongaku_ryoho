@@ -7,19 +7,25 @@ html
     - @pages = pages
     - @page = @pages.find { |p| p[:url] == request.path }
 
+    - title = @page[:title]
+    - downcased_title = title.downcase
+
     title
       | Ongaku Ryoho &mdash;
-      = " #{@page[:title]}"
+      = " #{title}"
 
     = favicon_link_tag '/favicon.png'
 
     = stylesheet_link_tag 'pages'
     = csrf_meta_tags
 
-  body[class=@page[:title].downcase]
+  body[class=downcased_title]
 
     #wrapper
-      h1 Ongaku Ryoho
+      - if downcased_title == "about"
+        h1.application-name Ongaku Ryoho
+      - else
+        .application-name Ongaku Ryoho
 
       nav
         - @pages.each do |page|

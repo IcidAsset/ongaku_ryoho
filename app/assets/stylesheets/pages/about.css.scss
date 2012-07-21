@@ -5,5 +5,53 @@
 */
 
 body.about .slideshow {
+  font-size: 0;
+  line-height: 0;
+  overflow: hidden;
   padding-top: 15px;
+  white-space: nowrap;
+
+  .slide {
+    display: inline-block;
+    margin: 0;
+    width: 100%;
+
+    img {
+      height: auto;
+      width: 100%;
+    }
+  }
+
+  .slide-navigation {
+    border: 1px dashed #e6e6e6;
+    border-top: 0;
+    padding: 13px 10px 11px;
+    text-align: center;
+
+    @include border-bottom-radius(2px);
+  }
+
+  .slide-navigation a {
+    border: 2px solid rgba(black, .1);
+    display: inline-block;
+    height: 7px;
+    margin-left: 8px;
+    width: 17px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      background: rgba(black, .125);
+    }
+
+    &.active {
+      background: #aaa;
+    }
+  }
+
+
 }
