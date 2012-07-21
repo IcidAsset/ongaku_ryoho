@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  layout 'sessions'
+  layout 'pages'
 
-  # GET 'users/new'
+  # GET 'sign-up'
   def new
     @user = User.new
   end

@@ -2,12 +2,12 @@ $button_height: 52px;
 
 #controller {
   position: relative;
-  
+
   -webkit-font-smoothing: antialiased;
-  
+
   & > .audio-container { display: none }
   & > div { position: relative }
-  
+
   /**************************************
    *  Now Playing
    */
@@ -18,10 +18,10 @@ $button_height: 52px;
     font-size: 11px;
     font-weight: 200;
     line-height: 54px;
-    
+
     @include single-box-shadow(rgba(#000, .29), 0, 6px, 9px, 0, 'inset');
     @include single-text-shadow(rgba(#000, .53), 0, 0, 2px);
-    
+
     .time {
       font-size: 18px;
       font-weight: 100;
@@ -29,7 +29,7 @@ $button_height: 52px;
       position: absolute;
       top: 0;
     }
-    
+
     &, .what { height: 50px; overflow: hidden }
        .what {
       margin: 0 19px 0 78px;
@@ -37,10 +37,10 @@ $button_height: 52px;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    
+
     .what strong { font-weight: 700 }
   }
-  
+
   /**************************************
    *  Progress Bar
    */
@@ -49,15 +49,15 @@ $button_height: 52px;
     margin: 3px 0 0;
     padding: 5px 1px;
   }
-  
+
   .progress-bar {
     background: rgba(#000, .1);
     height: 4px;
     overflow: hidden;
     position: relative;
-    
+
     &, .progress { height: 4px }
-    
+
     .progress {
       background: #fff;
       left: 0;
@@ -65,19 +65,19 @@ $button_height: 52px;
       top: 0;
       width: 0;
     }
-    
+
     .progress.track {
       z-index: 2;
     }
-    
+
     .progress.loader {
       background: #000;
       z-index: 1;
-      
+
       @include opacity(.09);
     }
   }
-  
+
   /**************************************
    *  Controls
    */
@@ -87,21 +87,21 @@ $button_height: 52px;
     margin-top: 7px;
     overflow: hidden;
     padding: 9px 12px;
-    
+
     & > a {
       border-bottom: 1px solid rgba(#000, .19);
       cursor: pointer;
       float: left;
       margin-right: 6px;
       padding: 1px;
-      
+
       @include background-image(linear-gradient(rgba(#000, .11), rgba(#000, .19)));
       @include border-radius(4px);
-      
+
       &.no-margin,
       &:last-child { margin-right: 0 }
     }
-    
+
     & > a:active {
       border-bottom-color: rgba(#fff, .51);
     }
@@ -132,52 +132,52 @@ $button_height: 52px;
 
       &:first-child { clear: both }
     }
-    
+
     .line {
       height: $button_height;
       float: left;
       width: 11px;
-    
+
       .hr { background: rgba(#000, .19); height: 1px; margin-top: $button_height / 2 + 1 }
     }
-    
+
     .switch, .button, .button-column, .knob {
       height: $button_height;
       overflow: hidden;
       position: relative;
-      
+
       @include background-image(linear-gradient(#fff, rgba(#fff, .87)));
       @include border-radius(3px);
     }
-    
+
     //// <button>
     .button {
       width: $button_height;
-      
+
       .light {
         background: #dadada;
         height: 5px;
         margin: 8px auto 0;
         width: 20px;
-        
+
         @include border-radius(4px);
-        
+
         &.on {
-          background: #bcf865;
-          
-          @include single-box-shadow(#bcf865, 0, 0, 25px, 2px);
+          background: $green;
+
+          @include single-box-shadow($green, 0, 0, 25px, 2px);
         }
-        
+
         .overlay {
           height: 5px;
           position: absolute;
           width: 20px;
-          
+
           @include background-image(linear-gradient(left, rgba(#fff, .38), rgba(#fff, 0)));
           @include border-radius(4px);
         }
       }
-      
+
       .name {
         color: lighten(#000, 33%);
         font-size: 10px;
@@ -185,7 +185,7 @@ $button_height: 52px;
         margin-top: 4px;
         text-align: center;
       }
-      
+
       .icon {
         background-position: center bottom;
         background-repeat: no-repeat;
@@ -195,48 +195,48 @@ $button_height: 52px;
         position: absolute;
         width: 100%;
       }
-      
+
       &.play-pause .icon { background-image: image-url('controller/media-play_pause.png') }
     }
-    
+
     //// <button-column>
     .button-column {
-    
+
       .btn {
         background-position: center;
         background-repeat: no-repeat;
         height: $button_height / 2;
         padding: 0 10px;
         width: 16px;
-        
+
         &.previous { background-image: image-url('controller/media-previous.png') }
         &.next     { background-image: image-url('controller/media-next.png')     }
       }
-      
+
       .btn:first-child { border-bottom: 1px solid #e8eced }
-    
+
     }
-    
+
     //// <switch>
     .switch {
       padding: 0 10px;
       width: 16px;
-      
+
       .light {
         background: #dadada;
         height: 6px;
         margin: 8px auto 0;
         width: 6px;
-        
+
         @include border-radius(6px);
-        
+
         &.on {
           background: #00ccff;
-          
+
           @include single-box-shadow(#00ccff, 0, 0, 25px, 2px);
         }
       }
-      
+
       .icon {
         background-position: center bottom;
         background-repeat: no-repeat;
@@ -246,37 +246,37 @@ $button_height: 52px;
         position: absolute;
         width: 100%;
       }
-      
+
       &.shuffle .icon { background-image: image-url('controller/media-shuffle.png') }
       &.repeat .icon  { background-image: image-url('controller/media-repeat.png')  }
       &.volume .icon  { background-image: image-url('controller/media-volume.png')  }
     }
-    
+
     //// <knob>
     .knob {
       width: $button_height;
-     
+
       .it {
-        background: darken(#f2f2f2, 5%);
+        background: rgba(black, .13) image-url('background-pages.png');
         height: 36px;
         margin: $button_height / 2 - 36 / 2 auto 0;
         position: relative;
         width: 36px;
         z-index: 2;
-        
+
         @include single-box-shadow(lighten(#d1d1d1, 2%), 0, 2px, 8px, 0);
         &, & > div { @include border-radius(36px) }
       }
-      
+
       .it > div {
         background: transparent image-url('controller/knob.png') center no-repeat;
-        bottom: 0;
-        left: 0;
+        bottom: 3px;
+        left: 3px;
         position: absolute;
-        right: 0;
-        top: 0;
+        right: 3px;
+        top: 3px;
       }
-      
+
       .lines {
         background: transparent image-url('controller/knob-lines.png') center top no-repeat;
         height: 7px;
@@ -284,7 +284,7 @@ $button_height: 52px;
         position: relative;
         width: 38px;
         z-index: 3;
-        
+
         @include opacity(.49);
       }
     }
@@ -307,13 +307,7 @@ $button_height: 52px;
       @include single-box-shadow(rgba(lighten(#d1d1d1, 2%), .1), 0, 2px, 8px, 0);
     }
 
-    .it > div {
-      bottom: 3px;
-      left: 3px;
-      opacity: .9;
-      right: 3px;
-      top: 3px;
-    }
+    .it > div { opacity: .9 }
   }
 
 }

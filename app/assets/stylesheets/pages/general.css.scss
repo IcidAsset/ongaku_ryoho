@@ -1,161 +1,102 @@
 $page_black: #2a2a2a;
 
-html, body { min-height: 100% }
-
 body {
-  background: white image-url('mirrored_squares.png');
+  background: white image-url('background-pages.png');
   color: $page_black;
   font-size: 18px;
   line-height: 32px;
   margin: 50px;
-  
+
   -webkit-font-smoothing: antialiased;
-  
+
   @include ptsans-font;
 }
 
-  .block-title {
-    background: $page_black;
-    color: white;
-    font-size: 10px;
-    letter-spacing: 2px;
-    line-height: 16px;
-    padding: 8px 12px 4px;
-    text-transform: uppercase;
-    
-    @include border-radius(3px);
+  #wrapper {
+    margin: 0 auto;
+    width: 750px;
+  }
+
+  a i {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+
+    @include icon-font;
+  }
+
+  .colored {
+    background: $green;
+    color: darken($green, 30%);
+    font-weight: bold;
+    padding: 3px 4px 1px;
   }
 
 
-/**************************************
- *  Aside
- */
-aside {
-  background: $page_black image-url('cartographer.png');
-  bottom: 50px;
-  font-size: 14px;
-  left: 50px;
-  position: fixed;
-  top: 50px;
-  width: 250px;
-  
-  @include border-radius(3px);
+
+//
+// Content
+
+h1 {
+  font-size: 48px;
+  font-weight: lighter;
+  letter-spacing: -10px;
+  line-height: 42px;
+  margin: 0 0 24px;
+  text-align: center;
+
+  @include ostrich-font;
 }
 
-aside nav {
-  line-height: 18px;
-  margin-top: 3px;
-  
+h2 {
+  font-size: 24px;
+  line-height: 26px;
+  margin-bottom: 16px;
+  margin-top: 43px;
+}
+
+p {
+  margin-top: 0;
+}
+
+
+
+//
+// Navigation
+
+nav {
+  border: 1px dashed #e6e6e6;
+  font-size: 0;
+  line-height: 0;
+  margin-bottom: 43px;
+  overflow: hidden;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  @include border-radius(2px);
+
   a {
-    border-bottom: 1px solid rgba(white, .07);
-    color: #bbb;
-    display: block;
-    overflow: hidden;
-    padding: 13px 12px;
+    border-right: 1px dashed #e6e6e6;
+    color: #888;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 7px 14px;
     text-decoration: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
-  
+
   a:hover,
   a:focus,
   a:active {
-    i { color: $blue }
+    color: $blue;
   }
-  
+
   a.active {
-    color: white;
-    font-weight: bold;
-    
-    i { color: $yellow }
+    color: #444;
   }
-  
+
   a i {
-    display: inline-block;
-    margin-right: 6px;
-    position: relative;
-    top: 1px;
-    
-    @include icon-font;
+    font-size: 14px;
+    margin-right: 5px;
   }
-  
-  .application { font-style: italic }
-}
-
-
-
-/**************************************
- *  Content
- */
-#wrapper {
-  margin-left: 250px + 50;
-  position: relative;
-  z-index: 9;
-  
-  @include border-radius(3px);
-  
-  &:before,
-  &:after {
-    border: 10px solid white;
-    content: "";
-    height: 100%;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    
-    @include border-radius(3px);
-    @include box-sizing(border-box);
-    @include single-box-shadow(rgba(black, .25), 0, 1px, 3px, 0);
-  }
-  
-  &:before { top: 4px; z-index: -1 }
-  &:after { top: 8px; z-index: -2 }
-  
-  #content {
-    background: white;
-    overflow: hidden;
-    padding: 30px 33px 76px;
-    position: relative;
-    
-    @include border-radius(3px);
-    @include single-box-shadow(rgba(black, .25), 0, 1px, 3px, 0);
-  }
-  
-  .large-icon {
-    color: #f8f8f8;
-    font-size: 120px;
-    line-height: normal;
-    position: absolute;
-    right: 20px;
-    top: -47px;
-    
-    @include icon-font;
-  }
-  
-  .h1-wrapper {
-    border-bottom: 1px dotted #eee;
-    margin: 0 -33px 36px;
-    padding-bottom: 25px;
-    
-    h1 { padding: 0 33px }
-  }
-  
-  h1 {
-    font-size: 28px;
-    font-weight: bolder;
-    line-height: 28px;
-    
-    @include ostrich-font;
-    
-    span {
-      color: #e1e1e1;
-      font-weight: normal;
-    }
-  }
-  
-  p {
-    color: #555;
-  }
-
-
 }

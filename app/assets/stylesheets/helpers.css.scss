@@ -5,9 +5,14 @@
 */
 
 // colors
-$blue: #00CCFF;
 $red: #E0676C;
+$green: #BCF865;
+$blue: #00CCFF;
 $yellow: #FBB829;
+
+$bgcolor_1: #644E74;
+$bgcolor_2: #724562;
+$bgcolor_3: #944D5D;
 
 
 // mixins
@@ -41,5 +46,5 @@ $yellow: #FBB829;
 
 @mixin input-placeholder($color) {
   &:-moz-placeholder { color: $color }
-  &::-webkit-input-placeholder { color: $color } 
+  &::-webkit-input-placeholder { color: $color }
 }

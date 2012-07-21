@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  layout 'pages'
+
   def create
     user = login(
       params[:email],

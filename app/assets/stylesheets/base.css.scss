@@ -30,9 +30,9 @@ body {
 
   @include background(
     image-url('background.png') 0 0 repeat,
-    linear-gradient(#644E74, #724562, #944D5D) 0 0 repeat-x
+    linear-gradient($bgcolor_1, $bgcolor_2, $bgcolor_3) 0 0 repeat-x
   );
-  
+
   @include default-font;
 }
 

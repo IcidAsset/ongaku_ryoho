@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'Ostrich_Sans';
-    src: url('ostrich-black-webfont.eot');
-    src: url('ostrich-black-webfont.eot?#iefix') format('embedded-opentype'),
-         url('ostrich-black-webfont.woff') format('woff'),
-         url('ostrich-black-webfont.ttf') format('truetype'),
-         url('ostrich-black-webfont.svg#OstrichSansBlack') format('svg');
+    src: url('fonts/ostrich/ostrich-black-webfont.eot');
+    src: url('fonts/ostrich/ostrich-black-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/ostrich/ostrich-black-webfont.woff') format('woff'),
+         url('fonts/ostrich/ostrich-black-webfont.ttf') format('truetype'),
+         url('fonts/ostrich/ostrich-black-webfont.svg#OstrichSansBlack') format('svg');
     font-weight: bolder;
     font-style: normal;
 }
