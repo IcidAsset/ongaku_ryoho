@@ -48,14 +48,15 @@
 
 
 
-  script#track_template type="text/template"
+  script#track_template type="text/x-handlebars-template"
     |
-      <li class="track<% if (!available) { %> unavailable<% } %>">
-        <div class="favourite" data-favourite="<% if (favourite_id != null) { %>true<% } %>"><span>&#x0039;</span></div>
-        <div class="title"><span><%= title %></span></div>
-        <div class="artist"><span><%= artist %></span></div>
-        <div class="album"><span><%= album %></span></div>
+      <li class="track{{#unless available}} unavailable{{/unless}}">
+        <div class="favourite" data-favourite="{{#if favourite_id}}true{{/if}}"><span>&#x0039;</span></div>
+        <div class="title"><span>{{title}}</span></div>
+        <div class="artist"><span>{{artist}}</span></div>
+        <div class="album"><span>{{album}}</span></div>
       </li>
+
 
   javascript:
     soundManagerFlashURL = "#{{asset_path('soundmanager2/dependencies/soundmanager2_flash9.swf')}}";

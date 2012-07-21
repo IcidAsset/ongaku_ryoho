@@ -16,10 +16,11 @@
 #= require 'underscore'
 #= require 'backbone'
 #= require 'backbone_rails_sync'
-#= require 'jsdeferred'
-#= require 'spin'
+#= require 'handlebars'
 #= require 'soundmanager2/soundmanager2'
 #= provide 'soundmanager2/dependencies'
+#= require 'jsdeferred'
+#= require 'spin'
 
 #= require 'helpers'
 #= require 'ongaku_ryoho'
@@ -36,7 +37,7 @@ soundManager.setup
 
 
 $(document).ready ->
-  
+
   # elements
   $controller       = $('#controller')
   $playlist         = $('#playlist')
@@ -47,7 +48,7 @@ $(document).ready ->
 
   # helpers
   helpers.initialize_before()
-  
+
   # make new people
   window.SoundGuy             = new OngakuRyoho.People.SoundGuy
 

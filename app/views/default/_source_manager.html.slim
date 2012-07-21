@@ -21,22 +21,19 @@
 
 
 
-  script#source_template type="text/template"
+  script#source_template type="text/x-handlebars-template"
     |
-      <li<% if (available) { print(' class="available"') } %>>
-        <input type="checkbox" <% if (available) { print('checked="checked"') } %> disabled="disabled">
+      {{#if available}}
+        <li class="available">
+          <input type="checkbox" checked="checked" disabled="disabled" />
+      {{else}}
+        <li>
+          <input type="checkbox" disabled="disabled" />
+      {{/if}}
 
-        <label title="<%= label %>">
-          <strong><%= label %></strong>
-          <br>
-          <%
-            if (status.match(/(unprocessed|processing)/gi) !== null) {
-              print('<span>' + status + '</span>');
+          <label title="{{label}}">
+            <strong>{{label}}</strong><br>
+            {{{source_subtext}}}
+          </label>
 
-            } else {
-              print('<span>' + track_amount + ' tracks</span>');
-
-            }
-          %>
-        </label>
-      </li>
+        </li>

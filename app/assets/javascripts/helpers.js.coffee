@@ -6,6 +6,9 @@ window.helpers =
   initialize_before: () ->
     this.original_document_title = document.title
 
+    # handlebars
+    this.setup_handlebars_helpers()
+
     # when the page loses focus, disable animations
     $(window).on("focus", helpers.enable_jquery_animations)
              .on("blur", helpers.disable_jquery_animations)
@@ -16,6 +19,22 @@ window.helpers =
   #
   initialize_after: () ->
     this.check_theater_mode({ disable_animation: true })
+
+
+  #
+  #  Setup handlebars helpers
+  #
+  setup_handlebars_helpers: () ->
+    Handlebars.registerHelper("if_has_icon", (block) ->
+      return block(this) if @icon and @icon_type
+    )
+
+    Handlebars.registerHelper("source_subtext", () ->
+      if @status.match(/(unprocessed|processing)/gi) isnt null
+        "<span>#{@status}</span>"
+      else
+        "<span>#{@track_amount} tracks</span>"
+    )
 
 
   #
