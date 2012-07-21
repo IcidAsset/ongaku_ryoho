@@ -16,16 +16,32 @@ class SourcesController < ApplicationController
   def process_source
     source = current_user.sources.find(params[:id])
 
+    # should i?
+    allowed_to_proceed = (
+      source and
+      source.status.include?('unprocessed') and
+      !source.status.include?('processing')
+    )
+
     # process if needed
-    source.process_tracks if source and source.status.include?('unprocessed') and !source.status.include?('processing')
+    json = if allowed_to_proceed
+      { changed: true }
+    else
+      { changed: false }
+    end
   end
 
   # GET 'sources/:id/check'
   def check_source
     source = current_user.sources.find(params[:id])
 
+    # should i?
+    allowed_to_proceed = (
+      source and !source.status.include?('processing')
+    )
+
     # check if possible
-    json = if source and !source.status.include?('processing')
+    json = if allowed_to_proceed
       { changed: source.check_tracks, checked: true }
     else
       { changed: false, checked: false }
