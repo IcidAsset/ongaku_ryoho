@@ -17,7 +17,7 @@ class TracksController < ApplicationController
       page: params[:page].to_i,
       per_page: params[:per_page].to_i,
       sort_by: params[:sort_by].try(:to_sym),
-      sort_direction: params[:sort_direction].upcase,
+      sort_direction: params[:sort_direction].try(:upcase),
       select_favourites: (params[:favourites] == "true")
     }
 
