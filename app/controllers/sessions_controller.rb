@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       redirect_back_or_to root_url, :notice => "Logged in!"
     else
       flash.now[:error] = "Email or password was invalid"
-      render :new
+      render "sessions/new"
     end
   end
 

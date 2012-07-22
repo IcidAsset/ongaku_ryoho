@@ -1,4 +1,4 @@
-= form_tag sessions_path do
+= form_tag sign_in_path, method: "POST" do
 
   .fields
     = hidden_field_tag :remember_me, 1
@@ -10,4 +10,7 @@
       = password_field_tag :password, "", placeholder: "password"
 
     .submit
-      = submit_tag "LOG IN"
+      = submit_tag "Sign in"
+
+- flash.each do |name, msg|
+  = content_tag :div, content_tag(:i) + msg, class: "flash #{name}"

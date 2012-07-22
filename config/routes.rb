@@ -26,8 +26,8 @@ OngakuRyoho::Application.routes.draw do
   get 'sign-in' => 'sessions#new', :as => 'sign_in'
   get 'sign-out' => 'sessions#destroy', :as => 'sign_out'
 
-  resources :users, :only => [:create]
-  resources :sessions, :only => [:create]
+  post 'sign-in' => 'sessions#create'
+  post 'sign-up' => 'users#create'
 
   # root
   root :to => 'default#index'

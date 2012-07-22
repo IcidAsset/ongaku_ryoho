@@ -1,8 +1,6 @@
-$page_black: #2a2a2a;
-
 body {
   background: white image-url('background-pages.png');
-  color: $page_black;
+  color: #2a2a2a;
   font-size: 18px;
   line-height: 32px;
   margin: 50px;
@@ -88,7 +86,8 @@ nav {
   a:hover,
   a:focus,
   a:active {
-    color: $blue;
+    color: darken($blue, 5%);
+    outline: 0;
   }
 
   a.active {
@@ -114,11 +113,12 @@ nav {
   white-space: nowrap;
 
   .slides-wrapper {
+    height: 421px;
+    overflow: hidden;
     text-indent: 0;
   }
 
   .slide {
-    background: rgba(black, .075);
     cursor: pointer;
     display: inline-block;
     height: 421px;
@@ -170,4 +170,61 @@ nav {
       background: #aaa;
     }
   }
+}
+
+
+
+//
+// Forms
+
+form {
+
+  input {
+    background: none;
+    border: 1px solid #e6e6e6;
+    color: #707070;
+    display: inline-block;
+    margin: 0;
+    padding: 20px;
+
+    -webkit-appearance: none;
+
+    @include default-font;
+    @include border-radius(3px);
+  }
+
+  input:focus,
+  input[type=submit]:active {
+    border-color: rgba(darken($green, 30%), .175);
+    outline: 0;
+
+    @include single-box-shadow(rgba($green, .4), 0, 0, 7px, 0);
+  }
+
+  input[type=text],
+  input[type=password] {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 11px;
+    width: 100%;
+
+    @include box-sizing(border-box);
+  }
+
+  input[type=submit] {
+    border-bottom-width: 4px;
+    color: #888;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    padding-bottom: 19px;
+
+    &:active,
+    &:focus {
+      color: rgba(darken($green, 32.5%), .625);
+    }
+  }
+
+  input::-webkit-input-placeholder { color: #d7d7d7 }
+  input:-moz-placeholder { color: #d7d7d7 }
 }

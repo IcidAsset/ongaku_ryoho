@@ -1,4 +1,4 @@
-= form_for @user do |f|
+= form_for @user, url: sign_up_path, method: "POST" do |f|
 
   .fields
     .text
@@ -11,7 +11,7 @@
       = f.password_field :password_confirmation, placeholder: "repeat password"
 
     .submit
-      = f.submit
+      = f.submit "Create account"
 
 
 - if @user.errors.any?
