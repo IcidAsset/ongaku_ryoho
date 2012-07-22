@@ -39,6 +39,9 @@ slideshow = {
     $slideshows.find(".slide-navigation a")
                .on("click", slideshow.nav_item_click)
 
+    $slideshows.find(".slide")
+               .on("click", slideshow.slide_click)
+
 
   load_slides: () ->
     $slideshow = $(this)
@@ -107,4 +110,17 @@ slideshow = {
     e.preventDefault()
     return false
 
+
+  slide_click: (e) ->
+    $t = $(this)
+    $wrapper = $t.parent()
+    $slideshow = $wrapper.parent()
+
+    slides_length = $wrapper.children(".slide").length
+    index = $t.index()
+
+    next_index = index + 1
+    next_index = 0 if next_index == slides_length
+
+    slideshow.go_to_slide(next_index, $slideshow)
 }
