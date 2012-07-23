@@ -1,7 +1,5 @@
 OngakuRyoho::Application.routes.draw do
 
-  resources :default, :only => [:index]
-
   # api
   resources :tracks, :only => [:index]
   resources :favourites, :only => [:index, :create, :destroy]
