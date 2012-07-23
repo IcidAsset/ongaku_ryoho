@@ -32,6 +32,9 @@ slideshow = {
   initialize: () ->
     $slideshows = $(".slideshow")
 
+    # prepare
+    $slideshows.data("ready", false)
+
     # load slides
     $slideshows.each(slideshow.load_slides)
 
@@ -56,6 +59,7 @@ slideshow = {
       $images = $slideshow.find(".slide img")
       $images.first().fadeTo(250, 1, () ->
         $images.removeAttr("style")
+        $slideshow.data("ready", true)
       )
     )
 
@@ -115,6 +119,8 @@ slideshow = {
     $t = $(this)
     $wrapper = $t.parent()
     $slideshow = $wrapper.parent()
+
+    return unless $slideshow.data("ready")
 
     slides_length = $wrapper.children(".slide").length
     index = $t.index()

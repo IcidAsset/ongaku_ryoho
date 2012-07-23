@@ -1,8 +1,8 @@
 body {
   background: white image-url('background-pages.png');
   color: #2a2a2a;
-  font-size: 18px;
-  line-height: 32px;
+  font-size: 17px;
+  line-height: 29px;
   margin: 50px;
 
   -webkit-font-smoothing: antialiased;
@@ -15,7 +15,7 @@ body {
     width: 750px;
   }
 
-  a i {
+  i {
     display: inline-block;
     position: relative;
     top: 1px;
@@ -24,10 +24,8 @@ body {
   }
 
   .colored {
-    background: $green;
     color: darken($green, 30%);
     font-weight: bold;
-    padding: 3px 4px 1px;
   }
 
 
@@ -47,14 +45,26 @@ body {
 }
 
 .title {
-  font-size: 22px;
+  font-size: 18px;
   line-height: 24px;
-  margin-bottom: 16px;
-  margin-top: 43px;
+  margin-bottom: 13px;
+  margin-top: 35px;
 }
 
 p {
   margin-top: 0;
+}
+
+.flash {
+  color: #FF666C;
+  font-size: 15px;
+  margin-top: 11px;
+
+  i {
+    font-size: 20px;
+    margin-right: 8px;
+    top: 3px;
+  }
 }
 
 
@@ -108,20 +118,21 @@ nav {
 .slideshow {
   font-size: 0;
   line-height: 0;
-  overflow: hidden;
-  padding-top: 15px;
+  padding-top: 10px;
   white-space: nowrap;
 
   .slides-wrapper {
-    height: 421px;
+    height: 321px;
     overflow: hidden;
     text-indent: 0;
+
+    @include single-box-shadow(rgba(black, .1), 0, 0, 60px, 0);
   }
 
   .slide {
     cursor: pointer;
     display: inline-block;
-    height: 421px;
+    height: 321px;
     margin: 0;
     overflow: hidden;
     text-indent: 0;
