@@ -57,7 +57,7 @@ slideshow = {
     Deferred.chain(loading).next(() ->
       $slideshow.find(".slide-navigation a:first-child").addClass("active")
       $images = $slideshow.find(".slide img")
-      $images.first().fadeTo(250, 1, () ->
+      $images.first().fadeTo(500, 1, () ->
         $images.removeAttr("style")
         $slideshow.data("ready", true)
       )
