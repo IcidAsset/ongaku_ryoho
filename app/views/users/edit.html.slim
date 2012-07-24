@@ -1,0 +1,29 @@
+= form_for @user, url: account_path, method: "PUT" do |f|
+
+  .fields
+    .text
+      = f.text_field :email, placeholder: "ongaku@ryoho.com"
+
+    .text
+      = f.password_field :old_password, placeholder: "old password"
+
+    .text
+      = f.password_field :password, placeholder: "new password"
+
+    .text
+      = f.password_field :password_confirmation, placeholder: "repeat new password"
+
+    .submit
+      = f.submit "Edit account"
+
+
+- if @user.errors.any?
+  .flash.error
+    i &#x004d;
+    = @user.errors.full_messages.first
+
+- flash.each do |name, msg|
+  - i_content = (name == :error ? "&#x004d;" : "&#x0058;")
+  == content_tag :div,
+      content_tag(:i, raw(i_content)) + msg,
+      class: "flash #{name}"

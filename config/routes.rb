@@ -16,7 +16,6 @@ OngakuRyoho::Application.routes.draw do
   # pages
   get 'about' => 'pages#about'
   get 'settings' => 'pages#settings'
-  get 'account' => 'pages#account'
   get 'tools' => 'pages#tools'
 
   # sessions/users
@@ -26,6 +25,9 @@ OngakuRyoho::Application.routes.draw do
 
   post 'sign-in' => 'sessions#create'
   post 'sign-up' => 'users#create'
+
+  get 'account' => 'users#edit', :as => 'account'
+  put 'account' => 'users#update'
 
   # root
   root :to => 'default#index'

@@ -61,6 +61,8 @@ p {
   font-size: 15px;
   margin-top: 11px;
 
+  &.success { color: darken($green, 30%) }
+
   i {
     font-size: 20px;
     margin-right: 8px;
