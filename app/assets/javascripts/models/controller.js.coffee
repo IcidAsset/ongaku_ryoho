@@ -1,5 +1,5 @@
 class OngakuRyoho.Models.Controller extends Backbone.Model
-  
+
   defaults:
     time          : 0
     duration      : 0

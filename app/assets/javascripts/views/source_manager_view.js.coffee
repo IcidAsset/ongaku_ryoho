@@ -1,5 +1,5 @@
 class OngakuRyoho.Views.SourceManager extends Backbone.View
-  
+
   #
   #  Events
   #
@@ -36,7 +36,7 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     unprocessed_sources = _.filter(Sources.models, (source) ->
       source.get("status").indexOf("unprocessed") isnt -1
     )
-    
+
     # check
     if unprocessed_sources.length is 0
       return this.find_sources_to_check()
@@ -69,7 +69,7 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     after = () =>
       Tracks.fetch()
       Sources.fetch()
-      
+
       @requires_reload = false
 
     # find

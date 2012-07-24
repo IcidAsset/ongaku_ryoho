@@ -13,7 +13,7 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
     @filter = ""
     @sort_by = "artist"
     @sort_direction = "asc"
-    
+
     # special filters
     @favourites = off
 
@@ -42,7 +42,6 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
       filter: @filter,
       sort_by: @sort_by,
       sort_direction: @sort_direction,
-      
       favourites: @favourites
     }
 
@@ -105,7 +104,7 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
   previous_page: () =>
     return no unless this.page_info().prev
 
-    @page = @page - 1 
+    @page = @page - 1
     return this.fetch()
 
 

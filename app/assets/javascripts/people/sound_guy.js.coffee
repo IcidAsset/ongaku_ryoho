@@ -1,5 +1,5 @@
 class OngakuRyoho.People.SoundGuy
-  
+
   constructor: () ->
     @shuffle_track_history = []
     @shuffle_track_history_index = 0
@@ -38,7 +38,7 @@ class OngakuRyoho.People.SoundGuy
   #
   save_settings_in_local_storage: () =>
     settings = _.pick(@controller.attributes, "shuffle", "repeat", "mute", "volume")
-  
+
     # store settings
     window.localStorage.setItem(
       "controller_settings",
@@ -50,13 +50,13 @@ class OngakuRyoho.People.SoundGuy
   apply_settings_from_local_storage: () =>
     # find item
     item = window.localStorage.getItem("controller_settings")
-  
+
     # check
     return unless item
-  
+
     # parse item
     settings = JSON.parse(item)
-  
+
     # apply settings
     @controller.set(settings)
 
@@ -277,7 +277,7 @@ class OngakuRyoho.People.SoundGuy
 
     # set elements
     $playpause_button_light = @controller_view.$el.find(".controls a .button.play-pause .light")
-    
+
     # turn the play button light on
     $playpause_button_light.addClass("on")
 

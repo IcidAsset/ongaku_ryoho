@@ -129,4 +129,5 @@ slideshow = {
     next_index = 0 if next_index == slides_length
 
     slideshow.go_to_slide(next_index, $slideshow)
+
 }

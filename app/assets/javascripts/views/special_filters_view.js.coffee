@@ -1,5 +1,5 @@
 class OngakuRyoho.Views.SpecialFilters extends Backbone.View
-  
+
   #
   #  Events
   #
@@ -21,20 +21,20 @@ class OngakuRyoho.Views.SpecialFilters extends Backbone.View
   #
   favourites_switch_click: (e) =>
     $t = $(e.currentTarget)
-    
+
     # switch
     if Tracks.favourites
       $t.removeClass("on")
       Tracks.favourites = off
-      
+
     else
       $t.addClass("on")
       Tracks.favourites = on
-    
-    
+
+
     # fetch tracks
     Tracks.fetch()
-    
+
     # prevent default
     e.preventDefault()
     return false

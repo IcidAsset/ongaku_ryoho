@@ -1,5 +1,5 @@
 class OngakuRyoho.Views.Visualizations extends Backbone.View
-  
+
   #
   #  Initialize
   #
@@ -20,7 +20,7 @@ class OngakuRyoho.Views.Visualizations extends Backbone.View
     width_left = (data.left * 100) + "%"
     width_right = (data.right * 100) + "%"
     animation_duration = 50
-    
+
     # animate
     this.$peak_data
       .children(".left")

@@ -1,5 +1,5 @@
 class OngakuRyoho.Views.MessageCenter extends Backbone.View
-  
+
   #
   #  Events
   #
@@ -23,16 +23,16 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
   #
   add_message: (message) =>
     view = new OngakuRyoho.Views.Message({ model: message })
-    
+
     # append html
     this.$el.append(view.render().el.innerHTML)
-    
+
     # the $message
     $message = this.$el.find(".message").last()
-    
+
     # fade in message
     $message.fadeIn(500)
-    
+
     # loading animation?
     helpers.add_loading_animation($message.children("div")) if message.get("loading")
 
@@ -50,13 +50,13 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
   #
   message_click_handler: (e) =>
     $t = $(e.currentTarget)
-    
+
     # check
     return if $t.hasClass("loading")
-    
+
     # set
     cid = $t.attr("rel")
     message = Messages.find (m) -> m.cid is cid
-     
+
     # remove message
     Messages.remove(message)
