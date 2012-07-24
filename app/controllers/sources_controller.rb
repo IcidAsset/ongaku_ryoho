@@ -29,6 +29,9 @@ class SourcesController < ApplicationController
     else
       { changed: false }
     end
+
+    # render
+    render json: json
   end
 
   # GET 'sources/:id/check'

@@ -7,11 +7,6 @@ class ServersController < ApplicationController
     render json: current_user.servers.all
   end
 
-  # GET 'servers/:id'
-  def show
-    @server = current_user.servers.find(params[:id])
-  end
-
   # GET 'servers/new'
   def new
     @server = Server.new
@@ -36,7 +31,7 @@ class ServersController < ApplicationController
       if server.save
         @server = server
 
-        return redirect_to @server
+        return render json: @server
       end
     end
 

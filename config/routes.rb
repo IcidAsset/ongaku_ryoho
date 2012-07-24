@@ -11,7 +11,7 @@ OngakuRyoho::Application.routes.draw do
     end
   end
 
-  resources :servers
+  resources :servers, except: [:show]
 
   # pages
   get 'about' => 'pages#about'
