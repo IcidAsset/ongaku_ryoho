@@ -54,7 +54,8 @@
         text-align: center;
       }
 
-      &:active { border-bottom-color: #8d9299 }
+      &:active,
+      &.on { border-bottom-color: darken(#8d9299, 7%) }
       &.on .icon { color: lighten(#b6babf, 12%) }
     }
 
@@ -62,8 +63,27 @@
       &.on .icon:after { content: "\0e01a" }
     }
 
+    .button.show-favourites {
+      @include background-image(
+        linear-gradient(darken($bgcolor_3, 14%), darken($bgcolor_3, 17.5%))
+      );
+
+      .icon {
+        color: lighten($bgcolor_3, 15.5%);
+        font-size: 12px;
+      }
+
+      &.on .icon { color: saturate($red, 12%) }
+    }
+
     .button.show-source-manager {
-      @include background-image(linear-gradient(#644E74, darken(#644E74, 6.5%)));
+      @include background-image(
+        linear-gradient($bgcolor_1, darken($bgcolor_1, 6.5%))
+      );
+
+      .icon {
+        color: lighten($bgcolor_1, 27.5%);
+      }
     }
 
     // input
@@ -82,7 +102,7 @@
         top: 50%;
         width: 16px;
         z-index: 1;
-        
+
         @include background-size(80%);
       }
 
@@ -105,26 +125,26 @@
       z-index: 0;
 
       -webkit-appearance: none;
-      
+
       @include box-sizing(border-box);
 
       &:focus { outline: none }
     }
-    
+
     input {
       line-height: normal;
-      
+
       @include input-placeholder(#6c7075);
     }
-    
+
     select {
       line-height: 26px;
     }
-    
+
     .input-wrap.sort-by {
       margin-left: 5px;
       width: 29%;
-      
+
       @include box-ordinal-group(2);
     }
 
@@ -185,7 +205,7 @@
       font-size: 11px;
       font-weight: 400;
       list-style-type: none;
-      
+
       @include ptsans-font;
     }
 
@@ -199,37 +219,37 @@
       &:nth-child(2n) {
         background-color: #fbfbfb;
       }
-      
+
       &.playing {
         background-color: $red;
-        
+
         & > div { color: lighten($red, 27.5%) }
         .favourite { color: lighten($red, 13.75%) }
-        
+
         .favourite[data-favourite=true],
         .favourite:hover { color: lighten($red, 27.5%) !important }
       }
-      
+
       &.unavailable {
         color: #999;
       }
-      
+
       &:active {
         background: $blue;
-        
+
         & > div { color: lighten($blue, 42.5%) }
         .favourite { color: lighten($blue, 21.25%) }
-        
+
         .favourite[data-favourite=true],
         .favourite:hover { color: lighten($blue, 42.5%) !important }
       }
-      
+
       .favourite {
         color: rgba(#aaa, .2);
         cursor: pointer;
         font-size: 13px;
         line-height: 26px;
-        
+
         &:hover,
         &[data-favourite=true] {
           color: $yellow;
@@ -276,7 +296,7 @@
 
       @include background-image(linear-gradient(#525559, #3d3f42));
     }
-    
+
     .page-nav {
       font-size: 19px;
       height: 24px;
@@ -287,7 +307,7 @@
       top: 1px;
       width: 25%;
     }
-    
+
     .page-nav a {
       background-position: center;
       background-repeat: no-repeat;
@@ -298,7 +318,7 @@
       margin-right: 7px;
       overflow: hidden;
       width: 16px;
-      
+
       &.disabled { @include opacity(.45) }
     }
   }

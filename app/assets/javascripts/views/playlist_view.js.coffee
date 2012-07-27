@@ -4,9 +4,10 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
   #  Events
   #
   events:
-    "click .navigation .theater-mode" : "theater_mode_button_click_handler"
-    "click .navigation .show-source-manager" : "show_source_manager"
     "click .navigation .change-sort-direction" : "change_sort_direction"
+    "click .navigation .theater-mode" : "theater_mode_button_click_handler"
+    "click .navigation .show-favourites" : "show_favourites"
+    "click .navigation .show-source-manager" : "show_source_manager"
 
     "change .navigation .sort-by select" : "sort_by_change_handler"
     "change .navigation .search input" : "search_input_change"
@@ -35,7 +36,28 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
 
 
   #
-  #  Source manager
+  #  Show favourites
+  #
+  show_favourites: (e) =>
+    $t = $(e.currentTarget)
+
+    # switch
+    if Tracks.favourites
+      $t.removeClass("on")
+      Tracks.favourites = off
+
+    else
+      $t.addClass("on")
+      Tracks.favourites = on
+
+
+    # fetch tracks
+    Tracks.fetch()
+
+
+
+  #
+  #  Show source manager
   #
   show_source_manager: () =>
     SourceManagerView.show()

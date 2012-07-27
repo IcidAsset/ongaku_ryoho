@@ -64,7 +64,6 @@ $(document).ready ->
   # backbone views
   window.MessageCenterView    = new OngakuRyoho.Views.MessageCenter({ el: $message_center })
   window.VisualizationsView   = new OngakuRyoho.Views.Visualizations({ el: $visualizations })
-  window.SpecialFiltersView   = new OngakuRyoho.Views.SpecialFilters({ el: $special_filters })
 
   window.ControllerView       = new OngakuRyoho.Views.Controller({ el: $controller })
   window.PlaylistView         = new OngakuRyoho.Views.Playlist({ el: $playlist })
