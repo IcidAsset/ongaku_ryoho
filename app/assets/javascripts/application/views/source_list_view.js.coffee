@@ -1,10 +1,10 @@
-class OngakuRyoho.Views.SourceList extends Backbone.View
+class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
 
   #
   #  Initialize
   #
   initialize: () =>
-    @collection = Sources
+    @collection = 颪.Sources
     @collection.on("reset", this.render)
 
 
@@ -19,7 +19,7 @@ class OngakuRyoho.Views.SourceList extends Backbone.View
 
     # sources html
     @collection.each((source) ->
-      source_view = new OngakuRyoho.Views.Source({ model: source })
+      source_view = new OngakuRyoho.Classes.Views.Source({ model: source })
       html += source_view.render().el.innerHTML
     , this)
 

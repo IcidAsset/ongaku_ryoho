@@ -1,4 +1,4 @@
-class OngakuRyoho.Views.Source extends Backbone.View
+class OngakuRyoho.Classes.Views.Source extends Backbone.View
 
   #
   #  Initialize

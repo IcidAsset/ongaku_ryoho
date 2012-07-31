@@ -1,0 +1,4 @@
+OngakuRyoho.Machinery.Audio =
+
+  setup: () ->
+    #

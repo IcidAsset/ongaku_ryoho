@@ -30,15 +30,13 @@ $button_height: 52px;
       top: 0;
     }
 
-    &, .what { height: 50px; overflow: hidden }
-       .what {
+    &, .item { height: 50px; overflow: hidden }
+       .item {
       margin: 0 19px 0 78px;
       line-height: 58px;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
-    .what strong { font-weight: 700 }
   }
 
   /**************************************

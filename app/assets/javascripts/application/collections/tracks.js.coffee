@@ -1,6 +1,6 @@
-class OngakuRyoho.Collections.Tracks extends Backbone.Collection
+class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
 
-  model: OngakuRyoho.Models.Track
+  model: OngakuRyoho.Classes.Models.Track
   url: "/tracks/"
 
 
@@ -24,18 +24,21 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
   fetch: (options={}) =>
     success = options.success
 
-    # show message
-    message = new OngakuRyoho.Models.Message
+    # new message
+    message = new OngakuRyoho.Classes.Models.Message
       text: "Loading tracks",
       loading: true
 
-    Messages.add(message)
+    # add message
+    颪.Messages.add(message)
 
-    # trigger event
+    # trigger 'fetching' event
     this.trigger("fetching")
 
-    # pagination and filter
+    # check options
     options.data ?= {}
+
+    # pagination, filter, etc.
     $.extend options.data, {
       page: @page,
       per_page: @per_page,
@@ -48,9 +51,11 @@ class OngakuRyoho.Collections.Tracks extends Backbone.Collection
     # success
     options.success = (response) =>
       success(this, response) if success
-      SoundGuy.reset_shuffle_history()
+
+      颪.SoundGuy.reset_shuffle_history()
+      颪.Messages.remove(message)
+
       this.trigger("fetched")
-      Messages.remove(message)
 
     # call
     return Backbone.Collection.prototype.fetch.call(this, options)

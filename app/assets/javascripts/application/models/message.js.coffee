@@ -1,4 +1,4 @@
-class OngakuRyoho.Models.Message extends Backbone.Model
+class OngakuRyoho.Classes.Models.Message extends Backbone.Model
 
   defaults:
     icon        : false

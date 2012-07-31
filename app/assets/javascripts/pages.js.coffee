@@ -19,7 +19,7 @@
 
 
 
-$(document).ready ->
+Zepto ->
   slideshow.initialize()
 
 

@@ -1,4 +1,4 @@
-class OngakuRyoho.Views.SourceManager extends Backbone.View
+class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
 
   #
   #  Events
@@ -16,7 +16,7 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     $add_section      = this.$el.find(".window.add section")
 
     # main section
-    @source_list_view = new OngakuRyoho.Views.SourceList({ el: $source_list_view  })
+    @source_list_view = new OngakuRyoho.Classes.Views.SourceList({ el: $source_list_view  })
 
     # add section
     this.setup_add_section($add_section)
@@ -33,7 +33,7 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
 
   find_sources_to_process: () =>
     # find
-    unprocessed_sources = _.filter(Sources.models, (source) ->
+    unprocessed_sources = _.filter(颪.Sources.models, (source) ->
       source.get("status").indexOf("unprocessed") isnt -1
     )
 
@@ -47,19 +47,19 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     )
 
     # add message
-    unprocessing_message = new OngakuRyoho.Models.Message({
+    unprocessing_message = new OngakuRyoho.Classes.Models.Message({
       text: "Processing sources",
       loading: true
     })
 
-    Messages.add(unprocessing_message)
+    颪.Messages.add(unprocessing_message)
 
     # exec
     Deferred.chain(unprocessing).next(() =>
       @requires_reload = true
       this.find_sources_to_check(unprocessed_sources)
 
-      Messages.remove(unprocessing_message)
+      颪.Messages.remove(unprocessing_message)
     )
 
 
@@ -67,13 +67,13 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
   find_sources_to_check: (unprocessed_sources=[]) =>
     # after
     after = () =>
-      Tracks.fetch()
-      Sources.fetch()
+      颪.Tracks.fetch()
+      颪.Sources.fetch()
 
       @requires_reload = false
 
     # find
-    sources_to_check = _.difference(Sources.models, unprocessed_sources)
+    sources_to_check = _.difference(颪.Sources.models, unprocessed_sources)
 
     # check
     if sources_to_check.length is 0
@@ -88,12 +88,12 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
     )
 
     # add message
-    checking_message = new OngakuRyoho.Models.Message({
+    checking_message = new OngakuRyoho.Classes.Models.Message({
       text: "Checking out sources",
       loading: true
     })
 
-    Messages.add(checking_message)
+    颪.Messages.add(checking_message)
 
     # exec
     Deferred.chain(checking).next((x) ->
@@ -106,10 +106,10 @@ class OngakuRyoho.Views.SourceManager extends Backbone.View
       changes = _.include(changes, true)
 
       # exec after function if needed
-      after() if changes or SourceManagerView.requires_reload
+      after() if changes or 颪.SourceManagerView.requires_reload
 
       # remove message
-      Messages.remove(checking_message)
+      颪.Messages.remove(checking_message)
     )
 
 

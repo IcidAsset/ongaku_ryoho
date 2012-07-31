@@ -1,4 +1,4 @@
-class OngakuRyoho.Views.MessageCenter extends Backbone.View
+class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
 
   #
   #  Events
@@ -12,7 +12,7 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
   #  Initialize
   #
   initialize: () =>
-    @collection = Messages
+    @collection = 颪.Messages
     @collection.on("add", this.add_message)
     @collection.on("remove", this.remove_message)
 
@@ -22,7 +22,7 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
   #  Add & remove
   #
   add_message: (message) =>
-    view = new OngakuRyoho.Views.Message({ model: message })
+    view = new OngakuRyoho.Classes.Views.Message({ model: message })
 
     # append html
     this.$el.append(view.render().el.innerHTML)
@@ -34,7 +34,7 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
     $message.fadeIn(500)
 
     # loading animation?
-    helpers.add_loading_animation($message.children("div")) if message.get("loading")
+    Helpers.add_loading_animation($message.children("div:first-child")[0]) if message.get("loading")
 
 
 
@@ -56,7 +56,7 @@ class OngakuRyoho.Views.MessageCenter extends Backbone.View
 
     # set
     cid = $t.attr("rel")
-    message = Messages.find (m) -> m.cid is cid
+    message = 颪.Messages.find (m) -> m.cid is cid
 
     # remove message
-    Messages.remove(message)
+    颪.Messages.remove(message)

@@ -1,4 +1,4 @@
-class OngakuRyoho.Views.TrackList extends Backbone.View
+class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
 
   #
   #  Events
@@ -13,7 +13,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
   #  Initialize
   #
   initialize: () =>
-    @collection = Tracks
+    @collection = 颪.Tracks
     @collection.on("reset", this.render)
     @collection.on("fetching", this.fetching)
     @collection.on("fetched", this.fetched)
@@ -32,7 +32,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
 
     # sources html
     @collection.each((track) =>
-      track_view = new OngakuRyoho.Views.Track({ model: track })
+      track_view = new OngakuRyoho.Classes.Views.Track({ model: track })
       html += track_view.render().el.innerHTML
     )
 
@@ -60,7 +60,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
       message =  "#{page_info.total} #{word.tracks} found &mdash;
                   page #{page_info.page} / #{page_info.pages}"
 
-    PlaylistView.set_footer_contents(message)
+    颪.PlaylistView.set_footer_contents(message)
 
     # chain
     return this
@@ -71,18 +71,19 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
   #  Fetching and fetched events
   #
   fetching: () =>
+    # do nothing
 
 
 
   fetched: () =>
-    PlaylistView.check_page_navigation()
+    颪.PlaylistView.check_page_navigation()
 
     if this.count_tracks() is 0
       this.$el.html("<div class=\"nothing-here\" />")
 
     else
-      this.add_playing_class_to_track( SoundGuy.get_current_track() )
-      PlaylistView.show_current_track()
+      this.add_playing_class_to_track( 颪.SoundGuy.get_current_track() )
+      颪.PlaylistView.show_current_track()
 
 
 
@@ -130,13 +131,13 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
     return if not soundManager.ok() or $t.hasClass("unavailable")
 
     # set
-    track = Tracks.getByCid($t.attr("rel"))
+    track = 颪.Tracks.getByCid($t.attr("rel"))
 
     # insert track
-    SoundGuy.insert_track(track)
+    颪.SoundGuy.insert_track(track)
 
     # set elements
-    $playpause_button_light = ControllerView.$el.find(".controls a .button.play-pause .light")
+    $playpause_button_light = 颪.ControllerView.$el.find(".controls a .button.play-pause .light")
 
     # turn the play button light on
     $playpause_button_light.addClass("on")
@@ -185,7 +186,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
 
 
   create_new_favourite: (title, artist, album, track_id) =>
-    Favourites.create({
+    颪.Favourites.create({
       title: title,
       artist: artist,
       album: album,
@@ -195,7 +196,7 @@ class OngakuRyoho.Views.TrackList extends Backbone.View
 
 
   remove_matching_favourites: (title, artist, album) =>
-    favourites = Favourites.where({
+    favourites = 颪.Favourites.where({
       title: title,
       artist: artist,
       album: album

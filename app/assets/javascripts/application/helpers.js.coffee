@@ -1,4 +1,4 @@
-window.helpers =
+window.Helpers =
 
   #
   #  Initialize (before)
@@ -10,8 +10,9 @@ window.helpers =
     this.setup_handlebars_helpers()
 
     # when the page loses focus, disable animations
-    $(window).on("focus", helpers.enable_jquery_animations)
-             .on("blur", helpers.disable_jquery_animations)
+    $(window).on("focus", Helpers.enable_jquery_animations)
+             .on("blur", Helpers.disable_jquery_animations)
+
 
 
   #
@@ -21,20 +22,25 @@ window.helpers =
     this.check_theater_mode({ disable_animation: true })
 
 
+
   #
   #  Setup handlebars helpers
   #
   setup_handlebars_helpers: () ->
+
+    # icons
     Handlebars.registerHelper("if_has_icon", (block) ->
       return block(this) if @icon and @icon_type
     )
 
+    # sources
     Handlebars.registerHelper("source_subtext", () ->
       if @status.match(/(unprocessed|processing)/gi) isnt null
         "<span>#{@status}</span>"
       else
         "<span>#{@track_amount} tracks</span>"
     )
+
 
 
   #
@@ -52,10 +58,11 @@ window.helpers =
       $el.css(css)
 
 
+
   #
   #  Loading animation
   #
-  add_loading_animation: ($target) ->
+  add_loading_animation: (target) ->
     options =
       lines: 6
       length: 3
@@ -67,15 +74,17 @@ window.helpers =
       trail: 60
       shadow: false
 
-    spinner = new Spinner(options).spin($target[0])
+    spinner = new Spinner(options).spin(target)
+
 
 
   #
   #  Set document title
   #
   set_document_title: (text, set_original_title) ->
-    this.original_document_title = document.title if set_original_title
+    @original_document_title = document.title if set_original_title
     document.title = text
+
 
 
   #
@@ -85,6 +94,7 @@ window.helpers =
   disable_jquery_animations: -> $.fx.off = true
 
 
+
   #
   #  Set theather mode
   #
@@ -92,7 +102,8 @@ window.helpers =
     animation_duration = options.disable_animation ? 0 : 950
 
     # set elements
-    $button = PlaylistView.$el.find(".navigation .button.theater-mode")
+    # TODO: 颪.PlaylistView.get_button(".theater-mode")
+    $button = 颪.PlaylistView.$el.find(".navigation .button.theater-mode")
     $color_overlay = $("#color-overlay")
 
     # go
@@ -108,6 +119,7 @@ window.helpers =
     window.localStorage.setItem("theater_mode_state", state)
 
 
+
   #
   #  Check theather mode
   #
@@ -115,4 +127,5 @@ window.helpers =
     theater_mode_state = window.localStorage.getItem("theater_mode_state")
 
     # check
-    helpers.set_theater_mode("on", options) if theater_mode_state is "on"
+    Helpers.set_theater_mode("on", options) if theater_mode_state is "on"
+

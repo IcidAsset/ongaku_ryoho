@@ -1,14 +1,8 @@
-class OngakuRyoho.People.SoundGuy
+class OngakuRyoho.Classes.People.SoundGuy
 
   constructor: () ->
     @shuffle_track_history = []
     @shuffle_track_history_index = 0
-
-    @audio_context = new webkitAudioContext()
-    @mixing_console = {
-      volume_node: @audio_context.createGainNode(),
-      filters: []
-    }
 
 
 
@@ -81,7 +75,7 @@ class OngakuRyoho.People.SoundGuy
 
     # rotate volume button
     angle = ((volume - 50) * 135) / 50
-    helpers.css.rotate(@controller_view.$el.find('.controls a .knob.volume .it div'), angle)
+    Helpers.css.rotate(@controller_view.$el.find('.controls a .knob.volume .it div'), angle)
 
     # sound
     @current_sound.setVolume(volume) if @current_sound
@@ -321,7 +315,7 @@ class OngakuRyoho.People.SoundGuy
     soundManager.pause(@current_sound.sID)
 
     # set document title
-    helpers.set_document_title(helpers.original_document_title)
+    Helpers.set_document_title(Helpers.original_document_title)
 
 
 
@@ -335,7 +329,7 @@ class OngakuRyoho.People.SoundGuy
     soundManager.stop(this.current_sound.sID)
 
     # set document title
-    helpers.set_document_title(helpers.original_document_title)
+    Helpers.set_document_title(Helpers.original_document_title)
 
     # set time on controller
     @controller.set({ time: 0 })

@@ -1,4 +1,4 @@
-class OngakuRyoho.Views.Playlist extends Backbone.View
+class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
 
   #
   #  Events
@@ -23,7 +23,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
   initialize: () =>
 
     # tracklist view
-    @track_list_view = new OngakuRyoho.Views.TrackList({
+    @track_list_view = new OngakuRyoho.Classes.Views.TrackList({
       el: this.$el.find(".tracks-wrapper")
     })
 
@@ -31,7 +31,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
     this.$search = this.$el.find(".navigation .search input")
 
     # get content
-    Sources.fetch({ success: () -> Tracks.fetch({ success: SourceManagerView.check_sources }) })
+    颪.Sources.fetch({ success: () -> 颪.Tracks.fetch({ success: 颪.SourceManagerView.check_sources }) })
 
 
 
@@ -44,15 +44,15 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
     # switch
     if Tracks.favourites
       $t.removeClass("on")
-      Tracks.favourites = off
+      颪.Tracks.favourites = off
 
     else
       $t.addClass("on")
-      Tracks.favourites = on
+      颪.Tracks.favourites = on
 
 
     # fetch tracks
-    Tracks.fetch()
+    颪.Tracks.fetch()
 
 
 
@@ -60,7 +60,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
   #  Show source manager
   #
   show_source_manager: () =>
-    SourceManagerView.show()
+    颪.SourceManagerView.show()
 
 
 
@@ -79,7 +79,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
     @track_list_view.collection.sort_by = query
 
     # fetch tracks
-    Tracks.fetch()
+    颪.Tracks.fetch()
 
 
 
@@ -100,7 +100,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
     @track_list_view.collection.sort_direction = new_direction
 
     # reload tracks
-    Tracks.fetch()
+    颪.Tracks.fetch()
 
 
 
@@ -121,12 +121,12 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
     @track_list_view.collection.page = 1
 
     # fetch tracks
-    Tracks.fetch({ success: this.search_success })
+    颪.Tracks.fetch({ success: this.search_success })
 
 
 
   search_success: () =>
-    current_track = SoundGuy.get_current_track()
+    current_track = 颪.SoundGuy.get_current_track()
 
     # add playing class
     @track_list_view.add_playing_class_to_track(current_track) if current_track
@@ -152,7 +152,7 @@ class OngakuRyoho.Views.Playlist extends Backbone.View
     state = if $(e.currentTarget).hasClass("on") then "off" else "on"
 
     # enable / disable
-    helpers.set_theater_mode(state)
+    Helpers.set_theater_mode(state)
 
 
 

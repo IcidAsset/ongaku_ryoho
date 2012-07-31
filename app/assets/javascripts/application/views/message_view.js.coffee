@@ -1,4 +1,4 @@
-class OngakuRyoho.Views.Message extends Backbone.View
+class OngakuRyoho.Classes.Views.Message extends Backbone.View
 
   #
   #  Initialize
@@ -12,7 +12,7 @@ class OngakuRyoho.Views.Message extends Backbone.View
   #  Render
   #
   render: () =>
-    this.$el.html(this.template( this.model.toJSON() ))
+    this.$el.html(@template( this.model.toJSON() ))
 
     # jquery object
     $message = this.$el.children(".message").last()

@@ -1,4 +1,4 @@
-class OngakuRyoho.Views.Track extends Backbone.View
+class OngakuRyoho.Classes.Views.Track extends Backbone.View
 
   #
   #  Initialize

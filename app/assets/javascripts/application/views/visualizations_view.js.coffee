@@ -1,4 +1,4 @@
-class OngakuRyoho.Views.Visualizations extends Backbone.View
+class OngakuRyoho.Classes.Views.Visualizations extends Backbone.View
 
   #
   #  Initialize
