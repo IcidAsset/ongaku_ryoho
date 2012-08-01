@@ -16,8 +16,7 @@ window.OngakuRyoho =
   Instances: {}
   Machinery: {}
 
-  EventAlligator: _.extend({}, Backbone.Events)
 
 
-
-window.颪 = window.OngakuRyoho.Instances
+window.ℰ = window.OngakuRyoho.Instances
+window.ℳ = window.OngakuRyoho.Machinery

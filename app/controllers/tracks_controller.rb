@@ -29,11 +29,16 @@ class TracksController < ApplicationController
     # select tracks
     tracks = select_tracks(available_source_ids, options)
 
+    # total tracks?
+    total = Track.count(conditions: [
+      "source_id IN (?)", available_source_ids
+    ])
+
     # render
     render json: {
       page: options[:page],
       per_page: options[:per_page],
-      total: tracks.length,
+      total: total,
       models: tracks
     }.to_json(
       methods: [:available],

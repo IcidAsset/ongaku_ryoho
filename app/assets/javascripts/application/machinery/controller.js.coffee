@@ -3,8 +3,8 @@ ControllerMachinery =
   #
   #  Setup
   #
-  setup: ($el) =>
-    $el.on("click", ".now-playing", this.now_playing_click_handler)
+  setup: ($el) ->
+    $el.on("click", ".now-playing", mc.now_playing_click_handler)
 
 
 
@@ -41,16 +41,13 @@ ControllerMachinery =
     $span.after($span.clone())
 
     # animate with marquee-wrapper
-    this.now_playing_marquee_animation($span.parent())
+    mc.now_playing_marquee_animation($span.parent())
 
 
 
-  now_playing_marquee_animation: ($marquee_wrapper) =>
+  now_playing_marquee_animation: ($marquee_wrapper) ->
     text_width = $marquee_wrapper.children("span").first().width()
     anim_speed = text_width * 39.5
-
-    # this machinery collection
-    mc = this
 
     # animation
     animation = () ->
@@ -76,36 +73,36 @@ ControllerMachinery =
   #
   #  Controller buttons
   #
-  setup_controller_buttons: ($controls) =>
+  setup_controller_buttons: ($controls) ->
     $buttons         = $controls.find("a .button")
     $button_columns  = $controls.find("a .button-column")
     $switches        = $controls.find("a .switch")
     $knobs           = $controls.find("a .knob")
 
     # play/pause button
-    $buttons.filter(".play-pause").on("click", this.button_playpause_click_handler)
+    $buttons.filter(".play-pause").on("click", mc.button_playpause_click_handler)
 
     # previous and next
     $button_columns
       .children(".btn.previous")
-      .on("click", 颪.SoundGuy.select_previous_track)
+      .on("click", ℰ.SoundGuy.select_previous_track)
 
     $button_columns
       .children(".btn.next")
-      .on("click", 颪.SoundGuy.select_next_track)
+      .on("click", ℰ.SoundGuy.select_next_track)
 
     # shuffle
-    $switches.filter(".shuffle").on("click", this.switch_shuffle_click_handler)
+    $switches.filter(".shuffle").on("click", mc.switch_shuffle_click_handler)
 
     # repeat
-    $switches.filter(".repeat").on("click", this.switch_repeat_click_handler)
+    $switches.filter(".repeat").on("click", mc.switch_repeat_click_handler)
 
     # volume
     $knobs.filter(".volume")
-      .on("mousedown", this.knob_volume_mousedown_handler)
-      .on("dblclick", this.knob_volume_doubleclick_handler)
+      .on("mousedown", mc.knob_volume_mousedown_handler)
+      .on("dblclick", mc.knob_volume_doubleclick_handler)
 
-    $switches.filter(".volume").on("click", this.switch_volume_click_handler)
+    $switches.filter(".volume").on("click", mc.switch_volume_click_handler)
 
 
 
@@ -114,16 +111,16 @@ ControllerMachinery =
 
     # set
     $button = $(e.currentTarget)
-    state = if 颪.SoundGuy.current_sound and !颪.SoundGuy.current_sound.paused
+    state = if ℰ.SoundGuy.current_sound and !ℰ.SoundGuy.current_sound.paused
       "playing"
     else
       "not playing"
 
     # action
     if state is "playing"
-      颪.SoundGuy.pause_current_track()
+      ℰ.SoundGuy.pause_current_track()
     else
-      颪.SoundGuy.play_track()
+      ℰ.SoundGuy.play_track()
 
     # light
     if state is "playing"
@@ -133,20 +130,20 @@ ControllerMachinery =
 
 
 
-  switch_shuffle_click_handler: (e) =>
-    颪.Controller.set("shuffle", !颪.Controller.get("shuffle"))
+  switch_shuffle_click_handler: (e) ->
+    ℰ.Controller.set("shuffle", !ℰ.Controller.get("shuffle"))
 
 
 
-  switch_repeat_click_handler: (e) =>
-    颪.Controller.set("repeat", !颪.Controller.get("repeat"))
+  switch_repeat_click_handler: (e) ->
+    ℰ.Controller.set("repeat", !ℰ.Controller.get("repeat"))
 
 
 
-  knob_volume_mousedown_handler: (e) =>
-    $(e.currentTarget).off("mousedown", this.knob_volume_mousedown_handler)
-    $(document).on("mousemove", this.document_mousemove_handler_for_volume_knob)
-    $(document).on("mouseup", this.document_mouseup_handler_for_volume_knob)
+  knob_volume_mousedown_handler: (e) ->
+    $(e.currentTarget).off("mousedown", mc.knob_volume_mousedown_handler)
+    $(document).on("mousemove", mc.document_mousemove_handler_for_volume_knob)
+    $(document).on("mouseup", mc.document_mouseup_handler_for_volume_knob)
 
 
 
@@ -172,19 +169,19 @@ ControllerMachinery =
 
     # set volume
     volume = 50 + (angle / 135) * 50
-    颪.Controller.set("volume", volume)
+    ℰ.Controller.set("volume", volume)
 
 
 
-  document_mouseup_handler_for_volume_knob: (e) =>
+  document_mouseup_handler_for_volume_knob: (e) ->
     # unbind
-    $(document).off("mousemove", this.document_mousemove_handler_for_volume_knob)
-    $(document).off("mouseup", this.document_mouseup_handler_for_volume_knob)
+    $(document).off("mousemove", mc.document_mousemove_handler_for_volume_knob)
+    $(document).off("mouseup", mc.document_mouseup_handler_for_volume_knob)
 
     # rebind
-    颪.ControllerView.$controls
+    ℰ.ControllerView.$controls
       .find(".knob.volume")
-      .on("mousedown", this.knob_volume_mousedown_handler)
+      .on("mousedown", mc.knob_volume_mousedown_handler)
 
 
 
@@ -195,25 +192,25 @@ ControllerMachinery =
     Helpers.css.rotate($t, 0)
 
     # set volume
-    颪.Controller.set("volume", 50)
+    ℰ.Controller.set("volume", 50)
 
 
 
   switch_volume_click_handler: (e) ->
-    颪.Controller.set("mute", !颪.Controller.get("mute"))
+    ℰ.Controller.set("mute", !ℰ.Controller.get("mute"))
 
 
 
   #
   #  Setup progress bar
   #
-  setup_progress_bar: ($progress_bar) =>
-    $progress_bar.parent().on("click", this.progress_bar_click_handler)
+  setup_progress_bar: ($progress_bar) ->
+    $progress_bar.parent().on("click", mc.progress_bar_click_handler)
 
 
 
   progress_bar_click_handler: (e) ->
-    return unless 颪.SoundGuy.current_sound
+    return unless ℰ.SoundGuy.current_sound
 
     # $el
     $progress_bar = $(e.currentTarget).children(".progress-bar")
@@ -222,7 +219,12 @@ ControllerMachinery =
     percent = (e.pageX - $progress_bar.offset().left) / $progress_bar.width()
 
     # seek
-    颪.SoundGuy.current_sound.setPosition( 颪.SoundGuy.current_sound.duration * percent )
+    ℰ.SoundGuy.current_sound.setPosition( ℰ.SoundGuy.current_sound.duration * percent )
+
+
+
+#### MC
+mc = ControllerMachinery
 
 
 

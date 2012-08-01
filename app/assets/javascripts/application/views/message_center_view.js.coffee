@@ -3,8 +3,8 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   #
   #  Events
   #
-  events:
-    "click .message" : "message_click_handler"
+  events: () ->
+    "click .message" : @machine.message_click_handler
 
 
 
@@ -12,7 +12,9 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   #  Initialize
   #
   initialize: () =>
-    @collection = 颪.Messages
+    super()
+
+    @collection = ℰ.Messages
     @collection.on("add", this.add_message)
     @collection.on("remove", this.remove_message)
 
@@ -28,7 +30,7 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
     this.$el.append(view.render().el.innerHTML)
 
     # the $message
-    $message = this.$el.find(".message").last()
+    $message = this.$(".message").last()
 
     # fade in message
     $message.fadeIn(500)
@@ -39,24 +41,5 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
 
 
   remove_message: (message) =>
-    this.$el
-      .find(".message[rel=\"#{message.cid}\"]")
-      .fadeOut 500, () -> $(this).remove()
-
-
-
-  #
-  #  Mouse event handlers
-  #
-  message_click_handler: (e) =>
-    $t = $(e.currentTarget)
-
-    # check
-    return if $t.hasClass("loading")
-
-    # set
-    cid = $t.attr("rel")
-    message = 颪.Messages.find (m) -> m.cid is cid
-
-    # remove message
-    颪.Messages.remove(message)
+    this.$(".message[rel=\"#{message.cid}\"]")
+        .fadeOut 500, () -> $(this).remove()

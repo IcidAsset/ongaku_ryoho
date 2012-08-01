@@ -4,7 +4,7 @@ class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
   #  Initialize
   #
   initialize: () =>
-    @collection = 颪.Sources
+    @collection = ℰ.Sources
     @collection.on("reset", this.render)
 
 

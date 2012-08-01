@@ -22,6 +22,7 @@
 #= require 'jsdeferred'
 #= require 'spin'
 
+#= require './application/backbone_extensions'
 #= require './application/helpers'
 #= require './application/ongaku_ryoho'
 
@@ -50,32 +51,32 @@ Zepto ->
   Helpers.initialize_before()
 
   # make new people
-  颪.SoundGuy             = new OngakuRyoho.Classes.People.SoundGuy
+  ℰ.SoundGuy             = new OngakuRyoho.Classes.People.SoundGuy
 
   # backbone models
-  颪.Controller           = new OngakuRyoho.Classes.Models.Controller
+  ℰ.Controller           = new OngakuRyoho.Classes.Models.Controller
 
   # backbone collections
-  颪.Tracks               = new OngakuRyoho.Classes.Collections.Tracks
-  颪.Sources              = new OngakuRyoho.Classes.Collections.Sources
-  颪.Messages             = new OngakuRyoho.Classes.Collections.Messages
-  颪.Favourites           = new OngakuRyoho.Classes.Collections.Favourites
+  ℰ.Tracks               = new OngakuRyoho.Classes.Collections.Tracks
+  ℰ.Sources              = new OngakuRyoho.Classes.Collections.Sources
+  ℰ.Messages             = new OngakuRyoho.Classes.Collections.Messages
+  ℰ.Favourites           = new OngakuRyoho.Classes.Collections.Favourites
 
   # backbone views
-  颪.MessageCenterView    = new OngakuRyoho.Classes.Views.MessageCenter({ el: $message_center })
-  颪.VisualizationsView   = new OngakuRyoho.Classes.Views.Visualizations({ el: $visualizations })
+  ℰ.MessageCenterView    = new OngakuRyoho.Classes.Views.MessageCenter({ el: $message_center })
+  ℰ.VisualizationsView   = new OngakuRyoho.Classes.Views.Visualizations({ el: $visualizations })
 
-  颪.ControllerView       = new OngakuRyoho.Classes.Views.Controller({ el: $controller })
-  颪.PlaylistView         = new OngakuRyoho.Classes.Views.Playlist({ el: $playlist })
-  颪.SourceManagerView    = new OngakuRyoho.Classes.Views.SourceManager({ el: $source_manager })
+  ℰ.ControllerView       = new OngakuRyoho.Classes.Views.Controller({ el: $controller })
+  ℰ.PlaylistView         = new OngakuRyoho.Classes.Views.Playlist({ el: $playlist })
+  ℰ.SourceManagerView    = new OngakuRyoho.Classes.Views.SourceManager({ el: $source_manager })
 
   # teach people
-  颪.SoundGuy.learn_basics
-    controller: 颪.Controller
-    tracks: 颪.Tracks
-    controller_view: 颪.ControllerView
-    visualizations_view: 颪.VisualizationsView
-    playlist_view: 颪.PlaylistView
+  ℰ.SoundGuy.learn_basics
+    controller: ℰ.Controller
+    tracks: ℰ.Tracks
+    controller_view: ℰ.ControllerView
+    visualizations_view: ℰ.VisualizationsView
+    playlist_view: ℰ.PlaylistView
 
   # helpers
   Helpers.initialize_after()

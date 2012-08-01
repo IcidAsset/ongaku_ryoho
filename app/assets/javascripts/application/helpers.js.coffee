@@ -102,8 +102,8 @@ window.Helpers =
     animation_duration = options.disable_animation ? 0 : 950
 
     # set elements
-    # TODO: 颪.PlaylistView.get_button(".theater-mode")
-    $button = 颪.PlaylistView.$el.find(".navigation .button.theater-mode")
+    # TODO: ℰ.PlaylistView.get_button(".theater-mode")
+    $button = ℰ.PlaylistView.$el.find(".navigation .button.theater-mode")
     $color_overlay = $("#color-overlay")
 
     # go
@@ -128,4 +128,3 @@ window.Helpers =
 
     # check
     Helpers.set_theater_mode("on", options) if theater_mode_state is "on"
-

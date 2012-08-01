@@ -13,7 +13,7 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
   #  Initialize
   #
   initialize: () =>
-    @collection = 颪.Tracks
+    @collection = ℰ.Tracks
     @collection.on("reset", this.render)
     @collection.on("fetching", this.fetching)
     @collection.on("fetched", this.fetched)
@@ -60,7 +60,7 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
       message =  "#{page_info.total} #{word.tracks} found &mdash;
                   page #{page_info.page} / #{page_info.pages}"
 
-    颪.PlaylistView.set_footer_contents(message)
+    ℰ.PlaylistView.set_footer_contents(message)
 
     # chain
     return this
@@ -76,14 +76,14 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
 
 
   fetched: () =>
-    颪.PlaylistView.check_page_navigation()
+    ℰ.PlaylistView.check_page_navigation()
 
     if this.count_tracks() is 0
       this.$el.html("<div class=\"nothing-here\" />")
 
     else
-      this.add_playing_class_to_track( 颪.SoundGuy.get_current_track() )
-      颪.PlaylistView.show_current_track()
+      this.add_playing_class_to_track( ℰ.SoundGuy.get_current_track() )
+      ℳ.Playlist.show_current_track()
 
 
 
@@ -131,13 +131,13 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
     return if not soundManager.ok() or $t.hasClass("unavailable")
 
     # set
-    track = 颪.Tracks.getByCid($t.attr("rel"))
+    track = ℰ.Tracks.getByCid($t.attr("rel"))
 
     # insert track
-    颪.SoundGuy.insert_track(track)
+    ℰ.SoundGuy.insert_track(track)
 
     # set elements
-    $playpause_button_light = 颪.ControllerView.$el.find(".controls a .button.play-pause .light")
+    $playpause_button_light = ℰ.ControllerView.$el.find(".controls a .button.play-pause .light")
 
     # turn the play button light on
     $playpause_button_light.addClass("on")
@@ -186,7 +186,7 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
 
 
   create_new_favourite: (title, artist, album, track_id) =>
-    颪.Favourites.create({
+    ℰ.Favourites.create({
       title: title,
       artist: artist,
       album: album,
@@ -196,7 +196,7 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
 
 
   remove_matching_favourites: (title, artist, album) =>
-    favourites = 颪.Favourites.where({
+    favourites = ℰ.Favourites.where({
       title: title,
       artist: artist,
       album: album

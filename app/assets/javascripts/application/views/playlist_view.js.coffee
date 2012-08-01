@@ -3,17 +3,17 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
   #
   #  Events
   #
-  events:
+  events: () ->
     "click .navigation .change-sort-direction" : "change_sort_direction"
-    "click .navigation .theater-mode" : "theater_mode_button_click_handler"
+    "click .navigation .theater-mode" : @machine.theater_mode_button_click_handler
     "click .navigation .show-favourites" : "show_favourites"
     "click .navigation .show-source-manager" : "show_source_manager"
 
     "change .navigation .sort-by select" : "sort_by_change_handler"
     "change .navigation .search input" : "search_input_change"
 
-    "click footer .page-nav .previous:not(.disabled)" : "previous_page_button_click_handler"
-    "click footer .page-nav .next:not(.disabled)" : "next_page_button_click_handler"
+    "click footer .page-nav .previous:not(.disabled)" : @machine.previous_page_button_click_handler
+    "click footer .page-nav .next:not(.disabled)" : @machine.next_page_button_click_handler
 
 
 
@@ -21,17 +21,20 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
   #  Initialize
   #
   initialize: () =>
+    super()
 
     # tracklist view
     @track_list_view = new OngakuRyoho.Classes.Views.TrackList({
-      el: this.$el.find(".tracks-wrapper")
+      el: this.$(".tracks-wrapper")
     })
 
     # search
-    this.$search = this.$el.find(".navigation .search input")
+    this.$search = this.$(".navigation .search input")
 
     # get content
-    颪.Sources.fetch({ success: () -> 颪.Tracks.fetch({ success: 颪.SourceManagerView.check_sources }) })
+    ℰ.Sources.fetch({ success: () ->
+      ℰ.Tracks.fetch({ success: ℰ.SourceManagerView.check_sources })
+    })
 
 
 
@@ -44,15 +47,15 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
     # switch
     if Tracks.favourites
       $t.removeClass("on")
-      颪.Tracks.favourites = off
+      ℰ.Tracks.favourites = off
 
     else
       $t.addClass("on")
-      颪.Tracks.favourites = on
+      ℰ.Tracks.favourites = on
 
 
     # fetch tracks
-    颪.Tracks.fetch()
+    ℰ.Tracks.fetch()
 
 
 
@@ -60,7 +63,7 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
   #  Show source manager
   #
   show_source_manager: () =>
-    颪.SourceManagerView.show()
+    ℰ.SourceManagerView.show()
 
 
 
@@ -79,7 +82,7 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
     @track_list_view.collection.sort_by = query
 
     # fetch tracks
-    颪.Tracks.fetch()
+    ℰ.Tracks.fetch()
 
 
 
@@ -100,7 +103,7 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
     @track_list_view.collection.sort_direction = new_direction
 
     # reload tracks
-    颪.Tracks.fetch()
+    ℰ.Tracks.fetch()
 
 
 
@@ -121,38 +124,15 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
     @track_list_view.collection.page = 1
 
     # fetch tracks
-    颪.Tracks.fetch({ success: this.search_success })
+    ℰ.Tracks.fetch({ success: this.search_success })
 
 
 
   search_success: () =>
-    current_track = 颪.SoundGuy.get_current_track()
+    current_track = ℰ.SoundGuy.get_current_track()
 
     # add playing class
     @track_list_view.add_playing_class_to_track(current_track) if current_track
-
-
-
-  #
-  #  A bit of everything
-  #
-  show_current_track: () =>
-    $current_track = @track_list_view.$el.find(".track.playing")
-
-    # scroll to current track
-    if $current_track.length
-      new_scroll_top = ( @track_list_view.el.scrollTop +
-      ($current_track.offset().top - @track_list_view.$el.offset().top))
-
-      @track_list_view.el.scrollTop = new_scroll_top
-
-
-
-  theater_mode_button_click_handler: (e) =>
-    state = if $(e.currentTarget).hasClass("on") then "off" else "on"
-
-    # enable / disable
-    Helpers.set_theater_mode(state)
 
 
 
@@ -170,16 +150,6 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
 
     unless page_info.next then $next.addClass("disabled")
     else $next.removeClass("disabled")
-
-
-
-  previous_page_button_click_handler: (e) =>
-    @track_list_view.collection.previous_page()
-
-
-
-  next_page_button_click_handler: (e) =>
-    @track_list_view.collection.next_page()
 
 
 

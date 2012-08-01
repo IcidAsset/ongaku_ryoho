@@ -9,8 +9,10 @@ class OngakuRyoho.Classes.Views.Controller extends Backbone.View
   #  Initialize
   #
   initialize: () =>
-    @model = 颪.Controller
-    @machine = OngakuRyoho.Machinery.Controller
+    super()
+
+    # model
+    @model = ℰ.Controller
 
     # render events
     @model
@@ -19,10 +21,10 @@ class OngakuRyoho.Classes.Views.Controller extends Backbone.View
 
     # sound events
     @model
-      .on("change:shuffle", 颪.SoundGuy.set_shuffle)
-      .on("change:repeat", 颪.SoundGuy.set_repeat)
-      .on("change:volume", 颪.SoundGuy.set_volume)
-      .on("change:mute", 颪.SoundGuy.set_mute)
+      .on("change:shuffle", ℰ.SoundGuy.set_shuffle)
+      .on("change:repeat", ℰ.SoundGuy.set_repeat)
+      .on("change:volume", ℰ.SoundGuy.set_volume)
+      .on("change:mute", ℰ.SoundGuy.set_mute)
 
     # cache dom elements
     this.$now_playing  = this.$el.find(".now-playing")
@@ -56,8 +58,8 @@ class OngakuRyoho.Classes.Views.Controller extends Backbone.View
     duration = @model.get("duration")
 
     # duration? really?
-    if (!duration or duration is 0) and 颪.SoundGuy.current_sound
-      duration = 颪.SoundGuy.current_sound.durationEstimate
+    if (!duration or duration is 0) and ℰ.SoundGuy.current_sound
+      duration = ℰ.SoundGuy.current_sound.durationEstimate
 
     # set
     minutes = Math.floor( (time / 1000) / 60 )
