@@ -1,11 +1,4 @@
-AudioMachinery =
+class OngakuRyoho.Classes.Machinery.Audio
 
   setup: () ->
     #
-
-
-
-#### Publicize
-OngakuRyoho.Machinery.Audio = _.pick(AudioMachinery,
-  "setup"
-)

@@ -12,11 +12,11 @@ window.OngakuRyoho =
     Collections: {}
     Views: {}
     People: {}
+    Machinery: {}
 
   Instances: {}
-  Machinery: {}
 
 
 
 window.ℰ = window.OngakuRyoho.Instances
-window.ℳ = window.OngakuRyoho.Machinery
+window.ℳ = (view) -> view.machine if view

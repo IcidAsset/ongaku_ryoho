@@ -83,7 +83,7 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
 
     else
       this.add_playing_class_to_track( ℰ.SoundGuy.get_current_track() )
-      ℳ.Playlist.show_current_track()
+      ℳ(ℰ.PlaylistView).show_current_track()
 
 
 

@@ -61,7 +61,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   get_current_track: () =>
     if @current_sound
-      track = Tracks.find (track) => track.get('id') is @current_sound.sID
+      track = ℰ.Tracks.find (track) => track.get('id') is @current_sound.sID
     else
       null
 
@@ -261,7 +261,7 @@ class OngakuRyoho.Classes.People.SoundGuy
       $track = $tracks.first()
 
     # get model
-    track = Tracks.getByCid( $track.attr('rel') )
+    track = ℰ.Tracks.getByCid( $track.attr('rel') )
 
     # push to history stack if shuffle
     @shuffle_track_history.push(track.get('id')) if shuffle

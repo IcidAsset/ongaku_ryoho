@@ -1,4 +1,4 @@
-MessageCenterMachinery =
+class OngakuRyoho.Classes.Machinery.MessageCenter
 
   #
   #  Mouse event handlers
@@ -15,15 +15,3 @@ MessageCenterMachinery =
 
     # remove message
     ℰ.Messages.remove(message)
-
-
-
-#### MC
-mc = MessageCenterMachinery
-
-
-
-#### Publicize
-OngakuRyoho.Machinery.MessageCenter = _.pick(MessageCenterMachinery,
-  "message_click_handler"
-)

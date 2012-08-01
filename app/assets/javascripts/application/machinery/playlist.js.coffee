@@ -1,17 +1,18 @@
-PlaylistMachinery =
+class OngakuRyoho.Classes.Machinery.Playlist
 
   #
   #  A bit of everything
   #
-  show_current_track: () ->
-    $current_track = @view.track_list_view.$(".track.playing")
+  show_current_track: () =>
+    track_list_view = @view.track_list_view
+    $current_track = track_list_view.$(".track.playing")
 
     # scroll to current track
     if $current_track.length
-      new_scroll_top = (@view.track_list_view.el.scrollTop +
-      ($current_track.offset().top - @view.track_list_view.$el.offset().top))
+      new_scroll_top = (track_list_view.el.scrollTop +
+      ($current_track.offset().top - track_list_view.$el.offset().top))
 
-      @view.track_list_view.el.scrollTop = new_scroll_top
+      track_list_view.el.scrollTop = new_scroll_top
 
 
 
@@ -26,23 +27,10 @@ PlaylistMachinery =
   #
   #  Page navigation
   #
-  previous_page_button_click_handler: (e) ->
-    ℰ.PlaylistView.track_list_view.collection.previous_page()
+  previous_page_button_click_handler: (e) =>
+    @view.track_list_view.collection.previous_page()
 
 
 
-  next_page_button_click_handler: (e) ->
-    ℰ.PlaylistView.track_list_view.collection.next_page()
-
-
-
-#### MC
-mc = PlaylistMachinery
-
-
-
-#### Publicize
-OngakuRyoho.Machinery.Playlist = _.pick(PlaylistMachinery,
-  "show_current_track", "theater_mode_button_click_handler",
-  "previous_page_button_click_handler", "next_page_button_click_handler"
-)
+  next_page_button_click_handler: (e) =>
+    @view.track_list_view.collection.next_page()

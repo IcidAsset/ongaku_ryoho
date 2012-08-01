@@ -1,17 +1,17 @@
-ControllerMachinery =
+class OngakuRyoho.Classes.Machinery.Controller
 
   #
   #  Setup
   #
-  setup: ($el) ->
-    $el.on("click", ".now-playing", mc.now_playing_click_handler)
+  setup: ($el) =>
+    $el.on("click", ".now-playing", this.now_playing_click_handler)
 
 
 
   #
   #  Now playing marquee
   #
-  setup_now_playing_marquee: ($now_playing) ->
+  setup_now_playing_marquee: ($now_playing) =>
     $item = $now_playing.children(".item")
     $span = $item.children("span")
 
@@ -41,13 +41,16 @@ ControllerMachinery =
     $span.after($span.clone())
 
     # animate with marquee-wrapper
-    mc.now_playing_marquee_animation($span.parent())
+    this.now_playing_marquee_animation($span.parent())
 
 
 
-  now_playing_marquee_animation: ($marquee_wrapper) ->
+  now_playing_marquee_animation: ($marquee_wrapper) =>
     text_width = $marquee_wrapper.children("span").first().width()
     anim_speed = text_width * 39.5
+
+    # this machine
+    mc = this
 
     # animation
     animation = () ->
@@ -66,21 +69,21 @@ ControllerMachinery =
 
 
   now_playing_click_handler: (e) ->
-    # TODO: PlaylistView.show_current_track()
+    ℳ(ℰ.PlaylistView).show_current_track()
 
 
 
   #
   #  Controller buttons
   #
-  setup_controller_buttons: ($controls) ->
+  setup_controller_buttons: ($controls) =>
     $buttons         = $controls.find("a .button")
     $button_columns  = $controls.find("a .button-column")
     $switches        = $controls.find("a .switch")
     $knobs           = $controls.find("a .knob")
 
     # play/pause button
-    $buttons.filter(".play-pause").on("click", mc.button_playpause_click_handler)
+    $buttons.filter(".play-pause").on("click", this.button_playpause_click_handler)
 
     # previous and next
     $button_columns
@@ -92,17 +95,17 @@ ControllerMachinery =
       .on("click", ℰ.SoundGuy.select_next_track)
 
     # shuffle
-    $switches.filter(".shuffle").on("click", mc.switch_shuffle_click_handler)
+    $switches.filter(".shuffle").on("click", this.switch_shuffle_click_handler)
 
     # repeat
-    $switches.filter(".repeat").on("click", mc.switch_repeat_click_handler)
+    $switches.filter(".repeat").on("click", this.switch_repeat_click_handler)
 
     # volume
     $knobs.filter(".volume")
-      .on("mousedown", mc.knob_volume_mousedown_handler)
-      .on("dblclick", mc.knob_volume_doubleclick_handler)
+      .on("mousedown", this.knob_volume_mousedown_handler)
+      .on("dblclick", this.knob_volume_doubleclick_handler)
 
-    $switches.filter(".volume").on("click", mc.switch_volume_click_handler)
+    $switches.filter(".volume").on("click", this.switch_volume_click_handler)
 
 
 
@@ -140,10 +143,10 @@ ControllerMachinery =
 
 
 
-  knob_volume_mousedown_handler: (e) ->
-    $(e.currentTarget).off("mousedown", mc.knob_volume_mousedown_handler)
-    $(document).on("mousemove", mc.document_mousemove_handler_for_volume_knob)
-    $(document).on("mouseup", mc.document_mouseup_handler_for_volume_knob)
+  knob_volume_mousedown_handler: (e) =>
+    $(e.currentTarget).off("mousedown", this.knob_volume_mousedown_handler)
+    $(document).on("mousemove", this.document_mousemove_handler_for_volume_knob)
+    $(document).on("mouseup", this.document_mouseup_handler_for_volume_knob)
 
 
 
@@ -173,15 +176,15 @@ ControllerMachinery =
 
 
 
-  document_mouseup_handler_for_volume_knob: (e) ->
+  document_mouseup_handler_for_volume_knob: (e) =>
     # unbind
-    $(document).off("mousemove", mc.document_mousemove_handler_for_volume_knob)
-    $(document).off("mouseup", mc.document_mouseup_handler_for_volume_knob)
+    $(document).off("mousemove", this.document_mousemove_handler_for_volume_knob)
+    $(document).off("mouseup", this.document_mouseup_handler_for_volume_knob)
 
     # rebind
     ℰ.ControllerView.$controls
       .find(".knob.volume")
-      .on("mousedown", mc.knob_volume_mousedown_handler)
+      .on("mousedown", this.knob_volume_mousedown_handler)
 
 
 
@@ -204,8 +207,8 @@ ControllerMachinery =
   #
   #  Setup progress bar
   #
-  setup_progress_bar: ($progress_bar) ->
-    $progress_bar.parent().on("click", mc.progress_bar_click_handler)
+  setup_progress_bar: ($progress_bar) =>
+    $progress_bar.parent().on("click", this.progress_bar_click_handler)
 
 
 
@@ -220,15 +223,3 @@ ControllerMachinery =
 
     # seek
     ℰ.SoundGuy.current_sound.setPosition( ℰ.SoundGuy.current_sound.duration * percent )
-
-
-
-#### MC
-mc = ControllerMachinery
-
-
-
-#### Publicize
-OngakuRyoho.Machinery.Controller = _.pick(ControllerMachinery,
-  "setup", "setup_now_playing_marquee", "setup_controller_buttons", "setup_progress_bar"
-)

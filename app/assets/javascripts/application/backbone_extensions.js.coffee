@@ -4,7 +4,8 @@
 #
 Backbone.View.prototype.initialize = () ->
   machine_name = this.constructor.toString().match(/^function (\w+)/)[1]
-  machine = OngakuRyoho.Machinery[machine_name]
+  Machine = OngakuRyoho.Classes.Machinery[machine_name]
 
-  this.machine = machine
-  this.machine.view = this
+  if Machine
+    this.machine = new Machine
+    this.machine.view = this
