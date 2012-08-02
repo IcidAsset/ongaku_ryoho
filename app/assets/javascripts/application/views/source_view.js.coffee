@@ -12,10 +12,10 @@ class OngakuRyoho.Classes.Views.Source extends Backbone.View
   #  Render
   #
   render: () =>
-    this.$el.html(@template( @model.toJSON() ))
+    this.$el.html(@template(@model.toJSON()))
 
     # add class when available
-    $(this.el).addClass("available") if @model.get("available")
+    this.$el.addClass("available") if @model.get("available")
 
     # chain
     return this

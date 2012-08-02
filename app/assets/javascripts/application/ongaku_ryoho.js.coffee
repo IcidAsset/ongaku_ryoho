@@ -19,4 +19,4 @@ window.OngakuRyoho =
 
 
 window.ℰ = window.OngakuRyoho.Instances
-window.ℳ = (view) -> view.machine if view
+window.ℳ = (instance) -> instance.machine

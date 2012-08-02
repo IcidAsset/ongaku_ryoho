@@ -6,6 +6,24 @@ class OngakuRyoho.Classes.Views.Controller extends Backbone.View
 
 
   #
+  #  Events
+  #
+  events: () ->
+    "click .now-playing"                              : @machine.now_playing_click_handler
+    "click .progress-bar-wrapper"                     : @machine.progress_bar_click_handler
+
+    "click .controls a .button.play-pause"            : @machine.button_playpause_click_handler
+    "click .controls a .button-column .btn.previous"  : ℰ.SoundGuy.select_previous_track
+    "click .controls a .button-column .btn.next"      : ℰ.SoundGuy.select_next_track
+    "click .controls a .switch.shuffle"               : @machine.switch_shuffle_click_handler
+    "click .controls a .switch.repeat"                : @machine.switch_repeat_click_handler
+    "click .controls a .switch.volume"                : @machine.switch_volume_click_handler
+
+    "dblclick .controls a .knob.volume"               : @machine.knob_volume_doubleclick_handler
+
+
+
+  #
   #  Initialize
   #
   initialize: () =>
@@ -29,24 +47,14 @@ class OngakuRyoho.Classes.Views.Controller extends Backbone.View
     # cache dom elements
     this.$now_playing  = this.$el.find(".now-playing")
     this.$progress_bar = this.$el.find(".progress-bar")
-    this.$controls     = this.$el.children(".controls")
 
     # render
     this.render_time()
     this.render_now_playing()
 
-    # setup machine
-    @machine.setup(this.$el)
-    @machine.setup_controller_buttons(this.$controls)
-    @machine.setup_progress_bar(this.$progress_bar)
-
-
-
-  #
-  #  Set track info in document title
-  #
-  set_current_track_in_document_title: () =>
-    Helpers.set_document_title("▶ #{@model.get("artist")} – #{@model.get("title")}")
+    # more events
+    this.$el.find(".controls a .knob.volume")
+        .on("mousedown", @machine.knob_volume_mousedown_handler)
 
 
 

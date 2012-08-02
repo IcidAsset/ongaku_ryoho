@@ -4,8 +4,8 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
   #  Events
   #
   events:
-    "dblclick .track" : "play_track"
-    "click .track .favourite" : "track_rating_star_click"
+    "dblclick .track"          : "play_track"
+    "click .track .favourite"  : "track_rating_star_click"
 
 
 
@@ -33,11 +33,11 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
     # sources html
     @collection.each((track) =>
       track_view = new OngakuRyoho.Classes.Views.Track({ model: track })
-      html += track_view.render().el.innerHTML
+      html = html + track_view.render().el.innerHTML
     )
 
     # ending html
-    html += "</ol>"
+    html = html + "</ol>"
 
     # set html
     this.$el.html(html)
@@ -71,7 +71,7 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
   #  Fetching and fetched events
   #
   fetching: () =>
-    # do nothing
+    # nil
 
 
 

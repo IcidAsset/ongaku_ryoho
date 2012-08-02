@@ -1,6 +1,6 @@
 #
 #  Connect machine and view,
-#  when super() is called
+#  when super() is called in the initialize method
 #
 Backbone.View.prototype.initialize = () ->
   machine_name = this.constructor.toString().match(/^function (\w+)/)[1]

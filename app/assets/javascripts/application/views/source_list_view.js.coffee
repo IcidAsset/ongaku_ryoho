@@ -13,18 +13,17 @@ class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
   #  Render
   #
   render: () =>
-
     # opening html
     html = "<form><div class=\"source-list\"><ol>"
 
     # sources html
     @collection.each((source) ->
       source_view = new OngakuRyoho.Classes.Views.Source({ model: source })
-      html += source_view.render().el.innerHTML
+      html = html + source_view.render().el.innerHTML
     , this)
 
     # ending html
-    html += "</ol></div></form>"
+    html = html + "</ol></div></form>"
 
     # set html
     this.$el.html(html)

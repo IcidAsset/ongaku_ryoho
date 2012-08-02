@@ -3,7 +3,7 @@ class OngakuRyoho.Classes.Machinery.MessageCenter
   #
   #  Mouse event handlers
   #
-  message_click_handler: (e) ->
+  message_click_handler: (e) =>
     $t = $(e.currentTarget)
 
     # check
@@ -11,7 +11,7 @@ class OngakuRyoho.Classes.Machinery.MessageCenter
 
     # set
     cid = $t.attr("rel")
-    message = ℰ.Messages.find (m) -> m.cid is cid
+    message = @view.collection.find (m) -> m.cid is cid
 
     # remove message
-    ℰ.Messages.remove(message)
+    @view.collection.remove(message)

@@ -1,10 +1,10 @@
 class OngakuRyoho.Classes.Machinery.Controller
 
   #
-  #  Setup
+  #  Set track info in document title
   #
-  setup: ($el) =>
-    $el.on("click", ".now-playing", this.now_playing_click_handler)
+  set_current_track_in_document_title: () =>
+    Helpers.set_document_title("▶ #{@view.model.get("artist")} – #{@view.model.get("title")}")
 
 
 
@@ -76,39 +76,6 @@ class OngakuRyoho.Classes.Machinery.Controller
   #
   #  Controller buttons
   #
-  setup_controller_buttons: ($controls) =>
-    $buttons         = $controls.find("a .button")
-    $button_columns  = $controls.find("a .button-column")
-    $switches        = $controls.find("a .switch")
-    $knobs           = $controls.find("a .knob")
-
-    # play/pause button
-    $buttons.filter(".play-pause").on("click", this.button_playpause_click_handler)
-
-    # previous and next
-    $button_columns
-      .children(".btn.previous")
-      .on("click", ℰ.SoundGuy.select_previous_track)
-
-    $button_columns
-      .children(".btn.next")
-      .on("click", ℰ.SoundGuy.select_next_track)
-
-    # shuffle
-    $switches.filter(".shuffle").on("click", this.switch_shuffle_click_handler)
-
-    # repeat
-    $switches.filter(".repeat").on("click", this.switch_repeat_click_handler)
-
-    # volume
-    $knobs.filter(".volume")
-      .on("mousedown", this.knob_volume_mousedown_handler)
-      .on("dblclick", this.knob_volume_doubleclick_handler)
-
-    $switches.filter(".volume").on("click", this.switch_volume_click_handler)
-
-
-
   button_playpause_click_handler: (e) ->
     return unless soundManager.ok()
 
@@ -133,13 +100,13 @@ class OngakuRyoho.Classes.Machinery.Controller
 
 
 
-  switch_shuffle_click_handler: (e) ->
-    ℰ.Controller.set("shuffle", !ℰ.Controller.get("shuffle"))
+  switch_shuffle_click_handler: (e) =>
+    @view.model.set("shuffle", !@view.model.get("shuffle"))
 
 
 
-  switch_repeat_click_handler: (e) ->
-    ℰ.Controller.set("repeat", !ℰ.Controller.get("repeat"))
+  switch_repeat_click_handler: (e) =>
+    @view.model.set("repeat", !@view.model.get("repeat"))
 
 
 
@@ -150,7 +117,7 @@ class OngakuRyoho.Classes.Machinery.Controller
 
 
 
-  document_mousemove_handler_for_volume_knob: (e) ->
+  document_mousemove_handler_for_volume_knob: (e) =>
     $t = $(e.currentTarget).find(".it div")
     knob_x = $t.offset().left + $t.width() / 2
     knob_y = $t.offset().top + $t.height() / 2
@@ -172,7 +139,7 @@ class OngakuRyoho.Classes.Machinery.Controller
 
     # set volume
     volume = 50 + (angle / 135) * 50
-    ℰ.Controller.set("volume", volume)
+    @view.model.set("volume", volume)
 
 
 
@@ -182,36 +149,30 @@ class OngakuRyoho.Classes.Machinery.Controller
     $(document).off("mouseup", this.document_mouseup_handler_for_volume_knob)
 
     # rebind
-    ℰ.ControllerView.$controls
-      .find(".knob.volume")
-      .on("mousedown", this.knob_volume_mousedown_handler)
+    @view.$el.find(".controls .knob.volume")
+         .on("mousedown", this.knob_volume_mousedown_handler)
 
 
 
-  knob_volume_doubleclick_handler: (e) ->
+  knob_volume_doubleclick_handler: (e) =>
     $t = $(e.currentTarget).find(".it div")
 
     # reset rotation
     Helpers.css.rotate($t, 0)
 
     # set volume
-    ℰ.Controller.set("volume", 50)
+    @view.model.set("volume", 50)
 
 
 
-  switch_volume_click_handler: (e) ->
-    ℰ.Controller.set("mute", !ℰ.Controller.get("mute"))
+  switch_volume_click_handler: (e) =>
+    @view.model.set("mute", !@view.model.get("mute"))
 
 
 
   #
   #  Setup progress bar
   #
-  setup_progress_bar: ($progress_bar) =>
-    $progress_bar.parent().on("click", this.progress_bar_click_handler)
-
-
-
   progress_bar_click_handler: (e) ->
     return unless ℰ.SoundGuy.current_sound
 
