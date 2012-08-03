@@ -26,7 +26,7 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
   #
   #  Check sources
   #
-  check_sources: () =>
+  process_and_check_sources: () =>
     this.find_sources_to_process()
 
 
