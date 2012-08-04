@@ -200,7 +200,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     @controller.set(controller_attributes)
 
     # add playing class to track
-    @playlist_view.track_list_view.add_playing_class_to_track(track)
+    @playlist_view.track_list_view.machine.add_playing_class_to_track(track)
 
     # document title
     @controller_view.machine.set_current_track_in_document_title()

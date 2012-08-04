@@ -110,7 +110,7 @@ class OngakuRyoho.Classes.Machinery.Playlist
     current_track = ℰ.SoundGuy.get_current_track()
 
     # add playing class
-    @view.track_list_view.add_playing_class_to_track(current_track) if current_track
+    @view.track_list_view.machine.add_playing_class_to_track(current_track) if current_track
 
 
 
