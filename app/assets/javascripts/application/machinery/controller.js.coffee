@@ -69,7 +69,7 @@ class OngakuRyoho.Classes.Machinery.Controller
 
 
   now_playing_click_handler: (e) ->
-    ℳ(ℰ.PlaylistView).show_current_track()
+    ℰ.PlaylistView.machine.show_current_track()
 
 
 

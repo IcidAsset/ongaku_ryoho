@@ -30,9 +30,7 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
     })
 
     # get content
-    ℰ.Sources.fetch({ success: () ->
-      ℰ.Tracks.fetch({ success:
-        ℰ.SourceManagerView.process_and_check_sources })})
+    ℰ.Sources.fetch({ success: ℰ.Sources.process_and_check_sources })
 
 
 

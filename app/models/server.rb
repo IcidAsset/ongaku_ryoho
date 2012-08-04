@@ -107,6 +107,9 @@ class Server < Source
     # the end
     self.status = 'processed'
     self.save
+
+    # return
+    return true
   end
 
 

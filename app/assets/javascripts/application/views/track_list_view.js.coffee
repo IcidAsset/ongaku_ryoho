@@ -76,14 +76,14 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
 
 
   fetched: () =>
-    ℳ(ℰ.PlaylistView).check_page_navigation()
+    ℰ.PlaylistView.machine.check_page_navigation()
 
     if this.count_tracks() is 0
       this.$el.html("<div class=\"nothing-here\" />")
 
     else
       this.add_playing_class_to_track( ℰ.SoundGuy.get_current_track() )
-      ℳ(ℰ.PlaylistView).show_current_track()
+      ℰ.PlaylistView.machine.show_current_track()
 
 
 

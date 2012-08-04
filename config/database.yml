@@ -5,6 +5,7 @@ development:
   database: ongaku_ryoho_development
   pool: 5
   username: purpleSynth
+  password: hello
 
 test:
   adapter: postgresql
@@ -13,6 +14,7 @@ test:
   database: ongaku_ryoho_test
   pool: 5
   username: purpleSynth
+  password: hello
 
 # production:
 #   adapter: postgresql

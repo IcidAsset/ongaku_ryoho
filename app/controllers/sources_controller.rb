@@ -25,7 +25,7 @@ class SourcesController < ApplicationController
 
     # process if needed
     json = if allowed_to_proceed
-      { changed: true }
+      { changed: source.process_tracks }
     else
       { changed: false }
     end

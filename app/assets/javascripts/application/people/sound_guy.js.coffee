@@ -203,7 +203,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     @playlist_view.track_list_view.add_playing_class_to_track(track)
 
     # document title
-    ℳ(@controller_view).set_current_track_in_document_title()
+    @controller_view.machine.set_current_track_in_document_title()
 
 
 
@@ -301,7 +301,7 @@ class OngakuRyoho.Classes.People.SoundGuy
       soundManager.play(@current_sound.sID)
 
     # set document title
-    ℳ(@controller_view).set_current_track_in_document_title()
+    @controller_view.machine.set_current_track_in_document_title()
 
 
 

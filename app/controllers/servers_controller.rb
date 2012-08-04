@@ -22,6 +22,7 @@ class ServersController < ApplicationController
     server.user_id = current_user.id
     server.name = location.gsub('http://', '').gsub('/', '')
     server.configuration = { location: location }
+    server.status = "unprocessed"
 
     existing_server = Server.all.select { |s|
       s.configuration[:location] == location

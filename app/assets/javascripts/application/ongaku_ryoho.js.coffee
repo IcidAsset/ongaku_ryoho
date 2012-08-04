@@ -19,4 +19,3 @@ window.OngakuRyoho =
 
 
 window.ℰ = window.OngakuRyoho.Instances
-window.ℳ = (instance) -> instance.machine
