@@ -12,6 +12,11 @@ class OngakuRyoho.Classes.People.SoundGuy
   learn_basics: (necessary_materials) =>
     $.extend(this, necessary_materials)
 
+    # setup audio
+    @machine = new OngakuRyoho.Classes.Machinery.Audio
+    @machine.setup()
+
+    # get set
     this.apply_settings_from_local_storage();
     this.check_the_lights()
 
