@@ -27,12 +27,9 @@ class TracksController < ApplicationController
     })
 
     # select tracks
-    tracks = select_tracks(available_source_ids, options)
-
-    # total tracks?
-    total = Track.count(conditions: [
-      "source_id IN (?)", available_source_ids
-    ])
+    tracks_box = select_tracks(available_source_ids, options)
+    tracks = tracks_box[:tracks]
+    total = tracks_box[:total]
 
     # render
     render json: {
@@ -91,13 +88,15 @@ private
     conditions = [condition_sql] + condition_arguments.compact
 
     # grab tracks
-    tracks = unless select_favourites
-      Track.find(:all, {
+    unless select_favourites
+      tracks = Track.find(:all, {
         offset: options[:offset],
         limit: options[:per_page],
         conditions: conditions,
         order: order
       })
+
+      total = Track.count(conditions: conditions)
 
     else
       favourites = Favourite.find(:all, {
@@ -106,6 +105,8 @@ private
         conditions: conditions,
         order: order
       })
+
+      total = Favourite.count(conditions: conditions)
 
       track_ids = []
       tracks_placeholder = favourites.map { |f| f.id }
@@ -149,12 +150,12 @@ private
         tracks_placeholder[index] = t
       end
 
-      tracks_placeholder
+      tracks = tracks_placeholder
 
     end
 
     # give it to me
-    return tracks
+    return { tracks: tracks, total: total }
   end
 
 end
