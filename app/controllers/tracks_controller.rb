@@ -52,7 +52,9 @@ private
     select_favourites = options[:select_favourites]
 
     # check
-    return [] if available_source_ids.empty? and !select_favourites
+    if available_source_ids.empty? and !select_favourites
+      return { tracks: [], total: 0 }
+    end
 
     # order
     order = case options[:sort_by]

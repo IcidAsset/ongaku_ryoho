@@ -56,7 +56,8 @@ class OngakuRyoho.Classes.Machinery.TrackList
     $t = $(e.currentTarget)
 
     # check
-    return if not soundManager.ok() or $t.hasClass("unavailable")
+    # TODO: return if not soundManager.ok() or $t.hasClass("unavailable")
+    return if $t.hasClass("unavailable")
 
     # set
     track = ℰ.Tracks.getByCid($t.attr("rel"))

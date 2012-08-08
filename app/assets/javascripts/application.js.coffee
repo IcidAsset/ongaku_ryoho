@@ -17,23 +17,12 @@
 #= require 'backbone'
 #= require 'backbone_rails_sync'
 #= require 'handlebars'
-#= require 'soundmanager2/soundmanager2'
-#= provide 'soundmanager2/dependencies'
 #= require 'jsdeferred'
 #= require 'spin'
 
 #= require './application/backbone_extensions'
 #= require './application/helpers'
 #= require './application/ongaku_ryoho'
-
-
-
-soundManager.setup
-  url: soundManagerFlashURL
-  flashVersion: 9
-  useFlashBlock: false
-  debugMode: false
-  flash9Options: { usePeakData: true }
 
 
 

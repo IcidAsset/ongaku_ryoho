@@ -47,7 +47,6 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   apply_settings_from_local_storage: () =>
-    # find item
     item = window.localStorage.getItem("controller_settings")
 
     # check
@@ -66,7 +65,8 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   get_current_track: () =>
     if @current_sound
-      track = ℰ.Tracks.find (track) => track.get('id') is @current_sound.sID
+      # TODO: track = ℰ.Tracks.find (track) => track.get('id') is @current_sound.sID
+      null
     else
       null
 
@@ -76,14 +76,14 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Set volume
   #
   set_volume: () =>
-    volume = @controller.get('volume')
+    volume = @controller.get("volume")
 
     # rotate volume button
     angle = ((volume - 50) * 135) / 50
-    Helpers.css.rotate(@controller_view.$el.find('.controls a .knob.volume .it div'), angle)
+    Helpers.css.rotate(@controller_view.$el.find(".controls a .knob.volume .it div"), angle)
 
     # sound
-    @current_sound.setVolume(volume) if @current_sound
+    @machine.nodes.volume.gain.value = (volume / 100)
 
     # save
     this.save_settings_in_local_storage()
@@ -94,21 +94,18 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Set mute
   #
   set_mute: () =>
-    $light = @controller_view.$el.find('.controls a .switch.volume .light')
-    state = @controller.get('mute')
+    $light = @controller_view.$el.find(".controls a .switch.volume .light")
+    state = @controller.get("mute")
+    volume = (@controller.get("volume") / 100)
 
     # light
     if state
-      $light.removeClass('on')
+      $light.removeClass("on")
     else
-      $light.addClass('on')
+      $light.addClass("on")
 
     # sound
-    if @current_sound
-      if state
-        @current_sound.mute()
-      else
-        @current_sound.unmute()
+    @machine.nodes.volume.gain.value = if state then 0 else volume
 
     # save
     this.save_settings_in_local_storage()
@@ -159,7 +156,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   insert_track: (track) =>
     # destroy current sound
-    soundManager.destroySound(@current_sound.sID) if @current_sound
+    # TODO: soundManager.destroySound(@current_sound.sID) if @current_sound
 
     # track attributes
     track_attributes = track.toJSON()
@@ -168,23 +165,23 @@ class OngakuRyoho.Classes.People.SoundGuy
     this_sound_guy = this
 
     # create sound
-    new_sound = soundManager.createSound
-      id:             track_attributes.id
-      url:            track_attributes.url
+    # TODO: new_sound = soundManager.createSound
+    #   id:             track_attributes.id
+    #   url:            track_attributes.url
 
-      volume:         0
-      autoLoad:       true
-      autoPlay:       true
-      stream:         true
+    #   volume:         0
+    #   autoLoad:       true
+    #   autoPlay:       true
+    #   stream:         true
 
-      onfinish:       this_sound_guy.sound_onfinish
-      onload:         this_sound_guy.sound_onload
-      onplay:         this_sound_guy.sound_onplay
-      whileloading:   this_sound_guy.sound_whileloading
-      whileplaying:   this_sound_guy.sound_whileplaying
+    #   onfinish:       this_sound_guy.sound_onfinish
+    #   onload:         this_sound_guy.sound_onload
+    #   onplay:         this_sound_guy.sound_onplay
+    #   whileloading:   this_sound_guy.sound_whileloading
+    #   whileplaying:   this_sound_guy.sound_whileplaying
 
     # current track
-    @current_sound = new_sound
+    # TODO: @current_sound = new_sound
 
     # volume
     this.set_mute()
@@ -297,13 +294,13 @@ class OngakuRyoho.Classes.People.SoundGuy
     return unless @current_sound
 
     # mute track if the controller says so
-    soundManager.mute(@current_sound.sID) if @controller.get('mute')
+    # TODO: soundManager.mute(@current_sound.sID) if @controller.get('mute')
 
     # play/resume
     if @current_sound.paused
-      soundManager.resume(@current_sound.sID)
+      # TODO: soundManager.resume(@current_sound.sID)
     else
-      soundManager.play(@current_sound.sID)
+      # TODO: soundManager.play(@current_sound.sID)
 
     # set document title
     @controller_view.machine.set_current_track_in_document_title()
@@ -317,7 +314,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     return unless @current_sound
 
     # pause
-    soundManager.pause(@current_sound.sID)
+    # TODO: soundManager.pause(@current_sound.sID)
 
     # set document title
     Helpers.set_document_title(Helpers.original_document_title)
@@ -331,7 +328,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     return unless @current_sound
 
     # stop
-    soundManager.stop(this.current_sound.sID)
+    # TODO: soundManager.stop(this.current_sound.sID)
 
     # set document title
     Helpers.set_document_title(Helpers.original_document_title)

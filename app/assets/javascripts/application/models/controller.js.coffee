@@ -7,4 +7,4 @@ class OngakuRyoho.Classes.Models.Controller extends Backbone.Model
     shuffle       : false
     repeat        : false
     mute          : false
-    volume        : 50
+    volume        : 0.5

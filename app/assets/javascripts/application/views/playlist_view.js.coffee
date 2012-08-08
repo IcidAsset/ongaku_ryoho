@@ -27,7 +27,13 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
     @track_list_view = new OngakuRyoho.Classes.Views.TrackList({ el: this.$(".tracks-wrapper") })
 
     # get content
-    ℰ.Sources.fetch({ success: ℰ.Sources.process_and_check_sources })
+    # ℰ.Sources.fetch({ success: ℰ.Sources.process_and_check_sources })
+
+    # temporary
+    ℰ.Tracks.fetch({ success: () ->
+      track = ℰ.Tracks.models[Math.floor(Math.random() * (ℰ.Tracks.length - 1))]
+      ℰ.SoundGuy.machine.play(track)
+    })
 
 
 

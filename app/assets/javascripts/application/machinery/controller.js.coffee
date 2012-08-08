@@ -77,7 +77,7 @@ class OngakuRyoho.Classes.Machinery.Controller
   #  Controller buttons
   #
   button_playpause_click_handler: (e) ->
-    return unless soundManager.ok()
+    # TODO: return unless soundManager.ok()
 
     # set
     $button = $(e.currentTarget)

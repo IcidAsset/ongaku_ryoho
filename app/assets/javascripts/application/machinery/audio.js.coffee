@@ -39,7 +39,7 @@ class OngakuRyoho.Classes.Machinery.Audio
   #
   create_volume_node: () =>
     volume_node = @ac.createGainNode()
-    volume_node.gain.value = 0.5
+    volume_node.gain.value = 1
 
     # connect to destination
     volume_node.connect(@ac.destination)
@@ -54,14 +54,14 @@ class OngakuRyoho.Classes.Machinery.Audio
   #
   create_new_audio_element: (related_track) =>
     audio_element = new window.Audio()
-    audio_element.src = related_track.get("url")
-    audio_element.rel = related_track.id
-    audio_element.preload = "auto"
+    audio_element.setAttribute("src", related_track.get("url"))
+    audio_element.setAttribute("rel", related_track.id)
 
     # events, in order of the w3c spec
-    audio_element.addEventListener("loadstart", this.load_start)
-    audio_element.addEventListener("progress", this.while_loading)
-    audio_element.addEventListener("canplay", this.can_play)
+    audio_element.addEventListener("loadstart", this.events_load_start)
+    audio_element.addEventListener("progress", this.events_while_loading)
+    audio_element.addEventListener("canplay", this.events_can_play)
+    audio_element.addEventListener("play", this.events_play)
 
     # add element to dom
     @cntnr.append(audio_element)
@@ -88,13 +88,12 @@ class OngakuRyoho.Classes.Machinery.Audio
     # if no element exists yet
     audio_element = this.create_new_audio_element(track)
 
-    # create source
-    source = @ac.createMediaElementSource(audio_element)
-
-    # connect to volume node
-    source.connect(@nodes.volume)
-
-    return source
+    # create, connect and play
+    setTimeout(() =>
+      source = @ac.createMediaElementSource(audio_element)
+      source.connect(@nodes.volume)
+      source.mediaElement.play()
+    , 0)
 
 
 
@@ -106,7 +105,7 @@ class OngakuRyoho.Classes.Machinery.Audio
 
 
 
-  events_load_end: () ->
+  # events_load_end: () ->
 
 
 
@@ -115,11 +114,8 @@ class OngakuRyoho.Classes.Machinery.Audio
 
 
 
-  events_loaded_metadata: () ->
-
-
-
-  events_loaded_data: () ->
+  # events_loaded_metadata: () ->
+  # events_loaded_data: () ->
 
 
 
@@ -127,10 +123,11 @@ class OngakuRyoho.Classes.Machinery.Audio
   #  Events / Playing
   #
   events_play: () ->
+    console.log("playing ...")
 
 
 
-  events_playing: () ->
+  # events_playing: () ->
 
 
 
@@ -139,42 +136,24 @@ class OngakuRyoho.Classes.Machinery.Audio
 
 
 
-  events_can_play_through: () ->
-
-
-
-  events_pause: () ->
-
-
-
-  events_finish: () ->
+  # events_can_play_through: () ->
+  # events_pause: () ->
+  # events_finish: () ->
 
 
 
   #
   #  Events / Errors, etc.
   #
-  events_load_suspend: () ->
-
-
-
-  events_load_abort: () ->
-
-
-
-  events_load_error: () ->
-
-
-
-  events_load_stalled: () ->
-
-
-
-  events_data_emptied: () ->
+  # events_load_suspend: () ->
+  # events_load_abort: () ->
+  # events_load_error: () ->
+  # events_load_stalled: () ->
+  # events_data_emptied: () ->
 
 
 
   #
   #  Events / Other
   #
-  events_duration_change: () ->
+  # events_duration_change: () ->
