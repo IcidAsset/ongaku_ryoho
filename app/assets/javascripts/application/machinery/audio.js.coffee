@@ -1,7 +1,7 @@
 class OngakuRyoho.Classes.Machinery.Audio
 
   setup: () =>
-    @current_source = null
+    @sources = []
     @audio_elements = []
     @nodes = {}
     @events = {}
@@ -52,16 +52,18 @@ class OngakuRyoho.Classes.Machinery.Audio
   #
   #  Create new audio element
   #
-  create_new_audio_element: (related_track) =>
+  create_new_audio_element: (related_track, autoplay) =>
     audio_element = new window.Audio()
     audio_element.setAttribute("src", related_track.get("url"))
     audio_element.setAttribute("rel", related_track.id)
 
     # events, in order of the w3c spec
-    audio_element.addEventListener("loadstart", this.events_load_start)
-    audio_element.addEventListener("progress", this.events_while_loading)
-    audio_element.addEventListener("canplay", this.events_can_play)
-    audio_element.addEventListener("play", this.events_play)
+    audio_element.addEventListener("ended", this.events_finish)
+    audio_element.addEventListener("durationchange", this.events_duration_change)
+    audio_element.addEventListener("timeupdate", this.events_time_update)
+    audio_element.addEventListener("canplay", () ->
+      this.play() if autoplay
+    )
 
     # add element to dom
     @cntnr.append(audio_element)
@@ -75,9 +77,9 @@ class OngakuRyoho.Classes.Machinery.Audio
 
 
   #
-  #  Play
+  #  Create new source
   #
-  play: (track) =>
+  create_new_source: (track, autoplay=false) =>
     track_id = track.get("id")
 
     # find existing audio element
@@ -86,30 +88,73 @@ class OngakuRyoho.Classes.Machinery.Audio
     )
 
     # if no element exists yet
-    audio_element = this.create_new_audio_element(track)
+    audio_element ?= this.create_new_audio_element(track, autoplay)
 
     # create, connect and play
     setTimeout(() =>
       source = @ac.createMediaElementSource(audio_element)
       source.connect(@nodes.volume)
-      source.mediaElement.play()
+      source.track = track
+
+      @sources.push(source)
     , 0)
+
+
+
+  #
+  #  Destroy source
+  #
+  destroy_source: (source) =>
+    source.disconnect()
+
+    # remove audio element from array
+    @audio_elements.splice(@audio_elements.indexOf(source.mediaElement), 1)
+
+    # remove audio element from DOM
+    $(source.mediaElement).remove()
+
+    # remove from sources array
+    @sources.splice(@sources.indexOf(source), 1)
+
+
+
+  #
+  #  Destroy all sources
+  #
+  destroy_all_sources: () =>
+    # make a copy of the sources array
+    sources = @sources.slice(0)
+
+    # destroy each
+    _.each(sources, (source) => this.destroy_source(source))
+
+
+
+  #
+  #  Play source
+  #
+  play: (source) ->
+    source.mediaElement.play()
+
+
+
+  #
+  #  Pause source
+  #
+  pause: (source) ->
+    source.mediaElement.pause()
 
 
 
   #
   #  Events / Loading
   #
-  events_load_start: () ->
-    console.log("load start")
-
-
-
+  # events_load_start: () ->
   # events_load_end: () ->
 
 
 
-  events_while_loading: () ->
+  events_while_loading: (e) ->
     console.log("loading ...")
 
 
@@ -122,23 +167,19 @@ class OngakuRyoho.Classes.Machinery.Audio
   #
   #  Events / Playing
   #
-  events_play: () ->
-    console.log("playing ...")
-
-
-
+  # events_play: () ->
   # events_playing: () ->
-
-
-
-  events_can_play: () ->
-    console.info("can play")
-
-
-
+  # events_can_play: () ->
   # events_can_play_through: () ->
   # events_pause: () ->
-  # events_finish: () ->
+  events_finish: (e) =>
+    repeat = @person.controller.get('repeat')
+
+    # action
+    if repeat
+      this.play()
+    else
+      @person.select_next_track()
 
 
 
@@ -156,4 +197,9 @@ class OngakuRyoho.Classes.Machinery.Audio
   #
   #  Events / Other
   #
-  # events_duration_change: () ->
+  events_duration_change: (e) =>
+    @person.controller.set({ duration: e.currentTarget.duration })
+
+  events_time_update: (e) =>
+    @person.controller.set({ time: e.currentTarget.currentTime })
+    # TODO: @person.visualizations_view.visualize("peak_data", @current_sound.peakData)

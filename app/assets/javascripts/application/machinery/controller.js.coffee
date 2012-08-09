@@ -81,7 +81,13 @@ class OngakuRyoho.Classes.Machinery.Controller
 
     # set
     $button = $(e.currentTarget)
-    state = if ℰ.SoundGuy.current_sound and !ℰ.SoundGuy.current_sound.paused
+
+    # source
+    source = _.last(ℰ.SoundGuy.machine.sources)
+
+    # state
+    # TODO: this shouldn't be here
+    state = if source and !source.mediaElement.paused
       "playing"
     else
       "not playing"
@@ -174,13 +180,16 @@ class OngakuRyoho.Classes.Machinery.Controller
   #  Setup progress bar
   #
   progress_bar_click_handler: (e) ->
-    return unless ℰ.SoundGuy.current_sound
-
-    # $el
     $progress_bar = $(e.currentTarget).children(".progress-bar")
 
     # set
     percent = (e.pageX - $progress_bar.offset().left) / $progress_bar.width()
 
+    # source
+    source = _.last(ℰ.SoundGuy.machine.sources)
+
+    # check
+    return unless source
+
     # seek
-    ℰ.SoundGuy.current_sound.setPosition( ℰ.SoundGuy.current_sound.duration * percent )
+    source.mediaElement.currentTime = source.mediaElement.duration * percent

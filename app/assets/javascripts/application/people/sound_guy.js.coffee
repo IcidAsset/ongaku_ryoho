@@ -14,6 +14,7 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     # setup audio
     @machine = new OngakuRyoho.Classes.Machinery.Audio
+    @machine.person = this
     @machine.setup()
 
     # get set
@@ -64,9 +65,8 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Current track
   #
   get_current_track: () =>
-    if @current_sound
-      # TODO: track = ℰ.Tracks.find (track) => track.get('id') is @current_sound.sID
-      null
+    if @machine.sources.length
+      _.last(@machine.sources).track
     else
       null
 
@@ -155,8 +155,8 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Insert track
   #
   insert_track: (track) =>
-    # destroy current sound
-    # TODO: soundManager.destroySound(@current_sound.sID) if @current_sound
+    # destroy current sources
+    @machine.destroy_all_sources()
 
     # track attributes
     track_attributes = track.toJSON()
@@ -164,28 +164,8 @@ class OngakuRyoho.Classes.People.SoundGuy
     # this sound guy
     this_sound_guy = this
 
-    # create sound
-    # TODO: new_sound = soundManager.createSound
-    #   id:             track_attributes.id
-    #   url:            track_attributes.url
-
-    #   volume:         0
-    #   autoLoad:       true
-    #   autoPlay:       true
-    #   stream:         true
-
-    #   onfinish:       this_sound_guy.sound_onfinish
-    #   onload:         this_sound_guy.sound_onload
-    #   onplay:         this_sound_guy.sound_onplay
-    #   whileloading:   this_sound_guy.sound_whileloading
-    #   whileplaying:   this_sound_guy.sound_whileplaying
-
-    # current track
-    # TODO: @current_sound = new_sound
-
-    # volume
-    this.set_mute()
-    this.set_volume()
+    # create new source
+    @machine.create_new_source(track, true)
 
     # controller attributes
     controller_attributes =
@@ -212,40 +192,12 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   #  Sound events
   #
-  sound_onfinish: () =>
-    repeat = @controller.get('repeat')
-
-    # action
-    if repeat
-      @playlist_view.track_list_view.$el.find('.track.playing').trigger('dblclick')
-    else
-      this.select_next_track()
-
-
-
-  sound_onload: () =>
-    @controller.set({ duration: @current_sound.duration })
-
-
-
-  sound_onplay: () =>
-    this.set_mute()
-    this.set_volume()
-
-
-
-  sound_whileloading: () =>
-    percent_loaded = ((@current_sound.bytesLoaded / @current_sound.bytesTotal) * 100) + '%'
-
-    @controller_view.$progress_bar
-      .children('.progress.loader')
-      .css('width', percent_loaded)
-
-
-
-  sound_whileplaying: () =>
-    @controller.set({ time: @current_sound.position })
-    @visualizations_view.visualize('peak_data', @current_sound.peakData)
+  # TODO: sound_whileloading: () =>
+  #   percent_loaded = ((@current_sound.bytesLoaded / @current_sound.bytesTotal) * 100) + '%'
+  #
+  #   @controller_view.$progress_bar
+  #     .children('.progress.loader')
+  #     .css('width', percent_loaded)
 
 
 
@@ -258,18 +210,18 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     # select
     if shuffle
-      $track = $( _.shuffle($tracks)[0] )
+      $track = $(_.shuffle($tracks)[0])
     else
       $track = $tracks.first()
 
     # get model
-    track = ℰ.Tracks.getByCid( $track.attr('rel') )
+    track = ℰ.Tracks.getByCid($track.attr('rel'))
 
     # push to history stack if shuffle
     @shuffle_track_history.push(track.get('id')) if shuffle
 
     # insert track
-    this.insert_track( track )
+    this.insert_track(track)
 
     # set elements
     $playpause_button_light = @controller_view.$el.find(".controls a .button.play-pause .light")
@@ -283,7 +235,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Play track
   #
   play_track: () =>
-    if @current_sound
+    if @machine.sources.length
       this.play_current_track()
     else
       this.select_new_track()
@@ -291,16 +243,13 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   play_current_track: () =>
-    return unless @current_sound
+    source = _.last(@machine.sources)
 
-    # mute track if the controller says so
-    # TODO: soundManager.mute(@current_sound.sID) if @controller.get('mute')
+    # check
+    return unless source
 
     # play/resume
-    if @current_sound.paused
-      # TODO: soundManager.resume(@current_sound.sID)
-    else
-      # TODO: soundManager.play(@current_sound.sID)
+    @machine.play(source)
 
     # set document title
     @controller_view.machine.set_current_track_in_document_title()
@@ -311,30 +260,16 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Pause track
   #
   pause_current_track: () =>
-    return unless @current_sound
+    source = _.last(@machine.sources)
+
+    # check
+    return unless source
 
     # pause
-    # TODO: soundManager.pause(@current_sound.sID)
+    @machine.pause(source)
 
     # set document title
     Helpers.set_document_title(Helpers.original_document_title)
-
-
-
-  #
-  #  Stop track
-  #
-  stop_current_track: () =>
-    return unless @current_sound
-
-    # stop
-    # TODO: soundManager.stop(this.current_sound.sID)
-
-    # set document title
-    Helpers.set_document_title(Helpers.original_document_title)
-
-    # set time on controller
-    @controller.set({ time: 0 })
 
 
 
@@ -342,7 +277,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Previous track
   #
   select_previous_track: () =>
-    return unless @current_sound
+    return unless @machine.sources.length
 
     # set
     shuffle = @controller.get('shuffle')
@@ -374,7 +309,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Next track
   #
   select_next_track: () =>
-    return this.select_new_track() unless @current_sound
+    return this.select_new_track() unless @machine.sources.length
 
     # set
     shuffle = @controller.get('shuffle')

@@ -65,13 +65,9 @@ class OngakuRyoho.Classes.Views.Controller extends Backbone.View
     time     = @model.get("time")
     duration = @model.get("duration")
 
-    # duration? really?
-    if (!duration or duration is 0) and ℰ.SoundGuy.current_sound
-      duration = ℰ.SoundGuy.current_sound.durationEstimate
-
     # set
-    minutes = Math.floor( (time / 1000) / 60 )
-    seconds = Math.floor( (time / 1000) - (minutes * 60) )
+    minutes = Math.floor(time / 60)
+    seconds = Math.floor(time - (minutes * 60) )
 
     progress = (time / duration) * 100
 
