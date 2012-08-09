@@ -50,6 +50,14 @@ class OngakuRyoho.Classes.Machinery.Audio
 
 
   #
+  #  Set volume
+  #
+  set_volume: (value) =>
+    @nodes.volume.gain.value = value
+
+
+
+  #
   #  Create new audio element
   #
   create_new_audio_element: (related_track, autoplay) =>
@@ -153,6 +161,15 @@ class OngakuRyoho.Classes.Machinery.Audio
   #
   pause: (source) ->
     source.mediaElement.pause()
+
+
+
+  #
+  #  Fade out source
+  #
+  fade_out: (source) ->
+    # remove from array first
+    # then remove event handlers from audio element
 
 
 

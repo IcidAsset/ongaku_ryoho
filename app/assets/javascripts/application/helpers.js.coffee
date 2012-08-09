@@ -9,17 +9,13 @@ window.Helpers =
     # handlebars
     this.setup_handlebars_helpers()
 
-    # when the page loses focus, disable animations
-    $(window).on("focus", Helpers.enable_jquery_animations)
-             .on("blur", Helpers.disable_jquery_animations)
-
 
 
   #
   #  Initialize (after)
   #
   initialize_after: () ->
-    this.check_theater_mode({ disable_animation: true })
+    this.check_theater_mode()
 
 
 
@@ -82,16 +78,8 @@ window.Helpers =
   #  Set document title
   #
   set_document_title: (text, set_original_title) ->
-    @original_document_title = document.title if set_original_title
+    this.original_document_title = document.title if set_original_title
     document.title = text
-
-
-
-  #
-  #  Enable / disable jQuery animations
-  #
-  enable_jquery_animations: -> $.fx.off = false
-  disable_jquery_animations: -> $.fx.off = true
 
 
 
@@ -99,7 +87,7 @@ window.Helpers =
   #  Set theather mode
   #
   set_theater_mode: (state, options={}) ->
-    animation_duration = options.disable_animation ? 0 : 950
+    animation_duration = 950
 
     # set elements
     $button = OngakuRyoho.PlaylistView.$el.find(".navigation .button.theater-mode")
@@ -108,11 +96,11 @@ window.Helpers =
     # go
     if state is "off"
       $button.removeClass("on")
-      $color_overlay.fadeOut(animation_duration)
+      $color_overlay.fadeTo(animation_duration, 0)
 
     else
       $button.addClass("on")
-      $color_overlay.fadeIn(animation_duration)
+      $color_overlay.fadeTo(animation_duration, 1)
 
     # save state in local storage
     window.localStorage.setItem("theater_mode_state", state)

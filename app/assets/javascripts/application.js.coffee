@@ -29,12 +29,12 @@
 Zepto ->
 
   # elements
-  $controller       = $('#controller')
-  $playlist         = $('#playlist')
-  $source_manager   = $('#source-manager')
-  $message_center   = $('#message-center')
-  $visualizations   = $('#visualizations')
-  $special_filters  = $('#special-filters')
+  $controller       = $("#controller")
+  $playlist         = $("#playlist")
+  $source_manager   = $("#source-manager")
+  $message_center   = $("#message-center")
+  $visualizations   = $("#visualizations")
+  $special_filters  = $("#special-filters")
 
   # helpers
   Helpers.initialize_before()

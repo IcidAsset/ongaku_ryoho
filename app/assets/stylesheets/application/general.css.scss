@@ -1,6 +1,6 @@
 body {
   @include disable-user-select;
-  
+
   input, textarea, select { @include default-font }
 }
 
@@ -11,12 +11,12 @@ body {
     top: 0;
     width: $controller_width;
   }
-  
+
   #color-overlay {
     background: rgba(#F77825, .13);
     bottom: 0;
-    display: none;
     left: 0;
+    opacity: 0;
     pointer-events: none;
     position: fixed;
     right: 0;
