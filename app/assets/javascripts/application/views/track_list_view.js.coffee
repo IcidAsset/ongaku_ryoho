@@ -16,7 +16,7 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
     super()
 
     # related collection
-    @collection = ℰ.Tracks
+    @collection = OngakuRyoho.Tracks
 
     # render
     @collection.on("reset", this.render)
@@ -67,7 +67,7 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
       message =  "#{page_info.total} #{word.tracks} found &mdash;
                   page #{page_info.page} / #{page_info.pages}"
 
-    ℰ.PlaylistView.set_footer_contents(message)
+    OngakuRyoho.PlaylistView.set_footer_contents(message)
 
     # chain
     return this

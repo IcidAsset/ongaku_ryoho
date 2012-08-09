@@ -14,7 +14,7 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   initialize: () =>
     super()
 
-    @collection = ℰ.Messages
+    @collection = OngakuRyoho.Messages
     @collection.on("add", this.add_message)
     @collection.on("remove", this.remove_message)
 
@@ -30,7 +30,7 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
     this.$el.append(view.render().el.innerHTML)
 
     # the $message
-    $message = this.$(".message").last()
+    $message = this.$el.find(".message").last()
 
     # fade in message
     $message.fadeIn(500)

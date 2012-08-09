@@ -12,7 +12,7 @@ class OngakuRyoho.Classes.Views.Message extends Backbone.View
   #  Render
   #
   render: () =>
-    this.$el.html(@template( this.model.toJSON() ))
+    this.$el.html(@template(this.model.toJSON()))
 
     # jquery object
     $message = this.$el.children(".message").last()
@@ -24,7 +24,7 @@ class OngakuRyoho.Classes.Views.Message extends Backbone.View
     if @model.get("loading")
       $message.addClass("loading").append("<div></div>")
 
-    else if this.model.get("error")
+    else if @model.get("error")
       $message.addClass("error")
 
     # chain

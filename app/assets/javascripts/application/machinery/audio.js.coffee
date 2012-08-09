@@ -105,6 +105,8 @@ class OngakuRyoho.Classes.Machinery.Audio
   #  Destroy source
   #
   destroy_source: (source) =>
+    source.mediaElement.pause()
+    source.mediaElement.setAttribute("src", "")
     source.disconnect()
 
     # remove audio element from array
@@ -127,6 +129,14 @@ class OngakuRyoho.Classes.Machinery.Audio
 
     # destroy each
     _.each(sources, (source) => this.destroy_source(source))
+
+
+
+  #
+  #  Active source?
+  #
+  get_active_source: () =>
+    return _.last(@sources)
 
 
 
@@ -173,11 +183,11 @@ class OngakuRyoho.Classes.Machinery.Audio
   # events_can_play_through: () ->
   # events_pause: () ->
   events_finish: (e) =>
-    repeat = @person.controller.get('repeat')
+    repeat = OngakuRyoho.Controller.get("repeat")
 
     # action
     if repeat
-      this.play()
+      e.currentTarget.play()
     else
       @person.select_next_track()
 
@@ -198,8 +208,8 @@ class OngakuRyoho.Classes.Machinery.Audio
   #  Events / Other
   #
   events_duration_change: (e) =>
-    @person.controller.set({ duration: e.currentTarget.duration })
+    OngakuRyoho.Controller.set({ duration: e.currentTarget.duration })
 
   events_time_update: (e) =>
-    @person.controller.set({ time: e.currentTarget.currentTime })
+    OngakuRyoho.Controller.set({ time: e.currentTarget.currentTime })
     # TODO: @person.visualizations_view.visualize("peak_data", @current_sound.peakData)

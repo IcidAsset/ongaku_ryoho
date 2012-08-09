@@ -13,9 +13,3 @@ window.OngakuRyoho =
     Views: {}
     People: {}
     Machinery: {}
-
-  Instances: {}
-
-
-
-window.ℰ = window.OngakuRyoho.Instances

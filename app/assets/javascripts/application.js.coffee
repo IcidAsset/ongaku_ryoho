@@ -39,33 +39,28 @@ Zepto ->
   # helpers
   Helpers.initialize_before()
 
-  # make new people
-  ℰ.SoundGuy             = new OngakuRyoho.Classes.People.SoundGuy
+  # create new people
+  OngakuRyoho.SoundGuy             = new OngakuRyoho.Classes.People.SoundGuy
 
   # backbone models
-  ℰ.Controller           = new OngakuRyoho.Classes.Models.Controller
+  OngakuRyoho.Controller           = new OngakuRyoho.Classes.Models.Controller
 
   # backbone collections
-  ℰ.Tracks               = new OngakuRyoho.Classes.Collections.Tracks
-  ℰ.Sources              = new OngakuRyoho.Classes.Collections.Sources
-  ℰ.Messages             = new OngakuRyoho.Classes.Collections.Messages
-  ℰ.Favourites           = new OngakuRyoho.Classes.Collections.Favourites
+  OngakuRyoho.Tracks               = new OngakuRyoho.Classes.Collections.Tracks
+  OngakuRyoho.Sources              = new OngakuRyoho.Classes.Collections.Sources
+  OngakuRyoho.Messages             = new OngakuRyoho.Classes.Collections.Messages
+  OngakuRyoho.Favourites           = new OngakuRyoho.Classes.Collections.Favourites
 
   # backbone views
-  ℰ.MessageCenterView    = new OngakuRyoho.Classes.Views.MessageCenter({ el: $message_center })
-  ℰ.VisualizationsView   = new OngakuRyoho.Classes.Views.Visualizations({ el: $visualizations })
+  OngakuRyoho.MessageCenterView    = new OngakuRyoho.Classes.Views.MessageCenter({ el: $message_center })
+  OngakuRyoho.VisualizationsView   = new OngakuRyoho.Classes.Views.Visualizations({ el: $visualizations })
 
-  ℰ.ControllerView       = new OngakuRyoho.Classes.Views.Controller({ el: $controller })
-  ℰ.PlaylistView         = new OngakuRyoho.Classes.Views.Playlist({ el: $playlist })
-  ℰ.SourceManagerView    = new OngakuRyoho.Classes.Views.SourceManager({ el: $source_manager })
+  OngakuRyoho.ControllerView       = new OngakuRyoho.Classes.Views.Controller({ el: $controller })
+  OngakuRyoho.PlaylistView         = new OngakuRyoho.Classes.Views.Playlist({ el: $playlist })
+  OngakuRyoho.SourceManagerView    = new OngakuRyoho.Classes.Views.SourceManager({ el: $source_manager })
 
-  # teach people
-  ℰ.SoundGuy.learn_basics
-    controller: ℰ.Controller
-    tracks: ℰ.Tracks
-    controller_view: ℰ.ControllerView
-    visualizations_view: ℰ.VisualizationsView
-    playlist_view: ℰ.PlaylistView
+  # send people off to work
+  OngakuRyoho.SoundGuy.go_to_work()
 
   # helpers
   Helpers.initialize_after()

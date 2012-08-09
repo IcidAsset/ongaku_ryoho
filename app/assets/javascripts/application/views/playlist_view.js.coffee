@@ -7,7 +7,7 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
     "click .navigation .change-sort-direction"         : @machine.change_sort_direction
     "click .navigation .theater-mode"                  : @machine.theater_mode_button_click_handler
     "click .navigation .show-favourites"               : @machine.show_favourites
-    "click .navigation .show-source-manager"           : (() -> ℰ.SourceManagerView.show())
+    "click .navigation .show-source-manager"           : (() -> OngakuRyoho.SourceManagerView.show())
 
     "change .navigation .sort-by select"               : @machine.sort_by_change_handler
     "change .navigation .search input"                 : @machine.search_input_change
@@ -24,10 +24,10 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
     super()
 
     # tracklist view
-    @track_list_view = new OngakuRyoho.Classes.Views.TrackList({ el: this.$(".tracks-wrapper") })
+    @track_list_view = new OngakuRyoho.Classes.Views.TrackList({ el: this.$el.find(".tracks-wrapper") })
 
     # get content
-    ℰ.Sources.fetch({ success: ℰ.Sources.process_and_check_sources })
+    OngakuRyoho.Sources.fetch({ success: OngakuRyoho.Sources.process_and_check_sources })
 
 
 
@@ -35,4 +35,4 @@ class OngakuRyoho.Classes.Views.Playlist extends Backbone.View
   #  Set footer contents
   #
   set_footer_contents: (html) =>
-    this.$("footer .intestines").html(html)
+    this.$el.find("footer .intestines").html(html)

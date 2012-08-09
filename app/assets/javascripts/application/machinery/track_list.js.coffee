@@ -4,14 +4,14 @@ class OngakuRyoho.Classes.Machinery.TrackList
   #  Fetching and fetched events
   #
   fetched: () =>
-    ℰ.PlaylistView.machine.check_page_navigation()
+    OngakuRyoho.PlaylistView.machine.check_page_navigation()
 
     if @view.collection.length is 0
       @view.$el.html("<div class=\"nothing-here\" />")
 
     else
-      this.add_playing_class_to_track( ℰ.SoundGuy.get_current_track() )
-      ℰ.PlaylistView.machine.show_current_track()
+      this.add_playing_class_to_track(OngakuRyoho.SoundGuy.get_current_track())
+      OngakuRyoho.PlaylistView.machine.show_current_track()
 
 
 
@@ -29,7 +29,6 @@ class OngakuRyoho.Classes.Machinery.TrackList
     )
 
     $tw = @view.$el
-
     $tw.height(new_height) if $tw
 
 
@@ -56,17 +55,16 @@ class OngakuRyoho.Classes.Machinery.TrackList
     $t = $(e.currentTarget)
 
     # check
-    # TODO: return if not soundManager.ok() or $t.hasClass("unavailable")
     return if $t.hasClass("unavailable")
 
     # set
-    track = ℰ.Tracks.getByCid($t.attr("rel"))
+    track = OngakuRyoho.Tracks.getByCid($t.attr("rel"))
 
     # insert track
-    ℰ.SoundGuy.insert_track(track)
+    OngakuRyoho.SoundGuy.insert_track(track)
 
     # set elements
-    $playpause_button_light = ℰ.ControllerView.$el.find(".controls a .button.play-pause .light")
+    $playpause_button_light = OngakuRyoho.ControllerView.$el.find(".controls a .button.play-pause .light")
 
     # turn the play button light on
     $playpause_button_light.addClass("on")
@@ -107,7 +105,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
 
 
   create_new_favourite: (title, artist, album, track_id) =>
-    ℰ.Favourites.create({
+    OngakuRyoho.Favourites.create({
       title: title,
       artist: artist,
       album: album,
@@ -117,7 +115,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
 
 
   remove_matching_favourites: (title, artist, album) =>
-    favourites = ℰ.Favourites.where({
+    favourites = OngakuRyoho.Favourites.where({
       title: title,
       artist: artist,
       album: album

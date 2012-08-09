@@ -16,8 +16,8 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
 
   reload: () =>
-    ℰ.Tracks.fetch()
-    ℰ.Sources.fetch()
+    OngakuRyoho.Tracks.fetch()
+    OngakuRyoho.Sources.fetch()
 
     @requires_reload = false
 
@@ -27,7 +27,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     dfd = new Deferred()
 
     # find
-    unprocessed_sources = _.filter(ℰ.Sources.models, (source) ->
+    unprocessed_sources = _.filter(OngakuRyoho.Sources.models, (source) ->
       source.get("status").indexOf("unprocessed") isnt -1
     )
 
@@ -45,11 +45,11 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
       loading: true
     })
 
-    ℰ.Messages.add(unprocessing_message)
+    OngakuRyoho.Messages.add(unprocessing_message)
 
     # exec
     Deferred.chain(unprocessing).next(() =>
-      ℰ.Messages.remove(unprocessing_message)
+      OngakuRyoho.Messages.remove(unprocessing_message)
 
       if reload
         this.reload()
@@ -84,7 +84,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
       loading: true
     })
 
-    ℰ.Messages.add(checking_message)
+    OngakuRyoho.Messages.add(checking_message)
 
     # exec
     Deferred.chain(checking).next(() =>
@@ -102,7 +102,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
       changes = _.include(changes, true)
 
       # remove message
-      ℰ.Messages.remove(checking_message)
+      OngakuRyoho.Messages.remove(checking_message)
 
       # if there are changes
       if changes

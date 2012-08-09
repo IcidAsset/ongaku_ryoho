@@ -69,7 +69,7 @@ class OngakuRyoho.Classes.Machinery.Controller
 
 
   now_playing_click_handler: (e) ->
-    ℰ.PlaylistView.machine.show_current_track()
+    OngakuRyoho.PlaylistView.machine.show_current_track()
 
 
 
@@ -77,16 +77,12 @@ class OngakuRyoho.Classes.Machinery.Controller
   #  Controller buttons
   #
   button_playpause_click_handler: (e) ->
-    # TODO: return unless soundManager.ok()
-
-    # set
     $button = $(e.currentTarget)
 
     # source
-    source = _.last(ℰ.SoundGuy.machine.sources)
+    source = OngakuRyoho.SoundGuy.machine.get_active_source()
 
     # state
-    # TODO: this shouldn't be here
     state = if source and !source.mediaElement.paused
       "playing"
     else
@@ -94,9 +90,9 @@ class OngakuRyoho.Classes.Machinery.Controller
 
     # action
     if state is "playing"
-      ℰ.SoundGuy.pause_current_track()
+      OngakuRyoho.SoundGuy.pause_current_track()
     else
-      ℰ.SoundGuy.play_track()
+      OngakuRyoho.SoundGuy.play_track()
 
     # light
     if state is "playing"
@@ -186,7 +182,7 @@ class OngakuRyoho.Classes.Machinery.Controller
     percent = (e.pageX - $progress_bar.offset().left) / $progress_bar.width()
 
     # source
-    source = _.last(ℰ.SoundGuy.machine.sources)
+    source = OngakuRyoho.SoundGuy.machine.get_active_source()
 
     # check
     return unless source

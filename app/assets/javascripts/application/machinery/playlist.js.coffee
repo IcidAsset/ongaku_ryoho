@@ -31,17 +31,17 @@ class OngakuRyoho.Classes.Machinery.Playlist
     $t = $(e.currentTarget)
 
     # switch
-    if ℰ.Tracks.favourites
+    if OngakuRyoho.Tracks.favourites
       $t.removeClass("on")
-      ℰ.Tracks.favourites = off
+      OngakuRyoho.Tracks.favourites = off
 
     else
       $t.addClass("on")
-      ℰ.Tracks.favourites = on
+      OngakuRyoho.Tracks.favourites = on
 
 
     # fetch tracks
-    ℰ.Tracks.fetch()
+    OngakuRyoho.Tracks.fetch()
 
 
 
@@ -57,15 +57,15 @@ class OngakuRyoho.Classes.Machinery.Playlist
 
 
   sort_by: (query) =>
-    ℰ.Tracks.sort_by = query
+    OngakuRyoho.Tracks.sort_by = query
 
     # fetch tracks
-    ℰ.Tracks.fetch()
+    OngakuRyoho.Tracks.fetch()
 
 
 
   change_sort_direction: (e) =>
-    current_direction = ℰ.Tracks.sort_direction
+    current_direction = OngakuRyoho.Tracks.sort_direction
     $t = $(e.currentTarget)
 
     # switch
@@ -78,10 +78,10 @@ class OngakuRyoho.Classes.Machinery.Playlist
       $t.removeClass("on")
 
     # change
-    ℰ.Tracks.sort_direction = new_direction
+    OngakuRyoho.Tracks.sort_direction = new_direction
 
     # reload tracks
-    ℰ.Tracks.fetch()
+    OngakuRyoho.Tracks.fetch()
 
 
 
@@ -102,12 +102,12 @@ class OngakuRyoho.Classes.Machinery.Playlist
     @view.track_list_view.collection.page = 1
 
     # fetch tracks
-    ℰ.Tracks.fetch({ success: this.search_success })
+    OngakuRyoho.Tracks.fetch({ success: this.search_success })
 
 
 
   search_success: () =>
-    current_track = ℰ.SoundGuy.get_current_track()
+    current_track = OngakuRyoho.SoundGuy.get_current_track()
 
     # add playing class
     @view.track_list_view.machine.add_playing_class_to_track(current_track) if current_track

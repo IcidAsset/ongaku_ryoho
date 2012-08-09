@@ -7,12 +7,9 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   #
-  #  Learn basics
+  #  Go to work
   #
-  learn_basics: (necessary_materials) =>
-    $.extend(this, necessary_materials)
-
-    # setup audio
+  go_to_work: () =>
     @machine = new OngakuRyoho.Classes.Machinery.Audio
     @machine.person = this
     @machine.setup()
@@ -37,7 +34,10 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Settings in local storage
   #
   save_settings_in_local_storage: () =>
-    settings = _.pick(@controller.attributes, "shuffle", "repeat", "mute", "volume")
+    settings = _.pick(
+      OngakuRyoho.Controller.attributes,
+      "shuffle", "repeat", "mute", "volume"
+    )
 
     # store settings
     window.localStorage.setItem(
@@ -57,7 +57,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     settings = JSON.parse(item)
 
     # apply settings
-    @controller.set(settings)
+    OngakuRyoho.Controller.set(settings)
 
 
 
@@ -65,10 +65,8 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Current track
   #
   get_current_track: () =>
-    if @machine.sources.length
-      _.last(@machine.sources).track
-    else
-      null
+    source = @machine.get_active_source()
+    return (if source then source.track else null)
 
 
 
@@ -76,11 +74,15 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Set volume
   #
   set_volume: () =>
-    volume = @controller.get("volume")
+    volume = OngakuRyoho.Controller.get("volume")
 
     # rotate volume button
     angle = ((volume - 50) * 135) / 50
-    Helpers.css.rotate(@controller_view.$el.find(".controls a .knob.volume .it div"), angle)
+
+    Helpers.css.rotate(
+      OngakuRyoho.ControllerView.$control("knob", "volume", ".it div"),
+      angle
+    )
 
     # sound
     @machine.nodes.volume.gain.value = (volume / 100)
@@ -94,9 +96,9 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Set mute
   #
   set_mute: () =>
-    $light = @controller_view.$el.find(".controls a .switch.volume .light")
-    state = @controller.get("mute")
-    volume = (@controller.get("volume") / 100)
+    $light = OngakuRyoho.ControllerView.$control("switch", "volume", ".light")
+    state = OngakuRyoho.Controller.get("mute")
+    volume = (OngakuRyoho.Controller.get("volume") / 100)
 
     # light
     if state
@@ -116,17 +118,17 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Set shuffle
   #
   set_shuffle: () =>
-    $light = @controller_view.$el.find('.controls a .switch.shuffle .light')
-    state = @controller.get('shuffle')
+    $light = OngakuRyoho.ControllerView.$control("switch", "shuffle", ".light")
+    state = OngakuRyoho.Controller.get("shuffle")
 
     # reset shuffle history?
     this.reset_shuffle_history() if state
 
     # light
     if state
-      $light.addClass('on')
+      $light.addClass("on")
     else
-      $light.removeClass('on')
+      $light.removeClass("on")
 
     # save
     this.save_settings_in_local_storage()
@@ -137,14 +139,14 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Set repeat
   #
   set_repeat: () =>
-    $light = @controller_view.$el.find('.controls a .switch.repeat .light')
-    state = @controller.get('repeat')
+    $light = OngakuRyoho.ControllerView.$control("switch", "repeat", ".light")
+    state = OngakuRyoho.Controller.get("repeat")
 
     # light
     if state
-      $light.addClass('on')
+      $light.addClass("on")
     else
-      $light.removeClass('on')
+      $light.removeClass("on")
 
     # save
     this.save_settings_in_local_storage()
@@ -176,16 +178,16 @@ class OngakuRyoho.Classes.People.SoundGuy
       title:       track_attributes.title
       album:       track_attributes.album
 
-      now_playing: track_attributes.artist + ' - <strong>' + track_attributes.title + '</strong>'
+      now_playing: "#{track_attributes.artist} - <strong> #{track_attributes.title}</strong>"
 
     # set controller attributes
-    @controller.set(controller_attributes)
+    OngakuRyoho.Controller.set(controller_attributes)
 
     # add playing class to track
-    @playlist_view.track_list_view.machine.add_playing_class_to_track(track)
+    OngakuRyoho.PlaylistView.track_list_view.machine.add_playing_class_to_track(track)
 
     # document title
-    @controller_view.machine.set_current_track_in_document_title()
+    OngakuRyoho.ControllerView.machine.set_current_track_in_document_title()
 
 
 
@@ -205,26 +207,26 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Select new track
   #
   select_new_track: () =>
-    shuffle = @controller.get('shuffle')
-    $tracks = @playlist_view.track_list_view.$el.find('.track')
+    shuffle = OngakuRyoho.Controller.get("shuffle")
+    tracks = OngakuRyoho.Tracks.models
 
     # select
     if shuffle
-      $track = $(_.shuffle($tracks)[0])
+      track = _.shuffle(tracks)[0]
     else
-      $track = $tracks.first()
+      track = tracks[0]
 
-    # get model
-    track = ℰ.Tracks.getByCid($track.attr('rel'))
+    # check
+    return unless track
 
     # push to history stack if shuffle
-    @shuffle_track_history.push(track.get('id')) if shuffle
+    @shuffle_track_history.push(track.get("id")) if shuffle
 
     # insert track
     this.insert_track(track)
 
     # set elements
-    $playpause_button_light = @controller_view.$el.find(".controls a .button.play-pause .light")
+    $playpause_button_light = OngakuRyoho.ControllerView.$control("button", "play-pause", ".light")
 
     # turn the play button light on
     $playpause_button_light.addClass("on")
@@ -235,7 +237,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Play track
   #
   play_track: () =>
-    if @machine.sources.length
+    if @machine.get_active_source()
       this.play_current_track()
     else
       this.select_new_track()
@@ -243,7 +245,7 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   play_current_track: () =>
-    source = _.last(@machine.sources)
+    source = @machine.get_active_source()
 
     # check
     return unless source
@@ -252,7 +254,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     @machine.play(source)
 
     # set document title
-    @controller_view.machine.set_current_track_in_document_title()
+    OngakuRyoho.ControllerView.machine.set_current_track_in_document_title()
 
 
 
@@ -260,7 +262,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Pause track
   #
   pause_current_track: () =>
-    source = _.last(@machine.sources)
+    source = @machine.get_active_source()
 
     # check
     return unless source
@@ -277,31 +279,31 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Previous track
   #
   select_previous_track: () =>
-    return unless @machine.sources.length
+    return unless @machine.get_active_source()
 
     # set
-    shuffle = @controller.get('shuffle')
+    shuffle = OngakuRyoho.Controller.get("shuffle")
     shuffle_th = @shuffle_track_history_index
 
-    $tracks = @playlist_view.track_list_view.$el.find('.track')
+    $tracks = OngakuRyoho.PlaylistView.track_list_view.$el.find(".track")
 
     # if shuffle
     if shuffle
       return if shuffle_th is 0
 
-      track = @tracks.find (t) => t.get('id') is @shuffle_track_history[shuffle_th - 1]
+      track = OngakuRyoho.Tracks.find (t) => t.get("id") is @shuffle_track_history[shuffle_th - 1]
 
       if track
         @shuffle_track_history_index--
-        $track = $tracks.filter('[rel="' + track.cid + '"]')
+        $track = $tracks.filter("[rel=\"#{track.cid}\"]")
 
     # otherwise
     else
-      $track = $tracks.filter('.playing').prev('.track')
+      $track = $tracks.filter(".playing").prev(".track")
       $track = $tracks.last() unless $track.length
 
     # trigger dblclick on track (in playlist)
-    $track.trigger('dblclick') if $track
+    $track.trigger("dblclick") if $track
 
 
 
@@ -309,22 +311,22 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Next track
   #
   select_next_track: () =>
-    return this.select_new_track() unless @machine.sources.length
+    return this.select_new_track() unless @machine.get_active_source()
 
     # set
-    shuffle = @controller.get('shuffle')
+    shuffle = OngakuRyoho.Controller.get("shuffle")
     shuffle_th = @shuffle_track_history_index
 
-    $tracks = @playlist_view.track_list_view.$el.find('.track')
+    $tracks = OngakuRyoho.PlaylistView.track_list_view.$el.find(".track")
 
     # if shuffle
     if shuffle
       if shuffle_th < @shuffle_track_history.length - 1
-        track = @tracks.find (t) => t.get('id') is @shuffle_track_history[shuffle_th + 1]
+        track = OngakuRyoho.Tracks.find (t) => t.get("id") is @shuffle_track_history[shuffle_th + 1]
 
       else
-        track = _.shuffle(@tracks.reject((t) =>
-          return _.include(@shuffle_track_history, t.get('id'))
+        track = _.shuffle(OngakuRyoho.Tracks.reject((t) =>
+          return _.include(@shuffle_track_history, t.get("id"))
         ))[0]
 
         unless track
@@ -332,18 +334,18 @@ class OngakuRyoho.Classes.People.SoundGuy
           this.select_next_track()
           return
 
-        @shuffle_track_history.push(track.get('id'))
+        @shuffle_track_history.push(track.get("id"))
 
       @shuffle_track_history_index++
       $track = $tracks.filter("[rel=\"#{track.cid}\"]")
 
     # otherwise
     else
-      $track = $tracks.filter('.playing').next('.track')
+      $track = $tracks.filter(".playing").next(".track")
       $track = $tracks.first() unless $track.length
 
     # trigger dblclick on track (in playlist)
-    $track.trigger('dblclick') if $track
+    $track.trigger("dblclick") if $track
 
 
 
