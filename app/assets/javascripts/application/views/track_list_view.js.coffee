@@ -4,7 +4,7 @@ class OngakuRyoho.Classes.Views.TrackList extends Backbone.View
   #  Events
   #
   events: () ->
-    "dblclick .track"          : @machine.play_track
+    "dblclick .track"          : @machine.track_dblclick
     "click .track .favourite"  : @machine.track_rating_star_click
 
 

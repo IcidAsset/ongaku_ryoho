@@ -68,6 +68,9 @@ class OngakuRyoho.Classes.Machinery.Controller
 
 
 
+  #
+  #  Now playing click handler
+  #
   now_playing_click_handler: (e) ->
     OngakuRyoho.PlaylistView.machine.show_current_track()
 
@@ -173,7 +176,7 @@ class OngakuRyoho.Classes.Machinery.Controller
 
 
   #
-  #  Setup progress bar
+  #  Progress bar
   #
   progress_bar_click_handler: (e) ->
     $progress_bar = $(e.currentTarget).children(".progress-bar")

@@ -49,9 +49,9 @@ class OngakuRyoho.Classes.Machinery.TrackList
 
 
   #
-  #  Play track
+  #  Track dblclick handler
   #
-  play_track: (e) =>
+  track_dblclick: (e) =>
     $t = $(e.currentTarget)
 
     # check
