@@ -40,7 +40,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
     return unless track
 
     # set elements
-    $track = @view.$el.find(".track[rel=\"#{track.cid}\"]")
+    $track = @view.$el.find(".track[rel=\"#{track.id}\"]")
 
     # set classes
     $track.parent().children(".track.playing").removeClass("playing")
@@ -58,7 +58,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
     return if $t.hasClass("unavailable")
 
     # set
-    track = OngakuRyoho.Tracks.getByCid($t.attr("rel"))
+    track = OngakuRyoho.Tracks.getById($t.attr("rel"))
 
     # insert track
     OngakuRyoho.SoundGuy.insert_track(track)
@@ -77,7 +77,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
   track_rating_star_click: (e) =>
     $t = $(e.currentTarget)
     $track = $t.closest(".track")
-    track = @view.collection.getByCid($track.attr("rel"))
+    track = @view.collection.getById($track.attr("rel"))
 
     title = track.get("title")
     artist = track.get("artist")
