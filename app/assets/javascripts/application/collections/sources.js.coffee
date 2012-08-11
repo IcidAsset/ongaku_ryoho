@@ -94,7 +94,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
         if _.has(args[0], "changed")
           changes = _.pluck(args, "changed")
         else
-          changes = _.map(args, (x) -> return x[0].changed)
+          changes = _.map(args[0], (x) -> return x.changed)
       else
         changes = []
 
