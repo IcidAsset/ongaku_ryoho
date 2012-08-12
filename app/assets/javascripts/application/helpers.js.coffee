@@ -9,6 +9,13 @@ window.Helpers =
     # handlebars
     this.setup_handlebars_helpers()
 
+    # request animation frame
+    window.requestAnimationFrame = (
+      window.requestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame
+    )
+
 
 
   #

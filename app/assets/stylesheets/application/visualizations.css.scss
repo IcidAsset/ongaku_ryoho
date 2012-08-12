@@ -1,25 +1,20 @@
 #visualizations {
-  
+
   & > div {
     margin-top: 12px;
   }
-  
+
   .peak-data {
     background: transparent image-url('controller/almost_invisible_pattern.png') 0 0 repeat;
     border: 1px solid rgba(#000, .04);
     height: 73px - 2 * 11;
     overflow: hidden;
     padding: 11px 14px;
-    
-    & > div {
-      height: 21px;
-      width: 0;
-      
-      @include background-image(linear-gradient(left, rgba(#000, .330) 1px, transparent 1px, transparent));
-      @include background-size(3px);
+
+    canvas {
+      display: block;
+      height: 51px;
     }
-    
-    .right { margin-top: 9px }
   }
-  
+
 }

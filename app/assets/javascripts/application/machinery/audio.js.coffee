@@ -7,8 +7,11 @@ class OngakuRyoho.Classes.Machinery.Audio
     @events = {}
 
     this.set_audio_context()
-    this.create_audio_elements_container()
     this.create_volume_node()
+    this.create_analyser_node()
+    this.create_audio_elements_container()
+
+    this.start_analysing()
 
 
 
@@ -22,15 +25,6 @@ class OngakuRyoho.Classes.Machinery.Audio
       @ac = new webkitAudioContext()
     else
       console.error("Web Audio API not supported!")
-
-
-
-  #
-  #  Create audio elements container
-  #
-  create_audio_elements_container: () =>
-    @cntnr = $("<div id=\"audio-elements\" />")
-    @cntnr.appendTo($("body"))
 
 
 
@@ -54,6 +48,77 @@ class OngakuRyoho.Classes.Machinery.Audio
   #
   set_volume: (value) =>
     @nodes.volume.gain.value = value
+
+
+
+  #
+  #  Create analyser node
+  #
+  create_analyser_node: () =>
+    analyser_node = @ac.createAnalyser()
+    analyser_node.fftSize = 1024
+
+    # connect to volume node
+    analyser_node.connect(@nodes.volume)
+
+    # store node
+    @nodes.analyser = analyser_node
+
+
+
+  #
+  #  Analyse
+  #
+  analyse: () =>
+    number_of_bars = 2
+    points = 1024
+    dimensions = []
+
+    # frequency-domain data
+    data = new Uint8Array(points)
+    @nodes.analyser.getByteFrequencyData(data)
+
+    # bin size
+    bin_size = Math.floor(points / number_of_bars)
+
+    # break it down
+    for i in [0...number_of_bars]
+      sum = 0
+
+      for j in [0...bin_size]
+        sum = sum + data[(i * bin_size) + j]
+
+      # average
+      average = sum / bin_size
+
+      # calculate width
+      width = (average / 256) * OngakuRyoho.VisualizationsView.peak_data_canvas.width
+
+      # add to array
+      dimensions.push(width)
+
+    # visualize
+    OngakuRyoho.VisualizationsView.visualize("peak_data", dimensions)
+
+    # animation loop
+    requestAnimationFrame(this.analyse)
+
+
+
+  #
+  #  Start analysing interval
+  #
+  start_analysing: () =>
+    requestAnimationFrame(this.analyse)
+
+
+
+  #
+  #  Create audio elements container
+  #
+  create_audio_elements_container: () =>
+    @cntnr = $("<div id=\"audio-elements\" />")
+    @cntnr.appendTo($("body"))
 
 
 
@@ -101,11 +166,19 @@ class OngakuRyoho.Classes.Machinery.Audio
     # create, connect and play
     setTimeout(() =>
       source = @ac.createMediaElementSource(audio_element)
-      source.connect(@nodes.volume)
+      source.connect(@nodes.analyser)
       source.track = track
 
       @sources.push(source)
     , 0)
+
+
+
+  #
+  #  Active source?
+  #
+  get_active_source: () =>
+    return _.last(@sources)
 
 
 
@@ -137,14 +210,6 @@ class OngakuRyoho.Classes.Machinery.Audio
 
     # destroy each
     _.each(sources, (source) => this.destroy_source(source))
-
-
-
-  #
-  #  Active source?
-  #
-  get_active_source: () =>
-    return _.last(@sources)
 
 
 
@@ -229,4 +294,3 @@ class OngakuRyoho.Classes.Machinery.Audio
 
   events_time_update: (e) =>
     OngakuRyoho.Controller.set({ time: e.currentTarget.currentTime })
-    # TODO: @person.visualizations_view.visualize("peak_data", @current_sound.peakData)
