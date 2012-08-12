@@ -16,9 +16,9 @@ class OngakuRyoho.Classes.Machinery.Audio
   #  Set audio context
   #
   set_audio_context: () =>
-    if typeof AudioContext is "function"
+    unless typeof AudioContext is "undefined"
       @ac = new AudioContext()
-    else if typeof webkitAudioContext is "function"
+    else unless typeof webkitAudioContext is "undefined"
       @ac = new webkitAudioContext()
     else
       console.error("Web Audio API not supported!")
