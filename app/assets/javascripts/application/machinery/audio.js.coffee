@@ -5,13 +5,13 @@ class OngakuRyoho.Classes.Machinery.Audio
     @audio_elements = []
     @nodes = {}
     @events = {}
+    @req_anim_frame_id = null
 
     this.set_audio_context()
     this.create_volume_node()
-    this.create_analyser_node()
+    this.create_analyser_nodes()
+    this.create_channel_splitter_node();
     this.create_audio_elements_container()
-
-    this.start_analysing()
 
 
 
@@ -52,17 +52,17 @@ class OngakuRyoho.Classes.Machinery.Audio
 
 
   #
-  #  Create analyser node
+  #  Create analyser nodes
   #
-  create_analyser_node: () =>
-    analyser_node = @ac.createAnalyser()
-    analyser_node.fftSize = 1024
+  create_analyser_nodes: () =>
+    analyser_node_left = @ac.createAnalyser()
+    analyser_node_right = @ac.createAnalyser()
+    analyser_node_left.fftSize = 256
+    analyser_node_right.fftSize = 256
 
-    # connect to volume node
-    analyser_node.connect(@nodes.volume)
-
-    # store node
-    @nodes.analyser = analyser_node
+    # store nodes
+    @nodes.analyser_left = analyser_node_left
+    @nodes.analyser_right = analyser_node_right
 
 
 
@@ -70,26 +70,31 @@ class OngakuRyoho.Classes.Machinery.Audio
   #  Analyse
   #
   analyse: () =>
-    number_of_bars = 2
-    points = 1024
+    @req_anim_frame_id = requestAnimationFrame(this.analyse)
+
+    # set
+    points_left = @nodes.analyser_left.frequencyBinCount
+    points_right = @nodes.analyser_right.frequencyBinCount
+    points = [points_left, points_right]
+
     dimensions = []
 
     # frequency-domain data
-    data = new Uint8Array(points)
-    @nodes.analyser.getByteFrequencyData(data)
+    data_left = new Uint8Array(points_left)
+    data_right = new Uint8Array(points_right)
 
-    # bin size
-    bin_size = Math.floor(points / number_of_bars)
+    @nodes.analyser_left.getByteFrequencyData(data_left)
+    @nodes.analyser_right.getByteFrequencyData(data_right)
 
     # break it down
-    for i in [0...number_of_bars]
+    for data, idx in [data_left, data_right]
       sum = 0
 
-      for j in [0...bin_size]
-        sum = sum + data[(i * bin_size) + j]
+      # sum
+      sum = sum + data[j] for j in [0...points[idx]]
 
       # average
-      average = sum / bin_size
+      average = sum / points[idx]
 
       # calculate width
       width = (average / 256) * OngakuRyoho.VisualizationsView.peak_data_canvas.width
@@ -100,16 +105,34 @@ class OngakuRyoho.Classes.Machinery.Audio
     # visualize
     OngakuRyoho.VisualizationsView.visualize("peak_data", dimensions)
 
-    # animation loop
-    requestAnimationFrame(this.analyse)
-
 
 
   #
-  #  Start analysing interval
+  #  Start/stop analysing interval
   #
   start_analysing: () =>
-    requestAnimationFrame(this.analyse)
+    this.analyse() if @req_anim_frame_id is null
+
+
+
+  stop_analysing: () =>
+    cancelAnimationFrame(@req_anim_frame_id)
+    @req_anim_frame_id = null
+
+
+
+  #
+  #  Create channel splitter node
+  #
+  create_channel_splitter_node: () =>
+    channel_splitter_node = @ac.createChannelSplitter(2)
+
+    # connect to analyser
+    channel_splitter_node.connect(@nodes.analyser_left, 0, 0)
+    channel_splitter_node.connect(@nodes.analyser_right, 1, 0)
+
+    # store node
+    @nodes.channel_splitter = channel_splitter_node
 
 
 
@@ -134,8 +157,9 @@ class OngakuRyoho.Classes.Machinery.Audio
     audio_element.addEventListener("ended", this.events_finish)
     audio_element.addEventListener("durationchange", this.events_duration_change)
     audio_element.addEventListener("timeupdate", this.events_time_update)
-    audio_element.addEventListener("canplay", () ->
-      this.play() if autoplay
+    audio_element.addEventListener("canplay", (e) =>
+      e.currentTarget.play() if autoplay
+      this.start_analysing() if autoplay
     )
 
     # add element to dom
@@ -166,7 +190,8 @@ class OngakuRyoho.Classes.Machinery.Audio
     # create, connect and play
     setTimeout(() =>
       source = @ac.createMediaElementSource(audio_element)
-      source.connect(@nodes.analyser)
+      source.connect(@nodes.channel_splitter)
+      source.connect(@nodes.volume)
       source.track = track
 
       @sources.push(source)
@@ -218,6 +243,7 @@ class OngakuRyoho.Classes.Machinery.Audio
   #
   play: (source) ->
     source.mediaElement.play()
+    this.start_analysing()
 
 
 
@@ -226,6 +252,7 @@ class OngakuRyoho.Classes.Machinery.Audio
   #
   pause: (source) ->
     source.mediaElement.pause()
+    this.stop_analysing()
 
 
 

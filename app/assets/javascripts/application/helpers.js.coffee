@@ -12,8 +12,14 @@ window.Helpers =
     # request animation frame
     window.requestAnimationFrame = (
       window.requestAnimationFrame ||
-      window.mozRequestAnimationFrame ||
-      window.webkitRequestAnimationFrame
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame
+    )
+
+    window.cancelAnimationFrame = (
+      window.cancelAnimationFrame ||
+      window.webkitCancelRequestAnimationFrame ||
+      window.mozCancelRequestAnimationFrame
     )
 
 
