@@ -43,8 +43,8 @@ class OngakuRyoho.Classes.Views.Visualizations extends Backbone.View
 
     # colors
     linear_gradient = c.createLinearGradient(0, 51, c.canvas.width, 51)
-    linear_gradient.addColorStop(0, "#BCF865")
-    linear_gradient.addColorStop(0.6, "BCF865")
+    linear_gradient.addColorStop(0, "rgba(0, 0, 0, .2)")
+    linear_gradient.addColorStop(0.6, "rgba(0, 0, 0, .3)")
     linear_gradient.addColorStop(1, "#FF0000")
 
     c.fillStyle = linear_gradient
