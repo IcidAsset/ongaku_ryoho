@@ -4,7 +4,6 @@ class OngakuRyoho.Classes.Machinery.Audio
     @sources = []
     @audio_elements = []
     @nodes = {}
-    @events = {}
     @req_anim_frame_id = null
 
     this.set_audio_context()
@@ -154,11 +153,13 @@ class OngakuRyoho.Classes.Machinery.Audio
     audio_element.setAttribute("rel", related_track.id)
 
     # events, in order of the w3c spec
-    audio_element.addEventListener("ended", this.events_finish)
-    audio_element.addEventListener("durationchange", this.events_duration_change)
-    audio_element.addEventListener("timeupdate", this.events_time_update)
+    audio_element.addEventListener("progress", this.events.progress)
+    audio_element.addEventListener("suspend", this.events.suspend)
+    audio_element.addEventListener("timeupdate", this.events.time_update)
+    audio_element.addEventListener("ended", this.events.ended)
+    audio_element.addEventListener("durationchange", this.events.duration_change)
     audio_element.addEventListener("canplay", (e) =>
-      e.currentTarget.play() if autoplay
+      e.target.play() if autoplay
       this.start_analysing() if autoplay
     )
 
@@ -266,58 +267,42 @@ class OngakuRyoho.Classes.Machinery.Audio
 
 
   #
-  #  Events / Loading
+  #  Events
   #
-  # events_load_start: () ->
-  # events_load_end: () ->
+  events:
+
+    progress: (e) ->
+      buffered = e.target.buffered
+      return unless buffered.length
+
+      percent_loaded = ((buffered.end(0) / e.target.duration) * 100) + "%"
+
+      OngakuRyoho.ControllerView.$progress_bar
+        .children(".progress.loader")
+        .css("width", percent_loaded)
 
 
 
-  events_while_loading: (e) ->
-    console.log("loading ...")
+    suspend: (e) ->
+      # console.log("suspend")
 
 
 
-  # events_loaded_metadata: () ->
-  # events_loaded_data: () ->
+    time_update: (e) =>
+      OngakuRyoho.Controller.set({ time: e.target.currentTime })
 
 
 
-  #
-  #  Events / Playing
-  #
-  # events_play: () ->
-  # events_playing: () ->
-  # events_can_play: () ->
-  # events_can_play_through: () ->
-  # events_pause: () ->
-  events_finish: (e) =>
-    repeat = OngakuRyoho.Controller.get("repeat")
+    ended: (e) =>
+      repeat = OngakuRyoho.Controller.get("repeat")
 
-    # action
-    if repeat
-      e.currentTarget.play()
-    else
-      @person.select_next_track()
+      # action
+      if repeat
+        e.target.play()
+      else
+        @person.select_next_track()
 
 
 
-  #
-  #  Events / Errors, etc.
-  #
-  # events_load_suspend: () ->
-  # events_load_abort: () ->
-  # events_load_error: () ->
-  # events_load_stalled: () ->
-  # events_data_emptied: () ->
-
-
-
-  #
-  #  Events / Other
-  #
-  events_duration_change: (e) =>
-    OngakuRyoho.Controller.set({ duration: e.currentTarget.duration })
-
-  events_time_update: (e) =>
-    OngakuRyoho.Controller.set({ time: e.currentTarget.currentTime })
+    duration_change: (e) =>
+      OngakuRyoho.Controller.set({ duration: e.target.duration })

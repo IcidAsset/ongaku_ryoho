@@ -201,18 +201,6 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   #
-  #  Sound events
-  #
-  # TODO: sound_whileloading: () =>
-  #   percent_loaded = ((@current_sound.bytesLoaded / @current_sound.bytesTotal) * 100) + '%'
-  #
-  #   @controller_view.$progress_bar
-  #     .children('.progress.loader')
-  #     .css('width', percent_loaded)
-
-
-
-  #
   #  Select new track
   #
   select_new_track: () =>
