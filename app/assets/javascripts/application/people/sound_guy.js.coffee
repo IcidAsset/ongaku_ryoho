@@ -11,7 +11,6 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   go_to_work: () =>
     @machine = new OngakuRyoho.Classes.Machinery.Audio
-    @machine.person = this
     @machine.setup()
 
     # get set

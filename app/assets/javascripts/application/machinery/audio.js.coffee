@@ -300,7 +300,7 @@ class OngakuRyoho.Classes.Machinery.Audio
       if repeat
         e.target.play()
       else
-        @person.select_next_track()
+        OngakuRyoho.SoundGuy.select_next_track()
 
 
 
