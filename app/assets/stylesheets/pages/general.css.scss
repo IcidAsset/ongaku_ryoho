@@ -1,18 +1,32 @@
+$color_header: #6C7075;
+
+$purple: lighten(saturate($bgcolor_1, 30%), 21.5%);
+$light: lighten(#B6BABF, 15%);
+$lighter: lighten(#B6BABF, 8%);
+$dark: #343538;
+
+
 body {
-  background: white image-url('background-pages.png');
-  color: #2a2a2a;
+  background: $light;
+  color: $color_header;
   font-size: 17px;
   line-height: 29px;
-  margin: 50px;
+  margin: 0;
 
   -webkit-font-smoothing: antialiased;
 
-  @include ptsans-font;
+  @include sourcesanspro-font;
+
+  &.about {
+    background: $dark;
+    color: $color_header;
+  }
 }
 
-  #wrapper {
+  .wrapper {
     margin: 0 auto;
-    width: 750px;
+    position: relative;
+    width: 1004px;
   }
 
   i {
@@ -24,25 +38,43 @@ body {
     @include icon-font;
   }
 
-  .colored {
-    color: darken($green, 30%);
-    font-weight: bold;
-  }
-
 
 
 //
 // Content
 
-.application-name {
-  font-size: 48px;
-  font-weight: lighter;
-  letter-spacing: -10px;
-  line-height: 42px;
-  margin: 0 0 24px;
-  text-align: center;
+.wrapper.content {
+  padding: 50px 0;
+}
 
-  @include ostrich-font;
+.introduction {
+  background: $purple;
+  color: white;
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -1px;
+  line-height: 44px;
+  padding: 50px 58px 45px;
+
+  .colored {
+    color: darken($purple, 22.5%);
+    font-weight: bold;
+  }
+
+  .subtext {
+    font-size: 15px;
+    letter-spacing: 0;
+  }
+
+  p { margin: 0 }
+  p:last-child { margin: 17px 0 0 }
+}
+
+.a-word-of-advice {
+  color: $color_header;
+  font-style: italic;
+  margin-bottom: 30px;
 }
 
 .title {
@@ -52,14 +84,13 @@ body {
   margin-top: 35px;
 }
 
-p {
-  margin-top: 0;
-}
+h1 { display: none }
+p { margin-top: 0 }
 
 .flash {
   color: #FF666C;
   font-size: 15px;
-  margin-top: 11px;
+  margin-top: 13px;
 
   &.success { color: darken($green, 30%) }
 
@@ -71,8 +102,8 @@ p {
 }
 
 .note {
-  border: 4px solid rgba($yellow, .15);
-  color: $yellow;
+  border: 4px solid rgba($red, .15);
+  color: $red;
   padding: 12px 18px 11px;
   position: relative;
 
@@ -85,27 +116,61 @@ p {
 
 
 //
-// Navigation
+// Header
+
+header {
+  background: white;
+  padding: 50px 58px 44px;
+}
+
+.application-name {
+  color: $color_header;
+  display: inline-block;
+  font-size: 48px;
+  font-weight: lighter;
+  letter-spacing: -10px;
+  line-height: 42px;
+  text-align: center;
+  text-decoration: none;
+
+  @include ostrich-font;
+}
+
+
+
+//
+// Header / Navigation
 
 nav {
-  border: 1px dashed #e6e6e6;
-  font-size: 0;
-  line-height: 0;
-  margin-bottom: 43px;
-  overflow: hidden;
+  bottom: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 14px;
+  position: absolute;
+  right: 0;
+  text-align: right;
   text-transform: uppercase;
   white-space: nowrap;
+  width: 90%;
 
-  @include border-radius(2px);
+  a, a.sign-in.active {
+    border: 0;
+    padding: 7px 12px 6px;
+  }
+
+  a.sign-in,
+  a.sign-out {
+    padding: 6px 11px 5px;
+  }
 
   a {
-    border-right: 1px dashed #e6e6e6;
-    color: #888;
+    color: $color_header;
     display: inline-block;
-    font-size: 12px;
-    line-height: 16px;
-    padding: 7px 14px;
+    margin-left: 91px;
     text-decoration: none;
+
+    @include border-radius(3px);
   }
 
   a:hover,
@@ -116,12 +181,29 @@ nav {
   }
 
   a.active {
-    color: #111;
+    background: $light;
+    color: $dark;
   }
 
   a i {
     font-size: 14px;
     margin-right: 5px;
+  }
+
+  a.sign-in,
+  a.sign-out {
+    border: 1px solid $light;
+    color: #9399A0;
+  }
+
+  a.sign-in.active {
+    background: $light;
+    color: $dark;
+  }
+
+  a.sign-up {
+    background: $bgcolor_1;
+    color: white;
   }
 }
 
@@ -207,30 +289,42 @@ form {
 
   input {
     background: none;
-    border: 1px solid #e6e6e6;
-    color: #707070;
+    border: 2px solid darken($lighter, 0.5%);
+    color: $dark;
     display: inline-block;
+    font-weight: 300;
     margin: 0;
-    padding: 20px;
+    padding: 23px 19px 20px;
+    position: relative;
 
     -webkit-appearance: none;
 
-    @include default-font;
+    @include sourcesanspro-font;
     @include border-radius(3px);
+
+    &:after {
+      color: red;
+      content: "test";
+      display: inline-block;
+      font-size: 30px;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
   }
 
   input:focus,
   input[type=submit]:active {
-    border-color: rgba(darken($green, 30%), .175);
+    border-color: darken($lighter, 15%);
     outline: 0;
 
-    @include single-box-shadow(rgba($green, .4), 0, 0, 7px, 0);
+    // @include single-box-shadow(rgba($green, .4), 0, 0, 7px, 0);
   }
 
   input[type=text],
   input[type=password] {
     display: block;
-    font-size: 16px;
+    font-size: 17px;
     margin-bottom: 11px;
     width: 100%;
 
@@ -238,19 +332,18 @@ form {
   }
 
   input[type=submit] {
-    border-bottom-width: 4px;
-    color: #888;
+    background: $purple;
+    border: 0;
+    color: white;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
-    padding-bottom: 19px;
+    padding: 22px 25px 23px;
 
     &:active,
-    &:focus {
-      color: rgba(darken($green, 32.5%), .625);
-    }
+    &:focus { background: $bgcolor_1 }
   }
 
-  input::-webkit-input-placeholder { color: #d7d7d7 }
-  input:-moz-placeholder { color: #d7d7d7 }
+  input::-webkit-input-placeholder { color: darken($lighter, 17.5%) }
+  input:-moz-placeholder { color: darken($lighter, 17.5%) }
 }

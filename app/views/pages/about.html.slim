@@ -1,37 +1,45 @@
-p
-  | <span class="colored">Ongaku Ryoho</span> <small><em>(Music therapy,
-    with a spelling mistake)</em></small>
-    is a music player that connects to different sources that are defined
-    by <strong>you</strong>. Combine music libraries, centralize your favourite
-    music and play from anywhere. That, plus a beautiful environment.
+h1 Ongaku Ryoho
 
 
 
-.slideshow
-  .slides-wrapper
-    .slide: img[data-src="/assets/ongaku_ryoho-a.jpg"]
-    .slide: img[data-src="http://cambelt.co//750x321"]
-    .slide: img[data-src="http://cambelt.co//750x321"]
-    .slide: img[data-src="http://cambelt.co//750x321"]
-    .slide: img[data-src="http://cambelt.co//750x321"]
-    .slide: img[data-src="http://cambelt.co//750x321"]
-
-  .slide-navigation
-    a
-    a
-    a
-    a
-    a
-    a
+- content_for :introduction do
+  .introduction
+    .wrapper
+      p
+        | <span class="colored">Ongaku Ryoho</span>
+          is a web based <strong>music player</strong> that connects to different sources that are defined
+          by you. Combine music libraries, centralize your favourite
+          music and play from anywhere. That, plus a beautiful environment.
+      p.subtext
+        | The name comes from the japanese word 'ongakuryouhou', which means 'music therapy'
 
 
 
-h2.title Browser requirements
+/ .slideshow
+/   .slides-wrapper
+/     .slide: img[data-src="/assets/ongaku_ryoho-a.jpg"]
+/     .slide: img[data-src="http://cambelt.co//750x321"]
+/     .slide: img[data-src="http://cambelt.co//750x321"]
+/     .slide: img[data-src="http://cambelt.co//750x321"]
+/     .slide: img[data-src="http://cambelt.co//750x321"]
+/     .slide: img[data-src="http://cambelt.co//750x321"]
 
-p
-  | This application requires Chrome <small><em>(v12+)</em></small>,
-    Safari <small><em>(v6+)</em></small> or
-    Firefox <small><em>(v12+)</em></small>.<br>
-    Mainly because the use of the <strong>Web Audio API</strong>
-    and various CSS3 properties.<br>
-    The newer the browser, the better.
+/   .slide-navigation
+/     a
+/     a
+/     a
+/     a
+/     a
+/     a
+
+
+
+/ h2.title Browser requirements
+
+/ p
+/   | This application requires Chrome <small><em>(v12+)</em></small>,
+/     Safari <small><em>(v6+)</em></small> or
+/     Firefox <small><em>(v12+)</em></small>.<br>
+/     Mainly because the use of the <strong>Web Audio API</strong>
+/     and various CSS3 properties.<br>
+/     The newer the browser, the better.

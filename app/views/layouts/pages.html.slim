@@ -4,34 +4,31 @@ html
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"
 
-    - @pages = pages
-    - @page = @pages.find { |p| p[:url] == request.path }
-
-    - title = @page[:title]
-    - downcased_title = title.downcase
-
     title
       | Ongaku Ryoho &mdash;
-      = " #{title}"
+      = " #{@page[:title]}"
 
     = favicon_link_tag '/favicon.png'
 
     = stylesheet_link_tag 'pages'
     = csrf_meta_tags
 
-  body[class=downcased_title]
+  body[class=body_class]
 
-    #wrapper
-      - if downcased_title == "about"
-        h1.application-name Ongaku Ryoho
-      - else
-        .application-name Ongaku Ryoho
+    header
+      .wrapper
+        a.application-name[href="/"] Ongaku Ryoho
 
-      nav
-        - @pages.each do |page|
-          a[href=page[:url] class="#{"active" if page === @page}"]
-            | <i>#{{page[:icon]}}</i> #{page[:title]}
+        nav
+          - @pages.each do |page|
+            - klass = page[:title].parameterize
+            - klass << " active" if page === @page
+            a[href=page[:url] class="#{klass}"]
+              | #{page[:title]}
 
+    = yield :introduction
+
+    .wrapper.content
       = yield
 
 

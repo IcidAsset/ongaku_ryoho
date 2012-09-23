@@ -206,14 +206,14 @@
       font-weight: 400;
       list-style-type: none;
 
-      @include ptsans-font;
+      @include sourcesanspro-font;
     }
 
     .track {
       color: lighten(#4a4a4a, 10%);
       cursor: pointer;
       height: 26px;
-      line-height: 30px;
+      line-height: 28px;
       white-space: nowrap;
 
       &:nth-child(2n) {
