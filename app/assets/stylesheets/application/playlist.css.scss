@@ -65,15 +65,18 @@
 
     .button.show-favourites {
       @include background-image(
-        linear-gradient(darken($bgcolor_3, 14%), darken($bgcolor_3, 17.5%))
+        linear-gradient(
+          darken(desaturate($yellow, 52.5%), 30%),
+          darken(desaturate($yellow, 52.5%), 33.5%)
+        )
       );
 
       .icon {
-        color: lighten($bgcolor_3, 15.5%);
+        color: lighten(desaturate($yellow, 42.5%), 5%);
         font-size: 12px;
       }
 
-      &.on .icon { color: saturate($red, 12%) }
+      &.on .icon { color: desaturate($yellow, 17.5%) }
     }
 
     .button.show-source-manager {
