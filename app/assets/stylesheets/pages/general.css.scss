@@ -301,16 +301,6 @@ form {
 
     @include sourcesanspro-font;
     @include border-radius(3px);
-
-    &:after {
-      color: red;
-      content: "test";
-      display: inline-block;
-      font-size: 30px;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
   }
 
   input:focus,
