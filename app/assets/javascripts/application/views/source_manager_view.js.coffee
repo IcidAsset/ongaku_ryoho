@@ -17,6 +17,9 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
     $source_list_view = this.$(".window.main section")
     $add_section      = this.$(".window.add section")
 
+    # menu button
+    this.$menu_button = OngakuRyoho.PlaylistView.$el.find(".navigation .show-source-manager");
+
     # main section
     @source_list_view = new OngakuRyoho.Classes.Views.SourceList({ el: $source_list_view  })
 
@@ -28,5 +31,5 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
   #
   #  Show & Hide
   #
-  show: () -> this.$el.show(0)
-  hide: () -> this.$el.hide(0)
+  show: () -> this.$menu_button.addClass("on"); this.$el.show(0)
+  hide: () -> this.$menu_button.removeClass("on"); this.$el.hide(0)

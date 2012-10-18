@@ -52,6 +52,9 @@
         line-height: 26px;
         overflow: hidden;
         text-align: center;
+
+        @include transition-duration(450ms);
+        @include transition-property(box-shadow);
       }
 
       &:active,
@@ -76,7 +79,11 @@
         font-size: 12px;
       }
 
-      &.on .icon { color: lighten(desaturate($yellow, 32.5%), 7.5%) }
+      &.on .icon {
+        @include single-box-shadow(
+          rgba(desaturate($yellow, 50.5%), .775), 0, 0, 32px, -2px
+        );
+      }
     }
 
     .button.show-source-manager {
@@ -86,6 +93,12 @@
 
       .icon {
         color: lighten($bgcolor_1, 27.5%);
+      }
+
+      &.on .icon {
+        @include single-box-shadow(
+          lighten($bgcolor_1, 27.5%), 0, 0, 32px, -2px
+        );
       }
     }
 
