@@ -8,7 +8,7 @@ A music player / library (without the storage option)
 + Postgresql
 + Rails 3.2.*
 + Backbone.js / Zepto.js
-+ SoundManager2
++ Web Audio API
 
 ## How?
 Boot it up like so:
