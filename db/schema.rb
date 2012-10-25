@@ -14,12 +14,20 @@
 ActiveRecord::Schema.define(:version => 20120714202127) do
 
   create_table "favourites", :force => true do |t|
-    t.string   "track_artist"
-    t.string   "track_title"
+    t.string   "artist"
+    t.string   "title"
+    t.string   "album"
+    t.integer  "tracknr",       :default => 0
     t.integer  "user_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.integer  "track_id"
+    t.tsvector "search_vector"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
+
+  add_index "favourites", ["search_vector"], :name => "favourites_search_index"
+  add_index "favourites", ["track_id"], :name => "index_favourites_on_track_id"
+  add_index "favourites", ["user_id"], :name => "index_favourites_on_user_id"
 
   create_table "sources", :force => true do |t|
     t.boolean  "activated",     :default => false
@@ -32,6 +40,8 @@ ActiveRecord::Schema.define(:version => 20120714202127) do
     t.datetime "updated_at",                            :null => false
   end
 
+  add_index "sources", ["user_id"], :name => "index_sources_on_user_id"
+
   create_table "tracks", :force => true do |t|
     t.string   "artist"
     t.string   "title"
@@ -43,9 +53,15 @@ ActiveRecord::Schema.define(:version => 20120714202127) do
     t.string   "location"
     t.string   "url"
     t.integer  "source_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "favourite_id"
+    t.tsvector "search_vector"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
+
+  add_index "tracks", ["favourite_id"], :name => "index_tracks_on_favourite_id"
+  add_index "tracks", ["search_vector"], :name => "tracks_search_index"
+  add_index "tracks", ["source_id"], :name => "index_tracks_on_source_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                        :null => false

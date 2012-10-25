@@ -117,7 +117,7 @@ class Server < Source
     new_track_models = new_tracks.map do |new_track_tags|
       new_track_tags.delete('last_modified')
 
-      new_track_tags['genre'] = new_track_tags.delete('genres') || ''
+      new_track_tags['tracknr'] = new_track_tags.delete('track') || ''
       new_track_tags['url'] = server.configuration[:location] + new_track_tags['location']
 
       new_track_model = Track.new(new_track_tags)
