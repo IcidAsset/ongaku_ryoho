@@ -1,4 +1,4 @@
-class OngakuRyoho.Classes.Machinery.Audio
+class OngakuRyoho.Classes.Engines.Audio
 
   setup: () =>
     @sources = []
@@ -9,7 +9,7 @@ class OngakuRyoho.Classes.Machinery.Audio
     this.set_audio_context()
     this.create_volume_node()
     this.create_analyser_nodes()
-    this.create_channel_splitter_node();
+    this.create_channel_splitter_node()
     this.create_audio_elements_container()
 
 
@@ -96,13 +96,13 @@ class OngakuRyoho.Classes.Machinery.Audio
       average = sum / points[idx]
 
       # calculate width
-      width = (average / 256) * OngakuRyoho.VisualizationsView.peak_data_canvas.width
+      width = (average / 256) * OngakuRyoho.Visualizations.view.peak_data_canvas.width
 
       # add to array
       dimensions.push(width)
 
     # visualize
-    OngakuRyoho.VisualizationsView.visualize("peak_data", dimensions)
+    OngakuRyoho.Visualizations.view.visualize("peak_data", dimensions)
 
 
 
@@ -258,6 +258,22 @@ class OngakuRyoho.Classes.Machinery.Audio
 
 
   #
+  #  Is source paused?
+  #
+  is_paused: (source) ->
+    return source.mediaElement.paused
+
+
+
+  #
+  #  Seek
+  #
+  seek: (source, percent) ->
+    source.mediaElement.currentTime = source.mediaElement.duration * percent
+
+
+
+  #
   #  Fade out source
   #
   fade_out: (source) ->
@@ -277,7 +293,7 @@ class OngakuRyoho.Classes.Machinery.Audio
 
       percent_loaded = ((buffered.end(0) / e.target.duration) * 100) + "%"
 
-      OngakuRyoho.ControllerView.$progress_bar
+      OngakuRyoho.MixingConsole.view.$progress_bar
         .children(".progress.loader")
         .css("width", percent_loaded)
 
@@ -289,20 +305,20 @@ class OngakuRyoho.Classes.Machinery.Audio
 
 
     time_update: (e) =>
-      OngakuRyoho.Controller.set({ time: e.target.currentTime })
+      OngakuRyoho.MixingConsole.model.set({ time: e.target.currentTime })
 
 
 
     ended: (e) =>
-      repeat = OngakuRyoho.Controller.get("repeat")
+      repeat = OngakuRyoho.MixingConsole.model.get("repeat")
 
       # action
       if repeat
         e.target.play()
       else
-        OngakuRyoho.SoundGuy.select_next_track()
+        OngakuRyoho.People.SoundGuy.select_next_track()
 
 
 
     duration_change: (e) =>
-      OngakuRyoho.Controller.set({ duration: e.target.duration })
+      OngakuRyoho.MixingConsole.model.set({ duration: e.target.duration })

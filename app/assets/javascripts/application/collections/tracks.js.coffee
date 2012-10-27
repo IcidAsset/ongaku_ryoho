@@ -42,7 +42,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
       loading: true
 
     # add message
-    OngakuRyoho.Messages.add(message)
+    OngakuRyoho.MessageCenter.collection.add(message)
 
     # trigger 'fetching' event
     this.trigger("fetching")
@@ -64,8 +64,8 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     options.success = (response) =>
       success(this, response) if success
 
-      OngakuRyoho.SoundGuy.reset_shuffle_history()
-      OngakuRyoho.Messages.remove(message)
+      OngakuRyoho.People.SoundGuy.reset_shuffle_history()
+      OngakuRyoho.MessageCenter.collection.remove(message)
 
       this.trigger("fetched")
 

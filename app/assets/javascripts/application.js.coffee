@@ -12,55 +12,71 @@
 
 ###
 
-#= require 'zepto'
-#= require 'underscore'
-#= require 'backbone'
-#= require 'backbone_rails_sync'
-#= require 'handlebars'
-#= require 'jsdeferred'
-#= require 'spin'
+#= require "zepto"
+#= require "underscore"
+#= require "backbone"
+#= require "backbone_rails_sync"
+#= require "handlebars"
+#= require "jsdeferred"
+#= require "spin"
 
-#= require './application/backbone_extensions'
-#= require './application/helpers'
-#= require './application/ongaku_ryoho'
+#= require "./application/backbone_extensions"
+#= require "./application/helpers"
+#= require "./application/ongaku_ryoho"
 
 
 
 Zepto ->
+  App = OngakuRyoho
 
   # elements
-  $controller       = $("#controller")
-  $playlist         = $("#playlist")
-  $source_manager   = $("#source-manager")
+  $mixing_console   = $("#mixing-console")
   $message_center   = $("#message-center")
   $visualizations   = $("#visualizations")
-  $special_filters  = $("#special-filters")
+  $playlist         = $("#playlist")
+  $source_manager   = $("#source-manager")
 
   # helpers
   Helpers.initialize_before()
 
-  # create new people
-  OngakuRyoho.SoundGuy             = new OngakuRyoho.Classes.People.SoundGuy
+  # objects
+  App.Engines = {}
+  App.Engines.Audio = new App.Classes.Engines.Audio
 
-  # backbone models
-  OngakuRyoho.Controller           = new OngakuRyoho.Classes.Models.Controller
+  App.People = {}
+  App.People.SoundGuy = new App.Classes.People.SoundGuy
 
-  # backbone collections
-  OngakuRyoho.Tracks               = new OngakuRyoho.Classes.Collections.Tracks
-  OngakuRyoho.Sources              = new OngakuRyoho.Classes.Collections.Sources
-  OngakuRyoho.Messages             = new OngakuRyoho.Classes.Collections.Messages
-  OngakuRyoho.Favourites           = new OngakuRyoho.Classes.Collections.Favourites
+  App.MixingConsole = {}
+  App.MixingConsole.model = new App.Classes.Models.MixingConsole
+  App.MixingConsole.view = new App.Classes.Views.MixingConsole({ el: $mixing_console })
 
-  # backbone views
-  OngakuRyoho.MessageCenterView    = new OngakuRyoho.Classes.Views.MessageCenter({ el: $message_center })
-  OngakuRyoho.VisualizationsView   = new OngakuRyoho.Classes.Views.Visualizations({ el: $visualizations })
+  App.MessageCenter = {}
+  App.MessageCenter.collection = new App.Classes.Collections.Messages
+  App.MessageCenter.view = new App.Classes.Views.MessageCenter({ el: $message_center })
 
-  OngakuRyoho.ControllerView       = new OngakuRyoho.Classes.Views.Controller({ el: $controller })
-  OngakuRyoho.PlaylistView         = new OngakuRyoho.Classes.Views.Playlist({ el: $playlist })
-  OngakuRyoho.SourceManagerView    = new OngakuRyoho.Classes.Views.SourceManager({ el: $source_manager })
+  App.Visualizations = {}
+  App.Visualizations.view = new App.Classes.Views.Visualizations({ el: $visualizations })
+
+  App.Playlist = {}
+  App.Playlist.Tracks = {}
+  App.Playlist.Tracks.collection = new App.Classes.Collections.Tracks
+  App.Playlist.Tracks.view = new App.Classes.Views.Playlist.Tracks({ el: $playlist.find(".tracks-wrapper") })
+  App.Playlist.Favourites = {}
+  App.Playlist.Favourites.collection = new App.Classes.Collections.Favourites
+  App.Playlist.Navigation = {}
+  App.Playlist.Navigation.view = new App.Classes.Views.Playlist.Navigation({ el: $playlist.children(".navigation") })
+  App.Playlist.Footer = {}
+  App.Playlist.Footer.view = new App.Classes.Views.Playlist.Footer({ el: $playlist.children("footer") })
+
+  App.SourceManager = {}
+  App.SourceManager.collection = new App.Classes.Collections.Sources
+  App.SourceManager.view = new App.Classes.Views.SourceManager({ el: $source_manager })
 
   # send people off to work
-  OngakuRyoho.SoundGuy.go_to_work()
+  App.People.SoundGuy.go_to_work()
 
   # helpers
   Helpers.initialize_after()
+
+  # get data
+  App.SourceManager.collection.fetch({ success: App.SourceManager.collection.process_and_check_sources })

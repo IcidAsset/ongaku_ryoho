@@ -1,10 +1,11 @@
-class OngakuRyoho.Classes.Machinery.Controller
+class OngakuRyoho.Classes.Machinery.MixingConsole
 
   #
   #  Set track info in document title
   #
-  set_current_track_in_document_title: () =>
-    Helpers.set_document_title("▶ #{@view.model.get("artist")} – #{@view.model.get("title")}")
+  set_current_track_in_document_title: () ->
+    m = OngakuRyoho.MixingConsole.model
+    Helpers.set_document_title("▶ #{m.get("artist")} – #{m.get("title")}")
 
 
 
@@ -72,7 +73,7 @@ class OngakuRyoho.Classes.Machinery.Controller
   #  Now playing click handler
   #
   now_playing_click_handler: (e) ->
-    OngakuRyoho.PlaylistView.machine.show_current_track()
+    OngakuRyoho.Playlist.machine.show_current_track()
 
 
 
@@ -80,38 +81,29 @@ class OngakuRyoho.Classes.Machinery.Controller
   #  Controller buttons
   #
   button_playpause_click_handler: (e) ->
-    $button = $(e.currentTarget)
+    OngakuRyoho.People.SoundGuy.toggle_playpause()
 
-    # source
-    source = OngakuRyoho.SoundGuy.machine.get_active_source()
 
-    # state
-    state = if source and !source.mediaElement.paused
-      "playing"
-    else
-      "not playing"
 
-    # action
-    if state is "playing"
-      OngakuRyoho.SoundGuy.pause_current_track()
-    else
-      OngakuRyoho.SoundGuy.play_track()
+  button_previous_click_handler: (e) ->
+    OngakuRyoho.People.SoundGuy.select_previous_track()
 
-    # light
-    if state is "playing"
-      $button.children(".light").removeClass("on")
-    else
-      $button.children(".light").addClass("on")
+
+
+  button_next_click_handler: (e) ->
+    OngakuRyoho.People.SoundGuy.select_next_track()
 
 
 
   switch_shuffle_click_handler: (e) =>
-    @view.model.set("shuffle", !@view.model.get("shuffle"))
+    m = OngakuRyoho.MixingConsole.model
+    m.set("shuffle", !m.get("shuffle"))
 
 
 
   switch_repeat_click_handler: (e) =>
-    @view.model.set("repeat", !@view.model.get("repeat"))
+    m = OngakuRyoho.MixingConsole.model
+    m.set("repeat", !m.get("repeat"))
 
 
 
@@ -144,7 +136,7 @@ class OngakuRyoho.Classes.Machinery.Controller
 
     # set volume
     volume = 50 + (angle / 135) * 50
-    @view.model.set("volume", volume)
+    OngakuRyoho.MixingConsole.model.set("volume", volume)
 
 
 
@@ -154,8 +146,9 @@ class OngakuRyoho.Classes.Machinery.Controller
     $(document).off("mouseup", this.document_mouseup_handler_for_volume_knob)
 
     # rebind
-    @view.$el.find(".controls .knob.volume")
-         .on("mousedown", this.knob_volume_mousedown_handler)
+    OngakuRyoho.MixingConsole.view.$el
+      .find(".controls .knob.volume")
+      .on("mousedown", this.knob_volume_mousedown_handler)
 
 
 
@@ -166,12 +159,13 @@ class OngakuRyoho.Classes.Machinery.Controller
     Helpers.css.rotate($t, 0)
 
     # set volume
-    @view.model.set("volume", 50)
+    OngakuRyoho.MixingConsole.model.set("volume", 50)
 
 
 
   switch_volume_click_handler: (e) =>
-    @view.model.set("mute", !@view.model.get("mute"))
+    m = OngakuRyoho.MixingConsole.model
+    m.set("mute", !m.get("mute"))
 
 
 
@@ -184,11 +178,5 @@ class OngakuRyoho.Classes.Machinery.Controller
     # set
     percent = (e.pageX - $progress_bar.offset().left) / $progress_bar.width()
 
-    # source
-    source = OngakuRyoho.SoundGuy.machine.get_active_source()
-
-    # check
-    return unless source
-
     # seek
-    source.mediaElement.currentTime = source.mediaElement.duration * percent
+    OngakuRyoho.People.SoundGuy.seek_current_track(percent)

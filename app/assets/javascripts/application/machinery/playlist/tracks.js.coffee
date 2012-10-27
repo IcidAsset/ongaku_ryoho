@@ -1,17 +1,32 @@
-class OngakuRyoho.Classes.Machinery.TrackList
+class OngakuRyoho.Classes.Machinery.Playlist.Tracks
+
+  #
+  #  Show current track
+  #
+  show_current_track: () =>
+    $current_track = @group.view.$el.find(".track.playing")
+
+    # scroll to current track
+    if $current_track.length
+      new_scroll_top = (@group.view.el.scrollTop +
+      ($current_track.offset().top - @group.view.$el.offset().top))
+
+      @group.view.el.scrollTop = new_scroll_top
+
+
 
   #
   #  Fetching and fetched events
   #
   fetched: () =>
-    OngakuRyoho.PlaylistView.machine.check_page_navigation()
+    OngakuRyoho.Playlist.Footer.machine.check_page_navigation()
 
-    if @view.collection.length is 0
-      @view.$el.html("<div class=\"nothing-here\" />")
+    if @group.collection.length is 0
+      @group.view.$el.html("<div class=\"nothing-here\" />")
 
     else
-      this.add_playing_class_to_track(OngakuRyoho.SoundGuy.get_current_track())
-      OngakuRyoho.PlaylistView.machine.show_current_track()
+      this.add_playing_class_to_track(OngakuRyoho.People.SoundGuy.get_current_track())
+      this.show_current_track()
 
 
 
@@ -19,7 +34,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
   #  Resize
   #
   resize: (e) =>
-    $list = @view.$el.closest(".list")
+    $list = @group.view.$el.closest(".list")
 
     new_height = (
       $(window).height() - 2 * 50 -
@@ -28,7 +43,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
       $list.next("footer").height()
     )
 
-    $tw = @view.$el
+    $tw = @group.view.$el
     $tw.height(new_height) if $tw
 
 
@@ -40,7 +55,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
     return unless track
 
     # set elements
-    $track = @view.$el.find(".track[rel=\"#{track.id}\"]")
+    $track = @group.view.$el.find(".track[rel=\"#{track.id}\"]")
 
     # set classes
     $track.parent().children(".track.playing").removeClass("playing")
@@ -58,16 +73,10 @@ class OngakuRyoho.Classes.Machinery.TrackList
     return if $t.hasClass("unavailable")
 
     # set
-    track = OngakuRyoho.Tracks.getById($t.attr("rel"))
+    track = @group.collection.getById($t.attr("rel"))
 
     # insert track
-    OngakuRyoho.SoundGuy.insert_track(track)
-
-    # set elements
-    $playpause_button_light = OngakuRyoho.ControllerView.$el.find(".controls a .button.play-pause .light")
-
-    # turn the play button light on
-    $playpause_button_light.addClass("on")
+    OngakuRyoho.People.SoundGuy.insert_track(track)
 
 
 
@@ -77,7 +86,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
   track_rating_star_click: (e) =>
     $t = $(e.currentTarget)
     $track = $t.closest(".track")
-    track = @view.collection.getById($track.attr("rel"))
+    track = @group.collection.getById($track.attr("rel"))
 
     title = track.get("title")
     artist = track.get("artist")
@@ -105,7 +114,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
 
 
   create_new_favourite: (title, artist, album, track_id) =>
-    OngakuRyoho.Favourites.create({
+    OngakuRyoho.Playlist.Favourites.collection.create({
       title: title,
       artist: artist,
       album: album,
@@ -115,7 +124,7 @@ class OngakuRyoho.Classes.Machinery.TrackList
 
 
   remove_matching_favourites: (title, artist, album) =>
-    favourites = OngakuRyoho.Favourites.where({
+    favourites = OngakuRyoho.Playlist.Favourites.collection.where({
       title: title,
       artist: artist,
       album: album

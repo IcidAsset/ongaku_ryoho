@@ -4,7 +4,7 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   #  Events
   #
   events: () ->
-    "click .message" : @machine.message_click_handler
+    "click .message" : @group.machine.message_click_handler
 
 
 
@@ -14,9 +14,9 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   initialize: () =>
     super()
 
-    @collection = OngakuRyoho.Messages
-    @collection.on("add", this.add_message)
-    @collection.on("remove", this.remove_message)
+    # collection events
+    @group.collection.on("add", this.add_message)
+    @group.collection.on("remove", this.remove_message)
 
 
 
@@ -41,5 +41,5 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
 
 
   remove_message: (message) =>
-    this.$(".message[rel=\"#{message.cid}\"]")
+    this.$el.find(".message[rel=\"#{message.cid}\"]")
         .fadeOut 500, () -> $(this).remove()

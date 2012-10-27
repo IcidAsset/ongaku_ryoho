@@ -1,15 +1,19 @@
 #= require_self
-#= require_tree './machinery'
-#= require_tree './models'
-#= require_tree './collections'
-#= require_tree './views'
-#= require_tree './people'
+#= require_tree "./engines"
+#= require_tree "./machinery"
+#= require_tree "./machinery/playlist"
+#= require_tree "./models"
+#= require_tree "./collections"
+#= require_tree "./views"
+#= require_tree "./views/playlist"
+#= require_tree "./people"
 
 window.OngakuRyoho =
 
   Classes:
     Models: {}
     Collections: {}
-    Views: {}
+    Views: { Playlist: {} }
+    Machinery: { Playlist: {} }
     People: {}
-    Machinery: {}
+    Engines: {}

@@ -10,8 +10,11 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Go to work
   #
   go_to_work: () =>
-    @machine = new OngakuRyoho.Classes.Machinery.Audio
-    @machine.setup()
+    @audio_engine = OngakuRyoho.Engines.Audio
+    @audio_engine.setup()
+
+    # his mixing console
+    @mixing_console = OngakuRyoho.MixingConsole
 
     # get set
     this.apply_settings_from_local_storage();
@@ -34,7 +37,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   save_settings_in_local_storage: () =>
     settings = _.pick(
-      OngakuRyoho.Controller.attributes,
+      @mixing_console.model.attributes,
       "shuffle", "repeat", "mute", "volume"
     )
 
@@ -56,7 +59,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     settings = JSON.parse(item)
 
     # apply settings
-    OngakuRyoho.Controller.set(settings)
+    @mixing_console.model.set(settings)
 
 
 
@@ -64,57 +67,8 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Current track
   #
   get_current_track: () =>
-    source = @machine.get_active_source()
+    source = @audio_engine.get_active_source()
     return (if source then source.track else null)
-
-
-
-  #
-  #  Set volume
-  #
-  set_volume: () =>
-    volume = OngakuRyoho.Controller.get("volume")
-
-    # needed elements
-    $knob = OngakuRyoho.ControllerView.$control("knob", "volume", ".it div")
-
-    # rotate volume button
-    angle = ((volume - 50) * 135) / 50
-    Helpers.css.rotate($knob, angle)
-
-    # sound
-    unless OngakuRyoho.Controller.get("mute")
-      @machine.set_volume(volume / 100)
-
-    # save
-    this.save_settings_in_local_storage()
-
-
-
-  #
-  #  Set mute
-  #
-  set_mute: () =>
-    state = OngakuRyoho.Controller.get("mute")
-
-    # needed elements
-    $light = OngakuRyoho.ControllerView.$control("switch", "volume", ".light")
-
-    # calculate volume
-    original_volume = (OngakuRyoho.Controller.get("volume") / 100)
-    volume = (if state then 0 else original_volume)
-
-    # light
-    if state
-      $light.removeClass("on")
-    else
-      $light.addClass("on")
-
-    # sound
-    @machine.set_volume(volume)
-
-    # save
-    this.save_settings_in_local_storage()
 
 
 
@@ -122,10 +76,10 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Set shuffle
   #
   set_shuffle: () =>
-    state = OngakuRyoho.Controller.get("shuffle")
+    state = @mixing_console.model.get("shuffle")
 
     # needed elements
-    $light = OngakuRyoho.ControllerView.$control("switch", "shuffle", ".light")
+    $light = @mixing_console.view.$control("switch", "shuffle", ".light")
 
     # reset shuffle history?
     this.reset_shuffle_history() if state
@@ -145,10 +99,10 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Set repeat
   #
   set_repeat: () =>
-    state = OngakuRyoho.Controller.get("repeat")
+    state = @mixing_console.model.get("repeat")
 
     # needed elements
-    $light = OngakuRyoho.ControllerView.$control("switch", "repeat", ".light")
+    $light = @mixing_console.view.$control("switch", "repeat", ".light")
 
     # light
     if state
@@ -162,20 +116,65 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   #
+  #  Set volume
+  #
+  set_volume: () =>
+    volume = @mixing_console.model.get("volume")
+
+    # needed elements
+    $knob = @mixing_console.view.$control("knob", "volume", ".it div")
+
+    # rotate volume button
+    angle = ((volume - 50) * 135) / 50
+    Helpers.css.rotate($knob, angle)
+
+    # sound
+    unless @mixing_console.model.get("mute")
+      @audio_engine.set_volume(volume / 100)
+
+    # save
+    this.save_settings_in_local_storage()
+
+
+
+  #
+  #  Set mute
+  #
+  set_mute: () =>
+    state = @mixing_console.model.get("mute")
+
+    # needed elements
+    $light = @mixing_console.view.$control("switch", "volume", ".light")
+
+    # calculate volume
+    original_volume = (@mixing_console.model.get("volume") / 100)
+    volume = (if state then 0 else original_volume)
+
+    # light
+    if state
+      $light.removeClass("on")
+    else
+      $light.addClass("on")
+
+    # sound
+    @audio_engine.set_volume(volume)
+
+    # save
+    this.save_settings_in_local_storage()
+
+
+
+  #
   #  Insert track
   #
   insert_track: (track) =>
-    # destroy current sources
-    @machine.destroy_all_sources()
+    @audio_engine.destroy_all_sources()
 
     # track attributes
     track_attributes = track.toJSON()
 
-    # this sound guy
-    this_sound_guy = this
-
     # create new source
-    @machine.create_new_source(track, true)
+    @audio_engine.create_new_source(track, true)
 
     # controller attributes
     controller_attributes =
@@ -189,13 +188,17 @@ class OngakuRyoho.Classes.People.SoundGuy
       now_playing: "#{track_attributes.artist} - <strong> #{track_attributes.title}</strong>"
 
     # set controller attributes
-    OngakuRyoho.Controller.set(controller_attributes)
+    @mixing_console.model.set(controller_attributes)
 
     # add playing class to track
-    OngakuRyoho.PlaylistView.track_list_view.machine.add_playing_class_to_track(track)
+    OngakuRyoho.Playlist.Tracks.machine.add_playing_class_to_track(track)
+
+    # turn the play button light on
+    $playpause_button_light = @mixing_console.view.$control("button", "play-pause", ".light")
+    $playpause_button_light.addClass("on")
 
     # document title
-    OngakuRyoho.ControllerView.machine.set_current_track_in_document_title()
+    @mixing_console.machine.set_current_track_in_document_title()
 
 
 
@@ -203,8 +206,8 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Select new track
   #
   select_new_track: () =>
-    shuffle = OngakuRyoho.Controller.get("shuffle")
-    tracks = OngakuRyoho.Tracks.models
+    shuffle = @mixing_console.model.get("shuffle")
+    tracks = OngakuRyoho.Playlist.Tracks.collection.models
 
     # select
     if shuffle
@@ -221,19 +224,13 @@ class OngakuRyoho.Classes.People.SoundGuy
     # insert track
     this.insert_track(track)
 
-    # set elements
-    $playpause_button_light = OngakuRyoho.ControllerView.$control("button", "play-pause", ".light")
-
-    # turn the play button light on
-    $playpause_button_light.addClass("on")
-
 
 
   #
   #  Play track
   #
   play_track: () =>
-    if @machine.get_active_source()
+    if @audio_engine.get_active_source()
       this.play_current_track()
     else
       this.select_new_track()
@@ -241,16 +238,20 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   play_current_track: () =>
-    source = @machine.get_active_source()
+    source = @audio_engine.get_active_source()
 
     # check
     return unless source
 
     # play/resume
-    @machine.play(source)
+    @audio_engine.play(source)
+
+    # turn the play button light on
+    $playpause_button_light = @mixing_console.view.$control("button", "play-pause", ".light")
+    $playpause_button_light.addClass("on")
 
     # set document title
-    OngakuRyoho.ControllerView.machine.set_current_track_in_document_title()
+    @mixing_console.machine.set_current_track_in_document_title()
 
 
 
@@ -258,13 +259,17 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Pause track
   #
   pause_current_track: () =>
-    source = @machine.get_active_source()
+    source = @audio_engine.get_active_source()
 
     # check
     return unless source
 
     # pause
-    @machine.pause(source)
+    @audio_engine.pause(source)
+
+    # turn the play button light off
+    $playpause_button_light = @mixing_console.view.$control("button", "play-pause", ".light")
+    $playpause_button_light.removeClass("on")
 
     # set document title
     Helpers.set_document_title(Helpers.original_document_title)
@@ -272,27 +277,51 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   #
+  #  Toggle play/pause
+  #
+  toggle_playpause: () ->
+    source = @audio_engine.get_active_source()
+
+    # toggle
+    if source and !@audio_engine.is_paused(source)
+      this.pause_current_track()
+    else
+      this.play_track()
+
+
+
+  #
+  #  Seek current track
+  #
+  seek_current_track: (percent) ->
+    source = @audio_engine.get_active_source()
+
+    # seek
+    @audio_engine.seek(source, percent) if source
+
+
+
+  #
   #  Previous track
   #
   select_previous_track: () =>
-    source = @machine.get_active_source()
+    source = @audio_engine.get_active_source()
     return unless source
 
     # set
-    shuffle = OngakuRyoho.Controller.get("shuffle")
+    shuffle = @mixing_console.model.get("shuffle")
     shuffle_th = @shuffle_track_history_index
-    console.log "prev", shuffle_th
 
     # if shuffle
     if shuffle
       return if shuffle_th is 0
 
-      track = OngakuRyoho.Tracks.find (t) => t.get("id") is @shuffle_track_history[shuffle_th - 1]
+      track = OngakuRyoho.Playlist.Tracks.collection.find (t) => t.get("id") is @shuffle_track_history[shuffle_th - 1]
       @shuffle_track_history_index-- if track
 
     # otherwise
     else
-      tracks = OngakuRyoho.Tracks.models
+      tracks = OngakuRyoho.Playlist.Tracks.collection.models
       track_index = _.indexOf(tracks, source.track) - 1
       track_index = (tracks.length - 1) if track_index < 0
       track = tracks[track_index]
@@ -306,21 +335,20 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Next track
   #
   select_next_track: () =>
-    source = @machine.get_active_source()
+    source = @audio_engine.get_active_source()
     return this.select_new_track() unless source
 
     # set
-    shuffle = OngakuRyoho.Controller.get("shuffle")
+    shuffle = @mixing_console.model.get("shuffle")
     shuffle_th = @shuffle_track_history_index
-    console.log "next", shuffle_th
 
     # if shuffle
     if shuffle
       if shuffle_th < @shuffle_track_history.length - 1
-        track = OngakuRyoho.Tracks.find (t) => t.get("id") is @shuffle_track_history[shuffle_th + 1]
+        track = OngakuRyoho.Playlist.Tracks.collection.find (t) => t.get("id") is @shuffle_track_history[shuffle_th + 1]
 
       else
-        track = _.shuffle(OngakuRyoho.Tracks.reject((t) =>
+        track = _.shuffle(OngakuRyoho.Playlist.Tracks.collection.reject((t) =>
           return _.include(@shuffle_track_history, t.get("id"))
         ))[0]
 
@@ -335,7 +363,7 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     # otherwise
     else
-      tracks = OngakuRyoho.Tracks.models
+      tracks = OngakuRyoho.Playlist.Tracks.collection.models
       track_index = _.indexOf(tracks, source.track) + 1
       track_index = 0 if track_index >= tracks.length
       track = tracks[track_index]

@@ -14,17 +14,17 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
   initialize: () =>
     super()
 
-    $source_list_view = this.$(".window.main section")
-    $add_section      = this.$(".window.add section")
+    $source_list_view = this.$el.find(".window.main section")
+    $add_section      = this.$el.find(".window.add section")
 
     # menu button
-    this.$menu_button = OngakuRyoho.PlaylistView.$el.find(".navigation .show-source-manager");
+    this.$menu_button = OngakuRyoho.Playlist.Navigation.view.$el.find(".show-source-manager");
 
     # main section
     @source_list_view = new OngakuRyoho.Classes.Views.SourceList({ el: $source_list_view  })
 
     # add section
-    @machine.setup_add_section($add_section)
+    @group.machine.setup_add_section($add_section)
 
 
 
