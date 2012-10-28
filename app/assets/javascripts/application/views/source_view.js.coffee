@@ -1,5 +1,9 @@
 class OngakuRyoho.Classes.Views.Source extends Backbone.View
 
+  tagName: "li"
+
+
+
   #
   #  Initialize
   #

@@ -29,17 +29,20 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   add_message: (message) =>
     view = new OngakuRyoho.Classes.Views.Message({ model: message })
 
-    # append html
-    this.$el.append(view.render().el.innerHTML)
+    # $message
+    $message = view.render().$el
 
-    # the $message
-    $message = this.$el.find(".message").last()
+    # append html
+    this.$el.append($message)
 
     # fade in message
     $message.fadeIn(500)
 
     # loading animation?
-    Helpers.add_loading_animation($message.children("div:first-child")[0]) if message.get("loading")
+    if message.get("loading")
+      Helpers.add_loading_animation(
+        $message.children("div:first-child")[0]
+      )
 
 
 

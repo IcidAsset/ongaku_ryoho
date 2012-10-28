@@ -4,6 +4,9 @@ class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
   #  Initialize
   #
   initialize: () =>
+    @template = Handlebars.compile($("#source_list_template").html())
+
+    # collection events
     OngakuRyoho.SourceManager.collection.on("reset", this.render)
 
 
@@ -12,19 +15,16 @@ class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
   #  Render
   #
   render: () =>
-    html = "<form><div class=\"source-list\"><ol>"
+    this.$el.html(@template())
 
-    # sources html
+    # cache
+    $list = this.$el.find(".source-list ol")
+
+    # add sources
     OngakuRyoho.SourceManager.collection.each((source) ->
       source_view = new OngakuRyoho.Classes.Views.Source({ model: source })
-      html = html + source_view.render().el.innerHTML
-    , this)
-
-    # ending html
-    html = html + "</ol></div></form>"
-
-    # set html
-    this.$el.html(html)
+      $list.append(source_view.render().$el)
+    )
 
     # chain
     return this

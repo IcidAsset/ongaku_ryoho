@@ -7,8 +7,5 @@
 
 
 script#message_template type="text/x-handlebars-template"
-  |
-    <div class="message">
-      {{#if_has_icon}}<i class="{{icon_type}}"></i>{{/if_has_icon}}
-      {{text}}
-    </div>
+  | {{#if_has_icon}}<i class="{{icon_type}}"></i>{{/if_has_icon}}
+    {{text}}

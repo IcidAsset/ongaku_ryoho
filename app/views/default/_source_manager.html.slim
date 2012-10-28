@@ -1,6 +1,6 @@
 /
   **************************************
-  *** Source manager –
+  *** Source manager
   ***
 #source-manager
   .background
@@ -21,19 +21,23 @@
 
 
 
+  script#source_list_template type="text/x-handlebars-template"
+    | <form>
+        <div class="source-list">
+          <ol></ol>
+        </div>
+      </form>
+
+
+
   script#source_template type="text/x-handlebars-template"
-    |
-      {{#if available}}
-        <li class="available">
-          <input type="checkbox" checked="checked" disabled="disabled" />
+    | {{#if available}}
+        <input type="checkbox" checked="checked" disabled="disabled" />
       {{else}}
-        <li>
-          <input type="checkbox" disabled="disabled" />
+        <input type="checkbox" disabled="disabled" />
       {{/if}}
 
-          <label title="{{label}}">
-            <strong>{{label}}</strong><br>
-            {{{source_subtext}}}
-          </label>
-
-        </li>
+      <label title="{{label}}">
+        <strong>{{label}}</strong><br>
+        {{{source_subtext}}}
+      </label>
