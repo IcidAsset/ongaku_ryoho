@@ -8,7 +8,7 @@
              /____/                          /____/
 
 
-  Main JS file with a touch of sprockets (.*)
+  Main JS file
 
 ###
 
@@ -28,49 +28,47 @@
 
 Zepto ->
   App = OngakuRyoho
-
-  # elements
-  $mixing_console   = $("#mixing-console")
-  $message_center   = $("#message-center")
-  $visualizations   = $("#visualizations")
-  $playlist         = $("#playlist")
-  $source_manager   = $("#source-manager")
+  Engines = App.Classes.Engines
+  People = App.Classes.People
+  Models = App.Classes.Models
+  Collections = App.Classes.Collections
+  Views = App.Classes.Views
 
   # helpers
   Helpers.initialize_before()
 
   # objects
   App.Engines = {}
-  App.Engines.Audio = new App.Classes.Engines.Audio
+  App.Engines.Audio = new Engines.Audio
 
   App.People = {}
-  App.People.SoundGuy = new App.Classes.People.SoundGuy
+  App.People.SoundGuy = new People.SoundGuy
 
   App.MixingConsole = {}
-  App.MixingConsole.model = new App.Classes.Models.MixingConsole
-  App.MixingConsole.view = new App.Classes.Views.MixingConsole({ el: $mixing_console })
+  App.MixingConsole.model = new Models.MixingConsole
+  App.MixingConsole.view = new Views.MixingConsole
 
   App.MessageCenter = {}
-  App.MessageCenter.collection = new App.Classes.Collections.Messages
-  App.MessageCenter.view = new App.Classes.Views.MessageCenter({ el: $message_center })
+  App.MessageCenter.collection = new Collections.Messages
+  App.MessageCenter.view = new Views.MessageCenter
 
   App.Visualizations = {}
-  App.Visualizations.view = new App.Classes.Views.Visualizations({ el: $visualizations })
+  App.Visualizations.view = new Views.Visualizations
 
   App.Playlist = {}
   App.Playlist.Tracks = {}
-  App.Playlist.Tracks.collection = new App.Classes.Collections.Tracks
-  App.Playlist.Tracks.view = new App.Classes.Views.Playlist.Tracks({ el: $playlist.find(".tracks-wrapper") })
+  App.Playlist.Tracks.collection = new Collections.Tracks
+  App.Playlist.Tracks.view = new Views.Playlist.Tracks
   App.Playlist.Favourites = {}
-  App.Playlist.Favourites.collection = new App.Classes.Collections.Favourites
+  App.Playlist.Favourites.collection = new Collections.Favourites
   App.Playlist.Navigation = {}
-  App.Playlist.Navigation.view = new App.Classes.Views.Playlist.Navigation({ el: $playlist.children(".navigation") })
+  App.Playlist.Navigation.view = new Views.Playlist.Navigation
   App.Playlist.Footer = {}
-  App.Playlist.Footer.view = new App.Classes.Views.Playlist.Footer({ el: $playlist.children("footer") })
+  App.Playlist.Footer.view = new Views.Playlist.Footer
 
   App.SourceManager = {}
-  App.SourceManager.collection = new App.Classes.Collections.Sources
-  App.SourceManager.view = new App.Classes.Views.SourceManager({ el: $source_manager })
+  App.SourceManager.collection = new Collections.Sources
+  App.SourceManager.view = new Views.SourceManager
 
   # send people off to work
   App.People.SoundGuy.go_to_work()

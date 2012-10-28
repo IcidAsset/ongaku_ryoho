@@ -1,21 +1,21 @@
 #message-center {
   margin-top: 26px;
-  
-  @include lato-font;
-  
+
+  @include sourcesanspro-font;
+
   .message {
     border: 1px dashed rgba(#fff, .17);
     color: rgba(#fff, .6);
     display: none;
-    font-size: 11px;
-    line-height: 20px;
+    font-size: 12px;
+    line-height: 21px;
     margin-bottom: 4px;
-    padding: 14px 17px 13px;
+    padding: 14px 17px 12px;
     position: relative;
-    
+
     & > div { display: none }
   }
-  
+
   i {
     background-position: center bottom;
     background-repeat: no-repeat;
@@ -25,11 +25,15 @@
     position: relative;
     top: 4px;
     width: 16px;
-    
+
     @include opacity(.8);
   }
-  
-  .message.loading { padding-left: 42px }
+
+  // loading
+  .message.loading {
+    padding-left: 43px;
+  }
+
   .message.loading > div {
     bottom: 0;
     display: block;
@@ -37,13 +41,14 @@
     position: absolute;
     top: 0;
     width: 16px;
-    
+
     @include opacity(.8);
   }
 
+  // error
   .message.error {
     border-color: $red;
     color: $red;
   }
-  
+
 }

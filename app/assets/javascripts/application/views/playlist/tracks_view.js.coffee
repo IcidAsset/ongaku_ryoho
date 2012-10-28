@@ -20,6 +20,9 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
     @group.machine.group = @group
     @group.machine.parent_group = @parent_group
 
+    # this element
+    this.$el = $("#playlist").find(".tracks-wrapper")
+
     # render
     @group.collection
       .on("reset", this.render)

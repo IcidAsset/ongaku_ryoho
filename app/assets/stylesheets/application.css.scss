@@ -9,20 +9,20 @@
              /____/                          /____/
 
 
-  Main CSS file with a touch of SASS (.*)
+  Main CSS file
 
 */
 
-@import 'compass';
-@import 'reset';
-@import 'fonts';
-@import 'fonts_icomoon';
+@import "compass";
+@import "reset";
+@import "fonts";
+@import "fonts_icomoon";
 
-@import 'base';
+@import "base";
 
-@import 'application/general';
-@import 'application/mixing_console';
-@import 'application/playlist';
-@import 'application/source_manager';
-@import 'application/message_center';
-@import 'application/visualizations';
+@import "application/general";
+@import "application/mixing_console";
+@import "application/playlist";
+@import "application/source_manager";
+@import "application/message_center";
+@import "application/visualizations";

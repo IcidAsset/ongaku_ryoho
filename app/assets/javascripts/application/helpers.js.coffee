@@ -28,7 +28,7 @@ window.Helpers =
   #  Initialize (after)
   #
   initialize_after: () ->
-    this.check_theater_mode()
+    this.check_theater_mode({ without_animation: true })
 
 
 
@@ -36,7 +36,6 @@ window.Helpers =
   #  Setup handlebars helpers
   #
   setup_handlebars_helpers: () ->
-
     # icons
     Handlebars.registerHelper("if_has_icon", (block) ->
       return block(this) if @icon and @icon_type
@@ -73,10 +72,10 @@ window.Helpers =
   #
   add_loading_animation: (target) ->
     options =
-      lines: 6
-      length: 3
+      lines: 10
+      length: 1
       width: 1
-      radius: 3
+      radius: 4
       rotate: 90
       color: "#fff"
       speed: 1
@@ -100,7 +99,7 @@ window.Helpers =
   #  Set theather mode
   #
   set_theater_mode: (state, options={}) ->
-    animation_duration = 950
+    animation_duration = options.without_animation ? 0 : 950
 
     # set elements
     $button = OngakuRyoho.Playlist.Navigation.view.$el.find(".button.theater-mode")
@@ -125,6 +124,7 @@ window.Helpers =
   #
   check_theater_mode: (options={}) ->
     theater_mode_state = window.localStorage.getItem("theater_mode_state")
+    theater_mode_state ?= "on"
 
     # check
     Helpers.set_theater_mode("on", options) if theater_mode_state is "on"

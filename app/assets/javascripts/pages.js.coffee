@@ -8,7 +8,7 @@
              /____/                          /____/
 
 
-  Pages JS file with a touch of sprockets (.*)
+  Pages JS file
 
 ###
 

@@ -8,15 +8,15 @@
              /____/                          /____/
 
 
-  Pages CSS file with a touch of SASS (.*)
+  Pages CSS file
 
 */
 
-@import 'compass';
-@import 'reset';
-@import 'fonts';
-@import 'fonts_icomoon';
+@import "compass";
+@import "reset";
+@import "fonts";
+@import "fonts_icomoon";
 
-@import 'helpers';
+@import "helpers";
 
-@import 'pages/general';
+@import "pages/general";

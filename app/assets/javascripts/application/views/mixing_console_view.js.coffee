@@ -29,6 +29,9 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
   initialize: () =>
     super()
 
+    # this element
+    this.$el = $("#mixing-console")
+
     # render events
     @group.model
       .on("change:time", this.render_time)

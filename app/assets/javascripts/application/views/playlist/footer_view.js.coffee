@@ -20,6 +20,9 @@ class OngakuRyoho.Classes.Views.Playlist.Footer extends Backbone.View
     @group.machine.group = @group
     @group.machine.parent_group = @parent_group
 
+    # this element
+    this.$el = $("#playlist").children("footer")
+
 
 
   #
