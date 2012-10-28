@@ -19,7 +19,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
   #  Fetching and fetched events
   #
   fetched: () =>
-    OngakuRyoho.Playlist.Footer.machine.check_page_navigation()
+    @parent_group.Footer.machine.check_page_navigation()
 
     if @group.collection.length is 0
       @group.view.$el.html("<div class=\"nothing-here\" />")
@@ -114,7 +114,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
 
 
   create_new_favourite: (title, artist, album, track_id) =>
-    OngakuRyoho.Playlist.Favourites.collection.create({
+    @parent_group.Favourites.collection.create({
       title: title,
       artist: artist,
       album: album,
@@ -124,7 +124,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
 
 
   remove_matching_favourites: (title, artist, album) =>
-    favourites = OngakuRyoho.Playlist.Favourites.collection.where({
+    favourites = @parent_group.Favourites.collection.where({
       title: title,
       artist: artist,
       album: album

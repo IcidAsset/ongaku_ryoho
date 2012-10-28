@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
   #  Show favourites
   #
   show_favourites: (e) =>
-    tracks_collection = OngakuRyoho.Playlist.Tracks.collection
+    tracks_collection = @parent_group.Tracks.collection
     favourites = tracks_collection.favourites
     $t = $(e.currentTarget)
 
@@ -46,13 +46,13 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
 
 
   sort_by: (query) =>
-    OngakuRyoho.Playlist.Tracks.collection.sort_by = query
-    OngakuRyoho.Playlist.Tracks.collection.fetch()
+    @parent_group.Tracks.collection.sort_by = query
+    @parent_group.Tracks.collection.fetch()
 
 
 
   change_sort_direction: (e) =>
-    tracks_collection = OngakuRyoho.Playlist.Tracks.collection
+    tracks_collection = @parent_group.Tracks.collection
     sort_direction = tracks_collection.sort_direction
     $t = $(e.currentTarget)
 
@@ -83,7 +83,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
 
 
   search: (query) =>
-    tracks_collection = OngakuRyoho.Playlist.Tracks.collection
+    tracks_collection = @parent_group.Tracks.collection
     tracks_collection.filter = query
     tracks_collection.page = 1
 
@@ -96,4 +96,4 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
     current_track = OngakuRyoho.People.SoundGuy.get_current_track()
 
     # add playing class
-    OngakuRyoho.Playlist.Tracks.machine.add_playing_class_to_track(current_track) if current_track
+    @parent_group.Tracks.machine.add_playing_class_to_track(current_track) if current_track

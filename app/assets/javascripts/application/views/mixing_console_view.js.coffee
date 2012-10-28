@@ -50,9 +50,10 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     this.render_time()
     this.render_now_playing()
 
-    # more events
-    this.$control("knob", "volume")
-        .on("mousedown", @group.machine.knob_volume_mousedown_handler)
+    # knobs
+    @group.machine.setup_knobs(
+      this.$controls.find("a .knob")
+    )
 
 
 

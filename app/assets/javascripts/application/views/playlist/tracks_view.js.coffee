@@ -13,10 +13,12 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
   #  Initialize
   #
   initialize: () =>
-    @group = OngakuRyoho.Playlist.Tracks
+    @parent_group = OngakuRyoho.Playlist
+    @group = @parent_group.Tracks
     @group.view = this
     @group.machine = new OngakuRyoho.Classes.Machinery.Playlist.Tracks
     @group.machine.group = @group
+    @group.machine.parent_group = @parent_group
 
     # render
     @group.collection

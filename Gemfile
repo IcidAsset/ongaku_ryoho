@@ -1,28 +1,27 @@
-source 'http://rubygems.org'
+source "http://rubygems.org"
 
-gem 'rails', '3.2.8'
-gem 'rack'
-gem 'unicorn'
+gem "rails", "3.2.8"
+gem "rack"
+gem "unicorn"
 
-gem 'pg'
-gem 'sorcery'
+gem "pg"
+gem "sorcery"
 
 group :assets do
-  gem 'sass-rails',    '~> 3.2.5'
-  gem 'coffee-rails',  '~> 3.2.2'
-  gem 'compass-rails', '~> 1.0.0'
-  gem 'uglifier',      '>= 1.0.3'
+  gem "sass-rails",    "~> 3.2.5"
+  gem "coffee-rails",  "~> 3.2.2"
+  gem "compass-rails", "~> 1.0.0"
+  gem "uglifier",      ">= 1.0.3"
 end
 
-gem 'slim'
-gem 'rails-backbone'
+gem "slim"
 
 group :test, :development do
-  gem 'minitest-rails'
+  gem "minitest-rails"
 end
 
 group :test do
-  gem 'shoulda-matchers', require: false
-  gem 'factory_girl_rails', '~> 3.0'
-  gem 'turn', require: false
+  gem "shoulda-matchers", require: false
+  gem "factory_girl_rails", "~> 3.0"
+  gem "turn", require: false
 end

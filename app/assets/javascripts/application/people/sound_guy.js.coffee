@@ -322,7 +322,8 @@ class OngakuRyoho.Classes.People.SoundGuy
     # otherwise
     else
       tracks = OngakuRyoho.Playlist.Tracks.collection.models
-      track_index = _.indexOf(tracks, source.track) - 1
+      track_from_collection = _.where(tracks, { id: source.track.get("id") })[0]
+      track_index = _.indexOf(tracks, track_from_collection) - 1
       track_index = (tracks.length - 1) if track_index < 0
       track = tracks[track_index]
 
@@ -364,7 +365,8 @@ class OngakuRyoho.Classes.People.SoundGuy
     # otherwise
     else
       tracks = OngakuRyoho.Playlist.Tracks.collection.models
-      track_index = _.indexOf(tracks, source.track) + 1
+      track_from_collection = _.where(tracks, { id: source.track.get("id") })[0]
+      track_index = _.indexOf(tracks, track_from_collection) + 1
       track_index = 0 if track_index >= tracks.length
       track = tracks[track_index]
 

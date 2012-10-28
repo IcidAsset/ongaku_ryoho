@@ -11,7 +11,7 @@ class OngakuRyoho.Classes.Machinery.MessageCenter
 
     # set
     cid = $t.attr("rel")
-    message = OngakuRyoho.MessageCenter.collection.find (m) -> m.cid is cid
+    message = @group.collection.find (m) -> m.cid is cid
 
     # remove message
-    OngakuRyoho.MessageCenter.collection.remove(message)
+    @group.collection.remove(message)

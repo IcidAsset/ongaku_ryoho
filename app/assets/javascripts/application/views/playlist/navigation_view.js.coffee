@@ -18,7 +18,9 @@ class OngakuRyoho.Classes.Views.Playlist.Navigation extends Backbone.View
   #  Initialize
   #
   initialize: () =>
-    @group = OngakuRyoho.Playlist.Navigation
+    @parent_group = OngakuRyoho.Playlist
+    @group = @parent_group.Navigation
     @group.view = this
     @group.machine = new OngakuRyoho.Classes.Machinery.Playlist.Navigation
     @group.machine.group = @group
+    @group.machine.parent_group = @parent_group
