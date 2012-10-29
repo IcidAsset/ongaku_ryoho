@@ -13,7 +13,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Footer
 
 
 
-  check_page_navigation: () =>
+  check_page_navigation: () ->
     page_info = @parent_group.Tracks.collection.page_info()
     $previous = @group.view.$el.find("footer .page-nav .previous")
     $next = @group.view.$el.find("footer .page-nav .next")

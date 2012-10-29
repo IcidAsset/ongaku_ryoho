@@ -3,8 +3,8 @@ class OngakuRyoho.Classes.Views.Visualizations extends Backbone.View
   #
   #  Initialize
   #
-  initialize: () =>
-    this.$el = $("#visualizations")
+  initialize: () ->
+    this.setElement($("#visualizations"))
 
     # more elements
     this.$peak_data = this.$el.children(".peak-data")
@@ -20,12 +20,12 @@ class OngakuRyoho.Classes.Views.Visualizations extends Backbone.View
   #
   #  Visualize
   #
-  visualize: (type, data) =>
+  visualize: (type, data) ->
     this[type](data)
 
 
 
-  peak_data: (data) =>
+  peak_data: (data) ->
     c = @peak_data_context
 
     # clear canvas

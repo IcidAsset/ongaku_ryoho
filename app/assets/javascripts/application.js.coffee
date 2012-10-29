@@ -40,6 +40,7 @@ Zepto ->
   # objects
   App.Engines = {}
   App.Engines.Audio = new Engines.Audio
+  App.Engines.Queue = new Engines.Queue
 
   App.People = {}
   App.People.SoundGuy = new People.SoundGuy

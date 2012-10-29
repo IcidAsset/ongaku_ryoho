@@ -26,11 +26,11 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
   #
   #  Initialize
   #
-  initialize: () =>
+  initialize: () ->
     super()
 
     # this element
-    this.$el = $("#mixing-console")
+    this.setElement($("#mixing-console"))
 
     # render events
     @group.model
@@ -63,7 +63,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
   #
   #  Grab $control
   #
-  $control: (type, klass, extra="") =>
+  $control: (type, klass, extra="") ->
     return this.$controls.find("a .#{type}.#{klass} #{extra}")
 
 

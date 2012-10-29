@@ -3,7 +3,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager
   #
   #  Setup add forms
   #
-  setup_add_section: ($add_section) =>
+  setup_add_section: ($add_section) ->
     $select = $add_section.find(".select-wrapper select")
     $forms_wrapper = $add_section.find(".forms-wrapper")
 

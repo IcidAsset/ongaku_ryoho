@@ -7,7 +7,7 @@ class OngakuRyoho.Classes.Views.Message extends Backbone.View
   #
   #  Initialize
   #
-  initialize: () =>
+  initialize: () ->
     @template = Handlebars.compile($("#message_template").html())
 
 
@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Views.Message extends Backbone.View
   #
   #  Render
   #
-  render: () =>
+  render: () ->
     this.$el.html(@template(this.model.toJSON()))
 
     # add cid

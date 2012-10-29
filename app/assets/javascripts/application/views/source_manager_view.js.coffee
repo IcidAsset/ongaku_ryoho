@@ -11,11 +11,11 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
   #
   #  Initialize
   #
-  initialize: () =>
+  initialize: () ->
     super()
 
     # this element
-    this.$el = $("#source-manager")
+    this.setElement($("#source-manager"))
 
     # more elements
     $source_list_view = this.$el.find(".window.main section")

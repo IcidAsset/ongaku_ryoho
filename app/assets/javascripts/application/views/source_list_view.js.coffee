@@ -3,7 +3,7 @@ class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
   #
   #  Initialize
   #
-  initialize: () =>
+  initialize: () ->
     @template = Handlebars.compile($("#source_list_template").html())
 
     # collection events

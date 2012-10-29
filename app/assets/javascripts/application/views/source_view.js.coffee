@@ -7,7 +7,7 @@ class OngakuRyoho.Classes.Views.Source extends Backbone.View
   #
   #  Initialize
   #
-  initialize: () =>
+  initialize: () ->
     @template = Handlebars.compile($("#source_template").html())
 
 
@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Views.Source extends Backbone.View
   #
   #  Render
   #
-  render: () =>
+  render: () ->
     this.$el.html(@template(@model.toJSON()))
 
     # add class when available

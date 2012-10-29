@@ -12,7 +12,7 @@ class OngakuRyoho.Classes.Views.Playlist.Footer extends Backbone.View
   #
   #  Initialize
   #
-  initialize: () =>
+  initialize: () ->
     @parent_group = OngakuRyoho.Playlist
     @group = @parent_group.Footer
     @group.view = this
@@ -21,12 +21,12 @@ class OngakuRyoho.Classes.Views.Playlist.Footer extends Backbone.View
     @group.machine.parent_group = @parent_group
 
     # this element
-    this.$el = $("#playlist").children("footer")
+    this.setElement($("#playlist").children("footer")[0])
 
 
 
   #
   #  Set contents
   #
-  set_contents: (html) =>
+  set_contents: (html) ->
     this.$el.find(".intestines").html(html)

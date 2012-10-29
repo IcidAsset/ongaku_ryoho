@@ -1,6 +1,6 @@
 class OngakuRyoho.Classes.Engines.Audio
 
-  setup: () =>
+  setup: () ->
     @sources = []
     @audio_elements = []
     @nodes = {}
@@ -17,7 +17,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Set audio context
   #
-  set_audio_context: () =>
+  set_audio_context: () ->
     unless typeof AudioContext is "undefined"
       @ac = new AudioContext()
     else unless typeof webkitAudioContext is "undefined"
@@ -30,7 +30,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Create volume node
   #
-  create_volume_node: () =>
+  create_volume_node: () ->
     volume_node = @ac.createGainNode()
     volume_node.gain.value = 1
 
@@ -45,7 +45,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Set volume
   #
-  set_volume: (value) =>
+  set_volume: (value) ->
     @nodes.volume.gain.value = value
 
 
@@ -53,7 +53,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Create analyser nodes
   #
-  create_analyser_nodes: () =>
+  create_analyser_nodes: () ->
     analyser_node_left = @ac.createAnalyser()
     analyser_node_right = @ac.createAnalyser()
     analyser_node_left.fftSize = 256
@@ -109,12 +109,12 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Start/stop analysing interval
   #
-  start_analysing: () =>
+  start_analysing: () ->
     this.analyse() if @req_anim_frame_id is null
 
 
 
-  stop_analysing: () =>
+  stop_analysing: () ->
     cancelAnimationFrame(@req_anim_frame_id)
     @req_anim_frame_id = null
 
@@ -123,7 +123,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Create channel splitter node
   #
-  create_channel_splitter_node: () =>
+  create_channel_splitter_node: () ->
     channel_splitter_node = @ac.createChannelSplitter(2)
 
     # connect to analyser
@@ -138,7 +138,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Create audio elements container
   #
-  create_audio_elements_container: () =>
+  create_audio_elements_container: () ->
     @cntnr = $("<div id=\"audio-elements\" />")
     @cntnr.appendTo($("body"))
 
@@ -147,7 +147,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Create new audio element
   #
-  create_new_audio_element: (related_track, autoplay) =>
+  create_new_audio_element: (related_track, autoplay) ->
     audio_element = new window.Audio()
     audio_element.setAttribute("src", related_track.get("url"))
     audio_element.setAttribute("rel", related_track.id)
@@ -177,7 +177,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Create new source
   #
-  create_new_source: (track, autoplay=false) =>
+  create_new_source: (track, autoplay=false) ->
     track_id = track.get("id")
 
     # find existing audio element
@@ -203,7 +203,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Active source?
   #
-  get_active_source: () =>
+  get_active_source: () ->
     return _.last(@sources)
 
 
@@ -211,7 +211,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Destroy source
   #
-  destroy_source: (source) =>
+  destroy_source: (source) ->
     source.mediaElement.pause()
     source.mediaElement.setAttribute("src", "")
     source.disconnect()
@@ -230,7 +230,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Destroy all sources
   #
-  destroy_all_sources: () =>
+  destroy_all_sources: () ->
     # make a copy of the sources array
     sources = @sources.slice(0)
 

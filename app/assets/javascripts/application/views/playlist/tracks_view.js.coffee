@@ -12,7 +12,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
   #
   #  Initialize
   #
-  initialize: () =>
+  initialize: () ->
     @parent_group = OngakuRyoho.Playlist
     @group = @parent_group.Tracks
     @group.view = this
@@ -21,7 +21,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
     @group.machine.parent_group = @parent_group
 
     # this element
-    this.$el = $("#playlist").find(".tracks-wrapper")
+    this.setElement($("#playlist").find(".tracks-wrapper")[0])
 
     # render
     @group.collection
@@ -34,7 +34,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
 
     # track list (window) resize
     $(window).on("resize", @group.machine.resize)
-             .trigger("resize")
+    @group.machine.resize()
 
 
 
@@ -57,7 +57,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
     this.$el.html(html)
 
     # trigger resize
-    $(window).trigger("resize")
+    @group.machine.resize()
 
     # set footer contents
     if @group.collection.length is 0

@@ -45,7 +45,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
 
 
 
-  sort_by: (query) =>
+  sort_by: (query) ->
     @parent_group.Tracks.collection.sort_by = query
     @parent_group.Tracks.collection.fetch()
 
@@ -82,7 +82,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
 
 
 
-  search: (query) =>
+  search: (query) ->
     tracks_collection = @parent_group.Tracks.collection
     tracks_collection.filter = query
     tracks_collection.page = 1

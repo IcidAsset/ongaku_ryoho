@@ -9,9 +9,12 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   #  Go to work
   #
-  go_to_work: () =>
+  go_to_work: () ->
     @audio_engine = OngakuRyoho.Engines.Audio
     @audio_engine.setup()
+
+    # queue
+    @queue = OngakuRyoho.Engines.Queue
 
     # his mixing console
     @mixing_console = OngakuRyoho.MixingConsole
@@ -25,7 +28,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   #  Check the lights
   #
-  check_the_lights: () =>
+  check_the_lights: () ->
     this.set_shuffle()
     this.set_repeat()
     this.set_mute()
@@ -35,7 +38,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   #  Settings in local storage
   #
-  save_settings_in_local_storage: () =>
+  save_settings_in_local_storage: () ->
     settings = _.pick(
       @mixing_console.model.attributes,
       "shuffle", "repeat", "mute", "volume"
@@ -49,7 +52,7 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
 
-  apply_settings_from_local_storage: () =>
+  apply_settings_from_local_storage: () ->
     item = window.localStorage.getItem("controller_settings")
 
     # check
@@ -66,7 +69,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   #  Current track
   #
-  get_current_track: () =>
+  get_current_track: () ->
     source = @audio_engine.get_active_source()
     return (if source then source.track else null)
 
@@ -80,9 +83,6 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     # needed elements
     $light = @mixing_console.view.$control("switch", "shuffle", ".light")
-
-    # reset shuffle history?
-    this.reset_shuffle_history() if state
 
     # light
     if state
@@ -167,7 +167,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   #  Insert track
   #
-  insert_track: (track) =>
+  insert_track: (track) ->
     @audio_engine.destroy_all_sources()
 
     # track attributes
@@ -205,7 +205,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   #  Select new track
   #
-  select_new_track: () =>
+  select_new_track: () ->
     shuffle = @mixing_console.model.get("shuffle")
     tracks = OngakuRyoho.Playlist.Tracks.collection.models
 
@@ -229,7 +229,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   #  Play track
   #
-  play_track: () =>
+  play_track: () ->
     if @audio_engine.get_active_source()
       this.play_current_track()
     else
@@ -237,7 +237,7 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
 
-  play_current_track: () =>
+  play_current_track: () ->
     source = @audio_engine.get_active_source()
 
     # check
@@ -258,7 +258,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   #  Pause track
   #
-  pause_current_track: () =>
+  pause_current_track: () ->
     source = @audio_engine.get_active_source()
 
     # check
@@ -354,7 +354,7 @@ class OngakuRyoho.Classes.People.SoundGuy
         ))[0]
 
         unless track
-          this.reset_shuffle_history()
+          this.queue.clear_history()
           this.select_next_track()
           return
 
@@ -372,11 +372,3 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     # insert track if any
     this.insert_track(track) if track
-
-
-
-  #
-  #  Reset shuffle history
-  #
-  reset_shuffle_history: () =>
-    @shuffle_track_history = []

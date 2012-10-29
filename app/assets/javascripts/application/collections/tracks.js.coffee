@@ -7,7 +7,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #
   #  Initialize
   #
-  initialize: () =>
+  initialize: () ->
     @page = 1
     @per_page = 500
     @filter = ""
@@ -22,7 +22,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #
   #  Get by id
   #
-  getById: (id) =>
+  getById: (id) ->
     id = parseInt(id)
     track = this.find (t) -> t.id is id
 
@@ -33,7 +33,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #
   #  Fetch
   #
-  fetch: (options={}) =>
+  fetch: (options={}) ->
     success = options.success
 
     # new message
@@ -64,7 +64,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     options.success = (response) =>
       success(this, response) if success
 
-      OngakuRyoho.People.SoundGuy.reset_shuffle_history()
+      OngakuRyoho.People.SoundGuy.queue.clear_history()
       OngakuRyoho.MessageCenter.collection.remove(message)
 
       this.trigger("fetched")
@@ -76,7 +76,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #
   #  Parse
   #
-  parse: (response) =>
+  parse: (response) ->
     @page = response.page
     @per_page = response.per_page
     @total = response.total
@@ -86,7 +86,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #
   #  Page info
   #
-  page_info: () =>
+  page_info: () ->
     info =
       total: @total
       page: @page
@@ -118,7 +118,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #
   #  Previous page
   #
-  previous_page: () =>
+  previous_page: () ->
     return no unless this.page_info().prev
 
     @page = @page - 1
@@ -128,7 +128,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #
   #  Next page
   #
-  next_page: () =>
+  next_page: () ->
     return no unless this.page_info().next
 
     @page = @page + 1

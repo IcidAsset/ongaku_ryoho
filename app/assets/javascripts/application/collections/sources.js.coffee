@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
 
 
-  reload: () =>
+  reload: () ->
     OngakuRyoho.Playlist.Tracks.collection.fetch()
     OngakuRyoho.SourceManager.collection.fetch()
 
@@ -23,7 +23,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
 
 
-  process_sources: (reload=true) =>
+  process_sources: (reload=true) ->
     dfd = new Deferred()
 
     # find
@@ -64,7 +64,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
 
 
-  check_sources: (reload=true, sources_to_skip=[]) =>
+  check_sources: (reload=true, sources_to_skip=[]) ->
     dfd = new Deferred()
 
     # find

@@ -3,14 +3,13 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
   #
   #  Show current track
   #
-  show_current_track: () =>
+  show_current_track: () ->
     $current_track = @group.view.$el.find(".track.playing")
 
     # scroll to current track
     if $current_track.length
       new_scroll_top = (@group.view.el.scrollTop +
-      ($current_track.offset().top - @group.view.$el.offset().top))
-
+        ($current_track.offset().top - @group.view.$el.offset().top))
       @group.view.el.scrollTop = new_scroll_top
 
 
@@ -51,7 +50,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
   #
   #  Add playing class to track
   #
-  add_playing_class_to_track: (track) =>
+  add_playing_class_to_track: (track) ->
     return unless track
 
     # set elements
@@ -113,7 +112,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
 
 
 
-  create_new_favourite: (title, artist, album, track_id) =>
+  create_new_favourite: (title, artist, album, track_id) ->
     @parent_group.Favourites.collection.create({
       title: title,
       artist: artist,
@@ -123,7 +122,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
 
 
 
-  remove_matching_favourites: (title, artist, album) =>
+  remove_matching_favourites: (title, artist, album) ->
     favourites = @parent_group.Favourites.collection.where({
       title: title,
       artist: artist,
