@@ -15,6 +15,7 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     # queue
     @queue = OngakuRyoho.Engines.Queue
+    @queue.setup()
 
     # his mixing console
     @mixing_console = OngakuRyoho.MixingConsole
