@@ -1,3 +1,8 @@
+/*
+
+  Playlist
+
+*/
 
 #playlist {
   margin-left: $controller_width + $body_margin;
@@ -5,9 +10,10 @@
 
   @include single-box-shadow(rgba(#000, .41), 0, 0, 30px, 0);
 
-  /**************************************
-   *  Navigation
-   */
+
+  //
+  //  Navigation
+  //
   .navigation {
     height: 52px;
 
@@ -62,10 +68,12 @@
       &.on .icon { color: lighten(#b6babf, 12%) }
     }
 
+    // button - change sort direction
     .button.change-sort-direction {
       &.on .icon:after { content: "\0e01a" }
     }
 
+    // button - show favourites
     .button.show-favourites {
       @include background-image(
         linear-gradient(
@@ -86,6 +94,25 @@
       }
     }
 
+    // button - show queue
+    .button.show-queue {
+      @include background-image(
+        linear-gradient($bgcolor_2, darken($bgcolor_2, 6.5%))
+      );
+
+      .icon {
+        color: lighten($bgcolor_2, 27.5%);
+        font-size: 12px;
+      }
+
+      &.on .icon {
+        @include single-box-shadow(
+          lighten($bgcolor_2, 27.5%), 0, 0, 32px, -2px
+        );
+      }
+    }
+
+    // button - show source manager
     .button.show-source-manager {
       @include background-image(
         linear-gradient($bgcolor_1, darken($bgcolor_1, 6.5%))
@@ -172,9 +199,10 @@
     }
   }
 
-  /**************************************
-   *  List
-   */
+
+  //
+  //  List
+  //
   .list {
     background: #fff;
 
@@ -193,107 +221,145 @@
       .favourite span { padding-left: 10px; @include icon-font }
       .album span { padding-right: 10px }
     }
+  }
 
-    header {
-      border: 1px solid #e3e3e3;
-      border-bottom: 1px solid #f0f0f0;
-      border-top: none;
-      color: #aaa;
-      font-size: 10px;
-      font-weight: bold;
-      height: 24px;
-      line-height: 27px;
 
-      @include background-image(linear-gradient(#fff, #fafafa));
-      @include lato-font;
+  //
+  //  List - Header
+  //
+  .list header {
+    border: 1px solid #e3e3e3;
+    border-bottom: 1px solid #f0f0f0;
+    border-top: none;
+    color: #aaa;
+    font-size: 10px;
+    font-weight: bold;
+    height: 24px;
+    line-height: 27px;
 
-      span { border-right: 1px solid #f0f0f0 }
-      .album span { border: none }
+    @include background-image(linear-gradient(#fff, #fafafa));
+    @include lato-font;
+
+    span { border-right: 1px solid #f0f0f0 }
+    .album span { border: none }
+  }
+
+
+  //
+  //  List - Tracks
+  //
+  .list .tracks-wrapper {
+    min-height: 228px;
+    overflow: auto;
+    position: relative;
+
+    &::-webkit-scrollbar { width: 0 }
+  }
+
+  .list .tracks {
+    font-size: 11px;
+    font-weight: 400;
+    list-style-type: none;
+
+    @include sourcesanspro-font;
+  }
+
+  .list .track {
+    color: lighten(#4a4a4a, 10%);
+    cursor: pointer;
+    height: 26px;
+    line-height: 28px;
+    white-space: nowrap;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .tracks-wrapper {
-      min-height: 228px;
-      overflow: auto;
-      position: relative;
+    // alt. row
+    &:nth-child(2n) {
+      background-color: #fbfbfb;
     }
 
-    .tracks {
-      font-size: 11px;
-      font-weight: 400;
-      list-style-type: none;
+    // playing
+    &.playing:not(.queue-item) {
+      background-color: $red;
 
-      @include sourcesanspro-font;
+      & > div { color: lighten($red, 27.5%) }
+      .favourite { color: lighten($red, 13.75%) }
+
+      .favourite[data-favourite=true],
+      .favourite:hover { color: lighten($red, 27.5%) !important }
     }
 
-    .track {
-      color: lighten(#4a4a4a, 10%);
+    // unavailable & queue-item
+    &.unavailable,
+    &.queue-item {
+      color: #999;
+    }
+
+    // click & hold
+    &:active:not(.queue-item) {
+      background: $blue;
+
+      & > div { color: lighten($blue, 42.5%) }
+      .favourite { color: lighten($blue, 21.25%) }
+
+      .favourite[data-favourite=true],
+      .favourite:hover { color: lighten($blue, 42.5%) !important }
+    }
+
+    // favourite (star)
+    .favourite {
+      color: rgba(#aaa, .2);
       cursor: pointer;
-      height: 26px;
-      line-height: 28px;
-      white-space: nowrap;
+      font-size: 13px;
+      line-height: 26px;
 
-      &:nth-child(2n) {
-        background-color: #fbfbfb;
-      }
-
-      &.playing {
-        background-color: $red;
-
-        & > div { color: lighten($red, 27.5%) }
-        .favourite { color: lighten($red, 13.75%) }
-
-        .favourite[data-favourite=true],
-        .favourite:hover { color: lighten($red, 27.5%) !important }
-      }
-
-      &.unavailable {
-        color: #999;
-      }
-
-      &:active {
-        background: $blue;
-
-        & > div { color: lighten($blue, 42.5%) }
-        .favourite { color: lighten($blue, 21.25%) }
-
-        .favourite[data-favourite=true],
-        .favourite:hover { color: lighten($blue, 42.5%) !important }
-      }
-
-      .favourite {
-        color: rgba(#aaa, .2);
-        cursor: pointer;
-        font-size: 13px;
-        line-height: 26px;
-
-        &:hover,
-        &[data-favourite=true] {
-          color: $yellow;
-        }
-      }
-
-      span {
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-    }
-
-    .nothing-here {
-      background: transparent image-url('playlist/pacman-ghost.png') center no-repeat;
-      position: absolute;
-      height: 112px;
-      left: 0;
-      margin-top: -(112px / 2) - 1;
-      top: 50%;
-      width: 100%;
-
-      &.hidden { display: none }
+      &:hover,
+      &[data-favourite=true] { color: $yellow }
     }
   }
 
-  /**************************************
-   *  Footer
-   */
+
+  //
+  //  List - Track groups
+  //
+  .list .group {
+    background: rgba(#757a80, .125);
+    border-bottom: 1px solid rgba(black, .0225);
+    border-top: 1px solid rgba(black, .04);
+    color: rgba(#44464A, .425);
+    font-size: 12px;
+    font-weight: bold;
+    height: 40px;
+    letter-spacing: 2px;
+    line-height: 42px;
+    overflow: hidden;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+
+  //
+  //  List - Empty
+  //
+  .list .nothing-here {
+    background: transparent image-url('playlist/pacman-ghost.png') center no-repeat;
+    position: absolute;
+    height: 112px;
+    left: 0;
+    margin-top: -(112px / 2) - 1;
+    top: 50%;
+    width: 100%;
+
+    &.hidden { display: none }
+  }
+
+
+  //
+  //  Footer
+  //
   footer {
     border-top: 1px solid #44464a;
     color: darken(#b6babf, 13%);
@@ -339,5 +405,6 @@
       &.disabled { @include opacity(.45) }
     }
   }
+
 
 }

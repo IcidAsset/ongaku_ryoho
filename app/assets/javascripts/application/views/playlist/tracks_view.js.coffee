@@ -1,5 +1,9 @@
 class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
 
+  group_template: _.template("<li class=\"group\"><span><%= title %></span></li>")
+
+
+
   #
   #  Events
   #
@@ -26,6 +30,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
     # render
     @group.collection
       .on("reset", this.render)
+      .on("change:mode", this.render)
 
     # fetch events
     @group.collection
@@ -42,39 +47,63 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
   #  Render
   #
   render: () =>
-    html = "<ol class=\"tracks\">"
+    $list = $("<ol class=\"tracks\"></ol>")
 
-    # sources html
-    @group.collection.each((track) =>
-      track_view = new OngakuRyoho.Classes.Views.Playlist.Track({ model: track })
-      html = html + track_view.render().el.innerHTML
-    )
+    # render
+    this["render_#{@group.collection.mode}"]($list)
 
-    # ending html
-    html = html + "</ol>"
+    # add list to main elements
+    this.$el.empty()
+    this.$el.append($list)
 
-    # set html
-    this.$el.html(html)
-
-    # trigger resize
-    @group.machine.resize()
-
-    # set footer contents
-    if @group.collection.length is 0
-      message = ""
-
-    else
-      page_info = @group.collection.page_info()
-
-      word = {
-        pages: (if page_info.pages is 1 then "page" else "pages")
-        tracks: (if page_info.total is 1 then "track" else "tracks")
-      }
-
-      message =  "#{page_info.total} #{word.tracks} found &mdash;
-                  page #{page_info.page} / #{page_info.pages}"
-
-    OngakuRyoho.Playlist.Footer.view.set_contents(message)
+    # check
+    if $list.children("li").length is 0
+      this.$el.html("<div class=\"nothing-here\" />")
+      OngakuRyoho.Playlist.Footer.view.set_contents("")
 
     # chain
     return this
+
+
+
+  render_default: ($list) =>
+    page_info = @group.collection.page_info()
+
+    # tracks
+    @group.collection.each((track) =>
+      track_view = new OngakuRyoho.Classes.Views.Playlist.Track({ model: track })
+      $list.append(track_view.render().el)
+    )
+
+    # set footer contents
+    message = (() ->
+      word_tracks = (if page_info.total is 1 then "track" else "tracks")
+      "#{page_info.total} #{word_tracks} found &mdash;
+      page #{page_info.page} / #{page_info.pages}"
+    )()
+
+    OngakuRyoho.Playlist.Footer.view.set_contents(message)
+
+
+
+  render_queue: ($list) =>
+    queue = OngakuRyoho.Engines.Queue
+    message = "Queue &mdash; The next #{queue.data.combined_next.length} items"
+
+    # group
+    $list.append(@group_template({ title: "Queue" }))
+
+    # tracks
+    _.each(queue.data.combined_next, (map) =>
+      track = @group.collection.get(map.id)
+      return unless track
+
+      track_view = new OngakuRyoho.Classes.Views.Playlist.Track({ model: track })
+      track_view.$el.addClass("queue-item")
+      track_view.$el.addClass("user-selected") if map.user
+
+      $list.append(track_view.render().el)
+    )
+
+    # set foorter contents
+    OngakuRyoho.Playlist.Footer.view.set_contents(message)

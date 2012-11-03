@@ -28,9 +28,38 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
       $t.addClass("on")
       tracks_collection.favourites = on
 
-
     # fetch tracks
     tracks_collection.fetch()
+
+
+
+  #
+  #  Show queue
+  #
+  show_queue: (e) =>
+    tracks_collection = @parent_group.Tracks.collection
+    queue_mode = tracks_collection.mode is "queue"
+    $t = $(e.currentTarget)
+
+    # switch
+    if queue_mode
+      $t.removeClass("on")
+      tracks_collection.mode = "default"
+
+    else
+      $t.addClass("on")
+      tracks_collection.mode = "queue"
+
+    # event
+    tracks_collection.trigger("change:mode")
+
+
+
+  #
+  #  Show source manager
+  #
+  show_source_manager: (e) =>
+    OngakuRyoho.SourceManager.view.show()
 
 
 

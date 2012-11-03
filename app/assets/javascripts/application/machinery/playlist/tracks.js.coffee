@@ -21,10 +21,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
     OngakuRyoho.Engines.Queue.reset_all()
     @parent_group.Footer.machine.check_page_navigation()
 
-    if @group.collection.length is 0
-      @group.view.$el.html("<div class=\"nothing-here\" />")
-
-    else
+    if @group.collection.length > 0
       this.add_playing_class_to_track(OngakuRyoho.People.SoundGuy.get_current_track())
       this.show_current_track()
 
@@ -70,7 +67,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
     $t = $(e.currentTarget)
 
     # check
-    return if $t.hasClass("unavailable")
+    return if $t.hasClass("unavailable") || $t.hasClass("queue-item")
 
     # set
     track = @group.collection.getById($t.attr("rel"))

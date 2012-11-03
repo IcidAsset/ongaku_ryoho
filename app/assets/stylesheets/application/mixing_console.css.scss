@@ -1,3 +1,9 @@
+/*
+
+  Mixing Console
+
+*/
+
 $button_height: 52px;
 
 #mixing-console {
@@ -7,6 +13,7 @@ $button_height: 52px;
 
   & > .audio-container { display: none }
   & > div { position: relative }
+
 
   /**************************************
    *  Now Playing
@@ -38,6 +45,7 @@ $button_height: 52px;
       white-space: nowrap;
     }
   }
+
 
   /**************************************
    *  Progress Bar
@@ -75,6 +83,7 @@ $button_height: 52px;
       @include opacity(.09);
     }
   }
+
 
   /**************************************
    *  Controls

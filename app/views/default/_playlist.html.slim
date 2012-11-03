@@ -14,6 +14,9 @@
       .button.show-favourites
         .icon[data-icon="&#x0039;"]
 
+      .button.show-queue
+        .icon[data-icon="&#x004a;"]
+
       .button.show-source-manager
         .icon[data-icon="&#x0053;"]
 
@@ -52,9 +55,7 @@
 
 
   script#track_template type="text/x-handlebars-template"
-    | <li class="track{{#unless available}} unavailable{{/unless}}">
-        <div class="favourite" data-favourite="{{#if favourite_id}}true{{/if}}"><span>&#x0039;</span></div>
-        <div class="title"><span>{{title}}</span></div>
-        <div class="artist"><span>{{artist}}</span></div>
-        <div class="album"><span>{{album}}</span></div>
-      </li>
+    | <div class="favourite" data-favourite="{{#if favourite_id}}true{{/if}}"><span>&#x0039;</span></div>
+      <div class="title"><span>{{title}}</span></div>
+      <div class="artist"><span>{{artist}}</span></div>
+      <div class="album"><span>{{album}}</span></div>

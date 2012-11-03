@@ -12,7 +12,7 @@ class OngakuRyoho.Classes.Engines.Queue
       combined_next: []
 
     @options =
-      advance_length: 25
+      advance_length: 50
 
 
 
@@ -42,6 +42,9 @@ class OngakuRyoho.Classes.Engines.Queue
     # set combined next
     @data.combined_next = @data.user_next.concat(@data.computed_next)
 
+    # trigger collection reset if needed
+    @tracks.trigger("reset") if @tracks.mode is "queue"
+
 
 
   set_next_normal: (x) ->
@@ -57,6 +60,7 @@ class OngakuRyoho.Classes.Engines.Queue
 
     # loop
     indexof_last = @tracks.indexOf(last_track_in_line)
+    indexof_last = 0 if indexof_last < 0
     counter = indexof_last
 
     for n in [0...x]
