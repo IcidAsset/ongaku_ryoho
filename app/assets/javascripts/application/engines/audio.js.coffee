@@ -196,6 +196,9 @@ class OngakuRyoho.Classes.Engines.Audio
       source.track = track
 
       @sources.push(source)
+
+      # fill up queue
+      OngakuRyoho.Engines.Queue.set_next()
     , 0)
 
 

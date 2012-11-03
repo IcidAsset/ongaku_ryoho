@@ -18,6 +18,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
   #  Fetching and fetched events
   #
   fetched: () =>
+    OngakuRyoho.Engines.Queue.reset_all()
     @parent_group.Footer.machine.check_page_navigation()
 
     if @group.collection.length is 0
@@ -75,6 +76,9 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
     track = @group.collection.getById($t.attr("rel"))
 
     # insert track
+    OngakuRyoho.Engines.Queue.clear_computed_next()
+    OngakuRyoho.Engines.Queue.add_current_to_history()
+    OngakuRyoho.Engines.Queue.set_current({ id: track.get("id"), user: true })
     OngakuRyoho.People.SoundGuy.insert_track(track)
 
 

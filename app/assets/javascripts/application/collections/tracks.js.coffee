@@ -64,7 +64,6 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     options.success = (response) =>
       success(this, response) if success
 
-      OngakuRyoho.People.SoundGuy.queue.clear_history()
       OngakuRyoho.MessageCenter.collection.remove(message)
 
       this.trigger("fetched")
@@ -133,3 +132,15 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
 
     @page = @page + 1
     return this.fetch()
+
+
+
+  #
+  #  Get random track
+  #
+  get_random_track: (ids_array=[]) ->
+    filtered_tracks = this.reject (t) ->
+      return _.include(ids_array, t.get("id"))
+
+    # shuffle & get first
+    return _.shuffle(filtered_tracks)[0]

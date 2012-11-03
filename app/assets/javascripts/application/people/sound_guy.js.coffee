@@ -91,6 +91,9 @@ class OngakuRyoho.Classes.People.SoundGuy
     else
       $light.removeClass("on")
 
+    # reset queue
+    this.queue.reset_computed_next()
+
     # save
     this.save_settings_in_local_storage()
 
@@ -204,37 +207,13 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   #
-  #  Select new track
-  #
-  select_new_track: () ->
-    shuffle = @mixing_console.model.get("shuffle")
-    tracks = OngakuRyoho.Playlist.Tracks.collection.models
-
-    # select
-    if shuffle
-      track = _.shuffle(tracks)[0]
-    else
-      track = tracks[0]
-
-    # check
-    return unless track
-
-    # push to history stack if shuffle
-    @shuffle_track_history.push(track.get("id")) if shuffle
-
-    # insert track
-    this.insert_track(track)
-
-
-
-  #
   #  Play track
   #
   play_track: () ->
     if @audio_engine.get_active_source()
       this.play_current_track()
     else
-      this.select_new_track()
+      this.select_next_track()
 
 
 
@@ -306,27 +285,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Previous track
   #
   select_previous_track: () =>
-    source = @audio_engine.get_active_source()
-    return unless source
-
-    # set
-    shuffle = @mixing_console.model.get("shuffle")
-    shuffle_th = @shuffle_track_history_index
-
-    # if shuffle
-    if shuffle
-      return if shuffle_th is 0
-
-      track = OngakuRyoho.Playlist.Tracks.collection.find (t) => t.get("id") is @shuffle_track_history[shuffle_th - 1]
-      @shuffle_track_history_index-- if track
-
-    # otherwise
-    else
-      tracks = OngakuRyoho.Playlist.Tracks.collection.models
-      track_from_collection = _.where(tracks, { id: source.track.get("id") })[0]
-      track_index = _.indexOf(tracks, track_from_collection) - 1
-      track_index = (tracks.length - 1) if track_index < 0
-      track = tracks[track_index]
+    track = this.queue.go_backwards()
 
     # insert track if any
     this.insert_track(track) if track
@@ -337,39 +296,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Next track
   #
   select_next_track: () =>
-    source = @audio_engine.get_active_source()
-    return this.select_new_track() unless source
-
-    # set
-    shuffle = @mixing_console.model.get("shuffle")
-    shuffle_th = @shuffle_track_history_index
-
-    # if shuffle
-    if shuffle
-      if shuffle_th < @shuffle_track_history.length - 1
-        track = OngakuRyoho.Playlist.Tracks.collection.find (t) => t.get("id") is @shuffle_track_history[shuffle_th + 1]
-
-      else
-        track = _.shuffle(OngakuRyoho.Playlist.Tracks.collection.reject((t) =>
-          return _.include(@shuffle_track_history, t.get("id"))
-        ))[0]
-
-        unless track
-          this.queue.clear_history()
-          this.select_next_track()
-          return
-
-        @shuffle_track_history.push(track.get("id"))
-
-      @shuffle_track_history_index++
-
-    # otherwise
-    else
-      tracks = OngakuRyoho.Playlist.Tracks.collection.models
-      track_from_collection = _.where(tracks, { id: source.track.get("id") })[0]
-      track_index = _.indexOf(tracks, track_from_collection) + 1
-      track_index = 0 if track_index >= tracks.length
-      track = tracks[track_index]
+    track = this.queue.go_forward()
 
     # insert track if any
     this.insert_track(track) if track
