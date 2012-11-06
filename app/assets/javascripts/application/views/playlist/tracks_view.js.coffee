@@ -1,6 +1,7 @@
 class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
 
   group_template: _.template("<li class=\"group\"><span><%= title %></span></li>")
+  mode: "default"
 
 
 
@@ -30,7 +31,6 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
     # render
     @group.collection
       .on("reset", this.render)
-      .on("change:mode", this.render)
 
     # fetch events
     @group.collection
@@ -50,7 +50,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
     $list = $("<ol class=\"tracks\"></ol>")
 
     # render
-    this["render_#{@group.collection.mode}"]($list)
+    this["render_#{this.mode}"]($list)
 
     # add list to main elements
     this.$el.empty()

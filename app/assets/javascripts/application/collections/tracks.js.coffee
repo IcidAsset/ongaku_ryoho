@@ -17,9 +17,6 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     # special filters
     @favourites = off
 
-    # mode
-    @mode = "default"
-
 
 
   #

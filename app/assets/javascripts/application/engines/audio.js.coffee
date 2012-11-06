@@ -96,7 +96,7 @@ class OngakuRyoho.Classes.Engines.Audio
       average = sum / points[idx]
 
       # calculate width
-      width = (average / 256) * OngakuRyoho.Visualizations.view.peak_data_canvas.width
+      width = (average / 256) * OngakuRyoho.Visualizations.view.peak_data_context.canvas.width
 
       # add to array
       dimensions.push(width)

@@ -37,21 +37,21 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
   #  Show queue
   #
   show_queue: (e) =>
-    tracks_collection = @parent_group.Tracks.collection
-    queue_mode = tracks_collection.mode is "queue"
+    tracks_view = @parent_group.Tracks.view
+    queue_mode = tracks_view.mode is "queue"
     $t = $(e.currentTarget)
 
     # switch
     if queue_mode
       $t.removeClass("on")
-      tracks_collection.mode = "default"
+      tracks_view.mode = "default"
 
     else
       $t.addClass("on")
-      tracks_collection.mode = "queue"
+      tracks_view.mode = "queue"
 
     # event
-    tracks_collection.trigger("change:mode")
+    tracks_view.render()
 
 
 

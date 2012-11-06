@@ -330,14 +330,17 @@
     border-bottom: 1px solid rgba(black, .0225);
     border-top: 1px solid rgba(black, .04);
     color: rgba(#44464A, .425);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
-    height: 40px;
-    letter-spacing: 2px;
-    line-height: 42px;
+    height: 38px;
+    line-height: 40px;
     overflow: hidden;
     text-align: center;
     text-transform: uppercase;
+
+    -webkit-font-smoothing: antialiased;
+
+    @include default-font;
   }
 
 
