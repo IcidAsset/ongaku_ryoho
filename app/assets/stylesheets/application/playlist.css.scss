@@ -5,11 +5,14 @@
 */
 
 #playlist {
+  display: -webkit-flex;
   margin-left: $controller_width + $body_margin;
   min-width: 493px;
 
-  @include single-box-shadow(rgba(#000, .41), 0, 0, 30px, 0);
+  -webkit-flex: 1;
+  -webkit-flex-direction: column;
 
+  @include single-box-shadow(rgba(#000, .41), 0, 0, 30px, 0);
 
   //
   //  Navigation
@@ -21,8 +24,12 @@
       linear-gradient(lighten(#757a80, 3%), darken(#4b4e52, 3%))
     );
 
-    &, & > nav { overflow: hidden }
-       & > nav {
+    &, & > nav {
+      overflow: hidden;
+    }
+
+    & > nav {
+      display: -webkit-flex;
       height: 50px;
       margin: 1px;
       padding-left: 10px;
@@ -30,7 +37,6 @@
       position: relative;
 
       @include background-image(linear-gradient(#6c7075, #595d61));
-      @include display-box;
     }
 
     .button, .input-wrap {
@@ -38,7 +44,6 @@
       height: 25px;
       margin-top: 50px / 2 - 26px / 2;
 
-      @include display-box;
       @include single-box-shadow(#2d2e30, 0, 1px, 3px, 0, 'inset');
     }
 
@@ -47,11 +52,15 @@
       cursor: pointer;
       margin-left: 5px;
 
-      @include background-image(linear-gradient(#525559, #3d3f42));
-      @include box-ordinal-group(3);
+      -webkit-order: 3;
 
-      &, .icon { width: 21px }
-         .icon {
+      @include background-image(linear-gradient(#525559, #3d3f42));
+
+      &, .icon {
+        width: 34px;
+      }
+
+      .icon {
         color: #b6babf;
         font-size: 28px;
         height: 25px;
@@ -76,40 +85,16 @@
     // button - show favourites
     .button.show-favourites {
       @include background-image(
-        linear-gradient(
-          darken(desaturate($yellow, 52.5%), 30.5%),
-          darken(desaturate($yellow, 52.5%), 34%)
-        )
-      );
-
-      .icon {
-        color: desaturate($yellow, 50.5%);
-        font-size: 25px;
-        text-indent: 1px;
-      }
-
-      &.on .icon {
-        @include single-box-shadow(
-          rgba(desaturate($yellow, 50.5%), .775), 0, 0, 32px, -2px
-        );
-      }
-    }
-
-    // button - show queue
-    .button.show-queue {
-      @include background-image(
         linear-gradient($bgcolor_2, darken($bgcolor_2, 6.5%))
       );
 
       .icon {
         color: lighten($bgcolor_2, 27.5%);
-        font-size: 24px;
+        font-size: 26px;
       }
 
       &.on .icon {
-        @include single-box-shadow(
-          lighten($bgcolor_2, 27.5%), 0, 0, 32px, -2px
-        );
+        @include single-box-shadow( lighten($bgcolor_2, 27.5%), 0, 0, 32px, -2px);
       }
     }
 
@@ -137,12 +122,14 @@
       @include background-image(linear-gradient(#343538, #3d3f42));
 
       .icon {
-        background-position: center;
-        background-repeat: no-repeat;
+        color: #6C7075;
+        font-size: 27px;
         height: 16px;
+        line-height: 8px;
         margin-top: -7px;
         position: absolute;
         right: 6px;
+        text-align: center;
         top: 50%;
         width: 16px;
         z-index: 1;
@@ -151,9 +138,6 @@
       }
 
       &, input, select { overflow: hidden }
-
-      &.sort-by .icon { background-image: image-url('playlist/list-ordered.png') }
-      &.search .icon { background-image: image-url('playlist/magnifier.png') }
     }
 
     input, select {
@@ -189,14 +173,14 @@
       margin-left: 5px;
       width: 29%;
 
-      @include box-ordinal-group(2);
+      -webkit-order: 2;
     }
 
     .input-wrap.search {
       width: auto;
 
-      @include box-flex(1);
-      @include box-ordinal-group(1);
+      -webkit-flex: 1;
+      -webkit-order: 1;
     }
   }
 
@@ -206,6 +190,10 @@
   //
   .list {
     background: #fff;
+    display: -webkit-flex;
+
+    -webkit-flex: 1;
+    -webkit-flex-direction: column;
 
     header, .track {
       overflow: hidden;
@@ -254,7 +242,7 @@
     overflow: auto;
     position: relative;
 
-    &::-webkit-scrollbar { width: 0 }
+    -webkit-flex: 1;
   }
 
   .list .tracks {

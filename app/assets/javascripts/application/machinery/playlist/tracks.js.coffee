@@ -28,24 +28,6 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
 
 
   #
-  #  Resize
-  #
-  resize: (e) =>
-    $list = @group.view.$el.closest(".list")
-
-    new_height = (
-      $(window).height() - 2 * 50 -
-      $list.prev(".navigation").height() - 2 * 2 -
-      $list.children("header").height() -
-      $list.next("footer").height()
-    )
-
-    $tw = @group.view.$el
-    $tw.height(new_height) if $tw
-
-
-
-  #
   #  Add playing class to track
   #
   add_playing_class_to_track: (track) ->

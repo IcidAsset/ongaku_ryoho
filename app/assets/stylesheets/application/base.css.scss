@@ -13,20 +13,15 @@
 
 */
 
-@import 'helpers';
-
 $body_margin: 50px;
 $controller_width: 321px;
 
 
 
-html, body { min-height: 100% }
-
 body {
   font-size: 13px;
   line-height: 16px;
   margin: $body_margin;
-  overflow: hidden;
 
   @include background(
     image-url('background.png') 0 0 repeat,
@@ -34,17 +29,35 @@ body {
   );
 
   @include default-font;
+  @include disable-user-select;
 }
 
-  #wrapper {
-    position: relative;
-    z-index: 0;
-  }
+html, body {
+  min-height: 100%;
+}
 
-  input, textarea, select {
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 18px;
+html, body, #wrapper {
+  display: -webkit-flex;
+  -webkit-flex-direction: column;
+}
 
-    @include lato-font;
-  }
+body, #wrapper {
+  -webkit-flex: 1;
+}
+
+
+
+#wrapper {
+  margin: 0 auto;
+  max-width: 1300px;
+  position: relative;
+  z-index: 0;
+}
+
+input, textarea, select {
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+
+  @include default-font;
+}

@@ -39,10 +39,6 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
       .on("fetching", @group.machine.fetching)
       .on("fetched", @group.machine.fetched)
 
-    # track list (window) resize
-    $(window).on("resize", @group.machine.resize)
-    @group.machine.resize()
-
 
 
   #
