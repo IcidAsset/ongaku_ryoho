@@ -16,8 +16,8 @@ class OngakuRyoho.Classes.Engines.Queue
 
 
 
-  add_to_next: (id) ->
-    @data.user_next.push({ id: id, user: true })
+  add_to_next: (track) ->
+    @data.user_next.push({ track: track, user: true })
     this.set_next()
 
 
@@ -53,9 +53,11 @@ class OngakuRyoho.Classes.Engines.Queue
     return if @tracks.length is 0
 
     # get last track in line
-    last_track_in_line_id = if  @data.computed_next.length > 0 then _.last(@data.computed_next).id
-    else (if current_track then current_track.get("id") else @tracks.last().get("id"))
-    last_track_in_line = @tracks.get(last_track_in_line_id)
+    last_track_in_line = if @data.computed_next.length > 0 then _.last(@data.computed_next)
+    else (if current_track then current_track else @tracks.last())
+
+    # check
+    last_track_in_line ?= @tracks.first()
 
     # loop
     indexof_last = @tracks.indexOf(last_track_in_line)
@@ -67,7 +69,7 @@ class OngakuRyoho.Classes.Engines.Queue
       else counter + 1
 
       if counter is indexof_last then break
-      else @data.computed_next.push({ id: @tracks.at(counter).get("id"), user: false })
+      else @data.computed_next.push({ track: @tracks.at(counter), user: false })
 
 
 
@@ -75,7 +77,7 @@ class OngakuRyoho.Classes.Engines.Queue
     for n in [0...x]
       already_selected = @data.user_next.concat(@data.computed_next)
       track = @tracks.get_random_track(already_selected)
-      @data.computed_next.push({ id: track.get("id"), user: false }) if track
+      @data.computed_next.push({ track: track, user: false }) if track
       break unless track
 
 
@@ -92,14 +94,6 @@ class OngakuRyoho.Classes.Engines.Queue
 
 
   reset_computed_next: () ->
-    this.clear_computed_next()
-    this.set_next()
-
-
-
-  reset_all: () ->
-    this.clear_history()
-    this.clear_user_next()
     this.clear_computed_next()
     this.set_next()
 
@@ -139,7 +133,7 @@ class OngakuRyoho.Classes.Engines.Queue
       console.log("Empty queue")
       return null
     else
-      track = @tracks.get(next.id)
+      track = next.track
 
     # add old current to history
     this.add_current_to_history()
@@ -160,7 +154,7 @@ class OngakuRyoho.Classes.Engines.Queue
       console.log("No more tracks in history")
       return null
     else
-      track = @tracks.get(previous.id)
+      track = previous.track
 
     # add old current to next
     if @data.current

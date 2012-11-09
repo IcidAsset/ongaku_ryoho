@@ -18,7 +18,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
   #  Fetching and fetched events
   #
   fetched: () =>
-    OngakuRyoho.Engines.Queue.reset_all()
+    OngakuRyoho.Engines.Queue.reset_computed_next()
     @parent_group.Footer.machine.check_page_navigation()
 
     if @group.collection.length > 0

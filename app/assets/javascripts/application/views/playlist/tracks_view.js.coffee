@@ -96,7 +96,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
 
     # tracks
     _.each(queue.data.combined_next, (map) =>
-      track = @group.collection.get(map.id)
+      track = map.track
       return unless track
 
       track_view = new OngakuRyoho.Classes.Views.Playlist.Track({ model: track })

@@ -61,4 +61,4 @@ class OngakuRyoho.Classes.Machinery.DropZones
     , 1500) if track
 
     # add to queue
-    OngakuRyoho.Engines.Queue.add_to_next(id)
+    OngakuRyoho.Engines.Queue.add_to_next(track)
