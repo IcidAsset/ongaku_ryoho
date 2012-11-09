@@ -56,6 +56,9 @@ Zepto ->
   App.Visualizations = {}
   App.Visualizations.view = new Views.Visualizations
 
+  App.DropZones = {}
+  App.DropZones.view = new Views.DropZones
+
   App.Playlist = {}
   App.Playlist.Tracks = {}
   App.Playlist.Tracks.collection = new Collections.Tracks

@@ -26,5 +26,8 @@ class OngakuRyoho.Classes.Views.Playlist.Track extends Backbone.View
     # extra classes
     this.$el.addClass("unavailable") if model_attr.unavailable
 
+    # draggable
+    this.$el.attr("draggable", "true")
+
     # chain
     return this

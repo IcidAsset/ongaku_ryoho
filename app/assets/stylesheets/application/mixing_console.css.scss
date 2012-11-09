@@ -78,9 +78,8 @@ $button_height: 52px;
 
     .progress.loader {
       background: #000;
+      opacity: .09;
       z-index: 1;
-
-      @include opacity(.09);
     }
   }
 
@@ -288,11 +287,10 @@ $button_height: 52px;
         background: transparent image-url('controller/knob-lines.png') center top no-repeat;
         height: 7px;
         margin: -8px auto 0;
+        opacity: .49;
         position: relative;
         width: 38px;
         z-index: 3;
-
-        @include opacity(.49);
       }
     }
   }

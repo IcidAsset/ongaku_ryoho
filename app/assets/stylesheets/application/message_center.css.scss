@@ -28,11 +28,18 @@
     display: inline-block;
     height: 16px;
     margin-right: 9px;
+    opacity: .8;
     position: relative;
     top: 4px;
     width: 16px;
+  }
 
-    @include opacity(.8);
+  .message .icon[data-icon] {
+    font-size: 23px;
+    line-height: 14px;
+    margin-right: 6px;
+    position: relative;
+    top: 2px;
   }
 
   // loading
@@ -44,11 +51,10 @@
     bottom: 0;
     display: block;
     left: 17px;
+    opacity: .8;
     position: absolute;
     top: 0;
     width: 16px;
-
-    @include opacity(.8);
   }
 
   // error

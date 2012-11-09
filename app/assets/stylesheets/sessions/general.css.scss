@@ -31,11 +31,10 @@ h1 {
     height: 18px;
     left: 13px;
     margin-top: -8px;
+    opacity: .75;
     position: absolute;
     top: 50%;
     width: 18px;
-
-    @include opacity(.75);
   }
 }
 

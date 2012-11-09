@@ -18,13 +18,12 @@ class OngakuRyoho.Classes.Engines.Queue
 
   add_to_next: (id) ->
     @data.user_next.push({ id: id, user: true })
+    this.set_next()
 
 
 
   add_current_to_history: () ->
-    if @data.current
-      @data.current.user = false
-      @data.history.push(@data.current)
+    @data.history.push(@data.current) if @data.current
 
 
 
@@ -43,8 +42,8 @@ class OngakuRyoho.Classes.Engines.Queue
     @data.combined_next = @data.user_next.concat(@data.computed_next)
 
     # trigger collection reset if needed
-    @tracks.trigger("reset") if @tracks.mode is "queue"
-
+    if OngakuRyoho.Playlist.Tracks.view.mode is "queue"
+      @tracks.trigger("reset")
 
 
   set_next_normal: (x) ->

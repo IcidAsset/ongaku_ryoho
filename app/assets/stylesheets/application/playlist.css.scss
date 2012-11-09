@@ -53,9 +53,9 @@
       &, .icon { width: 21px }
          .icon {
         color: #b6babf;
-        font-size: 14px;
+        font-size: 28px;
         height: 25px;
-        line-height: 26px;
+        line-height: 20px;
         overflow: hidden;
         text-align: center;
 
@@ -70,7 +70,7 @@
 
     // button - change sort direction
     .button.change-sort-direction {
-      &.on .icon:after { content: "\0e01a" }
+      &.on .icon:after { content: "\E75F" }
     }
 
     // button - show favourites
@@ -84,7 +84,8 @@
 
       .icon {
         color: desaturate($yellow, 50.5%);
-        font-size: 12px;
+        font-size: 25px;
+        text-indent: 1px;
       }
 
       &.on .icon {
@@ -102,7 +103,7 @@
 
       .icon {
         color: lighten($bgcolor_2, 27.5%);
-        font-size: 12px;
+        font-size: 24px;
       }
 
       &.on .icon {
@@ -294,12 +295,12 @@
 
     // unavailable & queue-item
     &.unavailable,
-    &.queue-item {
+    &.queue-item:not(.user-selected) {
       color: #999;
     }
 
     // click & hold
-    &:active:not(.queue-item) {
+    &:active {
       background: $blue;
 
       & > div { color: lighten($blue, 42.5%) }
@@ -313,8 +314,8 @@
     .favourite {
       color: rgba(#aaa, .2);
       cursor: pointer;
-      font-size: 13px;
-      line-height: 26px;
+      font-size: 11px;
+      line-height: 28px;
 
       &:hover,
       &[data-favourite=true] { color: $yellow }
@@ -384,7 +385,7 @@
     }
 
     .page-nav {
-      font-size: 19px;
+      font-size: 37px;
       height: 24px;
       left: 8px;
       overflow: hidden;
@@ -398,14 +399,18 @@
       background-position: center;
       background-repeat: no-repeat;
       color: #b6babf;
+      cursor: pointer;
       display: inline-block;
       height: 26px;
-      line-height: 24px;
+      line-height: 12px;
       margin-right: 4px;
       overflow: hidden;
       width: 16px;
+    }
 
-      &.disabled { @include opacity(.45) }
+    .page-nav a.disabled {
+      cursor: default;
+      opacity: .45;
     }
   }
 

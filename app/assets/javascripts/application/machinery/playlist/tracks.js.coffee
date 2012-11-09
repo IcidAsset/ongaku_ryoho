@@ -67,7 +67,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
     $t = $(e.currentTarget)
 
     # check
-    return if $t.hasClass("unavailable") || $t.hasClass("queue-item")
+    return if $t.hasClass("unavailable")
 
     # set
     track = @group.collection.getById($t.attr("rel"))
@@ -132,3 +132,17 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
 
     # destroy each
     _.each favourites, (f) -> f.destroy()
+
+
+
+  #
+  #  Drag & Drop
+  #
+  track_dragstart: (e) ->
+    e.dataTransfer.effectAllowed = "move"
+    e.dataTransfer.setData("text/plain", $(e.currentTarget).attr("rel"))
+
+
+
+  track_dragend: (e) ->
+    e.dataTransfer.clearData()

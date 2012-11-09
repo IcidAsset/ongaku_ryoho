@@ -11,6 +11,8 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
   events: () ->
     "dblclick .track"          : @group.machine.track_dblclick
     "click .track .favourite"  : @group.machine.track_rating_star_click
+    "dragstart .track"         : @group.machine.track_dragstart
+    "dragend .track"           : @group.machine.track_dragend
 
 
 
@@ -51,6 +53,9 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
 
     # render
     this["render_#{this.mode}"]($list)
+
+    # scroll to top
+    this.el.scrollTop = 0
 
     # add list to main elements
     this.$el.empty()

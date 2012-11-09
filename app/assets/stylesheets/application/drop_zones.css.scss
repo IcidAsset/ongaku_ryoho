@@ -1,0 +1,64 @@
+/*
+
+  Drop Zones
+
+*/
+
+#drop-zones {
+  margin-top: 12px;
+
+  // queue
+  .queue {
+    border: 1px solid rgba(black, .04);
+    color: rgba(black, .425);
+    height: 132px;
+    overflow: hidden;
+    padding: 0 11px;
+    position: relative;
+    text-align: center;
+
+    @include single-box-shadow(rgba(#000, .09), 0, -4px, 6px, 0, 'inset');
+  }
+
+  .queue .window {
+    background: transparent;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 9;
+  }
+
+  .queue .icon {
+    bottom: 0;
+    color: rgba(black, .075);
+    font-size: 420px;
+    left: 0;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    top: 8px;
+    z-index: 0;
+
+    @include transition-duration(650ms);
+  }
+
+  .queue .text {
+    cursor: default;
+    display: block;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 132px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .queue.light-up .icon {
+    color: rgba(black, .09);
+    text-shadow: rgba(black, .09) 0 0 70px;
+  }
+
+
+
+}

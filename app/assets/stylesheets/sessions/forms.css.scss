@@ -34,15 +34,15 @@ form {
     font-style: normal;
     font-weight: bold;
     margin: 0;
+    opacity: .435;
     padding: 6px 9px 4px;
     text-transform: uppercase;
 
     @include background-image(linear-gradient(#F67280, #C06C84));
     @include border-radius(3px);
-    @include opacity(.435);
 
     &:hover,
     &:active,
-    &:focus { @include opacity(1) }
+    &:focus { opacity: 1 }
   }
 }

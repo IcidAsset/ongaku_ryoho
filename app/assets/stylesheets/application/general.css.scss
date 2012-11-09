@@ -10,6 +10,11 @@ body {
   input, textarea, select { @include default-font }
 }
 
+  #wrapper {
+    margin: 0 auto;
+    max-width: 1300px;
+  }
+
   #wrapper aside {
     display: block;
     left: 0;
