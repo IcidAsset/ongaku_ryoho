@@ -22,6 +22,7 @@ body {
   font-size: 13px;
   line-height: 16px;
   margin: $body_margin;
+  overflow: hidden;
 
   @include background(
     image-url('background.png') 0 0 repeat,
