@@ -56,6 +56,15 @@ private
       return { tracks: [], total: 0 }
     end
 
+    # filter value
+    filter_value = if filter
+      options[:filter].strip
+        .gsub(/ \|\| /, " | ")
+        .gsub(/(?<!\|)\ (?!\|)/, " & ")
+    else
+      ""
+    end
+
     # order
     order = case options[:sort_by]
     when :title
@@ -82,9 +91,7 @@ private
     # condition arguments
     condition_arguments = []
     condition_arguments << available_source_ids unless select_favourites
-    condition_arguments << (
-      options[:filter].strip.gsub(" ", " | ")
-    ) if filter
+    condition_arguments << filter_value if filter
 
     # conditions
     conditions = [condition_sql] + condition_arguments.compact

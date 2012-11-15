@@ -298,6 +298,13 @@ CREATE INDEX index_users_on_remember_me_token ON users USING btree (remember_me_
 
 
 --
+-- Name: sorting_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX sorting_index ON tracks USING btree (artist, album, tracknr, title);
+
+
+--
 -- Name: tracks_search_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -338,3 +345,5 @@ INSERT INTO schema_migrations (version) VALUES ('20120714195918');
 INSERT INTO schema_migrations (version) VALUES ('20120714200814');
 
 INSERT INTO schema_migrations (version) VALUES ('20120714202127');
+
+INSERT INTO schema_migrations (version) VALUES ('20121115212612');
