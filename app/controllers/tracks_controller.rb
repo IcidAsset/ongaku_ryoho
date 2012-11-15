@@ -59,8 +59,11 @@ private
     # filter value
     filter_value = if filter
       options[:filter].strip
+        .gsub(/([\&\(\)]+)|(\A[\|\ ]+)|([!\|\ ]+\z)|(!!+)/, "")
+        .gsub(/ {2,}/, " ")
+        .gsub(/!\ /, "!")
         .gsub(/ \|\| /, " | ")
-        .gsub(/(?<!\|)\ (?!\|)/, " & ")
+        .gsub(/(?<!\||!)\ (?!\|)/, " & ")
     else
       ""
     end
