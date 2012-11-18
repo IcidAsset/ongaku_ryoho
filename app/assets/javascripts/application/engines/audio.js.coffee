@@ -155,6 +155,7 @@ class OngakuRyoho.Classes.Engines.Audio
     # events, in order of the w3c spec
     audio_element.addEventListener("progress", this.events.progress)
     audio_element.addEventListener("suspend", this.events.suspend)
+    audio_element.addEventListener("error", this.events.error)
     audio_element.addEventListener("timeupdate", this.events.time_update)
     audio_element.addEventListener("ended", this.events.ended)
     audio_element.addEventListener("durationchange", this.events.duration_change)
@@ -216,6 +217,17 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   destroy_source: (source) ->
     source.mediaElement.pause()
+
+    # remove all event listeners
+    source.mediaElement.removeEventListener("progress", this.events.progress)
+    source.mediaElement.removeEventListener("suspend", this.events.suspend)
+    source.mediaElement.removeEventListener("error", this.events.error)
+    source.mediaElement.removeEventListener("timeupdate", this.events.time_update)
+    source.mediaElement.removeEventListener("ended", this.events.ended)
+    source.mediaElement.removeEventListener("durationchange", this.events.duration_change)
+    source.mediaElement.removeEventListener("canplay")
+
+    # disconnect
     source.mediaElement.setAttribute("src", "")
     source.disconnect()
 
@@ -304,6 +316,11 @@ class OngakuRyoho.Classes.Engines.Audio
 
     suspend: (e) ->
       # console.log("suspend")
+
+
+
+    error: (e) ->
+      console.error("Audio engine error")
 
 
 

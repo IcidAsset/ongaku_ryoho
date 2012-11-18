@@ -11,7 +11,7 @@ class Server < Source
   def available?
     require 'net/http'
 
-    uri = URI.parse(self.configuration[:location] + 'available?')
+    uri = URI.parse(self.configuration[:location])
     response = nil
 
     begin
