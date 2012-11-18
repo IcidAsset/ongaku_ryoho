@@ -28,7 +28,7 @@ window.Helpers =
   #  Initialize (after)
   #
   initialize_after: () ->
-    this.check_theater_mode({ without_animation: true })
+    this.check_theater_mode()
 
 
 
@@ -98,12 +98,13 @@ window.Helpers =
   #
   #  Set theather mode
   #
-  set_theater_mode: (state, options={}) ->
-    animation_duration = options.without_animation ? 0 : 950
+  set_theater_mode: (state) ->
+    animation_duration = 950
 
     # set elements
     $button = OngakuRyoho.Playlist.Navigation.view.$el.find(".button.theater-mode")
     $color_overlay = $("#color-overlay")
+    console.log(animation_duration)
 
     # go
     if state is "off"
@@ -122,9 +123,9 @@ window.Helpers =
   #
   #  Check theather mode
   #
-  check_theater_mode: (options={}) ->
+  check_theater_mode: () ->
     theater_mode_state = window.localStorage.getItem("theater_mode_state")
     theater_mode_state ?= "on"
 
-    # check
-    Helpers.set_theater_mode("on", options) if theater_mode_state is "on"
+    # set
+    this.set_theater_mode(theater_mode_state)
