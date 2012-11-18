@@ -230,7 +230,8 @@
     @include lato-font;
 
     span { border-right: 1px solid #f0f0f0 }
-    .album span { border: none }
+    div { @include single-box-shadow(rgba(white, 1), 0, 0, 0, 1px, "inset") }
+    div:last-child span { border-right: none }
   }
 
 
