@@ -12,9 +12,9 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
 
 
   #
-  #  Show favourites
+  #  Favourites
   #
-  show_favourites: (e) =>
+  toggle_favourites: (e) =>
     tracks_collection = @parent_group.Tracks.collection
     favourites = tracks_collection.favourites
     $t = $(e.currentTarget)
@@ -34,24 +34,31 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
 
 
   #
-  #  Show queue
+  #  Queue
   #
-  show_queue: (e) =>
-    tracks_view = @parent_group.Tracks.view
-    queue_mode = tracks_view.mode is "queue"
+  toggle_queue: (e) =>
+    queue_mode = @parent_group.Tracks.view.mode is "queue"
     $t = $(e.currentTarget)
 
-    # switch
+    # toggle
     if queue_mode
-      $t.removeClass("on")
-      tracks_view.mode = "default"
-
+      this.hide_queue()
     else
-      $t.addClass("on")
-      tracks_view.mode = "queue"
+      this.show_queue()
 
-    # event
-    tracks_view.render()
+
+
+  show_queue: () ->
+    @group.view.$el.find(".show-queue").addClass("on")
+    @parent_group.Tracks.view.mode = "queue"
+    @parent_group.Tracks.view.render()
+
+
+
+  hide_queue: () ->
+    @group.view.$el.find(".show-queue").removeClass("on")
+    @parent_group.Tracks.view.mode = "default"
+    @parent_group.Tracks.view.render()
 
 
 

@@ -104,7 +104,6 @@ window.Helpers =
     # set elements
     $button = OngakuRyoho.Playlist.Navigation.view.$el.find(".button.theater-mode")
     $color_overlay = $("#color-overlay")
-    console.log(animation_duration)
 
     # go
     if state is "off"

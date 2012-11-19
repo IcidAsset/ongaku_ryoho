@@ -33,6 +33,7 @@ Zepto ->
   Models = App.Classes.Models
   Collections = App.Classes.Collections
   Views = App.Classes.Views
+  Routers = App.Classes.Routers
 
   # helpers
   Helpers.initialize_before()
@@ -81,4 +82,8 @@ Zepto ->
   Helpers.initialize_after()
 
   # get data
-  App.SourceManager.collection.fetch({ success: App.SourceManager.collection.process_and_check_sources })
+  App.SourceManager.collection.fetch({
+    success: () ->
+      Deferred.next(() -> App.SourceManager.collection.process_and_check_sources(true))
+              .next(() -> App.Router = new Routers.Default)
+  })

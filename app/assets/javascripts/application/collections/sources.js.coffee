@@ -9,9 +9,17 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   #  Process & Check
   #
   process_and_check_sources: (reload_anyway=false) =>
-    Deferred.next((a) => this.process_sources(false))
-            .next((b) => this.check_sources(false, b))
-            .next((c) => this.reload() if @requires_reload or reload_anyway)
+    dfd = new Deferred()
+
+    Deferred
+      .next((a) => this.process_sources(false))
+      .next((b) => this.check_sources(false, b))
+      .next((c) =>
+        this.reload() if @requires_reload or reload_anyway
+        dfd.call()
+      )
+
+    return dfd
 
 
 
