@@ -69,7 +69,7 @@
         text-align: center;
 
         @include transition-duration(450ms);
-        @include transition-property(box-shadow);
+        @include transition-property(box-shadow color);
       }
 
       &:active,

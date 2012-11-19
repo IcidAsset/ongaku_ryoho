@@ -5,7 +5,7 @@ class Track < ActiveRecord::Base
   attr_accessor :available
 
   belongs_to :source
-  belongs_to :favourite
+  has_one :favourite, dependent: :nullify
 
   validates_presence_of :artist
   validates_presence_of :title
