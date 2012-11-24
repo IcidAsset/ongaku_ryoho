@@ -1,39 +1,35 @@
 $color_header: #6C7075;
 
 $purple: lighten(saturate($bgcolor_1, 30%), 21.5%);
-$light: lighten(#B6BABF, 15%);
-$lighter: lighten(#B6BABF, 8%);
-$dark: #343538;
+$lighter: lighten(#B6BABF, 17.5%);
+$dark: #292929;
 
 
 body {
-  background: $light;
+  background: white;
   color: $color_header;
   font-size: 17px;
   line-height: 29px;
-  margin: 0;
+  margin: 75px 0 0;
+  min-width: $breakpoint_small;
 
   -webkit-font-smoothing: antialiased;
 
   @include sourcesanspro-font;
-
-  &.about {
-    background: $dark;
-    color: $color_header;
-  }
 }
 
   .wrapper {
     margin: 0 auto;
+    max-width: 1004px;
+    padding: 0 58px;
     position: relative;
-    width: 1004px;
   }
 
   i {
     display: inline-block;
     font-style: normal;
     position: relative;
-    top: 1px;
+    top: 2px;
 
     @include icon-font;
   }
@@ -41,118 +37,55 @@ body {
 
 
 //
-// Content
-
+//  Content
+//
 .wrapper.content {
-  padding: 50px 0;
+  padding-bottom: 50px;
+  padding-top: 50px;
 }
 
-.introduction {
-  background: $purple;
-  color: white;
-  font-size: 30px;
-  font-style: italic;
-  font-weight: 300;
-  letter-spacing: -1px;
-  line-height: 44px;
-  padding: 50px 58px 45px;
+  h1 { display: none }
+  p { margin-top: 0 }
 
-  .colored {
-    color: darken($purple, 22.5%);
-    font-weight: bold;
+  .title {
+    font-size: 18px;
+    line-height: 24px;
+    margin-bottom: 13px;
+    margin-top: 35px;
   }
-
-  .subtext {
-    font-size: 15px;
-    letter-spacing: 0;
-  }
-
-  p { margin: 0 }
-  p:last-child { margin: 17px 0 0 }
-}
-
-.a-word-of-advice {
-  color: $color_header;
-  font-style: italic;
-  margin-bottom: 30px;
-}
-
-.title {
-  font-size: 18px;
-  line-height: 24px;
-  margin-bottom: 13px;
-  margin-top: 35px;
-}
-
-h1 { display: none }
-p { margin-top: 0 }
-
-.flash {
-  color: #FF666C;
-  font-size: 15px;
-  margin-top: 13px;
-
-  &.success { color: darken($green, 30%) }
-
-  i {
-    font-size: 20px;
-    margin-right: 8px;
-    top: 3px;
-  }
-}
-
-.note {
-  border: 4px solid rgba($red, .15);
-  color: $red;
-  padding: 12px 18px 11px;
-  position: relative;
-
-  i {
-    font-size: 16px;
-    margin-right: 10px;
-  }
-}
 
 
 
 //
-// Header
-
+//  Header
+//
 header {
-  background: white;
-  padding: 50px 58px 44px;
+  background: $green_2;
+  left: 0;
+  padding: 25px 0 24px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 99;
 }
 
-.application-name {
-  color: $color_header;
-  display: inline-block;
-  font-size: 48px;
-  font-weight: lighter;
-  letter-spacing: -10px;
-  line-height: 42px;
-  text-align: center;
-  text-decoration: none;
-
-  @include ostrich-font;
+header .application-name {
+  display: none;
 }
 
 
 
 //
-// Header / Navigation
-
-nav {
-  bottom: 5px;
+//  Header / Navigation
+//
+header nav {
   font-size: 12px;
   font-weight: bold;
   letter-spacing: 1px;
   line-height: 14px;
-  position: absolute;
-  right: 0;
   text-align: right;
   text-transform: uppercase;
   white-space: nowrap;
-  width: 90%;
 
   a, a.sign-in.active {
     border: 0;
@@ -165,9 +98,9 @@ nav {
   }
 
   a {
-    color: $color_header;
+    color: white;
     display: inline-block;
-    margin-left: 91px;
+    margin-left: 46px;
     text-decoration: none;
 
     @include border-radius(3px);
@@ -176,13 +109,14 @@ nav {
   a:hover,
   a:focus,
   a:active {
-    color: darken($blue, 5%);
+    color: darken($green_2, 40%);
     outline: 0;
   }
 
-  a.active {
-    background: $light;
-    color: $dark;
+  a.active,
+  a.sign-in.active {
+    background: rgba(white, .85);
+    color: darken($green_2, 30%);
   }
 
   a i {
@@ -192,17 +126,12 @@ nav {
 
   a.sign-in,
   a.sign-out {
-    border: 1px solid $light;
-    color: #9399A0;
-  }
-
-  a.sign-in.active {
-    background: $light;
-    color: $dark;
+    border: 1px solid rgba(white, .425);
+    color: white;
   }
 
   a.sign-up {
-    background: $bgcolor_1;
+    background: $dark;
     color: white;
   }
 }
@@ -210,81 +139,74 @@ nav {
 
 
 //
-// Slideshow
+//  Introduction
+//
+.introduction {
+  border-bottom: 1px dashed #dadada;
+  color: $color_header;
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -1px;
+  line-height: 44px;
+  padding: 50px 58px 45px;
 
-.slideshow {
-  font-size: 0;
-  line-height: 0;
-  padding-top: 10px;
-  white-space: nowrap;
-
-  .slides-wrapper {
-    height: 321px;
-    overflow: hidden;
-    text-indent: 0;
-
-    @include single-box-shadow(rgba(black, .1), 0, 0, 60px, 0);
+  .colored {
+    color: $orange;
+    font-weight: bold;
   }
 
-  .slide {
-    cursor: pointer;
-    display: inline-block;
-    height: 321px;
-    margin: 0;
-    overflow: hidden;
-    text-indent: 0;
-    width: 100%;
-
-    img[data-src] {
-      display: none;
-    }
-
-    img {
-      height: auto;
-      width: 100%;
-    }
+  .subtext {
+    font-size: 15px;
+    letter-spacing: 0;
   }
 
-  .slide-navigation {
-    border: 1px dashed #e6e6e6;
-    border-top: 0;
-    padding: 13px 10px 11px;
-    text-align: center;
+  p { margin: 0 }
+  p:last-child { margin: 17px 0 0 }
+}
 
-    @include border-bottom-radius(2px);
+
+
+//
+//  Messages
+//
+.a-word-of-advice {
+  color: $color_header;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+.flash {
+  color: #FF666C;
+  font-size: 15px;
+  margin-top: 13px;
+
+  &.success { color: darken($green, 30%) }
+
+  i {
+    font-size: 40px;
+    margin-right: 8px;
+    top: 4px;
   }
+}
 
-  .slide-navigation a {
-    border: 2px solid rgba(black, .1);
-    cursor: pointer;
-    display: inline-block;
-    height: 6px;
-    margin-left: 8px;
-    width: 15px;
+.note {
+  border: 4px solid rgba($red, .15);
+  color: $red;
+  padding: 12px 18px 11px;
+  position: relative;
 
-    @include transition-duration(500ms);
-
-    &:first-child {
-      margin-left: 0;
-    }
-
-    &:hover,
-    &:focus,
-    &:active {
-      background: rgba(black, .125);
-    }
-
-    &.active {
-      background: #aaa;
-    }
+  i {
+    font-size: 32px;
+    margin-right: 10px;
   }
 }
 
 
 
 //
-// Forms
-
+//  Forms
+//
 form {
 
   input {
@@ -307,8 +229,6 @@ form {
   input[type=submit]:active {
     border-color: darken($lighter, 15%);
     outline: 0;
-
-    // @include single-box-shadow(rgba($green, .4), 0, 0, 7px, 0);
   }
 
   input[type=text],
@@ -322,7 +242,7 @@ form {
   }
 
   input[type=submit] {
-    background: $purple;
+    background: $dark;
     border: 0;
     color: white;
     cursor: pointer;

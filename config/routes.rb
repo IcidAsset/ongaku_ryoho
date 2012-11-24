@@ -17,6 +17,7 @@ OngakuRyoho::Application.routes.draw do
   get 'about' => 'pages#about'
   get 'settings' => 'pages#settings'
   get 'tools' => 'pages#tools'
+  get 'faq' => 'pages#faq'
 
   # sessions/users
   get 'sign-up' => 'users#new', :as => 'sign_up'

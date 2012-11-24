@@ -28,7 +28,7 @@ p.a-word-of-advice
     = @user.errors.full_messages.first
 
 - flash.each do |name, msg|
-  - i_content = (name == :error ? "&#x004d;" : "&#x0058;")
+  - i_content = (name == :error ? "&#59272;" : "&#10003;")
   == content_tag :div,
       content_tag(:i, raw(i_content)) + msg,
       class: "flash #{name}"

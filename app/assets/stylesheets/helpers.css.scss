@@ -7,16 +7,22 @@
 // colors
 $red: #E0676C;
 $green: #BCF865;
+$green_2: #5CD15C;
 $blue: #00CCFF;
 $yellow: #FBB829;
 $yellow_2: #FCEB29;
+$orange: #FC913A;
 
 $bgcolor_1: #644E74;
 $bgcolor_2: #724562;
 $bgcolor_3: #944D5D;
 
+// breakpoints
+$breakpoint_small: 480px;
+$breakpoint_medium: 800px;
+$breakpoint_large: 1240px;
 
-// mixins
+// font mixins
 @mixin default-font {
   font-family: 'Helvetica Neue', 'Lato', sans-serif;
 }
@@ -34,9 +40,10 @@ $bgcolor_3: #944D5D;
 }
 
 @mixin icon-font {
-  font-family: 'IcoMoon';
+  font-family: 'entypo';
 }
 
+// other mixins
 @mixin disable-user-select {
   -webkit-user-select: none;
   -khtml-user-select: none;
