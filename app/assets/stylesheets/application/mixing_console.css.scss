@@ -15,9 +15,9 @@ $button_height: 52px;
   & > div { position: relative }
 
 
-  /**************************************
-   *  Now Playing
-   */
+  //
+  //  Now Playing
+  //
   .now-playing {
     color: #fff;
     cursor: pointer;
@@ -47,9 +47,9 @@ $button_height: 52px;
   }
 
 
-  /**************************************
-   *  Progress Bar
-   */
+  //
+  //  Progress Bar
+  //
   .progress-bar-wrapper {
     cursor: pointer;
     margin: 3px 0 0;
@@ -84,9 +84,9 @@ $button_height: 52px;
   }
 
 
-  /**************************************
-   *  Controls
-   */
+  //
+  //  Controls
+  //
   .controls {
     background: transparent image-url('controller/almost_invisible_pattern.png') 0 0 repeat;
     border: 1px solid rgba(#000, .04);
@@ -133,7 +133,7 @@ $button_height: 52px;
         display: block;
         overflow: hidden;
         text-overflow: ellisis;
-        //white-space: nowrap;
+        // white-space: nowrap;
       }
 
       &:first-child { clear: both }
@@ -295,6 +295,11 @@ $button_height: 52px;
     }
   }
 
+
+
+  //
+  //  Controls / Alternate
+  //
   .controls.alt {
     & > a:first-of-type,
     .subtitle:first-of-type { margin-left: 1px }
@@ -308,11 +313,13 @@ $button_height: 52px;
 
     .it {
       background: rgba(white, .15);
-
       @include single-box-shadow(rgba(lighten(#d1d1d1, 2%), .1), 0, 2px, 8px, 0);
     }
 
-    .it > div { opacity: .9 }
+    .it > div {
+      opacity: .9;
+    }
   }
+
 
 }

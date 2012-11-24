@@ -4,6 +4,13 @@
 
 */
 
+#wrapper {
+  margin: 0 auto;
+  max-width: 1300px;
+  position: relative;
+  z-index: 0;
+}
+
 #wrapper aside {
   display: block;
   left: 0;
@@ -21,4 +28,12 @@
   right: 0;
   top: 0;
   z-index: 100;
+}
+
+input, textarea, select {
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 18px;
+
+  @include sans-serif-font;
 }

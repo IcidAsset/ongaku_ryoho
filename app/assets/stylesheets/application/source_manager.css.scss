@@ -29,9 +29,9 @@ $section-height:  288px;
   }
 
 
-  /**************************************
-   *  Wrapper
-   */
+  //
+  //  Wrapper
+  //
   .wrapper {
     left: 50%;
     margin-left: -(($window-width * 2 + $window-margin) / 2);
@@ -44,9 +44,9 @@ $section-height:  288px;
   }
 
 
-  /**************************************
-   *  Window, .all
-   */
+  //
+  //  Window, .all
+  //
   .window {
     float: left;
     width: $window-width;
@@ -79,9 +79,9 @@ $section-height:  288px;
   }
 
 
-  /**************************************
-   *  Window, .main
-   */
+  //
+  //  Window, .main
+  //
   .window.main { margin-right: $window-margin }
 
   .source-list {
@@ -123,9 +123,9 @@ $section-height:  288px;
   }
 
 
-  /**************************************
-   *  Window, .add
-   */
+  //
+  //  Window, .add
+  //
   .window.add {
     .forms-wrapper, .select-wrapper { padding: 13px 10px }
 
@@ -172,7 +172,6 @@ $section-height:  288px;
       }
     }
   }
-
 
 
 }

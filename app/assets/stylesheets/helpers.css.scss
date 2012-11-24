@@ -29,7 +29,7 @@ $breakpoint_medium: 800px;
 $breakpoint_large: 1240px;
 
 // font mixins
-@mixin default-font {
+@mixin sans-serif-font {
   font-family: 'Helvetica Neue', 'Lato', sans-serif;
 }
 
@@ -39,10 +39,6 @@ $breakpoint_large: 1240px;
 
 @mixin sourcesanspro-font {
   font-family: 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-}
-
-@mixin ostrich-font {
-  font-family: 'Ostrich Sans', sans-serif;
 }
 
 @mixin icon-font {
