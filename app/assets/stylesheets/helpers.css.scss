@@ -12,10 +12,16 @@ $blue: #00CCFF;
 $yellow: #FBB829;
 $yellow_2: #FCEB29;
 $orange: #FC913A;
+$purple: #A065CB;
 
 $bgcolor_1: #644E74;
 $bgcolor_2: #724562;
 $bgcolor_3: #944D5D;
+
+$blueish: #B6BABF;
+$blueish_dark: #6C7075;
+$light: lighten($blueish, 17.5%);
+$dark: #292929;
 
 // breakpoints
 $breakpoint_small: 480px;

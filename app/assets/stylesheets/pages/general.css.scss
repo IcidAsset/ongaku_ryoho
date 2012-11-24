@@ -1,17 +1,16 @@
-$color_header: #6C7075;
+/*
 
-$purple: lighten(saturate($bgcolor_1, 30%), 21.5%);
-$lighter: lighten(#B6BABF, 17.5%);
-$dark: #292929;
+    General
 
+*/
 
 body {
   background: white;
-  color: $color_header;
-  font-size: 17px;
-  line-height: 29px;
-  margin: 75px 0 0;
-  min-width: $breakpoint_small;
+  color: $blueish_dark;
+  font-size: 18px;
+  line-height: 32px;
+  margin: 0;
+  min-width: $breakpoint_medium;
 
   -webkit-font-smoothing: antialiased;
 
@@ -34,6 +33,14 @@ body {
     @include icon-font;
   }
 
+  h1 {
+    display: none;
+  }
+
+  .with-a-border {
+    border-bottom: 1px dashed #dadada;
+  }
+
 
 
 //
@@ -44,14 +51,17 @@ body {
   padding-top: 50px;
 }
 
-  h1 { display: none }
-  p { margin-top: 0 }
+  p {
+    margin: 0;
+  }
 
-  .title {
-    font-size: 18px;
-    line-height: 24px;
-    margin-bottom: 13px;
-    margin-top: 35px;
+  h2 {
+    color: darken($blueish_dark, 10%);
+    font-size: 39px;
+    font-weight: 100;
+    letter-spacing: -2px;
+    margin: 0 0 33px;
+    text-align: center;
   }
 
 
@@ -61,16 +71,22 @@ body {
 //
 header {
   background: $green_2;
-  left: 0;
+  display: block;
+  overflow: hidden;
   padding: 25px 0 24px;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 99;
 }
 
 header .application-name {
-  display: none;
+  color: rgba(black, .15);
+  left: 58px;
+  position: absolute;
+  text-decoration: none;
+  top: -12px;
+
+  .icon {
+    font-size: 250px;
+    @include rotate(-5deg);
+  }
 }
 
 
@@ -142,17 +158,16 @@ header nav {
 //  Introduction
 //
 .introduction {
-  border-bottom: 1px dashed #dadada;
-  color: $color_header;
-  font-size: 30px;
+  color: $blueish_dark;
+  font-size: 28px;
   font-style: italic;
   font-weight: 300;
   letter-spacing: -1px;
-  line-height: 44px;
-  padding: 50px 58px 45px;
+  line-height: 42px;
+  padding: 50px 0 45px;
 
   .colored {
-    color: $orange;
+    color: darken($blueish_dark, 17.5%);
     font-weight: bold;
   }
 
@@ -162,7 +177,7 @@ header nav {
   }
 
   p { margin: 0 }
-  p:last-child { margin: 17px 0 0 }
+  p:last-child { margin: 14px 0 0 }
 }
 
 
@@ -171,7 +186,7 @@ header nav {
 //  Messages
 //
 .a-word-of-advice {
-  color: $color_header;
+  color: $blueish_dark;
   font-style: italic;
   margin-bottom: 30px;
 }
@@ -191,10 +206,12 @@ header nav {
 }
 
 .note {
-  border: 4px solid rgba($red, .15);
+  border: 5px solid rgba($red, .15);
   color: $red;
   padding: 12px 18px 11px;
   position: relative;
+
+  @include border-radius(3px);
 
   i {
     font-size: 32px;
@@ -211,7 +228,7 @@ form {
 
   input {
     background: none;
-    border: 2px solid darken($lighter, 0.5%);
+    border: 2px solid darken($light, 0.5%);
     color: $dark;
     display: inline-block;
     font-weight: 300;
@@ -227,7 +244,7 @@ form {
 
   input:focus,
   input[type=submit]:active {
-    border-color: darken($lighter, 15%);
+    border-color: darken($light, 15%);
     outline: 0;
   }
 
@@ -254,6 +271,6 @@ form {
     &:focus { background: $bgcolor_1 }
   }
 
-  input::-webkit-input-placeholder { color: darken($lighter, 17.5%) }
-  input:-moz-placeholder { color: darken($lighter, 17.5%) }
+  input::-webkit-input-placeholder { color: darken($light, 17.5%) }
+  input:-moz-placeholder { color: darken($light, 17.5%) }
 }
