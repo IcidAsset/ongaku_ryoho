@@ -1,4 +1,4 @@
-class FavouritesController < ApplicationController
+class Data::FavouritesController < ApplicationController
   before_filter :require_login
   layout false
 

@@ -1,4 +1,4 @@
-class TracksController < ApplicationController
+class Data::TracksController < ApplicationController
   before_filter :require_login
   layout false
 

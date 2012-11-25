@@ -1,7 +1,7 @@
 class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
 
   model: OngakuRyoho.Classes.Models.Track
-  url: "/tracks/"
+  url: "/data/tracks/"
 
 
   #

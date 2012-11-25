@@ -1,7 +1,7 @@
 class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
   model: OngakuRyoho.Classes.Models.Source,
-  url: "/sources/"
+  url: "/data/sources/"
 
 
 
@@ -131,7 +131,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   process_source: (source) ->
     dfd = new Deferred()
 
-    $.get("/sources/" + source.get("id") + "/process",
+    $.get(this.url + source.get("id") + "/process",
       (response) -> dfd.call(JSON.parse(response))
     )
 
@@ -142,7 +142,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   check_source: (source) ->
     dfd = new Deferred()
 
-    $.get("/sources/" + source.get("id") + "/check",
+    $.get(this.url + source.get("id") + "/check",
       (response) -> dfd.call(JSON.parse(response))
     )
 
