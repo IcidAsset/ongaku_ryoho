@@ -206,7 +206,8 @@ header nav {
 }
 
 .note {
-  border: 5px solid rgba($red, .15);
+  background: rgba($red, .15);
+  border: 5px solid rgba($red, .065);
   color: $red;
   padding: 12px 18px 11px;
   position: relative;
