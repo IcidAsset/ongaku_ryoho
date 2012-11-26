@@ -304,7 +304,9 @@
       color: rgba(#aaa, .2);
       cursor: pointer;
       font-size: 26px;
-      line-height: 24px;
+      line-height: 26px;
+
+      -webkit-font-smoothing: antialiased;
 
       &:hover,
       &[data-favourite=true] { color: $yellow }
