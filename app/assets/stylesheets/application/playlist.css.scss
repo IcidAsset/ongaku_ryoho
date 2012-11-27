@@ -91,23 +91,6 @@
       .icon {
         font-size: 26px;
       }
-
-      &.on .icon {
-        color: lighten($bgcolor_2, 27.5%);
-        @include single-box-shadow(
-          lighten($bgcolor_2, 27.5%), 0, 0, 32px, -2px
-        );
-      }
-    }
-
-    // button - show source manager
-    .button.show-source-manager {
-      &.on .icon {
-        color: lighten($bgcolor_1, 27.5%);
-        @include single-box-shadow(
-          lighten($bgcolor_1, 27.5%), 0, 0, 32px, -2px
-        );
-      }
     }
 
     // input
