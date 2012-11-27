@@ -114,7 +114,9 @@
     .input-wrap {
       position: relative;
 
-      @include background-image(linear-gradient(#343538, #3d3f42));
+      @include background-image(
+        linear-gradient(#343538, rgba(#3d3f42, .7))
+      );
 
       .icon {
         color: #6C7075;
