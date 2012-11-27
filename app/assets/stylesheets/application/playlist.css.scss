@@ -57,7 +57,7 @@
       -webkit-order: 3;
 
       @include background-image(
-        linear-gradient(darken(#525559, 4%), rgba(#3d3f42, .15))
+        linear-gradient(darken(#525559, 4%), rgba(#3d3f42, .39))
       );
 
       &, .icon {
@@ -236,7 +236,7 @@
   //  List - Tracks
   //
   .list .tracks-wrapper {
-    min-height: 228px;
+    min-height: 0;
     overflow: auto;
     position: relative;
 
@@ -270,13 +270,13 @@
 
     // playing
     &.playing:not(.queue-item) {
-      background-color: $red;
+      background-color: $blueish;
 
-      & > div { color: lighten($red, 27.5%) }
-      .favourite { color: lighten($red, 13.75%) }
+      & > div { color: white }
+      .favourite { color: rgba(white, .4) }
 
       .favourite[data-favourite=true],
-      .favourite:hover { color: lighten($red, 27.5%) !important }
+      .favourite:hover { color: darken($blueish_dark, 4.75%) !important }
     }
 
     // unavailable & queue-item
@@ -290,10 +290,10 @@
       background: $blue;
 
       & > div { color: lighten($blue, 42.5%) }
-      .favourite { color: lighten($blue, 21.25%) }
+      .favourite { color: lighten($blue, 19%) }
 
       .favourite[data-favourite=true],
-      .favourite:hover { color: lighten($blue, 42.5%) !important }
+      .favourite:hover { color: lighten($blue, 48.5%) !important }
     }
 
     // favourite (star)
@@ -354,14 +354,16 @@
   //
   footer {
     border-top: 1px solid #44464a;
-    color: darken(#b6babf, 13%);
+    color: darken(#b6babf, 9%);
     font-size: 9px;
     font-weight: normal;
     padding: 1px;
     position: relative;
     text-align: center;
 
-    @include background-image(linear-gradient(#63666b, #313336));
+    @include background-image(
+      linear-gradient(#63666b, lighten(#313336, 4.5%))
+    );
 
     .intestines {
       height: 24px;
@@ -369,7 +371,9 @@
       padding: 0 10px;
       text-transform: uppercase;
 
-      @include background-image(linear-gradient(#525559, #3d3f42));
+      @include background-image(
+        linear-gradient(#525559, lighten(#3d3f42, 4.5%))
+      );
     }
 
     .page-nav {
