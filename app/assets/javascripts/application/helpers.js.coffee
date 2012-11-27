@@ -124,7 +124,7 @@ window.Helpers =
   #
   check_theater_mode: () ->
     theater_mode_state = window.localStorage.getItem("theater_mode_state")
-    theater_mode_state ?= "on"
+    theater_mode_state ?= "off"
 
     # set
     this.set_theater_mode(theater_mode_state)

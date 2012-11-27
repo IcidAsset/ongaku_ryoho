@@ -1,17 +1,6 @@
 class OngakuRyoho.Classes.Machinery.Playlist.Navigation
 
   #
-  #  A bit of everything
-  #
-  theater_mode_button_click_handler: (e) ->
-    state = if $(e.currentTarget).hasClass("on") then "off" else "on"
-
-    # enable / disable
-    Helpers.set_theater_mode(state)
-
-
-
-  #
   #  Favourites
   #
   toggle_favourites: (e) =>
@@ -59,50 +48,6 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
     @group.view.$el.find(".show-queue").removeClass("on")
     @parent_group.Tracks.view.mode = "default"
     @parent_group.Tracks.view.render()
-
-
-
-  #
-  #  Show source manager
-  #
-  show_source_manager: (e) =>
-    OngakuRyoho.SourceManager.view.show()
-
-
-
-  #
-  #  Sort by
-  #
-  sort_by_change_handler: (e) =>
-    value = e.currentTarget.options[e.currentTarget.selectedIndex].value
-
-    # sort by
-    this.sort_by(value) if value
-
-
-
-  sort_by: (query) ->
-    @parent_group.Tracks.collection.sort_by = query
-    @parent_group.Tracks.collection.fetch()
-
-
-
-  change_sort_direction: (e) =>
-    tracks_collection = @parent_group.Tracks.collection
-    sort_direction = tracks_collection.sort_direction
-    $t = $(e.currentTarget)
-
-    # switch
-    if sort_direction == "asc"
-      tracks_collection.sort_direction = "desc"
-      $t.addClass("on")
-
-    else
-      tracks_collection.sort_direction = "asc"
-      $t.removeClass("on")
-
-    # reload tracks
-    tracks_collection.fetch()
 
 
 

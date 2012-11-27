@@ -28,6 +28,8 @@
   right: 0;
   top: 0;
   z-index: 100;
+
+  @include opacity(0);
 }
 
 input, textarea, select {

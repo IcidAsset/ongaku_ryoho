@@ -78,19 +78,23 @@
 
       &:active,
       &.on { border-bottom-color: darken(#8d9299, 7%) }
-      &.on .icon { color: lighten(#b6babf, 12%) }
-    }
 
-    // button - change sort direction
-    .button.change-sort-direction {
-      &.on .icon:after { content: "\E75F" }
+      &.on .icon {
+        color: lighten(#b6babf, 12%);
+        @include single-box-shadow(
+          rgba(white, .2), 0, 0, 32px, -2px
+        );
+      }
     }
 
     // button - show favourites
     .button.show-favourites {
-      .icon {
-        font-size: 26px;
-      }
+      .icon { font-size: 26px }
+    }
+
+    // button - menu
+    .button.menu {
+      .icon { font-size: 25px }
     }
 
     // input
