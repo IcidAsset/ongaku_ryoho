@@ -44,7 +44,9 @@
       height: 25px;
       margin-top: 50px / 2 - 26px / 2;
 
-      @include single-box-shadow(#2d2e30, 0, 1px, 3px, 0, 'inset');
+      @include single-box-shadow(
+        #2d2e30, 0, 1px, 3px, 0, "inset"
+      );
     }
 
     // button
@@ -54,7 +56,9 @@
 
       -webkit-order: 3;
 
-      @include background-image(linear-gradient(#525559, #3d3f42));
+      @include background-image(
+        linear-gradient(darken(#525559, 4%), rgba(#3d3f42, .15))
+      );
 
       &, .icon {
         width: 34px;
@@ -84,31 +88,22 @@
 
     // button - show favourites
     .button.show-favourites {
-      @include background-image(
-        linear-gradient($bgcolor_2, darken($bgcolor_2, 6.5%))
-      );
-
       .icon {
-        color: lighten($bgcolor_2, 27.5%);
         font-size: 26px;
       }
 
       &.on .icon {
-        @include single-box-shadow( lighten($bgcolor_2, 27.5%), 0, 0, 32px, -2px);
+        color: lighten($bgcolor_2, 27.5%);
+        @include single-box-shadow(
+          lighten($bgcolor_2, 27.5%), 0, 0, 32px, -2px
+        );
       }
     }
 
     // button - show source manager
     .button.show-source-manager {
-      @include background-image(
-        linear-gradient($bgcolor_1, darken($bgcolor_1, 6.5%))
-      );
-
-      .icon {
-        color: lighten($bgcolor_1, 27.5%);
-      }
-
       &.on .icon {
+        color: lighten($bgcolor_1, 27.5%);
         @include single-box-shadow(
           lighten($bgcolor_1, 27.5%), 0, 0, 32px, -2px
         );
