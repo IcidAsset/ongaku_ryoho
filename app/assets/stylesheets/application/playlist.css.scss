@@ -12,7 +12,7 @@
   -webkit-flex: 1;
   -webkit-flex-direction: column;
 
-  @include single-box-shadow(rgba(#000, .41), 0, 0, 30px, 0);
+  @include single-box-shadow(rgba(#000, .29), 0, 0, 30px, 0);
 
   //
   //  Navigation
@@ -77,10 +77,10 @@
       }
 
       &:active,
-      &.on { border-bottom-color: darken(#8d9299, 7%) }
+      &.on { border-bottom-color: darken(#8d9299, 8.25%) }
 
       &.on .icon {
-        color: lighten(#b6babf, 12%);
+        color: lighten(#b6babf, 10.25%);
         @include single-box-shadow(
           rgba(white, .2), 0, 0, 32px, -2px
         );
@@ -259,8 +259,8 @@
     &.playing:not(.queue-item) {
       background-color: $blueish;
 
-      & > div { color: white }
-      .favourite { color: rgba(white, .4) }
+      & > div { color: darken($blueish_dark, 12%) }
+      .favourite { color: darken($blueish, 7%) }
 
       .favourite[data-favourite=true],
       .favourite:hover { color: darken($blueish_dark, 4.75%) !important }
@@ -277,7 +277,7 @@
       background: $blue;
 
       & > div { color: lighten($blue, 42.5%) }
-      .favourite { color: lighten($blue, 19%) }
+      .favourite { color: lighten($blue, 16.5%) }
 
       .favourite[data-favourite=true],
       .favourite:hover { color: lighten($blue, 48.5%) !important }
