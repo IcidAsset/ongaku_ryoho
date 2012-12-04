@@ -68,25 +68,41 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
   track_rating_star_click: (e) =>
     $t = $(e.currentTarget)
     $track = $t.closest(".track")
-    track = @group.collection.getById($track.attr("rel"))
 
-    title = track.get("title")
-    artist = track.get("artist")
-    album = track.get("album")
-    track_id = track.get("id")
-
-    # check
-    if $t.data("favourite") is true or $t.data("favourite") is "true"
-      $t.attr("data-favourite", false)
-      $t.data("favourite", false)
-
-      this.remove_matching_favourites(title, artist, album)
-
+    track_id = unless $track.hasClass("unavailable")
+      parseInt($track.attr("rel"))
     else
-      $t.attr("data-favourite", true)
-      $t.data("favourite", true)
+      false
 
-      this.create_new_favourite(title, artist, album, track_id)
+    # if the track exists
+    if track_id
+      track = @group.collection.getById(track_id)
+      title = track.get("title")
+      artist = track.get("artist")
+      album = track.get("album")
+
+      if $t.data("favourite") is true or $t.data("favourite") is "true"
+        $t.attr("data-favourite", false)
+        $t.data("favourite", false)
+
+        this.remove_matching_favourites(title, artist, album)
+
+      else
+        $t.attr("data-favourite", true)
+        $t.data("favourite", true)
+
+        this.create_new_favourite(title, artist, album, track_id)
+
+    # if the track doesn't exist
+    # e.g. unavailable track
+    else
+      @parent_group.Favourites.collection.get(
+        $track.data("favourite-id")
+      ).destroy()
+
+    # remove dom element if needed
+    if @group.collection.favourites is on
+      $track.remove()
 
     # prevent default
     e.preventDefault()

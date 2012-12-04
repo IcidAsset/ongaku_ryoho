@@ -4,7 +4,7 @@ class Data::SourcesController < ApplicationController
 
   # GET 'sources'
   def index
-    @sources = current_user.sources.sort { |a,b| a.label <=> b.label }
+    @sources = current_user.sources.sort { |a, b| a.label <=> b.label }
 
     # render
     render json: @sources.to_json(
@@ -49,6 +49,10 @@ class Data::SourcesController < ApplicationController
     else
       { changed: false, checked: false }
     end
+
+    # match unbounded favourites
+    # (without a track)
+    Favourite.match_unbounded([source.id])
 
     # render
     render json: json

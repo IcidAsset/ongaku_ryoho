@@ -16,4 +16,14 @@ class Source < ActiveRecord::Base
   def track_amount
     self.tracks.count
   end
+
+  def self.available_for_user(user)
+    sources = self.where(user_id: user.id, activated: true).all
+    sources.select { |source| source.available? }
+  end
+
+  def self.available_ids_for_user(user)
+    sources = self.available_for_user(user)
+    sources.map { |source| source.id }
+  end
 end

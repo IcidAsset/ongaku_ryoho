@@ -3,13 +3,7 @@ class Data::TracksController < ApplicationController
   layout false
 
   def index
-    available_sources = current_user.sources.where(activated: true).all
-    available_sources.keep_if do |source|
-      source.available?
-    end
-
-    # available source ids
-    available_source_ids = available_sources.map { |source| source.id }
+    available_source_ids = Source.available_ids_for_user(current_user)
 
     # filter, pagination, order, etc.
     options = {

@@ -18,13 +18,15 @@ class OngakuRyoho.Classes.Views.Playlist.Track extends Backbone.View
   #
   render: () ->
     model_attr = @model.toJSON()
+    fav_id = model_attr.favourite_id
 
     # content
     this.$el.html(@template(model_attr))
     this.$el.attr("rel", @model.id)
 
-    # extra classes
+    # extra data and classes
     this.$el.addClass("unavailable") unless model_attr.available
+    this.$el.data("favourite-id", fav_id) if fav_id
 
     # draggable
     this.$el.attr("draggable", "true")

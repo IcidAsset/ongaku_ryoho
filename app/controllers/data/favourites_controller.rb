@@ -29,8 +29,12 @@ class Data::FavouritesController < ApplicationController
 
     # related track
     track = favourite.track
-    track.favourite_id = nil
-    track.save
+
+    # reset track attributes
+    if track
+      track.favourite_id = nil
+      track.save
+    end
 
     # destroy favourite
     favourite.destroy
