@@ -1,8 +1,7 @@
 source "http://rubygems.org"
 
-gem "rails", "3.2.8"
-gem "rack"
-gem "unicorn"
+gem "rails", "3.2.9"
+gem "puma"
 
 gem "pg"
 gem "sorcery"
