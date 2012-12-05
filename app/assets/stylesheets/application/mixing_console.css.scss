@@ -108,7 +108,7 @@ $button_height: 52px;
       &:last-child { margin-right: 0 }
     }
 
-    & > a:active {
+    & > a:active:not(.without-active-state) {
       border-bottom-color: rgba(#fff, .51);
     }
 
