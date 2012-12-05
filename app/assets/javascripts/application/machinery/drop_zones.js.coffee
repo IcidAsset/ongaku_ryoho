@@ -36,10 +36,13 @@ class OngakuRyoho.Classes.Machinery.DropZones
     # add light-up class
     @group.view.$queue.addClass("light-up")
 
+    # remove hover class
+    @group.view.$queue.removeClass("hover")
+
     # set new timeout
     timeout_id = setTimeout(() =>
       @group.view.$queue.removeClass("light-up")
-    , 650 + 50)
+    , 750)
 
     # add timeout_id to array
     this.timeout_ids ?= []

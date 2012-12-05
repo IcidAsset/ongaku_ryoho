@@ -1,5 +1,11 @@
 class OngakuRyoho.Classes.Machinery.Playlist.Tracks
 
+  constructor: () ->
+    @drag_icon = document.createElement("img")
+    @drag_icon.src = "/assets/music-icon.svg"
+
+
+
   #
   #  Show current track
   #
@@ -136,9 +142,11 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
   #
   #  Drag & Drop
   #
-  track_dragstart: (e) ->
+  track_dragstart: (e) =>
     e.dataTransfer.effectAllowed = "move"
+    e.dataTransfer.dropEffect = "move"
     e.dataTransfer.setData("text/plain", $(e.currentTarget).attr("rel"))
+    e.dataTransfer.setDragImage(@drag_icon, 17, 17)
 
 
 

@@ -17,7 +17,7 @@
     position: relative;
     text-align: center;
 
-    @include single-box-shadow(rgba(#000, .09), 0, -4px, 6px, 0, 'inset');
+    @include single-box-shadow(rgba(#000, .09), 0, -4px, 6px, 0, "inset");
   }
 
   .queue .window {
@@ -52,11 +52,18 @@
     line-height: 132px;
     position: relative;
     z-index: 1;
+
+    @include transition-duration(1s);
+    @include transition-property(color);
   }
 
   .queue.light-up .icon {
-    color: rgba(black, .09);
-    text-shadow: rgba(black, .09) 0 0 70px;
+    color: rgba(black, .1);
+  }
+
+  // queue - dragging/hover
+  .queue.hover {
+    .text { color: rgba(black, .575) }
   }
 
 
