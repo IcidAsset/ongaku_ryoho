@@ -7,4 +7,4 @@ class OngakuRyoho.Classes.Models.MixingConsole extends Backbone.Model
     shuffle       : false
     repeat        : false
     mute          : false
-    volume        : 0.5
+    volume        : 50
