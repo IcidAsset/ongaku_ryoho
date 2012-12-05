@@ -57,7 +57,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
         OngakuRyoho.People.SoundGuy.get_current_track()
       )
 
-      this.show_current_track()
+      @parent_group.Tracks.machine.show_current_track()
 
 
 
