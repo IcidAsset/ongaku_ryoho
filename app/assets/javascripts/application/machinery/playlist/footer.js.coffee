@@ -24,3 +24,11 @@ class OngakuRyoho.Classes.Machinery.Playlist.Footer
 
     unless page_info.next then $next.addClass("disabled")
     else $next.removeClass("disabled")
+
+
+
+  disable_navigation_entirely: () ->
+    @group.view.$el
+      .find("footer .page-nav")
+      .find(".previous, .next")
+      .addClass("disabled");

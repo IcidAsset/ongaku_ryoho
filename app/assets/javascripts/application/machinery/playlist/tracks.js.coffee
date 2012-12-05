@@ -15,19 +15,6 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
 
 
   #
-  #  Fetching and fetched events
-  #
-  fetched: () =>
-    OngakuRyoho.Engines.Queue.reset_computed_next()
-    @parent_group.Footer.machine.check_page_navigation()
-
-    if @group.collection.length > 0
-      this.add_playing_class_to_track(OngakuRyoho.People.SoundGuy.get_current_track())
-      this.show_current_track()
-
-
-
-  #
   #  Add playing class to track
   #
   add_playing_class_to_track: (track) ->
@@ -39,6 +26,19 @@ class OngakuRyoho.Classes.Machinery.Playlist.Tracks
     # set classes
     $track.parent().children(".track.playing").removeClass("playing")
     $track.addClass("playing")
+
+
+
+  #
+  #  Fetching and fetched events
+  #
+  fetched: () =>
+    OngakuRyoho.Engines.Queue.reset_computed_next()
+    @parent_group.Footer.machine.check_page_navigation()
+
+    if @group.collection.length > 0
+      this.add_playing_class_to_track(OngakuRyoho.People.SoundGuy.get_current_track())
+      this.show_current_track()
 
 
 

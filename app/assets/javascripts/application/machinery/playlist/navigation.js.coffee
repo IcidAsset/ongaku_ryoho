@@ -41,6 +41,7 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
     @group.view.$el.find(".show-queue").addClass("on")
     @parent_group.Tracks.view.mode = "queue"
     @parent_group.Tracks.view.render()
+    @parent_group.Footer.machine.disable_navigation_entirely()
 
 
 
@@ -48,6 +49,15 @@ class OngakuRyoho.Classes.Machinery.Playlist.Navigation
     @group.view.$el.find(".show-queue").removeClass("on")
     @parent_group.Tracks.view.mode = "default"
     @parent_group.Tracks.view.render()
+    @parent_group.Tracks.machine.show_current_track()
+    @parent_group.Footer.machine.check_page_navigation()
+
+    if @parent_group.Tracks.collection.length > 0
+      @parent_group.Tracks.machine.add_playing_class_to_track(
+        OngakuRyoho.People.SoundGuy.get_current_track()
+      )
+
+      this.show_current_track()
 
 
 
