@@ -30,7 +30,6 @@
         span Album
 
     .tracks-wrapper
-      .nothing-here
 
   footer
     .intestines
@@ -40,8 +39,17 @@
 
 
 
-  script#track_template type="text/x-handlebars-template"
+  script#track-template type="text/x-handlebars-template"
     | <div class="favourite" data-favourite="{{#if favourite_id}}true{{/if}}"><span>&#9733;</span></div>
       <div class="title"><span>{{title}}</span></div>
       <div class="artist"><span>{{artist}}</span></div>
       <div class="album"><span>{{album}}</span></div>
+
+
+
+  script#nothing-here-template type="text/x-handlebars-template"
+    | <div class="nothing-here">
+        <span class="icon" data-icon="&#128191;"></span>
+        <span class="text">Nothing found</span>
+      </div>
+

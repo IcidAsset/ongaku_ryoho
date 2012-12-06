@@ -30,6 +30,13 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # this element
     this.setElement($("#record-box").find(".tracks-wrapper")[0])
 
+    # nothing-here template
+    @nothing_here_template = Handlebars.compile($("#nothing-here-template").html())
+
+    # pre-render
+    this.$el.html(@nothing_here_template())
+    this.$el.find(".text").text("loading")
+
     # render
     @group.collection
       .on("reset", this.render)
@@ -59,7 +66,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     # check
     if $list.children("li").length is 0
-      this.$el.html("<div class=\"nothing-here\" />")
+      this.$el.html(@nothing_here_template())
       OngakuRyoho.RecordBox.Footer.view.set_contents("")
 
     # chain

@@ -21,7 +21,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     @mixing_console = OngakuRyoho.MixingConsole
 
     # get set
-    this.apply_settings_from_local_storage();
+    this.apply_settings_from_local_storage()
     this.check_the_lights()
 
 

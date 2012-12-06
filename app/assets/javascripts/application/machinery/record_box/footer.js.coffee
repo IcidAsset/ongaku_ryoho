@@ -31,4 +31,4 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
     @group.view.$el
       .find("footer .page-nav")
       .find(".previous, .next")
-      .addClass("disabled");
+      .addClass("disabled")

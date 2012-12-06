@@ -9,7 +9,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Track extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    @template = Handlebars.compile($("#track_template").html())
+    @template = Handlebars.compile($("#track-template").html())
 
 
 
