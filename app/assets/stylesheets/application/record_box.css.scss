@@ -1,10 +1,10 @@
 /*
 
-  Playlist
+  Record Box
 
 */
 
-#playlist {
+#record-box {
   display: -webkit-flex;
   margin-left: $controller_width + $body_margin;
   min-width: 493px;
@@ -323,7 +323,7 @@
   //  List - Empty
   //
   .list .nothing-here {
-    background: transparent image-url('playlist/pacman-ghost.png') center no-repeat;
+    background: transparent image-url('record-box/pacman-ghost.png') center no-repeat;
     position: absolute;
     height: 112px;
     left: 0;

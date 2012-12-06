@@ -17,4 +17,4 @@ class OngakuRyoho.Classes.Routers.Default extends Backbone.Router
   #  Queue
   #
   queue: () ->
-    OngakuRyoho.Playlist.Navigation.machine.show_queue()
+    OngakuRyoho.RecordBox.Navigation.machine.show_queue()

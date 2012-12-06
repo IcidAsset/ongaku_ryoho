@@ -1,4 +1,4 @@
-class OngakuRyoho.Classes.Machinery.Playlist.Navigation
+class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
 
   #
   #  Favourites

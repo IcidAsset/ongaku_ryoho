@@ -49,7 +49,7 @@ class OngakuRyoho.Classes.Machinery.DropZones
     this.timeout_ids.push(timeout_id)
 
     # get track
-    track = OngakuRyoho.Playlist.Tracks.collection.get(id)
+    track = OngakuRyoho.RecordBox.Tracks.collection.get(id)
 
     # add message
     message = new OngakuRyoho.Classes.Models.Message

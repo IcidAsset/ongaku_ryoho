@@ -1,4 +1,4 @@
-class OngakuRyoho.Classes.Machinery.Playlist.Footer
+class OngakuRyoho.Classes.Machinery.RecordBox.Footer
 
   #
   #  Page navigation

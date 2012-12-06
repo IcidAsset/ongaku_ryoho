@@ -24,7 +24,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
 
   reload: () ->
-    OngakuRyoho.Playlist.Tracks.collection.fetch()
+    OngakuRyoho.RecordBox.Tracks.collection.fetch()
     OngakuRyoho.SourceManager.collection.fetch()
 
     @requires_reload = false

@@ -195,7 +195,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     @mixing_console.model.set(controller_attributes)
 
     # add playing class to track
-    OngakuRyoho.Playlist.Tracks.machine.add_playing_class_to_track(track)
+    OngakuRyoho.RecordBox.Tracks.machine.add_playing_class_to_track(track)
 
     # turn the play button light on
     $playpause_button_light = @mixing_console.view.$control("button", "play-pause", ".light")

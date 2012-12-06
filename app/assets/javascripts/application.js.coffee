@@ -60,16 +60,16 @@ Zepto ->
   App.DropZones = {}
   App.DropZones.view = new Views.DropZones
 
-  App.Playlist = {}
-  App.Playlist.Tracks = {}
-  App.Playlist.Tracks.collection = new Collections.Tracks
-  App.Playlist.Tracks.view = new Views.Playlist.Tracks
-  App.Playlist.Favourites = {}
-  App.Playlist.Favourites.collection = new Collections.Favourites
-  App.Playlist.Navigation = {}
-  App.Playlist.Navigation.view = new Views.Playlist.Navigation
-  App.Playlist.Footer = {}
-  App.Playlist.Footer.view = new Views.Playlist.Footer
+  App.RecordBox = {}
+  App.RecordBox.Tracks = {}
+  App.RecordBox.Tracks.collection = new Collections.Tracks
+  App.RecordBox.Tracks.view = new Views.RecordBox.Tracks
+  App.RecordBox.Favourites = {}
+  App.RecordBox.Favourites.collection = new Collections.Favourites
+  App.RecordBox.Navigation = {}
+  App.RecordBox.Navigation.view = new Views.RecordBox.Navigation
+  App.RecordBox.Footer = {}
+  App.RecordBox.Footer.view = new Views.RecordBox.Footer
 
   App.SourceManager = {}
   App.SourceManager.collection = new Collections.Sources

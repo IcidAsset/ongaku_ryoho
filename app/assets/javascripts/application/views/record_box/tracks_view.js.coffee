@@ -1,4 +1,4 @@
-class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
+class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
   group_template: _.template("<li class=\"group\"><span><%= title %></span></li>")
   mode: "default"
@@ -20,15 +20,15 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    @parent_group = OngakuRyoho.Playlist
+    @parent_group = OngakuRyoho.RecordBox
     @group = @parent_group.Tracks
     @group.view = this
-    @group.machine = new OngakuRyoho.Classes.Machinery.Playlist.Tracks
+    @group.machine = new OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     @group.machine.group = @group
     @group.machine.parent_group = @parent_group
 
     # this element
-    this.setElement($("#playlist").find(".tracks-wrapper")[0])
+    this.setElement($("#record-box").find(".tracks-wrapper")[0])
 
     # render
     @group.collection
@@ -60,7 +60,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
     # check
     if $list.children("li").length is 0
       this.$el.html("<div class=\"nothing-here\" />")
-      OngakuRyoho.Playlist.Footer.view.set_contents("")
+      OngakuRyoho.RecordBox.Footer.view.set_contents("")
 
     # chain
     return this
@@ -72,7 +72,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
 
     # tracks
     @group.collection.each((track) =>
-      track_view = new OngakuRyoho.Classes.Views.Playlist.Track({ model: track })
+      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
       $list.append(track_view.render().el)
     )
 
@@ -83,7 +83,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
       page #{page_info.page} / #{page_info.pages}"
     )()
 
-    OngakuRyoho.Playlist.Footer.view.set_contents(message)
+    OngakuRyoho.RecordBox.Footer.view.set_contents(message)
 
 
 
@@ -99,7 +99,7 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
       track = map.track
       return unless track
 
-      track_view = new OngakuRyoho.Classes.Views.Playlist.Track({ model: track })
+      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
       track_view.$el.addClass("queue-item")
       track_view.$el.addClass("user-selected") if map.user
 
@@ -107,4 +107,4 @@ class OngakuRyoho.Classes.Views.Playlist.Tracks extends Backbone.View
     )
 
     # set foorter contents
-    OngakuRyoho.Playlist.Footer.view.set_contents(message)
+    OngakuRyoho.RecordBox.Footer.view.set_contents(message)

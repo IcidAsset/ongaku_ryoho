@@ -2,7 +2,7 @@ class OngakuRyoho.Classes.Engines.Queue
 
   setup: () ->
     @tracks =
-      OngakuRyoho.Playlist.Tracks.collection
+      OngakuRyoho.RecordBox.Tracks.collection
 
     @data =
       history: []
@@ -42,7 +42,7 @@ class OngakuRyoho.Classes.Engines.Queue
     @data.combined_next = @data.user_next.concat(@data.computed_next)
 
     # trigger collection reset if needed
-    if OngakuRyoho.Playlist.Tracks.view.mode is "queue"
+    if OngakuRyoho.RecordBox.Tracks.view.mode is "queue"
       @tracks.trigger("reset")
 
 

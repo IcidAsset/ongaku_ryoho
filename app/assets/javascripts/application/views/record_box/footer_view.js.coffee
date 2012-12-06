@@ -1,4 +1,4 @@
-class OngakuRyoho.Classes.Views.Playlist.Footer extends Backbone.View
+class OngakuRyoho.Classes.Views.RecordBox.Footer extends Backbone.View
 
   #
   #  Events
@@ -13,15 +13,15 @@ class OngakuRyoho.Classes.Views.Playlist.Footer extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    @parent_group = OngakuRyoho.Playlist
+    @parent_group = OngakuRyoho.RecordBox
     @group = @parent_group.Footer
     @group.view = this
-    @group.machine = new OngakuRyoho.Classes.Machinery.Playlist.Footer
+    @group.machine = new OngakuRyoho.Classes.Machinery.RecordBox.Footer
     @group.machine.group = @group
     @group.machine.parent_group = @parent_group
 
     # this element
-    this.setElement($("#playlist").children("footer")[0])
+    this.setElement($("#record-box").children("footer")[0])
 
 
 

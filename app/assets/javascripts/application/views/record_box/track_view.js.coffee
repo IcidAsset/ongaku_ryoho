@@ -1,4 +1,4 @@
-class OngakuRyoho.Classes.Views.Playlist.Track extends Backbone.View
+class OngakuRyoho.Classes.Views.RecordBox.Track extends Backbone.View
 
   tagName: "li"
   className: "track"

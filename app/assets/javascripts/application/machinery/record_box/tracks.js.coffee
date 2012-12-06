@@ -1,4 +1,4 @@
-class OngakuRyoho.Classes.Machinery.Playlist.Tracks
+class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
   constructor: () ->
     @drag_icon = document.createElement("img")

@@ -72,7 +72,7 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
   #  Now playing click handler
   #
   now_playing_click_handler: (e) ->
-    OngakuRyoho.Playlist.Tracks.machine.show_current_track()
+    OngakuRyoho.RecordBox.Tracks.machine.show_current_track()
 
 
 
