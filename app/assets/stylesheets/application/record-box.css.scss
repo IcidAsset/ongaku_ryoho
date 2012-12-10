@@ -24,17 +24,14 @@
       linear-gradient(lighten(#757a80, 3%), darken(#4b4e52, 3%))
     );
 
-    &, & > nav {
-      overflow: hidden;
-    }
-
     & > nav {
       display: -webkit-flex;
       height: 50px;
-      margin: 1px;
+      margin: 0 1px;
       padding-left: 10px;
       padding-right: 10px;
       position: relative;
+      top: 1px;
 
       @include background-image(linear-gradient(#6c7075, #595d61));
     }
@@ -87,13 +84,13 @@
       }
     }
 
-    // button - show favourites
-    .button.show-favourites {
+    // button - toggle favourites
+    .button.toggle-favourites {
       .icon { font-size: 26px }
     }
 
-    // button - menu
-    .button.menu {
+    // button - toggle user menu
+    .button.toggle-user-menu {
       .icon { font-size: 25px }
     }
 

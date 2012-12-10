@@ -1,0 +1,65 @@
+/*
+
+  User Menu
+
+*/
+
+#user-menu {
+  color: white;
+  font-size: 11px;
+  position: absolute;
+  right: -13px;
+  top: 44px;
+  width: 166px;
+  z-index: 99;
+
+  @include sourcesanspro-font;
+
+  &.hidden {
+    display: none;
+  }
+
+  // arrow
+  .arrow {
+    border-bottom: 5px solid #343538;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    display: block;
+    height: 0;
+    margin-left: 118px;
+    width: 0;
+  }
+
+  // group
+  .group {
+    background: #343538;
+
+    @include single-box-shadow(rgba(black, .2), 0, 0, 14px, 0);
+
+    &:not(:last-child) {
+      border-bottom: 8px solid rgba(white, .1);
+    }
+  }
+
+  // buttons
+  a {
+    border-bottom: 1px solid rgba(white, .1);
+    color: $light;
+    cursor: pointer;
+    display: block;
+    line-height: 20px;
+    padding: 8px 11px 5px;
+    text-decoration: none;
+  }
+
+  a:last-child {
+    border-bottom: 0;
+  }
+
+  a:hover {
+    background: $orange;
+    color: white;
+  }
+
+
+}

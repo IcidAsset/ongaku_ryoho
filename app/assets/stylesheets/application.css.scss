@@ -16,16 +16,17 @@
 @import "compass";
 @import "reset";
 @import "fonts";
-@import "fonts_entypo";
+@import "fonts-entypo";
 
 @import "helpers";
 @import "application/base";
 @import "application/general";
 
-@import "application/mixing_console";
+@import "application/mixing-console";
 @import "application/visualizations";
-@import "application/drop_zones";
-@import "application/message_center";
+@import "application/drop-zones";
+@import "application/message-center";
 
-@import "application/record_box";
-@import "application/source_manager";
+@import "application/record-box";
+@import "application/user-menu";
+@import "application/source-manager";

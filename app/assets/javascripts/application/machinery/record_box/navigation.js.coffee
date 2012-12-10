@@ -1,28 +1,6 @@
 class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
 
   #
-  #  Favourites
-  #
-  toggle_favourites: (e) =>
-    tracks_collection = @parent_group.Tracks.collection
-    favourites = tracks_collection.favourites
-    $t = $(e.currentTarget)
-
-    # switch
-    if favourites
-      $t.removeClass("on")
-      tracks_collection.favourites = off
-
-    else
-      $t.addClass("on")
-      tracks_collection.favourites = on
-
-    # fetch tracks
-    tracks_collection.fetch()
-
-
-
-  #
   #  Queue
   #
   toggle_queue: (e) =>
@@ -58,6 +36,45 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
       )
 
       @parent_group.Tracks.machine.show_current_track()
+
+
+
+  #
+  #  Favourites
+  #
+  toggle_favourites: (e) =>
+    tracks_collection = @parent_group.Tracks.collection
+    favourites = tracks_collection.favourites
+    $t = $(e.currentTarget)
+
+    # switch
+    if favourites
+      $t.removeClass("on")
+      tracks_collection.favourites = off
+
+    else
+      $t.addClass("on")
+      tracks_collection.favourites = on
+
+    # fetch tracks
+    tracks_collection.fetch()
+
+
+
+  #
+  #  User menu
+  #
+  toggle_user_menu: (e) ->
+    $button = $(e.currentTarget)
+    $menu = $("#user-menu")
+
+    # go
+    if $button.hasClass("on")
+      $button.removeClass("on")
+      $menu.addClass("hidden")
+    else
+      $button.addClass("on")
+      $menu.removeClass("hidden")
 
 
 

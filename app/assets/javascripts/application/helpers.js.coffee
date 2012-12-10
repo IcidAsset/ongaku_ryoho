@@ -96,9 +96,9 @@ window.Helpers =
 
 
   #
-  #  Set theather mode
+  #  Theather mode
   #
-  set_theater_mode: (state) ->
+  set_theater_mode_visibility: (state) ->
     animation_duration = 950
 
     # set elements
@@ -119,12 +119,9 @@ window.Helpers =
 
 
 
-  #
-  #  Check theather mode
-  #
   check_theater_mode: () ->
     theater_mode_state = window.localStorage.getItem("theater_mode_state")
     theater_mode_state ?= "off"
 
     # set
-    this.set_theater_mode(theater_mode_state)
+    this.set_theater_mode_visibility(theater_mode_state)
