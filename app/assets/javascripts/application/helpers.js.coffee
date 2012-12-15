@@ -25,14 +25,6 @@ window.Helpers =
 
 
   #
-  #  Initialize (after)
-  #
-  initialize_after: () ->
-    this.check_theater_mode()
-
-
-
-  #
   #  Setup handlebars helpers
   #
   setup_handlebars_helpers: () ->
@@ -92,36 +84,3 @@ window.Helpers =
   set_document_title: (text, set_original_title) ->
     this.original_document_title = document.title if set_original_title
     document.title = text
-
-
-
-  #
-  #  Theather mode
-  #
-  set_theater_mode_visibility: (state) ->
-    animation_duration = 950
-
-    # set elements
-    $button = OngakuRyoho.RecordBox.Navigation.view.$el.find(".button.theater-mode")
-    $color_overlay = $("#color-overlay")
-
-    # go
-    if state is "off"
-      $button.removeClass("on")
-      $color_overlay.fadeTo(animation_duration, 0)
-
-    else
-      $button.addClass("on")
-      $color_overlay.fadeTo(animation_duration, 1)
-
-    # save state in local storage
-    window.localStorage.setItem("theater_mode_state", state)
-
-
-
-  check_theater_mode: () ->
-    theater_mode_state = window.localStorage.getItem("theater_mode_state")
-    theater_mode_state ?= "off"
-
-    # set
-    this.set_theater_mode_visibility(theater_mode_state)

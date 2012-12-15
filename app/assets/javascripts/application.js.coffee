@@ -75,11 +75,11 @@ Zepto ->
   App.SourceManager.collection = new Collections.Sources
   App.SourceManager.view = new Views.SourceManager
 
+  App.UserMenu = {}
+  App.UserMenu.view = new Views.UserMenu
+
   # send people off to work
   App.People.SoundGuy.go_to_work()
-
-  # helpers
-  Helpers.initialize_after()
 
   # get data
   App.SourceManager.collection.fetch({
