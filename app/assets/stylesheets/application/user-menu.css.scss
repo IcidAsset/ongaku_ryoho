@@ -63,7 +63,7 @@
 
   // checkbox
   .checkbox {
-    border: 1px solid rgba($light, .375);
+    border: 1px solid rgba($light, .2);
     display: inline-block;
     height: 10px;
     margin-right: 10px;
@@ -75,9 +75,9 @@
   }
 
   a.on .checkbox:after {
-    color: white;
+    color: rgba(white, .75);
     content: "\02713";
-    font-size: 30px;
+    font-size: 33px;
     left: -1px;
     line-height: 10px;
     position: absolute;
