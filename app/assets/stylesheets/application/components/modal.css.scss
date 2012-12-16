@@ -1,0 +1,83 @@
+/*
+
+  Components / Modal
+
+*/
+
+.modal {
+  bottom: 0;
+  display: none;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+
+  .background {
+    background: rgba(#000, 0.67);
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 0;
+  }
+
+  .window {
+    display: -webkit-flex;
+    height: 450px;
+    left: 50%;
+    margin: -225px 0 0 -400px;
+    position: absolute;
+    top: 50%;
+    width: 800px;
+    z-index: 1;
+
+    -webkit-flex-direction: column;
+  }
+
+  // header
+  header {
+    overflow: hidden;
+
+    @include background-image(
+      linear-gradient(lighten(#757a80, 3%), darken(#4b4e52, 3%))
+    );
+  }
+
+  header .box {
+    color: #b6babf;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 1px;
+    padding: 15px 8px 14px;
+    position: relative;
+    text-align: center;
+
+    @include background-image(
+      linear-gradient(#6c7075, #595d61)
+    );
+  }
+
+  header .close-button {
+    bottom: 0;
+    cursor: pointer;
+    font-size: 39px;
+    height: 18px;
+    line-height: 12px;
+    margin-top: -9px;
+    position: absolute;
+    right: 14px;
+    text-align: center;
+    top: 50%;
+    width: 18px;
+  }
+
+  // section
+  section {
+    background: white;
+
+    -webkit-flex: 1;
+  }
+}

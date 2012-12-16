@@ -4,7 +4,7 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
   #  Events
   #
   events:
-    "click .background" : "hide"
+    "click header .close-button" : "hide"
 
 
 
@@ -18,17 +18,13 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
     this.setElement($("#source-manager"))
 
     # more elements
-    $source_list_view = this.$el.find(".window.main section")
-    $add_section      = this.$el.find(".window.add section")
+    $source_list_view = this.$el.find("#source-list")
 
     # menu button
     this.$menu_button = OngakuRyoho.RecordBox.Navigation.view.$el.find(".show-source-manager")
 
     # main section
     @source_list_view = new OngakuRyoho.Classes.Views.SourceList({ el: $source_list_view  })
-
-    # add section
-    @group.machine.setup_add_section($add_section)
 
 
 

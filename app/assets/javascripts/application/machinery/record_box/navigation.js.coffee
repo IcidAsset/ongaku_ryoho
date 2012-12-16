@@ -65,14 +65,9 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
   #  User menu
   #
   toggle_user_menu: (e) ->
-    $button = $(e.currentTarget)
-
-    # go
-    if $button.hasClass("on")
-      $button.removeClass("on")
+    if $(e.currentTarget).hasClass("on")
       OngakuRyoho.UserMenu.view.hide()
     else
-      $button.addClass("on")
       OngakuRyoho.UserMenu.view.show()
 
 

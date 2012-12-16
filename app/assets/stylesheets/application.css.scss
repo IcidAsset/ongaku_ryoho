@@ -17,10 +17,12 @@
 @import "reset";
 @import "fonts";
 @import "fonts-entypo";
-
 @import "helpers";
+
 @import "application/base";
 @import "application/general";
+
+@import "application/components/modal";
 
 @import "application/mixing-console";
 @import "application/visualizations";

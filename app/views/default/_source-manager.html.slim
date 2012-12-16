@@ -1,39 +1,35 @@
-#source-manager
+.modal#source-manager
   .background
-  .wrapper
 
-    .window.main
-      header: p Sources
-      section
+  .window.main.shown
+    header
+      .box
+        .title Source Manager
+        .close-button.icon[data-icon="&#10060;"]
 
-    .window.add
-      header: p Add
-      section
-        .select-wrapper
-          select data-placeholder="Choose a source type" style="width: 213px"
-            option value="new_server" Ongaku Ryoho Server
-
-        .forms-wrapper
+    section
+      .toolbar
+        a[rel="add-source"] Add source
+      table#source-list
 
 
 
-  script#source_list_template type="text/x-handlebars-template"
-    | <form>
-        <div class="source-list">
-          <ol></ol>
-        </div>
-      </form>
+  script#source-list-template type="text/x-handlebars-template"
+    | <tbody></tbody>
 
 
 
-  script#source_template type="text/x-handlebars-template"
-    | {{#if available}}
-        <input type="checkbox" checked="checked" disabled="disabled" />
-      {{else}}
-        <input type="checkbox" disabled="disabled" />
-      {{/if}}
-
-      <label title="{{label}}">
+  script#source-template type="text/x-handlebars-template"
+    | <td>
+        {{#if available}}
+          <input type="checkbox" checked="checked" disabled="disabled" />
+        {{else}}
+          <input type="checkbox" disabled="disabled" />
+        {{/if}}
+      </td>
+      <td>
         <strong>{{label}}</strong><br>
         {{{source_subtext}}}
-      </label>
+      </td>
+      <td>
+      </td>

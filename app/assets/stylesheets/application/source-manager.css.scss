@@ -1,177 +1,50 @@
 /*
 
   Source Manager
+  (element with modal class)
 
 */
 
-$window-width:    236px;
-$window-margin:   8px;
-$section-height:  288px;
+#source-manager .window {
+  visibility: hidden;
 
-#source-manager {
-  display: none;
-  z-index: 10;
+  &.shown {
+    visibility: visible;
+  }
+}
 
-  -webkit-font-smoothing: antialiased;
 
-  &, .background {
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
+#source-manager .toolbar {
+  border-bottom: 1px solid #EBEBEB;
+  padding: 10px 11px 8px;
+
+  @include single-box-shadow(#E0E0E0, 0, 1px, 0, 0);
+
+  a {
+    background: $green_2;
+    color: white;
+    display: inline-block;
+    font-weight: bold;
+    padding: 5px 7px;
+
+    @include border-radius(3px);
+  }
+}
+
+
+#source-list {
+  width: 100%;
+
+  td {
+    padding: 6px  0;
   }
 
-  .background {
-    background: rgba(#000, 0.67);
-    cursor: pointer;
-    z-index: 0;
+  td:first-child {
+    text-align: center;
+    width: 34px;
   }
 
-
-  //
-  //  Wrapper
-  //
-  .wrapper {
-    left: 50%;
-    margin-left: -(($window-width * 2 + $window-margin) / 2);
-    margin-top: -($section-height / 2) - (44px / 2);
-    overflow: hidden;
-    position: absolute;
-    top: 50%;
-    width: $window-width * 2 + $window-margin;
-    z-index: 1;
+  input[type="checkbox"] {
+    display: inline-block;
   }
-
-
-  //
-  //  Window, .all
-  //
-  .window {
-    float: left;
-    width: $window-width;
-
-    header {
-      overflow: hidden;
-
-      @include background-image(
-        linear-gradient(lighten(#757a80, 3%), darken(#4b4e52, 3%))
-      );
-    }
-
-    header p {
-      color: #b6babf;
-      font-weight: 700;
-      margin: 1px;
-      padding: 14px 8px 12px;
-      text-align: center;
-
-      @include background-image(linear-gradient(#6c7075, #595d61));
-    }
-
-    section {
-      background: #fff;
-      border: 1px solid #e3e3e3;
-      height: $section-height;
-
-      // &, form, ul { @include border-bottom-radius(3px) }
-    }
-  }
-
-
-  //
-  //  Window, .main
-  //
-  .window.main { margin-right: $window-margin }
-
-  .source-list {
-    height: $section-height + 2;
-    margin-top: -1px;
-    overflow: visible;
-    position: relative;
-    width: $window-width - 1;
-
-    ol {}
-
-    li {
-      background: #fcfcfc;
-      border-bottom: 1px solid #f2f2f2;
-      border-right: 6px solid #999;
-      overflow: hidden;
-      padding: 22px 12px 17px;
-    }
-
-    input {
-      float: left;
-      margin-right: 10px;
-    }
-
-    label {
-      color: #949fa3;
-      float: left;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 172px;
-
-      span { font-size: 10px }
-    }
-
-    .available   { border-right-color: #a3de89 }
-    .unavailable { border-right-color: #ff5e61 }
-    .unavailable label { text-decoration: line-through }
-  }
-
-
-  //
-  //  Window, .add
-  //
-  .window.add {
-    .forms-wrapper, .select-wrapper { padding: 13px 10px }
-
-    .forms-wrapper form {
-      display: none;
-
-      label, input { display: block; margin: 0 }
-
-      label {
-        font-size: 9px;
-        font-weight: bold;
-        text-transform: uppercase;
-      }
-
-      select, input { width: 100%; @include box-sizing('border-box') }
-
-      select:focus { outline: none }
-
-      input { margin-top: 7px }
-
-      input[type=text] {
-        background: #fcfcfc;
-        border: 1px solid #f2f2f2;
-        color: #3d3f42;
-        margin-top: 0;
-        padding: 7px 7px 5px;
-
-        -webkit-appearance: none;
-
-        &:focus { outline: none }
-
-        @include input-placeholder(#d3d3d3);
-      }
-
-      input[type=submit] {
-        background: #a3de89;
-        border: 1px solid #9bd483;
-        color: #f6fff2;
-        cursor: pointer;
-        font-size: 11px;
-        padding: 9px 7px 7px;
-
-        @include border-radius(3px);
-      }
-    }
-  }
-
-
 }

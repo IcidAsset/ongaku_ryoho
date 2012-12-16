@@ -75,7 +75,7 @@
   }
 
   a.on .checkbox:after {
-    color: rgba(white, .75);
+    color: $green;
     content: "\02713";
     font-size: 33px;
     left: -1px;

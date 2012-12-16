@@ -1,5 +1,39 @@
 class OngakuRyoho.Classes.Machinery.UserMenu
 
+  constructor: () ->
+    @timeout_ids = []
+
+
+
+  #
+  #  Timeouts
+  #
+  clear_timeouts: () =>
+    array = @timeout_ids
+    array_clone = _.clone(array)
+
+    # loop and clear
+    _.each(array_clone, (timeout_id) ->
+      clearTimeout(timeout_id)
+      array.shift()
+    )
+
+
+
+  set_timeout_for_hide: () =>
+    @timeout_ids.push(
+      setTimeout(@group.view.hide, 3000)
+    )
+
+
+
+  set_timeout_for_document_click: () =>
+    this.group.machine.timeout_ids.push(
+      setTimeout((() -> $(document).one("click", OngakuRyoho.UserMenu.view.hide)), 100)
+    )
+
+
+
   #
   #  Theather mode
   #
@@ -40,3 +74,11 @@ class OngakuRyoho.Classes.Machinery.UserMenu
 
     # set
     this.set_theater_mode_visibility(theater_mode_state)
+
+
+
+  #
+  #  Source manager
+  #
+  source_manager_toggle: (e) ->
+    OngakuRyoho.SourceManager.view.show()

@@ -1,6 +1,6 @@
 class OngakuRyoho.Classes.Views.Source extends Backbone.View
 
-  tagName: "li"
+  tagName: "tr"
 
 
 
@@ -8,7 +8,7 @@ class OngakuRyoho.Classes.Views.Source extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    @template = Handlebars.compile($("#source_template").html())
+    @template = Handlebars.compile($("#source-template").html())
 
 
 

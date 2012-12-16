@@ -188,7 +188,7 @@
 
       span { display: block; padding: 0 7px }
 
-      .favourite span { padding-left: 10px; @include icon-font }
+      .favourite span { padding-left: 10px }
       .album span { padding-right: 10px }
     }
   }
@@ -288,6 +288,8 @@
       line-height: 26px;
 
       -webkit-font-smoothing: antialiased;
+
+      @include icon-font;
 
       &[data-favourite=true] { color: $yellow }
     }
