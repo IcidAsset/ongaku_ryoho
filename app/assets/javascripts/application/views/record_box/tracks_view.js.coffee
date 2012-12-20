@@ -30,12 +30,11 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # this element
     this.setElement($("#record-box").find(".tracks-wrapper")[0])
 
-    # nothing-here template
-    @nothing_here_template = Handlebars.compile($("#nothing-here-template").html())
+    # message template
+    @message_template = Handlebars.compile($("#list-message-template").html())
 
-    # pre-render
-    this.$el.html(@nothing_here_template())
-    this.$el.find(".text").text("loading")
+    # add loading message
+    this.add_loading_message()
 
     # render
     @group.collection
@@ -66,7 +65,23 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     # check
     if $list.children("li").length is 0
-      this.$el.html(@nothing_here_template())
+      sources_collection = OngakuRyoho.SourceManager.collection
+
+      message = if sources_collection.length is 0
+        "You haven't added a music source yet."
+      else if sources_collection.where({ available: true }).length is 0
+        "All sources are offline."
+      else
+        "Empty collection."
+
+      message_html = @message_template(
+        title: "NOTHING FOUND"
+        message: message
+        extra_html: ""
+        extra_classes: "nothing-here"
+      )
+
+      this.$el.html(message_html)
       OngakuRyoho.RecordBox.Footer.view.set_contents("")
 
     # chain
@@ -115,3 +130,18 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     # set foorter contents
     OngakuRyoho.RecordBox.Footer.view.set_contents(message)
+
+
+
+  #
+  #  Messages, info, etc.
+  #
+  add_loading_message: () ->
+    $loading = $("<div class=\"message loading\" />")
+    $loading.append("<span><span class=\"animation\"></span>loading ...</span>")
+    $loading.appendTo(this.$el)
+
+    Helpers.add_loading_animation(
+      this.$el.find(".loading .animation")[0],
+      "#000", 4
+    )

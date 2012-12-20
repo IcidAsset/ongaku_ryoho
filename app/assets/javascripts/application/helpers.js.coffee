@@ -62,14 +62,14 @@ window.Helpers =
   #
   #  Loading animation
   #
-  add_loading_animation: (target) ->
+  add_loading_animation: (target, color="#fff", radius=4) ->
     options =
       lines: 10
       length: 1
       width: 1
-      radius: 4
+      radius: radius
       rotate: 90
-      color: "#fff"
+      color: color
       speed: 1
       trail: 60
       shadow: false

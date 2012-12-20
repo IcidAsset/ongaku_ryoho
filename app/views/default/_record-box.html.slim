@@ -43,9 +43,10 @@
 
 
 
-  script#nothing-here-template type="text/x-handlebars-template"
-    | <div class="nothing-here">
-        <span class="icon" data-icon="&#128191;"></span>
-        <span class="text">Nothing found</span>
+  script#list-message-template type="text/x-handlebars-template"
+    | <div class="message {{extra_classes}}">
+        <div class="title">{{title}}</div>
+        <p>{{message}}</p>
+        {{extra_html}}
       </div>
 
