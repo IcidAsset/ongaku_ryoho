@@ -11,7 +11,6 @@ class OngakuRyoho.Classes.People.SoundGuy
   #
   go_to_work: () ->
     @audio_engine = OngakuRyoho.Engines.Audio
-    @audio_engine.setup()
 
     # queue
     @queue = OngakuRyoho.Engines.Queue
@@ -20,7 +19,14 @@ class OngakuRyoho.Classes.People.SoundGuy
     # his mixing console
     @mixing_console = OngakuRyoho.MixingConsole
 
-    # get set
+    # part two
+    this.go_to_work_part_two()
+
+
+
+  go_to_work_part_two: () ->
+    @audio_engine.setup()
+
     this.apply_settings_from_local_storage()
     this.check_the_lights()
 
@@ -172,13 +178,17 @@ class OngakuRyoho.Classes.People.SoundGuy
   #  Insert track
   #
   insert_track: (track) ->
+    return unless @audio_engine.has_been_setup
+
+    # clear
     @audio_engine.destroy_all_sources()
 
     # track attributes
     track_attributes = track.toJSON()
 
     # create new source
-    @audio_engine.create_new_source(track, true)
+    audio = @audio_engine.create_new_source(track, true)
+    audio.play()
 
     # controller attributes
     controller_attributes =

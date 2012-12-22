@@ -23,6 +23,9 @@ body {
 
   @include sans-serif-font;
   @include disable-user-select;
+
+  -webkit-tap-highlight-color: transparent;
+          tap-highlight-color: transparent;
 }
 
 

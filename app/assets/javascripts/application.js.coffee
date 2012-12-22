@@ -18,11 +18,15 @@
 #= require "backbone_rails_sync"
 #= require "handlebars"
 #= require "jsdeferred"
+#= require "hammer"
 #= require "spin"
+#= require "browser"
+#= require "modernizr_custom"
 
 #= require "./application/backbone_extensions"
-#= require "./application/helpers"
 #= require "./application/ongaku_ryoho"
+#= require "./application/helpers"
+#= require "./application/legacy"
 
 
 
@@ -87,3 +91,6 @@ Zepto ->
       Deferred.next(() -> App.SourceManager.collection.process_and_check_sources(true))
               .next(() -> App.Router = new Routers.Default)
   })
+
+  # check for legacy stuff
+  window.Legacy.check()

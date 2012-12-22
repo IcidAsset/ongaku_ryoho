@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
 
   def create
     user = login(
-      params[:email],
+      params[:email].try(:downcase),
       params[:password],
       params[:remember_me]
     )

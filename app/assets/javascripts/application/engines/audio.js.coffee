@@ -1,16 +1,27 @@
 class OngakuRyoho.Classes.Engines.Audio
 
-  setup: () ->
+  constructor: () ->
     @sources = []
     @audio_elements = []
     @nodes = {}
     @req_anim_frame_id = null
 
+
+
+  setup: () ->
+    this.has_been_setup = true
     this.set_audio_context()
     this.create_volume_node()
     this.create_analyser_nodes()
     this.create_channel_splitter_node()
     this.create_audio_elements_container()
+
+
+
+  #
+  #  Flags
+  #
+  has_been_setup: false
 
 
 
@@ -151,16 +162,16 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element = new window.Audio()
     audio_element.setAttribute("src", related_track.get("url"))
     audio_element.setAttribute("rel", related_track.id)
+    audio_element.load() if audio_element.load
 
     # events, in order of the w3c spec
     audio_element.addEventListener("progress", this.events.progress)
-    audio_element.addEventListener("suspend", this.events.suspend)
     audio_element.addEventListener("error", this.events.error)
     audio_element.addEventListener("timeupdate", this.events.time_update)
     audio_element.addEventListener("ended", this.events.ended)
     audio_element.addEventListener("durationchange", this.events.duration_change)
     audio_element.addEventListener("canplay", (e) =>
-      e.target.play() if autoplay
+      # e.target.play() if autoplay
       this.start_analysing() if autoplay
     )
 
@@ -189,6 +200,9 @@ class OngakuRyoho.Classes.Engines.Audio
     # if no element exists yet
     audio_element ?= this.create_new_audio_element(track, autoplay)
 
+    # audio element volume
+    audio_element.volume = 1
+
     # create, connect and play
     setTimeout(() =>
       source = @ac.createMediaElementSource(audio_element)
@@ -201,6 +215,9 @@ class OngakuRyoho.Classes.Engines.Audio
       # fill up queue
       OngakuRyoho.Engines.Queue.set_next()
     , 0)
+
+    # return
+    return audio_element
 
 
 
@@ -220,7 +237,6 @@ class OngakuRyoho.Classes.Engines.Audio
 
     # remove all event listeners
     source.mediaElement.removeEventListener("progress", this.events.progress)
-    source.mediaElement.removeEventListener("suspend", this.events.suspend)
     source.mediaElement.removeEventListener("error", this.events.error)
     source.mediaElement.removeEventListener("timeupdate", this.events.time_update)
     source.mediaElement.removeEventListener("ended", this.events.ended)
@@ -289,15 +305,6 @@ class OngakuRyoho.Classes.Engines.Audio
 
 
   #
-  #  Fade out source
-  #
-  fade_out: (source) ->
-    # remove from array first
-    # then remove event handlers from audio element
-
-
-
-  #
   #  Events
   #
   events:
@@ -311,11 +318,6 @@ class OngakuRyoho.Classes.Engines.Audio
       OngakuRyoho.MixingConsole.view.$progress_bar
         .children(".progress.loader")
         .css("width", percent_loaded)
-
-
-
-    suspend: (e) ->
-      # console.log("suspend")
 
 
 

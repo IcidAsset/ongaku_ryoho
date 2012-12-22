@@ -224,6 +224,7 @@
     overflow: auto;
     position: relative;
 
+    -webkit-overflow-scrolling: touch;
     -webkit-flex: 1;
   }
 
@@ -270,15 +271,15 @@
     }
 
     // click & hold
-    &:active {
-      background: $blue;
+    // &:active {
+    //   background: $blue;
 
-      & > div { color: lighten($blue, 42.5%) }
-      .favourite { color: lighten($blue, 16.5%) }
+    //   & > div { color: lighten($blue, 42.5%) }
+    //   .favourite { color: lighten($blue, 16.5%) }
 
-      .favourite[data-favourite=true],
-      .favourite:hover { color: lighten($blue, 48.5%) !important }
-    }
+    //   .favourite[data-favourite=true],
+    //   .favourite:hover { color: lighten($blue, 48.5%) !important }
+    // }
 
     // favourite (star)
     .favourite {

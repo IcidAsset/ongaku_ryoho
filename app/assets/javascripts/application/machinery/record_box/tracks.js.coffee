@@ -49,10 +49,10 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
   #
-  #  Track dblclick handler
+  #  Activate track
   #
-  track_dblclick: (e) =>
-    $t = $(e.currentTarget)
+  activate_track: (el) =>
+    $t = $(el)
 
     # check
     return if $t.hasClass("unavailable")

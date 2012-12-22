@@ -12,6 +12,9 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
 
 
   destroy_handler: (favourite) ->
-    track_id = favourite.get("track_id")
-    track = OngakuRyoho.RecordBox.Tracks.collection.get(track_id) if track_id
-    OngakuRyoho.RecordBox.Tracks.collection.remove(track) if track
+    Tracks = OngakuRyoho.RecordBox.Tracks
+
+    if Tracks.collection.favourites is true
+      track_id = favourite.get("track_id")
+      track = Tracks.collection.get(track_id) if track_id
+      Tracks.collection.remove(track) if track

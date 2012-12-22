@@ -22,6 +22,15 @@ window.Helpers =
       window.mozCancelRequestAnimationFrame
     )
 
+    # disable ios background scroll
+    $(document).on("touchmove", (e) ->
+        target = e.target
+        parent = $(target).closest(".tracks-wrapper")
+
+        if parent.length is 0
+          e.preventDefault();
+    )
+
 
 
   #

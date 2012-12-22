@@ -4,6 +4,15 @@
 
 */
 
+#audio-elements {
+  height: 1px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  visibility: hidden;
+  width: 1px;
+}
+
 #wrapper {
   margin: 0 auto;
   max-width: 1300px;
