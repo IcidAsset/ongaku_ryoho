@@ -16,7 +16,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
 
 
   show_queue: () ->
-    @group.view.$el.find(".show-queue").addClass("on")
+    @group.view.$el.find(".toggle-queue").addClass("on")
     @parent_group.Tracks.view.mode = "queue"
     @parent_group.Tracks.view.render()
     @parent_group.Footer.machine.disable_navigation_entirely()
@@ -24,7 +24,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
 
 
   hide_queue: () ->
-    @group.view.$el.find(".show-queue").removeClass("on")
+    @group.view.$el.find(".toggle-queue").removeClass("on")
     @parent_group.Tracks.view.mode = "default"
     @parent_group.Tracks.view.render()
     @parent_group.Tracks.machine.show_current_track()

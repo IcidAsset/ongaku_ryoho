@@ -39,10 +39,10 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # render
     @group.collection
       .on("reset", this.render)
+      .on("remove", this.remove_handler)
 
     # fetch events
     @group.collection
-      .on("fetching", @group.machine.fetching)
       .on("fetched", @group.machine.fetched)
 
 
@@ -65,23 +65,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     # check
     if $list.children("li").length is 0
-      sources_collection = OngakuRyoho.SourceManager.collection
-
-      message = if sources_collection.length is 0
-        "You haven't added a music source yet."
-      else if sources_collection.where({ available: true }).length is 0
-        "All sources are offline."
-      else
-        "Empty collection."
-
-      message_html = @message_template(
-        title: "NOTHING FOUND"
-        message: message
-        extra_html: ""
-        extra_classes: "nothing-here"
-      )
-
-      this.$el.html(message_html)
+      this.add_nothing_here_message()
       OngakuRyoho.RecordBox.Footer.view.set_contents("")
 
     # chain
@@ -133,9 +117,35 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
 
 
+  remove_handler: (track) =>
+    this.$el.find(".track[rel=\"#{track.id}\"]").remove()
+
+
+
   #
   #  Messages, info, etc.
   #
+  add_nothing_here_message: () ->
+    sources_collection = OngakuRyoho.SourceManager.collection
+
+    message = if sources_collection.length is 0
+      "You haven't added a music source yet."
+    else if sources_collection.where({ available: true }).length is 0
+      "All sources are offline."
+    else
+      "Empty collection."
+
+    message_html = @message_template(
+      title: "NOTHING FOUND"
+      message: message
+      extra_html: ""
+      extra_classes: "nothing-here"
+    )
+
+    this.$el.append(message_html)
+
+
+
   add_loading_message: () ->
     $loading = $("<div class=\"message loading\" />")
     $loading.append("<span><span class=\"animation\"></span>loading ...</span>")

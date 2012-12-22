@@ -42,7 +42,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     OngakuRyoho.Engines.Queue.reset_computed_next()
     @parent_group.Footer.machine.check_page_navigation()
 
-    if @group.collection.length > 0
+    if @group.collection.length > 0 and @group.view.mode isnt "queue"
       this.add_playing_class_to_track(OngakuRyoho.People.SoundGuy.get_current_track())
       this.show_current_track()
 
@@ -58,7 +58,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     return if $t.hasClass("unavailable")
 
     # set
-    track = @group.collection.getById($t.attr("rel"))
+    track = @group.collection.get($t.attr("rel"))
 
     # insert track
     OngakuRyoho.Engines.Queue.clear_computed_next()
@@ -82,7 +82,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
     # if the track exists
     if track_id
-      track = @group.collection.getById(track_id)
+      track = @group.collection.get(track_id)
       title = track.get("title")
       artist = track.get("artist")
       album = track.get("album")
@@ -107,8 +107,12 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
       ).destroy()
 
     # remove dom element if needed
+    # and also add 'nothing here' message if the collection is empty
     if @group.collection.favourites is on
-      $track.remove()
+      $track.remove() unless track_id
+
+      if @group.collection.length is 0
+        @group.view.add_nothing_here_message()
 
     # prevent default
     e.preventDefault()

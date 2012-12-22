@@ -20,17 +20,6 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
 
 
   #
-  #  Get by id
-  #
-  getById: (id) ->
-    id = parseInt(id)
-    track = this.find (t) -> t.id is id
-
-    return track
-
-
-
-  #
   #  Fetch
   #
   fetch: (options={}) ->

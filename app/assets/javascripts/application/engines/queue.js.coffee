@@ -18,7 +18,7 @@ class OngakuRyoho.Classes.Engines.Queue
 
   add_to_next: (track) ->
     @data.user_next.push({ track: track, user: true })
-    this.set_next()
+    this.reset_computed_next()
 
 
 
@@ -53,14 +53,15 @@ class OngakuRyoho.Classes.Engines.Queue
     return if @tracks.length is 0
 
     # get last track in line
-    last_track_in_line = if @data.computed_next.length > 0 then _.last(@data.computed_next)
-    else (if current_track then current_track else @tracks.last())
+    last_track_in_line_id = if @data.user_next.length > 0 then _.last(@data.user_next).track.id
+    else if @data.computed_next.length > 0 then _.last(@data.computed_next).track.id
+    else (if current_track then current_track.id else @tracks.last().id)
 
     # check
-    last_track_in_line ?= @tracks.first()
+    last_track_in_line_id ?= @tracks.first().id
 
     # loop
-    indexof_last = @tracks.indexOf(last_track_in_line)
+    indexof_last = @tracks.indexOf(@tracks.get(last_track_in_line_id))
     indexof_last = 0 if indexof_last < 0
     counter = indexof_last
 
@@ -76,6 +77,7 @@ class OngakuRyoho.Classes.Engines.Queue
   set_next_shuffle: (x) ->
     for n in [0...x]
       already_selected = @data.user_next.concat(@data.computed_next)
+      already_selected = _.map(already_selected, (queue_item) -> queue_item.track.id)
       track = @tracks.get_random_track(already_selected)
       @data.computed_next.push({ track: track, user: false }) if track
       break unless track
