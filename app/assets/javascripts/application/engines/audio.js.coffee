@@ -172,7 +172,7 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element.addEventListener("durationchange", this.events.duration_change)
     audio_element.addEventListener("canplay", (e) =>
       # e.target.play() if autoplay
-      this.start_analysing() if autoplay
+      this.start_analysing() if autoplay and not browser.isiOS
     )
 
     # add element to dom

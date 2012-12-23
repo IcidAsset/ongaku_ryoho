@@ -221,7 +221,7 @@
   //
   .list .tracks-wrapper {
     min-height: 0;
-    overflow: auto;
+    overflow: scroll;
     position: relative;
 
     -webkit-overflow-scrolling: touch;

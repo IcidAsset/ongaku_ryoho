@@ -28,7 +28,7 @@ window.Helpers =
         parent = $(target).closest(".tracks-wrapper")
 
         if parent.length is 0
-          e.preventDefault();
+          e.preventDefault()
     )
 
 
