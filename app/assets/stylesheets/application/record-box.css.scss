@@ -270,16 +270,10 @@
       color: #999;
     }
 
-    // click & hold
-    // &:active {
-    //   background: $blue;
-
-    //   & > div { color: lighten($blue, 42.5%) }
-    //   .favourite { color: lighten($blue, 16.5%) }
-
-    //   .favourite[data-favourite=true],
-    //   .favourite:hover { color: lighten($blue, 48.5%) !important }
-    // }
+    // drag target
+    &.drag-target {
+      border-bottom: 1px solid $blueish;
+    }
 
     // favourite (star)
     .favourite {

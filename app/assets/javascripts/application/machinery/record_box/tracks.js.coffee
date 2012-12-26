@@ -156,3 +156,30 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
   track_dragend: (e) ->
     e.dataTransfer.clearData()
+
+
+
+  track_dragenter: (e) =>
+    if @group.view.mode is "queue" then $(e.currentTarget).addClass("drag-target")
+
+
+
+  track_dragleave: (e) =>
+    if @group.view.mode is "queue" then $(e.currentTarget).removeClass("drag-target")
+
+
+
+  track_dragover: (e) =>
+    e.preventDefault()
+    e.dataTransfer.dropEffect = "move"
+
+
+
+  track_drop: (e) =>
+    unless @group.view.mode is "queue" then return
+
+    # continue
+    e.stopPropagation()
+
+    $t = $(e.currentTarget)
+    $t.removeClass("drag-target")
