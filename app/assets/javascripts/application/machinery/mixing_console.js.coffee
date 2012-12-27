@@ -121,7 +121,7 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
   #
-  #  Controller buttons / knobs
+  #  Controller knobs
   #
   setup_knobs: ($knobs) ->
     that = this

@@ -43,11 +43,27 @@
         .icon
 
   .controls.alt
+    // https://dvcs.w3.org/hg/audio/raw-file/tip/webaudio/specification.html#BiquadFilterNode
+    // http://stackoverflow.com/questions/13794284/implementing-a-3-band-equalizer-using-web-audio-api
+    // http://static4.djtechtools.com/wp-content/uploads/2011/02/djm-900-nexus-top.jpg
+
     a.without-active-state
-      .knob.x
+      .knob.low
         .it: div
         .lines
 
-    .subtitle[style="clear: left"] lowpass
+    a.without-active-state
+      .knob.mid
+        .it: div
+        .lines
+
+    a.without-active-state
+      .knob.hi
+        .it: div
+        .lines
+
+    .subtitle[style="clear: left"] low
+    .subtitle mid
+    .subtitle hi
 
   .audio-container
