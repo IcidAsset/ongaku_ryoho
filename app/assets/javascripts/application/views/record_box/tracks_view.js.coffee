@@ -2,6 +2,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
   group_template: _.template("<li class=\"group\"><span><%= title %></span></li>")
   mode: "default"
+  dragged_track_element: null
 
 
 

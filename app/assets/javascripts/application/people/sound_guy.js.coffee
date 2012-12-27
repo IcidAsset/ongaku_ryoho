@@ -188,7 +188,6 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     # create new source
     audio = @audio_engine.create_new_source(track, true)
-    audio.play()
 
     # controller attributes
     controller_attributes =

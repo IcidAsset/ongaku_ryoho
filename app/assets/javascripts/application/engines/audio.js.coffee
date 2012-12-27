@@ -162,7 +162,6 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element = new window.Audio()
     audio_element.setAttribute("src", related_track.get("url"))
     audio_element.setAttribute("rel", related_track.id)
-    audio_element.load() if audio_element.load
 
     # events, in order of the w3c spec
     audio_element.addEventListener("progress", this.events.progress)
@@ -171,7 +170,7 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element.addEventListener("ended", this.events.ended)
     audio_element.addEventListener("durationchange", this.events.duration_change)
     audio_element.addEventListener("canplay", (e) =>
-      # e.target.play() if autoplay
+      e.target.play() if autoplay
       this.start_analysing() if autoplay and not browser.isiOS
     )
 
