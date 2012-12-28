@@ -11,10 +11,12 @@ class OngakuRyoho.Classes.Engines.Audio
   setup: () ->
     this.has_been_setup = true
     this.set_audio_context()
-    this.create_biquad_filters()
-    this.create_volume_node()
+
     this.create_analyser_nodes()
     this.create_channel_splitter_node()
+    this.create_biquad_filters()
+    this.create_volume_node()
+
     this.create_audio_elements_container()
 
 
@@ -78,9 +80,12 @@ class OngakuRyoho.Classes.Engines.Audio
     mid.frequency.value = OngakuRyoho.MixingConsole.model.get("mid_frequency")
     hi.frequency.value = OngakuRyoho.MixingConsole.model.get("hi_frequency")
 
+    mid.Q.value = 1
+
     low.connect(mid)
     mid.connect(hi)
     hi.connect(@ac.destination)
+    hi.connect(@nodes.channel_splitter)
 
     @nodes.biquad =
       low: low
@@ -241,7 +246,6 @@ class OngakuRyoho.Classes.Engines.Audio
     # create, connect and play
     setTimeout(() =>
       source = @ac.createMediaElementSource(audio_element)
-      source.connect(@nodes.channel_splitter)
       source.connect(@nodes.volume)
       source.track = track
 

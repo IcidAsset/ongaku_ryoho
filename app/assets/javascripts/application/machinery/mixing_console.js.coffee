@@ -159,9 +159,20 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
     mouse_move = (e) =>
       angle = this.knob_get_angle($knob, e)
       item = _.without($knob.attr("class").split(" "), "knob")[0]
-      specific_mouse_move_event = this.knob_mouse_move_events[item]
+      biquad_filters = ["low", "mid", "hi"]
+      funtion_arguments = []
+
+      # mouse move event function & its arguments
+      specific_mouse_move_event = if _.contains(biquad_filters, item)
+        funtion_arguments.push(item, angle)
+        this.knob_mouse_move_events.biquad_filter
+      else
+        funtion_arguments.push(angle)
+        this.knob_mouse_move_events[item]
+
+      # continue
       if specific_mouse_move_event
-        specific_mouse_move_event.call(this, angle)
+        specific_mouse_move_event.apply(this, funtion_arguments)
       else
         Helpers.css.rotate($knob.find(".it div"), angle)
 
@@ -207,32 +218,15 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
 
-    low: (angle) ->
+    biquad_filter: (type, angle) ->
       percent = Math.abs(angle) / 135
 
       gain = if angle < 0
         -(50 * percent)
       else
-        percent * @group.model.get("low_max_db")
+        percent * @group.model.get("#{type}_max_db")
 
-      @group.model.set("low_gain", gain)
-
-
-
-    mid: (angle) ->
-      #
-
-
-
-    hi: (angle) ->
-      percent = Math.abs(angle) / 135
-
-      gain = if angle < 0
-        -(50 * percent)
-      else
-        percent * @group.model.get("hi_max_db")
-
-      @group.model.set("hi_gain", gain)
+      @group.model.set("#{type}_gain", gain)
 
 
 
