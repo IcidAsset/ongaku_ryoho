@@ -272,7 +272,7 @@
 
     // drag target
     &.drag-target {
-      border-bottom: 1px solid $blueish;
+      border-bottom: 1px solid lighten($blueish, 11.5%);
     }
 
     // favourite (star)
@@ -309,7 +309,7 @@
 
     -webkit-font-smoothing: antialiased;
 
-    @include sans-serif-font;
+    @include sansserif-font;
   }
 
 

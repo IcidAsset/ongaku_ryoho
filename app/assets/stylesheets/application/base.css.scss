@@ -21,7 +21,7 @@ body {
   //   linear-gradient($bgcolor_1, $bgcolor_2, $bgcolor_3) 0 0 repeat-x
   // );
 
-  @include sans-serif-font;
+  @include sansserif-font;
   @include disable-user-select;
 
   -webkit-tap-highlight-color: transparent;
