@@ -48,7 +48,8 @@ class OngakuRyoho.Classes.People.SoundGuy
   save_settings_in_local_storage: () ->
     settings = _.pick(
       @mixing_console.model.attributes,
-      "shuffle", "repeat", "mute", "volume"
+      "shuffle", "repeat", "mute", "volume",
+      "low_gain", "mid_gain", "hi_gain"
     )
 
     # store settings
@@ -134,7 +135,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     # needed elements
     $knob = @mixing_console.view.$control("knob", "volume", ".it div")
 
-    # rotate volume button
+    # rotate volume knob
     angle = ((volume - 50) * 135) / 50
     Helpers.css.rotate($knob, angle)
 
@@ -170,6 +171,32 @@ class OngakuRyoho.Classes.People.SoundGuy
     @audio_engine.set_volume(volume)
 
     # save
+    this.save_settings_in_local_storage()
+
+
+
+  #
+  #  Set biquad filter gain values
+  #
+  set_biquad_filter_gain_values: () =>
+    mc = @mixing_console
+    ac = @audio_engine
+
+    _.each(["low", "mid", "hi"], (type) ->
+      value = mc.model.get("#{type}_gain")
+      $knob = mc.view.$control("knob", type, ".it div")
+
+      angle = if value < 0
+        (Math.abs(value) / 50) * -135
+      else
+        Math.ceil((value / mc.model.get("#{type}_max_db")) * 135)
+
+      Helpers.css.rotate($knob, angle)
+
+
+      ac.set_biquad_filter_gain(type, value)
+    )
+
     this.save_settings_in_local_storage()
 
 

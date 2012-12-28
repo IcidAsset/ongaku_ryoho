@@ -133,7 +133,6 @@ $button_height: 52px;
         display: block;
         overflow: hidden;
         text-overflow: ellisis;
-        // white-space: nowrap;
       }
 
       &:first-child { clear: both }
@@ -301,13 +300,16 @@ $button_height: 52px;
   //  Controls / Alternate
   //
   .controls.alt {
-    & > a:first-of-type,
-    .subtitle:first-of-type { margin-left: 1px }
+    & > a, .subtitle {
+      margin-left: 0px;
+      // margin-right: 4px;
+    }
 
     & > a:last-of-type,
     .subtitle:last-of-type { margin-right: 0 }
   }
 
+  //// <knob>
   .controls.alt .knob {
     background: rgba(white, .04);
 

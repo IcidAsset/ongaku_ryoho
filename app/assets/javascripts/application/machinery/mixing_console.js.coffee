@@ -120,6 +120,27 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
 
+  knob_low_doubleclick_handler: (e) =>
+    $t = $(e.currentTarget).find(".it div")
+    Helpers.css.rotate($t, 0)
+    @group.model.set("low_gain", 0)
+
+
+
+  knob_mid_doubleclick_handler: (e) =>
+    $t = $(e.currentTarget).find(".it div")
+    Helpers.css.rotate($t, 0)
+    @group.model.set("mid_gain", 0)
+
+
+
+  knob_hi_doubleclick_handler: (e) =>
+    $t = $(e.currentTarget).find(".it div")
+    Helpers.css.rotate($t, 0)
+    @group.model.set("hi_gain", 0)
+
+
+
   #
   #  Controller knobs
   #
@@ -183,6 +204,35 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
     volume: (angle) ->
       volume = 50 + (angle / 135) * 50
       @group.model.set("volume", volume)
+
+
+
+    low: (angle) ->
+      percent = Math.abs(angle) / 135
+
+      gain = if angle < 0
+        -(50 * percent)
+      else
+        percent * @group.model.get("low_max_db")
+
+      @group.model.set("low_gain", gain)
+
+
+
+    mid: (angle) ->
+      #
+
+
+
+    hi: (angle) ->
+      percent = Math.abs(angle) / 135
+
+      gain = if angle < 0
+        -(50 * percent)
+      else
+        percent * @group.model.get("hi_max_db")
+
+      @group.model.set("hi_gain", gain)
 
 
 

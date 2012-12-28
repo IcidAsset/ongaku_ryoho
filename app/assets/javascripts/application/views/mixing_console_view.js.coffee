@@ -20,6 +20,9 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     "click .controls a .switch.volume"                : @group.machine.switch_volume_click_handler
 
     "dblclick .controls a .knob.volume"               : @group.machine.knob_volume_doubleclick_handler
+    "dblclick .controls a .knob.low"                  : @group.machine.knob_low_doubleclick_handler
+    "dblclick .controls a .knob.mid"                  : @group.machine.knob_mid_doubleclick_handler
+    "dblclick .controls a .knob.hi"                   : @group.machine.knob_hi_doubleclick_handler
 
 
 
@@ -43,6 +46,12 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
       .on("change:repeat", OngakuRyoho.People.SoundGuy.set_repeat)
       .on("change:volume", OngakuRyoho.People.SoundGuy.set_volume)
       .on("change:mute", OngakuRyoho.People.SoundGuy.set_mute)
+
+    # sound filter events
+    @group.model
+      .on("change:low_gain", OngakuRyoho.People.SoundGuy.set_biquad_filter_gain_values)
+      .on("change:mid_gain", OngakuRyoho.People.SoundGuy.set_biquad_filter_gain_values)
+      .on("change:hi_gain", OngakuRyoho.People.SoundGuy.set_biquad_filter_gain_values)
 
     # cache dom elements
     this.$now_playing  = this.$el.find(".now-playing")

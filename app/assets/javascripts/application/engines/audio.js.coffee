@@ -11,6 +11,7 @@ class OngakuRyoho.Classes.Engines.Audio
   setup: () ->
     this.has_been_setup = true
     this.set_audio_context()
+    this.create_biquad_filters()
     this.create_volume_node()
     this.create_analyser_nodes()
     this.create_channel_splitter_node()
@@ -46,7 +47,7 @@ class OngakuRyoho.Classes.Engines.Audio
     volume_node.gain.value = 1
 
     # connect to destination
-    volume_node.connect(@ac.destination)
+    volume_node.connect(@nodes.biquad.low)
 
     # store node
     @nodes.volume = volume_node
@@ -58,6 +59,41 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   set_volume: (value) ->
     @nodes.volume.gain.value = value
+
+
+
+  #
+  #  Create biquad filters
+  #
+  create_biquad_filters: () ->
+    low = @ac.createBiquadFilter()
+    mid = @ac.createBiquadFilter()
+    hi = @ac.createBiquadFilter()
+
+    low.type = 3
+    mid.type = 5
+    hi.type = 4
+
+    low.frequency.value = OngakuRyoho.MixingConsole.model.get("low_frequency")
+    mid.frequency.value = OngakuRyoho.MixingConsole.model.get("mid_frequency")
+    hi.frequency.value = OngakuRyoho.MixingConsole.model.get("hi_frequency")
+
+    low.connect(mid)
+    mid.connect(hi)
+    hi.connect(@ac.destination)
+
+    @nodes.biquad =
+      low: low
+      mid: mid
+      hi: hi
+
+
+
+  #
+  #  Set biquad filter gain
+  #
+  set_biquad_filter_gain: (shelf, gain) ->
+    @nodes.biquad[shelf].gain.value = gain
 
 
 
