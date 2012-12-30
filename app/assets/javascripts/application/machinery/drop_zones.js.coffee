@@ -53,7 +53,7 @@ class OngakuRyoho.Classes.Machinery.DropZones
 
     # add message
     message = new OngakuRyoho.Classes.Models.Message
-      text: "<span class=\"icon\" data-icon=\"&#127915;\"></span>
+      text: "<span class=\"icon\" data-icon=\"&#9835;\"></span>
             #{track.get('artist')} - #{track.get('title')}"
 
     OngakuRyoho.MessageCenter.collection.add(message) if track

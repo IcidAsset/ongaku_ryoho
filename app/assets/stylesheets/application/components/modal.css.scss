@@ -14,7 +14,7 @@
   z-index: 10;
 
   .background {
-    background: rgba(#000, 0.67);
+    background: rgba(#000, 0.6);
     bottom: 0;
     cursor: pointer;
     left: 0;
@@ -48,13 +48,15 @@
 
   header .box {
     color: #b6babf;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
     margin: 1px;
-    padding: 15px 8px 14px;
+    padding: 15px 8px 13px;
     position: relative;
     text-align: center;
+    text-transform: uppercase;
 
+    @include sourcesanspro-font;
     @include background-image(
       linear-gradient(#6c7075, #595d61)
     );
@@ -63,9 +65,9 @@
   header .close-button {
     bottom: 0;
     cursor: pointer;
-    font-size: 39px;
+    font-size: 35px;
     height: 18px;
-    line-height: 12px;
+    line-height: 14px;
     margin-top: -9px;
     position: absolute;
     right: 14px;

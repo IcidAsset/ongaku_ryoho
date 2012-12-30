@@ -154,6 +154,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
       "You haven't added a music source yet."
     else if sources_collection.where({ available: true }).length is 0
       "All sources are offline."
+    else if @group.collection.filter.length > 0
+      "No search results."
     else
       "Empty collection."
 

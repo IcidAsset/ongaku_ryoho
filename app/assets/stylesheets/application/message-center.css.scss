@@ -7,16 +7,16 @@
 #message-center {
   margin-top: 26px;
 
-  @include sourcesanspro-font;
+  -webkit-font-smoothing: antialiased;
 
   .message {
     border: 1px dashed rgba(#fff, .17);
     color: rgba(#fff, .6);
     display: none;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 21px;
     margin-bottom: 4px;
-    padding: 14px 17px 12px;
+    padding: 13px 16px 12px;
     position: relative;
 
     & > div { display: none }

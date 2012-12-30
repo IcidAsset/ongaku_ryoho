@@ -34,7 +34,6 @@ class OngakuRyoho.Classes.Views.UserMenu extends Backbone.View
   #
   show: () =>
     this.$el.removeClass("hidden")
-    this.$el.fadeTo(200, 1)
     this.$button.addClass("on")
     this.group.machine.set_timeout_for_hide()
     this.group.machine.set_timeout_for_document_click()
@@ -42,7 +41,7 @@ class OngakuRyoho.Classes.Views.UserMenu extends Backbone.View
 
 
   hide: () =>
-    this.$el.fadeTo(200, 0, () -> $(this).addClass("hidden"))
+    this.$el.addClass("hidden")
     this.$button.removeClass("on")
     this.group.machine.clear_timeouts()
     $(document).off("click", this.hide)
