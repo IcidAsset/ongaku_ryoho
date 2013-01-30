@@ -9,8 +9,9 @@
 
     section
       .toolbar
-        a[rel="add-source"] Add source
-      table#source-list
+        a.add[rel="add-source"] Add source
+        a[rel="check-sources"] Refresh
+      table#source-list[cellspacing="0" border="0"]
 
 
 
@@ -20,11 +21,11 @@
 
 
   script#source-template type="text/x-handlebars-template"
-    | <td>
-        {{#if available}}
-          <input type="checkbox" checked="checked" disabled="disabled" />
+    | <td class="availability">
+        {{#if activated}}
+          <input type="checkbox" checked="checked" />
         {{else}}
-          <input type="checkbox" disabled="disabled" />
+          <input type="checkbox" />
         {{/if}}
       </td>
       <td>

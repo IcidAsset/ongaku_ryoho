@@ -2,7 +2,13 @@ class Server < Source
   attr_accessor :location
 
   def label
-    self.configuration[:location] rescue ""
+    label = if name.blank? and configuration[:location]
+      configuration[:location]
+    else
+      name
+    end
+
+    "#{type} &mdash; #{label}"
   end
 
 

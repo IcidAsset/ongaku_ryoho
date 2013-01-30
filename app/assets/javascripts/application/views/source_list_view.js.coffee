@@ -1,9 +1,20 @@
 class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
 
   #
+  #  Events
+  #
+  events: () ->
+    "click td.availability input" : "availability_checkbox_change"
+
+
+
+  #
   #  Initialize
   #
   initialize: () ->
+    super()
+
+    # template
     @template = Handlebars.compile($("#source-list-template").html())
 
     # collection events
@@ -28,3 +39,15 @@ class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
 
     # chain
     return this
+
+
+
+  #
+  #  Events
+  #
+  availability_checkbox_change: (e) =>
+    $checkbox = $(e.currentTarget)
+    rel = $checkbox.closest("tr").attr("rel")
+    model = OngakuRyoho.SourceManager.collection.get(parseInt(rel, 10))
+
+    console.log model

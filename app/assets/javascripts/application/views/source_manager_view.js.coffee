@@ -24,7 +24,7 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
     this.$menu_button = OngakuRyoho.RecordBox.Navigation.view.$el.find(".show-source-manager")
 
     # main section
-    @source_list_view = new OngakuRyoho.Classes.Views.SourceList({ el: $source_list_view  })
+    @source_list_view = new OngakuRyoho.Classes.Views.SourceList({ el: $source_list_view })
 
 
 

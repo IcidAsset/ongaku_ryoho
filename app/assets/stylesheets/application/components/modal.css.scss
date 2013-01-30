@@ -48,10 +48,11 @@
 
   header .box {
     color: #b6babf;
-    font-size: 13px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 100;
+    height: 47px;
+    line-height: 50px;
     margin: 1px;
-    padding: 15px 8px 13px;
     position: relative;
     text-align: center;
     text-transform: uppercase;
@@ -63,17 +64,22 @@
   }
 
   header .close-button {
+    background: darken(#595d61, 15%);
+    border: 1px solid rgba(black, .075);
     bottom: 0;
+    color: white;
     cursor: pointer;
-    font-size: 35px;
-    height: 18px;
-    line-height: 14px;
-    margin-top: -9px;
+    font-size: 29px;
+    height: 17px;
+    line-height: 16px;
+    margin-top: -8px;
     position: absolute;
-    right: 14px;
+    right: 16px;
     text-align: center;
     top: 50%;
-    width: 18px;
+    width: 17px;
+
+    @include border-radius(3px);
   }
 
   // section
