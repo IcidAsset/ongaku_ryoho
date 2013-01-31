@@ -4,9 +4,6 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
   url: "/data/favourites/",
 
   initialize: () ->
-    this.fetch()
-
-    # events
     this.on("destroy", this.destroy_handler)
 
 

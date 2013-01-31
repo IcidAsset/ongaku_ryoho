@@ -8,31 +8,29 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   #
   #  Process & Check
   #
-  process_and_check_sources: (reload_anyway=false) =>
-    dfd = new Deferred()
+  process_and_check_sources: () =>
+    promise = new RSVP.Promise()
 
-    Deferred
-      .next((a) => this.process_sources(false))
-      .next((b) => this.check_sources(false, b))
-      .next((c) =>
-        this.reload() if @requires_reload or reload_anyway
-        dfd.call()
-      )
+    console.log("---->")
 
-    return dfd
+    this.process_sources()
+      .then(this.check_sources)
+      .then ->
+        this.reload()
+        promise.resolve()
+
+    return promise
 
 
 
   reload: () ->
     OngakuRyoho.RecordBox.Tracks.collection.fetch()
-    OngakuRyoho.SourceManager.collection.fetch()
-
-    @requires_reload = false
 
 
 
-  process_sources: (reload=true) ->
-    dfd = new Deferred()
+  process_sources: () ->
+    promise = new RSVP.Promise()
+    console.log("processin'")
 
     # find
     unprocessed_sources = _.filter(OngakuRyoho.SourceManager.collection.models, (source) ->
@@ -40,11 +38,12 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     )
 
     # quit when there are no sources to process
-    return if unprocessed_sources.length is 0
+    if unprocessed_sources.length is 0
+      promise.resolve(); return promise
 
     # unprocessing function
     unprocessing = _.map(unprocessed_sources, (unprocessed_source, idx) =>
-      return () => this.process_source(unprocessed_source)
+      return this.process_source(unprocessed_source)
     )
 
     # add message
@@ -56,34 +55,29 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(unprocessing_message)
 
     # exec
-    Deferred.chain(unprocessing).next(() =>
+    RSVP.all(unprocessing).then () =>
       OngakuRyoho.MessageCenter.collection.remove(unprocessing_message)
-
-      if reload
-        this.reload()
-      else
-        @requires_reload = true
-
-      dfd.call(unprocessed_sources)
-    )
+      promise.resolve(unprocessed_sources)
 
     # promise
-    return dfd
+    return promise
 
 
 
-  check_sources: (reload=true, sources_to_skip=[]) ->
-    dfd = new Deferred()
+  check_sources: (sources_to_skip=[]) ->
+    promise = new RSVP.Promise()
+    console.log("checkin'")
 
     # find
     sources_to_check = _.difference(@models, sources_to_skip)
 
     # quit when there are no sources to check
-    return if sources_to_check.length is 0
+    if sources_to_check.length is 0
+      promise.resolve(); return promise
 
     # checking function
     checking = _.map(sources_to_check, (source_to_check, idx) =>
-      return () => this.check_source(source_to_check)
+      return this.check_source(source_to_check)
     )
 
     # add message
@@ -95,55 +89,43 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(checking_message)
 
     # exec
-    Deferred.chain(checking).next(() =>
-      args = _.compact(arguments)
-
-      if args.length
-        if _.has(args[0], "changed")
-          changes = _.pluck(args, "changed")
-        else
-          changes = _.map(args[0], (x) -> return x.changed)
-      else
-        changes = []
-
-      # changes?
-      changes = _.include(changes, true)
-
-      # remove message
+    RSVP.all(checking).then () =>
       OngakuRyoho.MessageCenter.collection.remove(checking_message)
-
-      # if there are changes
-      if changes
-        if reload
-          this.reload()
-        else
-          @requires_reload = true
-
-      # continue
-      dfd.call(sources_to_check)
-    )
+      promise.resolve(sources_to_check)
 
     # promise
-    return dfd
+    return promise
 
 
 
   process_source: (source) ->
-    dfd = new Deferred()
+    promise = new RSVP.Promise()
+    url = this.url + source.get("id") + "/process"
 
-    $.get(this.url + source.get("id") + "/process",
-      (response) -> dfd.call(JSON.parse(response))
+    console.log(source)
+
+    $.get(url, (response) ->
+      response = JSON.parse(response)
+      unless response.processing
+        promise.resolve()
+      else
+        source.poll_for_busy_state().then () -> promise.resolve()
     )
 
-    return dfd
+    return promise
 
 
 
   check_source: (source) ->
-    dfd = new Deferred()
+    promise = new RSVP.Promise()
+    url = this.url + source.get("id") + "/check"
 
-    $.get(this.url + source.get("id") + "/check",
-      (response) -> dfd.call(JSON.parse(response))
+    $.get(url, (response) ->
+      response = JSON.parse(response)
+      unless response.checking
+        promise.resolve()
+      else
+        source.poll_for_busy_state().then () -> promise.resolve()
     )
 
-    return dfd
+    return promise

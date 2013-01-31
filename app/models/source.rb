@@ -13,6 +13,10 @@ class Source < ActiveRecord::Base
     self.available?
   end
 
+  def busy
+    self.busy?
+  end
+
   def track_amount
     self.tracks.count
   end

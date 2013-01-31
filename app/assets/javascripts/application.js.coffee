@@ -17,7 +17,7 @@
 #= require "backbone"
 #= require "backbone_rails_sync"
 #= require "handlebars"
-#= require "jsdeferred"
+#= require "rsvp"
 #= require "hammer"
 #= require "spin"
 #= require "browser"
@@ -86,11 +86,13 @@ Zepto ->
   App.People.SoundGuy.go_to_work()
 
   # get data
-  App.SourceManager.collection.fetch({
-    success: () ->
-      Deferred.next(() -> App.SourceManager.collection.process_and_check_sources(true))
-              .next(() -> App.Router = new Routers.Default)
-  })
+  Helpers.promise_fetch(App.RecordBox.Favourites.collection)
+    .then -> Helpers.promise_fetch(App.RecordBox.Tracks.collection)
+    .then -> Helpers.promise_fetch(App.SourceManager.collection)
+    .then -> App.SourceManager.collection.process_and_check_sources()
+    .then ->
+      console.log("done")
+      App.Router = new Routers.Default
 
   # check for legacy stuff
   window.Legacy.check()

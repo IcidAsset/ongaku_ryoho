@@ -7,6 +7,7 @@ class Data::FavouritesController < ApplicationController
            except: [:search_vector]
   end
 
+
   def create
     favourite = Favourite.new(params[:favourite])
 
@@ -23,6 +24,7 @@ class Data::FavouritesController < ApplicationController
     # render json
     render json: favourite
   end
+
 
   def destroy
     favourite = current_user.favourites.find(params[:id])
@@ -42,4 +44,5 @@ class Data::FavouritesController < ApplicationController
     # render json
     render json: favourite
   end
+
 end

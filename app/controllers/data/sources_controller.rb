@@ -8,9 +8,21 @@ class Data::SourcesController < ApplicationController
 
     # render
     render json: @sources.to_json(
-      methods: [:available, :track_amount, :label]
+      methods: [:available, :track_amount, :label, :busy]
     )
   end
+
+
+  # GET 'sources/:id'
+  def show
+    @source = current_user.sources.find(params[:id])
+
+    # render
+    render json: @source.to_json(
+      methods: [:available, :track_amount, :label, :busy]
+    )
+  end
+
 
   # GET 'sources/:id/process'
   def process_source
@@ -18,44 +30,40 @@ class Data::SourcesController < ApplicationController
 
     # should i?
     allowed_to_proceed = (
-      source and
-      source.status.include?('unprocessed') and
-      !source.status.include?('processing')
+      source and !source.busy and
+      source.status.include?("unprocessed")
     )
 
     # process if needed
-    json = if allowed_to_proceed
-      { changed: source.process_tracks }
-    else
-      { changed: false }
-    end
+    source.class.worker.perform_async(
+      current_user.id, source.id, :process_tracks
+    ) if allowed_to_proceed
 
     # render
-    render json: json
+    render json: { processing: allowed_to_proceed }
   end
+
 
   # GET 'sources/:id/check'
   def check_source
     source = current_user.sources.find(params[:id])
 
-    # should i?
-    allowed_to_proceed = (
-      source and !source.status.include?('processing')
-    )
-
-    # check if possible
-    json = if allowed_to_proceed
-      { changed: source.check_tracks, checked: true }
-    else
-      { changed: false, checked: false }
-    end
-
     # match unbounded favourites
     # (without a track)
     Favourite.match_unbounded([source.id])
 
+    # should i?
+    allowed_to_proceed = (
+      source and !source.busy
+    )
+
+    # check if possible
+    source.class.worker.perform_async(
+      current_user.id, source.id, :check_tracks
+    ) if allowed_to_proceed
+
     # render
-    render json: json
+    render json: { checking: allowed_to_proceed }
   end
 
 end

@@ -93,3 +93,18 @@ window.Helpers =
   set_document_title: (text, set_original_title) ->
     this.original_document_title = document.title if set_original_title
     document.title = text
+
+
+
+  #
+  #  Async stuff
+  #
+  promise_fetch: (obj) ->
+    promise = new RSVP.Promise()
+
+    obj.fetch.call(obj, {
+      success: (model, response) -> console.log(obj); promise.resolve(response),
+      error: promise.reject
+    })
+
+    return promise

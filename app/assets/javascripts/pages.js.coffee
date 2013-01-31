@@ -14,7 +14,6 @@
 
 #= require "zepto"
 #= require "underscore"
-#= require "jsdeferred"
 #= require "spin"
 
 

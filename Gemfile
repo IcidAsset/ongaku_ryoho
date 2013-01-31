@@ -4,6 +4,7 @@ gem "rails", "3.2.9"
 gem "puma"
 
 gem "pg"
+gem "sidekiq"
 gem "sorcery"
 
 group :assets do
