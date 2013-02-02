@@ -11,11 +11,9 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   process_and_check_sources: () =>
     promise = new RSVP.Promise()
 
-    console.log("---->")
-
     this.process_sources()
       .then(this.check_sources)
-      .then ->
+      .then () =>
         this.reload()
         promise.resolve()
 
@@ -28,18 +26,13 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
 
 
-  process_sources: () ->
+  process_sources: () =>
     promise = new RSVP.Promise()
-    console.log("processin'")
 
     # find
     unprocessed_sources = _.filter(OngakuRyoho.SourceManager.collection.models, (source) ->
       source.get("status").indexOf("unprocessed") isnt -1
     )
-
-    # quit when there are no sources to process
-    if unprocessed_sources.length is 0
-      promise.resolve(); return promise
 
     # unprocessing function
     unprocessing = _.map(unprocessed_sources, (unprocessed_source, idx) =>
@@ -64,16 +57,11 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
 
 
-  check_sources: (sources_to_skip=[]) ->
+  check_sources: (sources_to_skip=[]) =>
     promise = new RSVP.Promise()
-    console.log("checkin'")
 
     # find
     sources_to_check = _.difference(@models, sources_to_skip)
-
-    # quit when there are no sources to check
-    if sources_to_check.length is 0
-      promise.resolve(); return promise
 
     # checking function
     checking = _.map(sources_to_check, (source_to_check, idx) =>
@@ -101,8 +89,6 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   process_source: (source) ->
     promise = new RSVP.Promise()
     url = this.url + source.get("id") + "/process"
-
-    console.log(source)
 
     $.get(url, (response) ->
       response = JSON.parse(response)

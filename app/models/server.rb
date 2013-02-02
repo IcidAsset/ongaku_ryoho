@@ -17,11 +17,6 @@ class Server < Source
   end
 
 
-  def busy?
-    return self.status.include? "processing"
-  end
-
-
   # check if the server is available
   # and doesn't return any errors
   def available?

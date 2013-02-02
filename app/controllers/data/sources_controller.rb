@@ -35,9 +35,12 @@ class Data::SourcesController < ApplicationController
     )
 
     # process if needed
-    source.class.worker.perform_async(
-      current_user.id, source.id, :process_tracks
-    ) if allowed_to_proceed
+    if allowed_to_proceed
+      $redis.sadd(:process_source_queue, source.id)
+      source.class.worker.perform_async(
+        current_user.id, source.id, :process_tracks
+      )
+    end
 
     # render
     render json: { processing: allowed_to_proceed }
@@ -58,9 +61,12 @@ class Data::SourcesController < ApplicationController
     )
 
     # check if possible
-    source.class.worker.perform_async(
-      current_user.id, source.id, :check_tracks
-    ) if allowed_to_proceed
+    if allowed_to_proceed
+      $redis.sadd(:check_source_queue, source.id)
+      source.class.worker.perform_async(
+        current_user.id, source.id, :check_tracks
+      )
+    end
 
     # render
     render json: { checking: allowed_to_proceed }

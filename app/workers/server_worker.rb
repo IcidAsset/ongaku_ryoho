@@ -1,3 +1,5 @@
+require "net/http"
+
 class ServerWorker
   include Sidekiq::Worker
 
@@ -6,36 +8,59 @@ class ServerWorker
     ServerWorker.send(method_name.to_sym, server) if server
   end
 
+
+  def self.process_tracks(server)
+    args = [:process]
+
+    begin
+      uri = URI.parse(server.configuration[:location])
+      response = Net::HTTP.get(uri)
+    rescue
+      args.unshift "unprocessed / server not found"
+      server.set_definite_status(*args)
+      return
+    end
+
+    # parse json
+    tracks = JSON.parse(response)
+
+    # no music =(
+    if tracks.empty?
+      args.unshift "unprocessed / no music found"
+      server.set_definite_status(*args)
+      return
+    end
+
+    # put them tracks in them database
+    Server.add_new_tracks(server, tracks)
+
+    # the end
+    args.unshift "processed"
+    server.set_definite_status(*args)
+  end
+
+
   # check if there is any music added or removed from the server
   # and then add and/or remove from the database
   def self.check_tracks(server)
-    require "net/http"
-
-    # check
-    return false if server.busy?
-
-    # processing
-    server.status = "processing"
-    server.save
-
-    # make file list
+    args = [:check]
     file_list = server.tracks.map(&:location)
 
     # get json data from server
     begin
-      uri = URI.parse(self.configuration[:location] + "check")
+      uri = URI.parse(server.configuration[:location] + "check")
       response = Net::HTTP.post_form(uri, { file_list: file_list.to_json })
     rescue
-      server.status = "processed"
-      server.save
+      args.unshift "processed"
+      server.set_definite_status(*args)
 
       return false
     end
 
     # parse json
-    parsed_reponse = JSON.parse(response.body)
-    missing_files = parsed_reponse["missing_files"]
-    new_tracks = parsed_reponse["new_tracks"]
+    parsed_response = JSON.parse(response.body)
+    missing_files = parsed_response["missing_files"]
+    new_tracks = parsed_response["new_tracks"]
 
     # missing files
     Server.remove_tracks(server, missing_files)
@@ -45,50 +70,9 @@ class ServerWorker
 
     # last checked
     time = Time.now.strftime("%d %b %y / %I:%M %p")
-    server.status = "last updated at #{time}"
 
     # the end
-    server.save
-  end
-
-
-  def self.process_tracks(server)
-    require "net/http"
-
-    # check
-    return false if server.busy?
-
-    # processing
-    server.status = "processing"
-    server.save
-
-    # get json data from server
-    begin
-      uri = URI.parse(self.configuration[:location])
-      response = Net::HTTP.get(uri)
-    rescue
-      server.status = "unprocessed / server not found"
-      server.save
-
-      return
-    end
-
-    # parse json
-    tracks = JSON.parse(reponse)
-
-    # no music =(
-    if tracks.empty?
-      server.status = "unprocessed / no music found"
-      server.save
-
-      return
-    end
-
-    # put them tracks in them database
-    Server.add_new_tracks(server, tracks)
-
-    # the end
-    server.status = "processed"
-    server.save
+    args.unshift "last updated at #{time}"
+    server.set_definite_status(*args)
   end
 end

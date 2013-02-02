@@ -171,6 +171,7 @@ DEPENDENCIES
   pg
   puma
   rails (= 3.2.9)
+  redis
   sass-rails (~> 3.2.5)
   shoulda-matchers
   sidekiq

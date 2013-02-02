@@ -4,6 +4,7 @@ gem "rails", "3.2.9"
 gem "puma"
 
 gem "pg"
+gem "redis"
 gem "sidekiq"
 gem "sorcery"
 
