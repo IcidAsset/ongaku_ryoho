@@ -4,6 +4,7 @@ describe Track do
   subject { Track.new }
 
   it { must belong_to(:source) }
+  it { must have_one(:favourite).dependent(:nullify) }
 
   it { must allow_mass_assignment_of(:artist) }
   it { must allow_mass_assignment_of(:title) }

@@ -25,14 +25,14 @@ class MiniTest::Rails::ActiveSupport::TestCase
   extend Shoulda::Matchers::ActiveRecord
   include Shoulda::Matchers::ActiveModel
   extend Shoulda::Matchers::ActiveModel
-  
+
   include Sorcery::TestHelpers::Rails
 end
 
 class MiniTest::Rails::ActionController::TestCase
   include Shoulda::Matchers::ActionController
   extend Shoulda::Matchers::ActionController
-  
+
   def subject
     @controller
   end
