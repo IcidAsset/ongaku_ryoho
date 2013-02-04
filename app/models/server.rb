@@ -47,6 +47,11 @@ class Server < Source
       tags["tracknr"] = tags.delete("track") || ""
       tags["url"] = server.configuration[:location] + tags["location"]
 
+      tags.each do |tag, value|
+        condition = value.is_a?(String) and value.length > 255
+        tags[tag] = value[0...255] if condition
+      end
+
       new_track_model = Track.new(tags)
       new_track_model.source_id = server.id
 

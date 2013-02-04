@@ -90,9 +90,7 @@ Zepto ->
     .then -> Helpers.promise_fetch(App.RecordBox.Tracks.collection)
     .then -> Helpers.promise_fetch(App.SourceManager.collection)
     .then -> App.SourceManager.collection.process_and_check_sources()
-    .then ->
-      console.log("done")
-      App.Router = new Routers.Default
+    .then -> App.Router = new Routers.Default
 
   # check for legacy stuff
   window.Legacy.check()

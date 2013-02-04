@@ -78,12 +78,10 @@ private
     end
 
     # condition sql
-    condition_sql = ""
-    condition_sql << "source_id IN (?)" unless select_favourites
-    condition_sql << (
-      (condition_sql.blank? ? "" : " AND ") +
-      "search_vector @@ to_tsquery('english', ?)"
-    ) if filter
+    conditions_a = []
+    conditions_a << "source_id IN (?)" unless select_favourites
+    conditions_a << "search_vector @@ to_tsquery('english', ?)" if filter
+    condition_sql = conditions_a.join(" AND ")
 
     # condition arguments
     condition_arguments = []

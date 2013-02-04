@@ -193,7 +193,6 @@ class OngakuRyoho.Classes.People.SoundGuy
 
       Helpers.css.rotate($knob, angle)
 
-
       ac.set_biquad_filter_gain(type, value)
     )
 
@@ -215,6 +214,9 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     # create new source
     audio = @audio_engine.create_new_source(track, true)
+
+    # check audio support for filetype
+    this.audio_not_supported_callback() unless audio
 
     # controller attributes
     controller_attributes =
@@ -336,3 +338,13 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     # insert track if any
     this.insert_track(track) if track
+
+
+
+  #
+  #  Other tasks
+  #
+  audio_not_supported_callback: () ->
+    text = "Audio type not supported by your browser"
+    OngakuRyoho.MessageCenter.collection.add({ text: text, error: true })
+

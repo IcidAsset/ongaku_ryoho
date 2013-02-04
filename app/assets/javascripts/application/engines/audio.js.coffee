@@ -201,6 +201,13 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   create_new_audio_element: (related_track, autoplay) ->
     audio_element = new window.Audio()
+
+    # check audio support
+    filetype_match = related_track.get("filename").match(/\.(\w+)$/)
+    filetype = if filetype_match then filetype_match[1] else false
+    return false if !filetype or audio_element.canPlayType("audio/#{filetype}") is ""
+
+    # track
     audio_element.setAttribute("src", related_track.get("url"))
     audio_element.setAttribute("rel", related_track.id)
 
@@ -239,6 +246,9 @@ class OngakuRyoho.Classes.Engines.Audio
 
     # if no element exists yet
     audio_element ?= this.create_new_audio_element(track, autoplay)
+
+    # check audio support
+    return false unless audio_element
 
     # audio element volume
     audio_element.volume = 1

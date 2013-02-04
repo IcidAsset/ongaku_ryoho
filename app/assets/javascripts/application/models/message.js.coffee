@@ -4,3 +4,4 @@ class OngakuRyoho.Classes.Models.Message extends Backbone.Model
     icon        : false
     icon_type   : false
     loading     : false
+    error       : false
