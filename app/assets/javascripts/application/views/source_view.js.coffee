@@ -8,7 +8,7 @@ class OngakuRyoho.Classes.Views.Source extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    @template = Handlebars.compile($("#source-template").html())
+    @template = Helpers.get_template("source")
 
 
 

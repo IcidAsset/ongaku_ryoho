@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
     super()
 
     # template
-    @template = Handlebars.compile($("#source-list-template").html())
+    @template = Helpers.get_template("source-list")
 
     # collection events
     OngakuRyoho.SourceManager.collection.on("reset", this.render)

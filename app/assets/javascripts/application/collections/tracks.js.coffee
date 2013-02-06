@@ -40,7 +40,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     options.data ?= {}
 
     # pagination, filter, etc.
-    $.extend options.data, {
+    _.extend options.data, {
       page: @page,
       per_page: @per_page,
       filter: @filter,
@@ -52,9 +52,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     # success
     options.success = (response) =>
       success(this, response) if success
-
       OngakuRyoho.MessageCenter.collection.remove(message)
-
       this.trigger("fetched")
 
     # call super

@@ -35,7 +35,10 @@
 
 
 
-  script#track-template type="text/x-handlebars-template"
+  /
+  /  Templates
+  /
+  script type="text/x-handlebars-template" data-template-name="track"
     | <div class="favourite" data-favourite="{{#if favourite_id}}true{{/if}}"><span>&#9733;</span></div>
       <div class="title"><span>{{title}}</span></div>
       <div class="artist"><span>{{artist}}</span></div>
@@ -43,7 +46,7 @@
 
 
 
-  script#list-message-template type="text/x-handlebars-template"
+  script type="text/x-handlebars-template" data-template-name="list-message"
     | <div class="message {{extra_classes}}">
         <div class="title">{{title}}</div>
         <p>{{message}}</p>

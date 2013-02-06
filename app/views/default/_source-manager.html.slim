@@ -15,12 +15,15 @@
 
 
 
-  script#source-list-template type="text/x-handlebars-template"
+  /
+  /  Templates
+  /
+  script type="text/x-handlebars-template" data-template-name="source-list"
     | <tbody></tbody>
 
 
 
-  script#source-template type="text/x-handlebars-template"
+  script type="text/x-handlebars-template" data-template-name="source"
     | <td class="availability">
         {{#if activated}}
           <input type="checkbox" checked="checked" />

@@ -35,7 +35,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     this.setElement($("#record-box").find(".tracks-wrapper")[0])
 
     # message template
-    @message_template = Handlebars.compile($("#list-message-template").html())
+    @message_template = Helpers.get_template("list-message")
 
     # add loading message
     this.add_loading_message()

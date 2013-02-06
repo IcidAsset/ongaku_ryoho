@@ -14,9 +14,9 @@ html
 
   body[class=body_class]
 
-    //
-    //  Header
-    //
+    /
+    /  Header
+    /
     header
       .wrapper
         a.application-name[href="/"]
@@ -29,15 +29,15 @@ html
             a[href=page[:url] class="#{klass}"]
               | #{page[:title]}
 
-    //
-    //  Content
-    //
+    /
+    /  Content
+    /
     - if body_class.include? "about"
       = yield
     - else
       .wrapper.content= yield
 
-    //
-    //  Scripts
-    //
+    /
+    /  Scripts
+    /
     = javascript_include_tag :pages

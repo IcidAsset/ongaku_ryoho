@@ -8,7 +8,7 @@ class OngakuRyoho.Classes.Views.Message extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    @template = Handlebars.compile($("#message_template").html())
+    @template = Helpers.get_template("message")
 
 
 

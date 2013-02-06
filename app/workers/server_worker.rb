@@ -4,8 +4,12 @@ class ServerWorker
   include Sidekiq::Worker
 
   def perform(user_id, server_id, method_name)
-    server = Server.find(server_id, conditions: { user_id: user_id })
-    ServerWorker.send(method_name.to_sym, server) if server
+    begin
+      server = Server.find(server_id, conditions: { user_id: user_id })
+      ServerWorker.send(method_name.to_sym, server) if server
+    rescue
+      puts "Server instance not found!"
+    end
   end
 
 

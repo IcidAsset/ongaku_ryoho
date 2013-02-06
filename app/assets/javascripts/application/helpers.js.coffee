@@ -34,6 +34,15 @@ window.Helpers =
 
 
   #
+  #  Get template
+  #
+  get_template: (template_name) ->
+    html = $("[data-template-name=\"#{template_name}\"]").html()
+    return Handlebars.compile(html)
+
+
+
+  #
   #  Setup handlebars helpers
   #
   setup_handlebars_helpers: () ->
