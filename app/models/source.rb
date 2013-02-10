@@ -1,7 +1,7 @@
 class Source < ActiveRecord::Base
   attr_accessible :activated, :configuration, :status, :name
   attr_accessor :available, :label, :track_amount
-  serialize :configuration, Hash
+  serialize :configuration, ActiveRecord::Coders::Hstore
 
   belongs_to :user
   has_many :tracks, dependent: :destroy
@@ -63,4 +63,5 @@ class Source < ActiveRecord::Base
     sources = self.available_for_user(user)
     sources.map { |source| source.id }
   end
+
 end

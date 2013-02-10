@@ -22,6 +22,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
 SET search_path = public, pg_catalog;
 
 SET default_tablespace = '';
@@ -123,8 +137,7 @@ CREATE TABLE schema_migrations (
 CREATE TABLE sources (
     id integer NOT NULL,
     activated boolean DEFAULT false,
-    configuration text DEFAULT '--- {}
-'::text,
+    configuration hstore,
     status character varying(255) DEFAULT ''::character varying,
     name character varying(255),
     type character varying(255),
@@ -208,8 +221,7 @@ CREATE TABLE users (
     updated_at timestamp without time zone NOT NULL,
     remember_me_token character varying(255) DEFAULT NULL::character varying,
     remember_me_token_expires_at timestamp without time zone,
-    settings text DEFAULT '--- {}
-'::text
+    settings hstore
 );
 
 
@@ -385,6 +397,13 @@ CREATE INDEX sorting_index ON tracks USING btree (artist, album, tracknr, title)
 
 
 --
+-- Name: sources_gin_configuration; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX sources_gin_configuration ON sources USING gin (configuration);
+
+
+--
 -- Name: tracks_search_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -396,6 +415,13 @@ CREATE INDEX tracks_search_index ON tracks USING gin (search_vector);
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: users_gin_settings; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX users_gin_settings ON users USING gin (settings);
 
 
 --
@@ -415,6 +441,8 @@ CREATE TRIGGER tracks_vector_update BEFORE INSERT OR UPDATE ON tracks FOR EACH R
 --
 -- PostgreSQL database dump complete
 --
+
+INSERT INTO schema_migrations (version) VALUES ('20120712000000');
 
 INSERT INTO schema_migrations (version) VALUES ('20120712202613');
 

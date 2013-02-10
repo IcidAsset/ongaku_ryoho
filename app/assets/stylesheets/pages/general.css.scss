@@ -227,7 +227,8 @@ header nav {
 //
 form {
 
-  input {
+  input[type=text],
+  input[type=password] {
     background: none;
     border: 2px solid darken($light, 0.5%);
     color: $dark;
@@ -243,7 +244,8 @@ form {
     @include border-radius(3px);
   }
 
-  input:focus,
+  input[type=text]:focus,
+  input[type=password]:focus,
   input[type=submit]:active {
     border-color: darken($light, 15%);
     outline: 0;

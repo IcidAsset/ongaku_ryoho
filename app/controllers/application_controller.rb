@@ -13,6 +13,7 @@ private
     @page = @pages.find { |p| p[:url] == request.path }
   end
 
+
   def pages
     if logged_in?
       [

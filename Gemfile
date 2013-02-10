@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem "rails", "3.2.9"
+gem "rails", "3.2.11"
 gem "puma"
 
 gem "pg"
@@ -8,11 +8,13 @@ gem "redis"
 gem "sidekiq"
 gem "sorcery"
 
+gem "activerecord-postgres-hstore"
+
 group :assets do
-  gem "sass-rails",    "~> 3.2.5"
+  gem "sass-rails",    "~> 3.2.6"
   gem "coffee-rails",  "~> 3.2.2"
-  gem "compass-rails", "~> 1.0.0"
-  gem "uglifier",      ">= 1.0.3"
+  gem "compass-rails", "~> 1.0.3"
+  gem "uglifier",      ">= 1.3.0"
 end
 
 gem "slim"

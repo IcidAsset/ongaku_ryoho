@@ -7,4 +7,5 @@ class DefaultController < ApplicationController
       redirect_to "/about"
     end
   end
+
 end

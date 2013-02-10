@@ -35,4 +35,5 @@ class Favourite < ActiveRecord::Base
 
     favourites
   end
+
 end

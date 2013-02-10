@@ -22,4 +22,5 @@ class Track < ActiveRecord::Base
   def available
     @available.nil? ? true : @available
   end
+
 end

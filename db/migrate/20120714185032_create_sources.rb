@@ -2,7 +2,7 @@ class CreateSources < ActiveRecord::Migration
   def up
     create_table :sources do |t|
       t.boolean :activated, default: false
-      t.text :configuration, default: {}.to_yaml
+      t.hstore :configuration
 
       t.string :status, default: ""
       t.string :name
@@ -14,6 +14,10 @@ class CreateSources < ActiveRecord::Migration
     end
 
     add_index :sources, :user_id
+
+    execute <<-EOS
+      CREATE INDEX sources_gin_configuration ON sources USING gin(configuration)
+    EOS
   end
 
   def down

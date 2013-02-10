@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   attr_accessible :email, :password, :settings
-  serialize :settings, Hash
+  serialize :settings, ActiveRecord::Coders::Hstore
 
   authenticates_with_sorcery!
 
