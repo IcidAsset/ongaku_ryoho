@@ -261,6 +261,15 @@ form {
     @include box-sizing(border-box);
   }
 
+  input[type=checkbox] {
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  input[type=checkbox] + label {
+    font-size: 14px;
+  }
+
   input[type=submit] {
     background: $dark;
     border: 0;
@@ -272,6 +281,7 @@ form {
 
     &:active,
     &:focus { background: $bgcolor_1 }
+    &.with-margin-top { margin-top: 10px }
   }
 
   input::-webkit-input-placeholder { color: darken($light, 17.5%) }

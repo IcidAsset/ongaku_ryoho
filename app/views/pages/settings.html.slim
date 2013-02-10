@@ -1,3 +1,6 @@
+p.a-word-of-advice
+  | Application settings
+
 = form_for current_user, url: settings_path, method: :put do |f|
   = f.fields_for :settings do |s|
     = settings_checkbox(s, current_user, :special_playlists)
@@ -5,4 +8,4 @@
 
   br
 
-  = f.submit "Save settings"
+  = f.submit "Save settings", class: "with-margin-top"
