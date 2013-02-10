@@ -7,8 +7,8 @@ class CreateFavourites < ActiveRecord::Migration
 
       t.integer :tracknr, default: 0
 
-      t.integer :user_id
-      t.integer :track_id
+      t.references :user
+      t.references :track
 
       t.column :search_vector, 'tsvector'
 

@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :servers
 
   has_many :favourites
+  has_many :playlists
 
   validates_presence_of :email
   validates_uniqueness_of :email

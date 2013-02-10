@@ -6,6 +6,7 @@ class Track < ActiveRecord::Base
 
   belongs_to :source
   has_one :favourite, dependent: :nullify
+  has_and_belongs_to_many :playlists
 
   validates_presence_of :artist
   validates_presence_of :title

@@ -5,6 +5,7 @@ describe Track do
 
   it { must belong_to(:source) }
   it { must have_one(:favourite).dependent(:nullify) }
+  it { must have_and_belong_to_many(:playlists) }
 
   it { must allow_mass_assignment_of(:artist) }
   it { must allow_mass_assignment_of(:title) }

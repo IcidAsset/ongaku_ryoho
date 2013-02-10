@@ -13,8 +13,8 @@ class CreateTracks < ActiveRecord::Migration
       t.string :location
       t.string :url
 
-      t.integer :source_id
-      t.integer :favourite_id
+      t.references :source
+      t.references :favourite
 
       t.column :search_vector, 'tsvector'
 

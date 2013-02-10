@@ -4,6 +4,7 @@ describe Favourite do
   subject { Favourite.new }
 
   it { must belong_to(:user) }
+  it { must have_one(:track) }
 
   it { must allow_mass_assignment_of(:artist) }
   it { must allow_mass_assignment_of(:title) }
