@@ -6,7 +6,6 @@ class OngakuRyoho.Classes.Views.RecordBox.Navigation extends Backbone.View
   events: () ->
     "click .toggle-queue"                  : @group.machine.toggle_queue
     "click .toggle-favourites"             : @group.machine.toggle_favourites
-    "click .toggle-user-menu"              : @group.machine.toggle_user_menu
 
     "change .search input"                 : @group.machine.search_input_change
 

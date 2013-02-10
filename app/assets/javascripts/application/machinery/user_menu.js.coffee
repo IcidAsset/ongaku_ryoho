@@ -6,31 +6,44 @@ class OngakuRyoho.Classes.Machinery.UserMenu
 
 
   #
-  #  Timeouts
+  #  Tooltip
   #
-  clear_timeouts: () =>
-    array = @timeout_ids
-    array_clone = _.clone(array)
+  setup_tooltip: () ->
+    self = this
 
-    # loop and clear
-    _.each(array_clone, (timeout_id) ->
-      clearTimeout(timeout_id)
-      array.shift()
-    )
+    @tooltip = new BareTooltip(@group.view.$el, {
+      trigger_type: "click",
+      tooltip_klass: "mod-user-menu",
+      animation_speed: 0,
+      timeout_duration: 3000,
+      template: '<div class="{{CLASSES}}">' +
+        '<div class="arrow"></div>' +
+        '{{CONTENT}}' +
+      '</div>';
+    })
 
+    # extend
+    @tooltip.show_tooltip = () ->
+      this.state.$tooltip_element.on("click", "a[rel=\"set-theater-mode\"]", self.theater_mode_toggle)
+      this.state.$tooltip_element.on("click", "a[rel=\"source-manager\"]", self.source_manager_toggle)
+      self.group.view.$el.addClass("on")
 
+      BareTooltip.prototype.show_tooltip.apply(this)
 
-  set_timeout_for_hide: () =>
-    @timeout_ids.push(
-      setTimeout(@group.view.hide, 3000)
-    )
+    @tooltip.hide_tooltip = () ->
+      this.state.$tooltip_element.off("click")
+      self.group.view.$el.removeClass("on")
 
+      BareTooltip.prototype.hide_tooltip.apply(this, arguments)
 
+    @tooltip.move_tooltip = (e) ->
+      $t = this.state.$tooltip_element
+      $trigger = $(e.currentTarget)
 
-  set_timeout_for_document_click: () =>
-    this.group.machine.timeout_ids.push(
-      setTimeout((() -> $(document).one("click", OngakuRyoho.UserMenu.view.hide)), 100)
-    )
+      $t.css({
+        left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2) - 40,
+        top: $trigger.offset().top + $trigger.height() + 10
+      })
 
 
 
@@ -41,7 +54,7 @@ class OngakuRyoho.Classes.Machinery.UserMenu
     animation_duration = 950
 
     # set elements
-    $switch =  @group.view.$el.find("[rel=\"set-theater-mode\"]")
+    $switch = @group.view.$el.find(".tooltip-data [rel=\"set-theater-mode\"]")
     $color_overlay = $("#color-overlay")
 
     # go

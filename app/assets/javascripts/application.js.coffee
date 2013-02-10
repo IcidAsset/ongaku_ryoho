@@ -22,6 +22,7 @@
 #= require "spin"
 #= require "browser"
 #= require "modernizr_custom"
+#= require "bare-tooltip"
 
 #= require "./application/backbone_extensions"
 #= require "./application/ongaku_ryoho"

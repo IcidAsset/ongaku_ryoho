@@ -62,17 +62,6 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
 
 
   #
-  #  User menu
-  #
-  toggle_user_menu: (e) ->
-    if $(e.currentTarget).hasClass("on")
-      OngakuRyoho.UserMenu.view.hide()
-    else
-      OngakuRyoho.UserMenu.view.show()
-
-
-
-  #
   #  Search
   #
   search_input_change: (e) =>
