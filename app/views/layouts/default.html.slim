@@ -14,4 +14,8 @@ html
 
     = yield
 
+    javascript:
+      OngakuRyohoPreloadedData = {}
+      OngakuRyohoPreloadedData.user = #{raw current_user.to_json}
+
     = javascript_include_tag "application"

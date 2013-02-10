@@ -16,6 +16,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
 
     # special filters
     @favourites = off
+    @playlist = off
 
 
 
@@ -46,7 +47,8 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
       filter: @filter,
       sort_by: @sort_by,
       sort_direction: @sort_direction,
-      favourites: @favourites
+      favourites: @favourites,
+      playlist: @playlist
     }
 
     # success

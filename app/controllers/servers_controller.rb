@@ -24,7 +24,7 @@ class ServersController < ApplicationController
     server.status = "unprocessed"
 
     existing_server = Server.all.select { |s|
-      s.configuration[:location] == location
+      s.configuration["location"] == location
     }.first
 
     unless existing_server

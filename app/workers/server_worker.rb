@@ -17,7 +17,7 @@ class ServerWorker
     args = [:process]
 
     begin
-      uri = URI.parse(server.configuration[:location])
+      uri = URI.parse(server.configuration["location"])
       response = Net::HTTP.get(uri)
     rescue
       args.unshift "unprocessed / server not found"
@@ -52,7 +52,7 @@ class ServerWorker
 
     # get json data from server
     begin
-      uri = URI.parse(server.configuration[:location] + "check")
+      uri = URI.parse(server.configuration["location"] + "check")
       response = Net::HTTP.post_form(uri, { file_list: file_list.to_json })
     rescue
       args.unshift "processed"

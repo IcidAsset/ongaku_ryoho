@@ -7,8 +7,8 @@ class Server < Source
 
 
   def label
-    label = if name.blank? and configuration[:location]
-      configuration[:location]
+    label = if name.blank? and configuration["location"]
+      configuration["location"]
     else
       name
     end
@@ -22,7 +22,7 @@ class Server < Source
   def available?
     require "net/http"
 
-    uri = URI.parse(self.configuration[:location])
+    uri = URI.parse(self.configuration["location"])
     response = nil
 
     begin
@@ -45,7 +45,7 @@ class Server < Source
       tags.delete("last_modified")
 
       tags["tracknr"] = tags.delete("track") || ""
-      tags["url"] = server.configuration[:location] + tags["location"]
+      tags["url"] = server.configuration["location"] + tags["location"]
 
       tags.each do |tag, value|
         condition = value.is_a?(String) and value.length > 255
