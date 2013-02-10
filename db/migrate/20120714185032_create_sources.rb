@@ -1,8 +1,8 @@
 class CreateSources < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :sources do |t|
       t.boolean :activated, default: false
-      t.string :configuration, default: {}.to_yaml
+      t.text :configuration, default: {}.to_yaml
 
       t.string :status, default: ""
       t.string :name
@@ -16,7 +16,7 @@ class CreateSources < ActiveRecord::Migration
     add_index :sources, :user_id
   end
 
-  def self.down
+  def down
     drop_table :sources
   end
 end

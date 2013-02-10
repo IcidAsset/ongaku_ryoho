@@ -1,5 +1,5 @@
 class SorceryCore < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :users do |t|
       t.string :email, null: false
       t.string :crypted_password, default: nil
@@ -9,7 +9,7 @@ class SorceryCore < ActiveRecord::Migration
     end
   end
 
-  def self.down
+  def down
     drop_table :users
   end
 end

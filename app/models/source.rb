@@ -1,7 +1,7 @@
 class Source < ActiveRecord::Base
   attr_accessible :activated, :configuration, :status, :name
   attr_accessor :available, :label, :track_amount
-  serialize :configuration
+  serialize :configuration, Hash
 
   belongs_to :user
   has_many :tracks, dependent: :destroy

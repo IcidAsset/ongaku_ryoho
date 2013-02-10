@@ -1,5 +1,5 @@
 class CreateTracks < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :tracks do |t|
       t.string :artist
       t.string :title
@@ -39,7 +39,7 @@ class CreateTracks < ActiveRecord::Migration
     EOS
   end
 
-  def self.down
+  def down
     drop_table :tracks
   end
 end

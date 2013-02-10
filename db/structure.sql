@@ -123,8 +123,8 @@ CREATE TABLE schema_migrations (
 CREATE TABLE sources (
     id integer NOT NULL,
     activated boolean DEFAULT false,
-    configuration character varying(255) DEFAULT '--- {}
-'::character varying,
+    configuration text DEFAULT '--- {}
+'::text,
     status character varying(255) DEFAULT ''::character varying,
     name character varying(255),
     type character varying(255),
@@ -207,7 +207,9 @@ CREATE TABLE users (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     remember_me_token character varying(255) DEFAULT NULL::character varying,
-    remember_me_token_expires_at timestamp without time zone
+    remember_me_token_expires_at timestamp without time zone,
+    settings text DEFAULT '--- {}
+'::text
 );
 
 
@@ -429,3 +431,5 @@ INSERT INTO schema_migrations (version) VALUES ('20121115212612');
 INSERT INTO schema_migrations (version) VALUES ('20130210111909');
 
 INSERT INTO schema_migrations (version) VALUES ('20130210114740');
+
+INSERT INTO schema_migrations (version) VALUES ('20130210122335');

@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :password
+  attr_accessible :email, :password, :settings
+  serialize :settings, Hash
 
   authenticates_with_sorcery!
 

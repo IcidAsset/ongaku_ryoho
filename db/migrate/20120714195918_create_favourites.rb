@@ -1,5 +1,5 @@
 class CreateFavourites < ActiveRecord::Migration
-  def self.up
+  def up
     create_table :favourites do |t|
       t.string :artist
       t.string :title
@@ -33,7 +33,7 @@ class CreateFavourites < ActiveRecord::Migration
     EOS
   end
 
-  def self.down
+  def down
     drop_table :favourites
   end
 end
