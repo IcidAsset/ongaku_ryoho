@@ -36,7 +36,8 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
     this.$el.append($message)
 
     # fade in message
-    $message.fadeIn(500)
+    $message.css({ display: "block", opacity: 0 })
+            .animate({ opacity: 1 }, { duration: 500 })
 
     # loading animation?
     if message.get("loading")
@@ -48,4 +49,7 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
 
   remove_message: (message) =>
     this.$el.find(".message[rel=\"#{message.cid}\"]")
-        .fadeOut 500, () -> $(this).remove()
+        .animate({ opacity: 0 }, {
+          duration: 500
+          complete: -> $(this).remove()
+        })

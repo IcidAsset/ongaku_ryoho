@@ -112,8 +112,8 @@ window.Helpers =
     promise = new RSVP.Promise()
 
     obj.fetch.call(obj, {
-      success: (model, response) -> promise.resolve(response),
-      error: promise.reject
+      success: (model, response) -> promise.resolve(response)
+      error: -> promise.reject()
     })
 
     return promise

@@ -50,10 +50,9 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
       .on("fetched", @group.machine.fetched)
 
     # tap events
-    double_tap_hammer = new Hammer(this.el)
-    double_tap_hammer.ondoubletap = (e) =>
-      touches = e.originalEvent.touches || [e.originalEvent]
-      @group.machine.activate_track($(touches[0].target).closest(".track")[0])
+    double_tap_hammer = Hammer(this.el)
+    double_tap_hammer.on "doubletap", (e) =>
+      @group.machine.activate_track($(e.target).closest(".track")[0])
 
     # scroll/touch events
     scroll_el = this.el

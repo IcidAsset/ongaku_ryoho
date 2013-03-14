@@ -1,7 +1,7 @@
 /*
 
     BARE TOOLTIP
-    v0.1
+    v0.2.1
 
 */
 
@@ -26,7 +26,8 @@ root.BareTooltip = (function($) {
     animation_speed: 350,
     timeout_duration: 0,
     hide_on_document_click: true,
-    template: default_template
+    template: default_template,
+    setup_immediately: false
   };
 
 
@@ -54,17 +55,6 @@ root.BareTooltip = (function($) {
     this.state = {};
     $.extend(this.state, BT.prototype.state);
 
-    // bind to self
-    this.bind_to_self([
-      "trigger_mouseover_handler",
-      "trigger_mouseout_handler",
-      "trigger_mouseover_for_timeout_handler",
-      "trigger_mouseout_for_timeout_handler",
-      "trigger_click_handler",
-      "move_tooltip",
-      "hide_and_remove_tooltip"
-    ]);
-
     // cache element
     this.$el = (function() {
       if (element instanceof $) {
@@ -74,10 +64,10 @@ root.BareTooltip = (function($) {
       } else {
         return $(element);
       }
-    }());
+    })();
 
-    // further setup
-    this.setup();
+    // setup?
+    if (this.settings.setup_immediately) this.setup();
   }
 
 
@@ -86,6 +76,18 @@ root.BareTooltip = (function($) {
   //  Setup
   //
   BT.prototype.setup = function() {
+    this.bind_to_self([
+      "trigger_mouseover_handler",
+      "trigger_mouseout_handler",
+      "trigger_mouseover_for_timeout_handler",
+      "trigger_mouseout_for_timeout_handler",
+      "trigger_click_handler",
+      "window_resize_handler",
+      "move_tooltip",
+      "hide_and_remove_current_tooltip"
+    ]);
+
+    // bind events
     switch (this.settings.trigger_type) {
       case "hover":
         this.$el.on("mouseover", this.trigger_mouseover_handler);
@@ -105,7 +107,73 @@ root.BareTooltip = (function($) {
   //
   //  Tooltip methods
   //
-  BT.prototype.new_tooltip = function(content, additional_classes) {
+  BT.prototype.assign_new_tooltip = function(trigger) {
+    // remove old tooltip
+    if (this.state.$tooltip_element) this.hide_and_remove_current_tooltip();
+
+    // current trigger
+    this.state.$current_trigger = $(trigger);
+
+    if (this.should_timeout()) {
+      this.state.$current_trigger.on("mouseover", this.trigger_mouseover_for_timeout_handler);
+      this.state.$current_trigger.on("mouseout", this.trigger_mouseout_for_timeout_handler);
+    }
+
+    // make new tooltip
+    this.create_new_tooltip(
+      this.get_tooltip_content(trigger),
+      this.get_tooltip_additional_classes(trigger)
+    );
+  };
+
+
+  BT.prototype.get_tooltip_content = function(trigger) {
+    var $trigger = $(trigger),
+        $next = $trigger.next(".tooltip-data");
+
+    // find content
+    if ($trigger.children(".tooltip-data").length) {
+      return $trigger.children(".tooltip-data").html();
+
+    } else if ($next.length && $next.hasClass("tooltip-data")) {
+      return $next.html();
+
+    } else if ($trigger.attr("data-tooltip")) {
+      return $trigger.attr("data-tooltip");
+
+    } else if ($trigger.attr("title")) {
+      return $trigger.attr("title");
+
+    } else {
+      return "";
+
+    }
+  };
+
+
+  BT.prototype.get_tooltip_additional_classes = function(trigger) {
+    var $trigger = $(trigger),
+        attr_name = "data-tooltip-classes",
+        add_classes = [];
+
+    // get trigger parent elements
+    $add = $trigger.parents("[" + attr_name + "]");
+
+    // find and add to array
+    if ($trigger.attr(attr_name)) {
+      add_classes.push($trigger.attr(attr_name));
+    }
+
+    $add.each(function() {
+      add_classes.push($(this).attr(attr_name));
+    });
+
+    // return array
+    return add_classes;
+  };
+
+
+  BT.prototype.create_new_tooltip = function(content, additional_classes) {
     var klasses, h, $tooltip;
 
     klasses = additional_classes || [];
@@ -131,62 +199,11 @@ root.BareTooltip = (function($) {
       $tooltip.on("mouseout", this.trigger_mouseout_for_timeout_handler);
     }
 
+    // window resize event
+    $(window).on("resize", this.window_resize_handler);
+
     // add to dom
     $("body").append($tooltip);
-  };
-
-
-  BT.prototype.setup_tooltip = function(trigger) {
-    var content, add_classes,
-        $trigger = $(trigger), $add;
-
-    // set content
-    content = (function() {
-      if ($trigger.children(".tooltip-data").length) {
-        return $trigger.children(".tooltip-data").html();
-
-      } else if ($trigger.next(".tooltip-data").length) {
-        return $trigger.next(".tooltip-data").html();
-
-      } else if ($trigger.attr("data-tooltip")) {
-        return $trigger.attr("data-tooltip");
-
-      } else if ($trigger.attr("title")) {
-        return $trigger.attr("title");
-
-      } else {
-        return "";
-
-      }
-    })();
-
-    // set classes
-    $add = $trigger.parents("[data-tooltip-classes]");
-    add_classes = [];
-
-    if ($trigger.attr("data-tooltip-classes")) {
-      add_classes.push($trigger.attr("data-tooltip-classes"));
-    }
-
-    $add.each(function() {
-      add_classes.push($(this).attr("data-tooltip-classes"));
-    });
-
-    // remove old tooltip
-    if (this.state.$tooltip_element) {
-      this.hide_and_remove_tooltip();
-    }
-
-    // current trigger
-    this.state.$current_trigger = $trigger;
-
-    if (this.should_timeout()) {
-      this.state.$current_trigger.on("mouseover", this.trigger_mouseover_for_timeout_handler);
-      this.state.$current_trigger.on("mouseout", this.trigger_mouseout_for_timeout_handler);
-    }
-
-    // make new tooltip
-    this.new_tooltip(content, add_classes);
   };
 
 
@@ -196,7 +213,7 @@ root.BareTooltip = (function($) {
   //    -> trigger_type: hover
   //
   BT.prototype.trigger_mouseover_handler = function(e) {
-    this.setup_tooltip(e.currentTarget);
+    this.assign_new_tooltip(e.currentTarget);
 
     // move tooltip
     $(e.currentTarget).on("mousemove", this.move_tooltip);
@@ -211,7 +228,7 @@ root.BareTooltip = (function($) {
     $(e.currentTarget).off("mousemove", this.move_tooltip);
 
     // hide and remove
-    this.hide_and_remove_tooltip();
+    this.hide_and_remove_current_tooltip();
   };
 
 
@@ -232,14 +249,14 @@ root.BareTooltip = (function($) {
 
   BT.prototype.trigger_click_handler = function(e) {
     var setup_new = function() {
-      this.setup_tooltip(e.currentTarget);
+      this.assign_new_tooltip(e.currentTarget);
       this.move_tooltip(e);
       this.show_tooltip();
     };
 
     if (this.state.$current_trigger) {
       var current_trigger = this.state.$current_trigger[0];
-      if (!this.settings.hide_on_document_click) this.hide_and_remove_tooltip();
+      if (!this.settings.hide_on_document_click) this.hide_and_remove_current_tooltip();
       if (current_trigger !== e.currentTarget) setup_new.call(this);
 
     } else {
@@ -251,22 +268,32 @@ root.BareTooltip = (function($) {
 
 
   //
+  //  Other event handlers
+  //
+  BT.prototype.window_resize_handler = function() {
+    this.move_tooltip({ currentTarget: this.state.$current_trigger.get(0) });
+  };
+
+
+
+  //
   //  Show, hide, position, etc.
   //
   BT.prototype.move_tooltip = function(e) {
     var $t = this.state.$tooltip_element,
-        $trigger = $(e.currentTarget);
+        $trigger = $(e.currentTarget),
+        height = $.fn.jquery ? $t.outerHeight(true) : $t.height();
 
     if (this.settings.trigger_type == "click") {
       $t.css({
         left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2),
-        top: $trigger.offset().top - $t.height() - 5
+        top: $trigger.offset().top - height - 5
       });
 
     } else {
       $t.css({
         left: e.pageX - ($t.width() / 2),
-        top: e.pageY - $t.height() - 18
+        top: e.pageY - height - 18
       });
 
     }
@@ -279,27 +306,12 @@ root.BareTooltip = (function($) {
   };
 
 
-  BT.prototype.hide_tooltip = function(callback) {
-    var $tooltip = this.state.$tooltip_element;
-    if (!$tooltip) return;
+  BT.prototype.hide_tooltip = function(tooltip, callback) {
+    // remove events
+    $(window).off("resize", this.window_resize_handler);
 
-    this.state.$current_trigger = null;
-    this.state.$tooltip_element = null;
-    $tooltip.animate({ opacity: 0 }, {
-      duration: this.settings.animation_speed,
-      complete: function() { callback($tooltip); }
-    });
-  };
-
-
-  BT.prototype.remove_tooltip = function($tooltip) {
-    if ($tooltip) $tooltip.remove();
-  };
-
-
-  BT.prototype.hide_and_remove_tooltip = function() {
     if (this.should_hide_on_document_click()) {
-      $(document).off("click", this.hide_and_remove_tooltip);
+      $(document).off("click", this.hide_and_remove_current_tooltip);
     }
 
     if (this.should_timeout()) {
@@ -309,8 +321,35 @@ root.BareTooltip = (function($) {
       this.state.$tooltip_element.off("mouseout");
     }
 
+    // clear timeouts
     this.clear_timeouts();
-    this.hide_tooltip(this.remove_tooltip);
+
+    // check tooltip element
+    if (!tooltip) return;
+
+    // state $elements
+    this.state.$current_trigger = null;
+    this.state.$tooltip_element = null;
+
+    // fade out tooltip and call callback
+    $(tooltip).animate({ opacity: 0 }, {
+      duration: this.settings.animation_speed,
+      complete: function() { if (callback) callback(); }
+    });
+  };
+
+
+  BT.prototype.remove_tooltip = function(tooltip) {
+    if (tooltip) $(tooltip).remove();
+  };
+
+
+  BT.prototype.hide_and_remove_current_tooltip = function() {
+    var $tooltip = this.state.$tooltip_element;
+    if (!$tooltip) return;
+    var self = this, tooltip = $tooltip.get(0);
+    var callback = function() { self.remove_tooltip(tooltip); };
+    self.hide_tooltip(tooltip, callback);
   };
 
 
@@ -332,7 +371,7 @@ root.BareTooltip = (function($) {
 
   BT.prototype.set_timeout_for_removal = function() {
     this.state.timeout_ids.push(
-      setTimeout(this.hide_and_remove_tooltip, this.settings.timeout_duration)
+      setTimeout(this.hide_and_remove_current_tooltip, this.settings.timeout_duration)
     );
   };
 
@@ -342,7 +381,7 @@ root.BareTooltip = (function($) {
 
     self = this;
     callback = function() {
-      $(document).one("click", self.hide_and_remove_tooltip);
+      $(document).one("click", self.hide_and_remove_current_tooltip);
     };
 
     this.state.timeout_ids.push(
@@ -389,4 +428,4 @@ root.BareTooltip = (function($) {
   //
   return BT;
 
-})(Zepto);
+})(window.Zepto || window.jQuery);

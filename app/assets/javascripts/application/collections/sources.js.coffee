@@ -91,7 +91,6 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     url = this.url + source.get("id") + "/process"
 
     $.get(url, (response) ->
-      response = JSON.parse(response)
       unless response.processing
         promise.resolve()
       else
@@ -107,7 +106,6 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     url = this.url + source.get("id") + "/check"
 
     $.get(url, (response) ->
-      response = JSON.parse(response)
       unless response.checking
         promise.resolve()
       else

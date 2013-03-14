@@ -45,6 +45,9 @@ class OngakuRyoho.Classes.Machinery.UserMenu
         top: $trigger.offset().top + $trigger.height() + 10
       })
 
+    # setup
+    @tooltip.setup()
+
 
 
   #
@@ -60,11 +63,11 @@ class OngakuRyoho.Classes.Machinery.UserMenu
     # go
     if state is "off"
       $switch.removeClass("on")
-      $color_overlay.fadeTo(animation_duration, 0)
+      $color_overlay.animate({ opacity: 0 }, { duration: animation_duration })
 
     else
       $switch.addClass("on")
-      $color_overlay.fadeTo(animation_duration, 1)
+      $color_overlay.animate({ opacity: 1 }, { duration: animation_duration })
 
     # save state in local storage
     window.localStorage.setItem("theater_mode_state", state)
