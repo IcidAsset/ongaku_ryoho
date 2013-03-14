@@ -21,8 +21,8 @@ form {
     &:focus {
       outline-color: rgba(#fff, 0);
       outline-offset: 100000px;
-      // Hack for fixing a Chrome bug,
-      // Chrome doesn't compute: box-shadow + (focus -> outline: none).
+      // hack for fixing a Chrome bug,
+      // chrome doesn't compute: box-shadow + (focus -> outline: none).
     }
   }
 
@@ -45,4 +45,6 @@ form {
     &:active,
     &:focus { opacity: 1 }
   }
+
+
 }

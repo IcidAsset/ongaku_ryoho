@@ -11,34 +11,16 @@
   top: 0;
   visibility: hidden;
   width: 1px;
-}
-
-#wrapper {
-  margin: 0 auto;
-  max-width: 1300px;
-  position: relative;
   z-index: 0;
-}
-
-#wrapper aside {
-  display: block;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: $controller_width;
 }
 
 #color-overlay {
   background: rgba(#F77825, .13);
-  bottom: 0;
-  left: 0;
+  opacity: 0;
   pointer-events: none;
-  position: fixed;
-  right: 0;
-  top: 0;
   z-index: 100;
 
-  @include opacity(0);
+  @include stretch_fixed;
 }
 
 input, textarea, select {

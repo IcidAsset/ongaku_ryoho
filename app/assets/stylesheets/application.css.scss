@@ -24,11 +24,11 @@
 
 @import "application/components/modal";
 
-@import "application/mixing-console";
-@import "application/visualizations";
-@import "application/drop-zones";
-@import "application/message-center";
+@import "application/modules/mixing-console";
+@import "application/modules/visualizations";
+@import "application/modules/drop-zones";
+@import "application/modules/message-center";
 
-@import "application/record-box";
-@import "application/user-menu";
-@import "application/source-manager";
+@import "application/modules/record-box";
+@import "application/modules/user-menu";
+@import "application/modules/source-manager";

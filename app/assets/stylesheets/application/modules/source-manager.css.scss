@@ -1,19 +1,20 @@
 /*
 
   Source Manager
-  (element with modal class)
+  (modal instance)
 
 */
 
 #source-manager .window {
   visibility: hidden;
 
-  &.shown {
-    visibility: visible;
-  }
+  &.shown { visibility: visible }
 }
 
 
+//
+//  Toolbar
+//
 #source-manager .toolbar {
   background: #ebebeb;
   border-bottom: 1px solid #f8f8f8;
@@ -38,6 +39,9 @@
 }
 
 
+//
+//  Source list
+//
 #source-list {
   width: 100%;
 
