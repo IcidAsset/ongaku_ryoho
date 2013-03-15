@@ -147,12 +147,13 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
   #  Drag & Drop
   #
   track_dragstart: (e) =>
-    e.dataTransfer.effectAllowed = "move"
-    e.dataTransfer.dropEffect = "move"
-    e.dataTransfer.setData("text/plain", $(e.currentTarget).attr("rel"))
-    e.dataTransfer.setDragImage(@drag_icon, 17, 17)
+    if e.dataTransfer
+      e.dataTransfer.effectAllowed = "move"
+      e.dataTransfer.dropEffect = "move"
+      e.dataTransfer.setData("text/plain", $(e.currentTarget).attr("rel"))
+      e.dataTransfer.setDragImage(@drag_icon, 17, 17)
 
-    @group.view.dragged_track_element = e.currentTarget
+      @group.view.dragged_track_element = e.currentTarget
 
 
 
@@ -226,5 +227,5 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
       source_queue_item.user = !source_queue_item.user
 
     # shift queue
-    queue.data["#{target_origin_name}_next"].splice(target_index + 1, 0, source_queue_item)
+    queue.data["#{target_origin_name}_next"].splice(target_index, 0, source_queue_item)
     queue.set_next()
