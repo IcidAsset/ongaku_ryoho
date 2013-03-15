@@ -86,12 +86,8 @@ Zepto ->
   # send people off to work
   App.People.SoundGuy.go_to_work()
 
-  # get data
-  Helpers.promise_fetch(App.RecordBox.Favourites.collection)
-    .then -> Helpers.promise_fetch(App.RecordBox.Tracks.collection)
-    .then -> Helpers.promise_fetch(App.SourceManager.collection)
-    .then -> App.SourceManager.collection.process_and_check_sources()
-    .then -> App.Router = new Routers.Default
+  # route
+  App.Router = new Routers.Default
 
   # check for legacy stuff
   window.Legacy.check()
