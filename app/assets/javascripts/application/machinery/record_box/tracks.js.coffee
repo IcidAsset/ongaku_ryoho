@@ -91,13 +91,20 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
         $t.attr("data-favourite", false)
         $t.data("favourite", false)
 
-        this.remove_matching_favourites(title, artist, album)
+        @parent_group.Favourites.collection
+          .remove_matching_favourites(title, artist, album)
 
       else
         $t.attr("data-favourite", true)
         $t.data("favourite", true)
 
-        this.create_new_favourite(title, artist, album, track_id)
+        @parent_group.Favourites.collection
+          .create({
+            title: title,
+            artist: artist,
+            album: album,
+            track_id: track_id
+          })
 
     # if the track doesn't exist
     # e.g. unavailable track
@@ -118,28 +125,6 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     e.preventDefault()
     e.stopPropagation()
     return false
-
-
-
-  create_new_favourite: (title, artist, album, track_id) ->
-    @parent_group.Favourites.collection.create({
-      title: title,
-      artist: artist,
-      album: album,
-      track_id: track_id
-    })
-
-
-
-  remove_matching_favourites: (title, artist, album) ->
-    favourites = @parent_group.Favourites.collection.where({
-      title: title,
-      artist: artist,
-      album: album
-    })
-
-    # destroy each
-    _.each favourites, (f) -> f.destroy()
 
 
 

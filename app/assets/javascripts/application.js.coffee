@@ -38,7 +38,6 @@ Zepto ->
   Models = App.Classes.Models
   Collections = App.Classes.Collections
   Views = App.Classes.Views
-  Routers = App.Classes.Routers
 
   # helpers
   Helpers.initialize_before()
@@ -50,6 +49,7 @@ Zepto ->
 
   App.People = {}
   App.People.SoundGuy = new People.SoundGuy
+  App.People.ViewStateManager = new People.ViewStateManager
 
   App.MixingConsole = {}
   App.MixingConsole.model = new Models.MixingConsole
@@ -85,9 +85,7 @@ Zepto ->
 
   # send people off to work
   App.People.SoundGuy.go_to_work()
-
-  # route
-  App.Router = new Routers.Default
+  App.People.ViewStateManager.go_to_work()
 
   # check for legacy stuff
   window.Legacy.check()

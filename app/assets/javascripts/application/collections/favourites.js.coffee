@@ -15,3 +15,15 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
       track_id = favourite.get("track_id")
       track = Tracks.collection.get(track_id) if track_id
       Tracks.collection.remove(track) if track
+
+
+
+  remove_matching_favourites: (title, artist, album) ->
+    favourites = this.where({
+      title: title,
+      artist: artist,
+      album: album
+    })
+
+    # destroy each
+    _.each favourites, (f) -> f.destroy()

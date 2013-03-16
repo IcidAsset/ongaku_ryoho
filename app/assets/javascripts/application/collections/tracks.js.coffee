@@ -110,6 +110,8 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     return no unless this.page_info().prev
 
     @page = @page - 1
+    OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
+
     return this.fetch()
 
 
@@ -120,6 +122,8 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     return no unless this.page_info().next
 
     @page = @page + 1
+    OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
+
     return this.fetch()
 
 

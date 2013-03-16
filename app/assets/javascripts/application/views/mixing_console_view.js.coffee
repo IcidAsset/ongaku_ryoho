@@ -110,7 +110,6 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
 
 
   render_now_playing: () =>
-    # set content
     this.$now_playing.children(".item").html(
       @now_playing_template({ now_playing: @group.model.get("now_playing") })
     )

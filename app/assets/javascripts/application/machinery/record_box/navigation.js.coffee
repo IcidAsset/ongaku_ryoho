@@ -1,63 +1,19 @@
 class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
 
   #
-  #  Queue
+  #  Switches
   #
   toggle_queue: (e) =>
-    queue_mode = @parent_group.Tracks.view.mode is "queue"
-    $t = $(e.currentTarget)
-
-    # toggle
-    if queue_mode
-      this.hide_queue()
-    else
-      this.show_queue()
+    vsm = OngakuRyoho.People.ViewStateManager
+    if vsm.get_queue_status() is off then vsm.set_queue_status(on)
+    else vsm.set_queue_status(off)
 
 
 
-  show_queue: () ->
-    @group.view.$el.find(".toggle-queue").addClass("on")
-    @parent_group.Tracks.view.mode = "queue"
-    @parent_group.Tracks.view.render()
-    @parent_group.Footer.machine.disable_navigation_entirely()
-
-
-
-  hide_queue: () ->
-    @group.view.$el.find(".toggle-queue").removeClass("on")
-    @parent_group.Tracks.view.mode = "default"
-    @parent_group.Tracks.view.render()
-    @parent_group.Tracks.machine.show_current_track()
-    @parent_group.Footer.machine.check_page_navigation()
-
-    if @parent_group.Tracks.collection.length > 0
-      @parent_group.Tracks.machine.add_playing_class_to_track(
-        OngakuRyoho.People.SoundGuy.get_current_track()
-      )
-
-      @parent_group.Tracks.machine.show_current_track()
-
-
-
-  #
-  #  Favourites
-  #
   toggle_favourites: (e) =>
-    tracks_collection = @parent_group.Tracks.collection
-    favourites = tracks_collection.favourites
-    $t = $(e.currentTarget)
-
-    # switch
-    if favourites
-      $t.removeClass("on")
-      tracks_collection.favourites = off
-
-    else
-      $t.addClass("on")
-      tracks_collection.favourites = on
-
-    # fetch tracks
-    tracks_collection.fetch()
+    vsm = OngakuRyoho.People.ViewStateManager
+    if vsm.get_favourites_status() is off then vsm.set_favourites_status(on)
+    else vsm.set_favourites_status(off)
 
 
 
@@ -80,6 +36,9 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
 
     # fetch tracks
     tracks_collection.fetch({ success: this.search_success })
+
+    # view state manager
+    OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
 
 
 
