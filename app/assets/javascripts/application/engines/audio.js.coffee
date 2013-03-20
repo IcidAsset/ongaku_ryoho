@@ -207,8 +207,20 @@ class OngakuRyoho.Classes.Engines.Audio
     filetype = if filetype_match then filetype_match[1] else false
     return false if !filetype or audio_element.canPlayType("audio/#{filetype}") is ""
 
+    # encode uri
+    url = related_track.get("url")
+    url_indexof_location = url.indexOf(related_track.get("location"))
+
+    src = if url_indexof_location is -1
+      alert("Could not find index of location in model.url")
+      url
+    else
+      location = related_track.get("location")
+      location = _.map(location.split("/"), (l) -> encodeURIComponent(l))
+      url.substr(0, url_indexof_location) + location.join("/")
+
     # track
-    audio_element.setAttribute("src", related_track.get("url"))
+    audio_element.setAttribute("src", src)
     audio_element.setAttribute("rel", related_track.id)
 
     # events, in order of the w3c spec
