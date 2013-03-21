@@ -72,20 +72,22 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #  Render
   #
   render: () =>
-    $list = $("<ol class=\"tracks\"></ol>")
+    list_element = document.createElement("ol")
+    list_element.classList.add("tracks")
 
     # render
-    this["render_#{this.mode}"]($list)
+    list_fragment = this["render_#{this.mode}"](list_element)
+    list_element.appendChild(list_fragment)
 
     # scroll to top
     this.el.scrollTop = 0
 
     # add list to main elements
-    this.$el.empty()
-    this.$el.append($list)
+    this.el.innerHTML = ""
+    this.el.appendChild(list_element)
 
     # check
-    if $list.children("li").length is 0
+    if $(list_element).children("li").length is 0
       this.add_nothing_here_message()
       OngakuRyoho.RecordBox.Footer.view.set_contents("")
 
@@ -94,47 +96,51 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
 
 
-  render_default: ($list) =>
+  render_default: (list_element) =>
     page_info = @group.collection.page_info()
+    list_fragment = document.createDocumentFragment()
 
     # tracks
     @group.collection.each((track) =>
       track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
-      $list.append(track_view.render().el)
+      list_fragment.appendChild(track_view.render().el)
     )
 
     # set footer contents
-    message = (() ->
-      word_tracks = (if page_info.total is 1 then "track" else "tracks")
-      "#{page_info.total} #{word_tracks} found &mdash;
-      page #{page_info.page} / #{page_info.pages}"
-    )()
+    word_tracks = (if page_info.total is 1 then "track" else "tracks")
+    message = "#{page_info.total} #{word_tracks} found &mdash; page #{page_info.page} / #{page_info.pages}"
 
     OngakuRyoho.RecordBox.Footer.view.set_contents(message)
 
+    # return list fragment
+    return list_fragment
 
 
-  render_queue: ($list) =>
+
+  render_queue: (list_element) =>
     queue = OngakuRyoho.Engines.Queue
     message = "Queue &mdash; The next #{queue.data.combined_next.length} items"
+    list_fragment = document.createDocumentFragment()
 
     # group
-    $list.append(@group_template({ title: "Queue" }))
+    group = $(@group_template({ title: "Queue" }))[0]
+    list_fragment.appendChild(group)
 
     # tracks
     _.each(queue.data.combined_next, (map) =>
-      track = map.track
-      return unless track
+      if map.track
+        track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: map.track })
+        track_view.el.classList.add("queue-item")
+        track_view.el.classList.add("user-selected") if map.user
 
-      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
-      track_view.$el.addClass("queue-item")
-      track_view.$el.addClass("user-selected") if map.user
-
-      $list.append(track_view.render().el)
+        list_fragment.appendChild(track_view.render().el)
     )
 
     # set foorter contents
     OngakuRyoho.RecordBox.Footer.view.set_contents(message)
+
+    # return list fragment
+    return list_fragment
 
 
 
