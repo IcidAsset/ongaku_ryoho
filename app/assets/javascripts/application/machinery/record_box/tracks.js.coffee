@@ -75,30 +75,26 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     $t = $(e.currentTarget)
     $track = $t.closest(".track")
 
-    track_id = unless $track.hasClass("unavailable")
-      parseInt($track.attr("rel"))
-    else
-      false
+    available = !$track.hasClass("unavailable")
+    track_id = parseInt($track.attr("rel"))
 
     # if the track exists
-    if track_id
+    if available
       track = @group.collection.get(track_id)
       title = track.get("title")
       artist = track.get("artist")
       album = track.get("album")
 
-      if $t.data("favourite") is true or $t.data("favourite") is "true"
-        $t.attr("data-favourite", false)
-        $t.data("favourite", false)
+      if $t.attr("data-favourite") is "true"
+        $t.attr("data-favourite", "false")
 
         @parent_group.Favourites.collection
           .remove_matching_favourites(title, artist, album)
 
       else
-        $t.attr("data-favourite", true)
-        $t.data("favourite", true)
+        $t.attr("data-favourite", "true")
 
-        @parent_group.Favourites.collection
+        new_favourite = @parent_group.Favourites.collection
           .create({
             title: title,
             artist: artist,
@@ -106,12 +102,13 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
             track_id: track_id
           })
 
+        track.set("favourite_id", true)
+
     # if the track doesn't exist
     # e.g. unavailable track
     else
-      @parent_group.Favourites.collection.get(
-        $track.data("favourite-id")
-      ).destroy()
+      favourites = @parent_group.Favourites.collection.where({ track_id: track_id })
+      _.each favourites, (f) -> f.destroy()
 
     # remove dom element if needed
     # and also add 'nothing here' message if the collection is empty
@@ -143,7 +140,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
   track_dragend: (e) ->
-    e.dataTransfer.clearData()
+    e.dataTransfer.clearData() if e.dataTransfer
 
 
 

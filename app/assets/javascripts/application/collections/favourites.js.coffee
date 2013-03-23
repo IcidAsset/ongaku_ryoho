@@ -25,5 +25,10 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
       album: album
     })
 
-    # destroy each
-    _.each favourites, (f) -> f.destroy()
+    # destroy each + nullify relation
+    _.each favourites, (f) ->
+      track_id = f.get("track_id")
+      f.destroy()
+
+      t = OngakuRyoho.RecordBox.Tracks.collection.get(track_id)
+      t.set("favourite_id", null) if t

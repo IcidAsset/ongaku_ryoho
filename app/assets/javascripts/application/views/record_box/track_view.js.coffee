@@ -18,18 +18,17 @@ class OngakuRyoho.Classes.Views.RecordBox.Track extends Backbone.View
   #
   render: () ->
     model_attr = @model.toJSON()
-    fav_id = model_attr.favourite_id
 
     # content
-    this.$el.html(@template(model_attr))
-    this.$el.attr("rel", @model.id)
+    this.el.innerHTML = @template(model_attr)
+    this.el.setAttribute("rel", @model.id)
 
     # extra data and classes
-    this.$el.addClass("unavailable") unless model_attr.available
-    this.$el.data("favourite-id", fav_id) if fav_id
+    this.el.firstElementChild.setAttribute("data-favourite", "true") if model_attr.favourite_id
+    this.el.classList.add("unavailable") unless model_attr.available
 
     # draggable
-    this.$el.attr("draggable", "true")
+    this.el.setAttribute("draggable", "true")
 
     # chain
     return this

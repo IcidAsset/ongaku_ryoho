@@ -261,7 +261,7 @@
       & > div { color: darken($blueish_dark, 12%) }
       .favourite { color: darken($blueish, 7%) }
 
-      .favourite[data-favourite=true],
+      .favourite[data-favourite="true"],
       .favourite:hover { color: darken($blueish_dark, 4.75%) !important }
     }
 
@@ -278,7 +278,7 @@
 
     // favourite (star)
     .favourite {
-      color: rgba(#aaa, .2);
+      color: #ececec;
       cursor: pointer;
       font-size: 26px;
       line-height: 26px;
@@ -287,7 +287,7 @@
 
       @include icon-font;
 
-      &[data-favourite=true] { color: $yellow }
+      &[data-favourite="true"] { color: $yellow }
     }
   }
 

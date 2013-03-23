@@ -128,12 +128,12 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     # tracks
     _.each(queue.data.combined_next, (map) =>
-      if map.track
-        track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: map.track })
-        track_view.el.classList.add("queue-item")
-        track_view.el.classList.add("user-selected") if map.user
+      return unless map.track
+      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: map.track })
+      track_view.el.classList.add("queue-item")
+      track_view.el.classList.add("user-selected") if map.user
 
-        list_fragment.appendChild(track_view.render().el)
+      list_fragment.appendChild(track_view.render().el)
     )
 
     # set foorter contents
