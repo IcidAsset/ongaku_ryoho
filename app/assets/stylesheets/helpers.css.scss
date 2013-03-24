@@ -1,34 +1,3 @@
-/*
-
-  Helpers
-
-*/
-
-// colors
-$red: #E0676C;
-$green: #BCF865;
-$green_2: #5CD15C;
-$blue: #00CCFF;
-$yellow: #FBB829;
-$yellow_2: #FCEB29;
-$orange: #FC913A;
-$purple: #A065CB;
-
-$bgcolor: #716d85;
-$bgcolor_1: #644E74;
-$bgcolor_2: #724562;
-$bgcolor_3: #944D5D;
-
-$blueish: #B6BABF;
-$blueish_dark: #6C7075;
-$light: lighten($blueish, 17.5%);
-$dark: #292929;
-
-// breakpoints
-$breakpoint_small: 480px;
-$breakpoint_medium: 800px;
-$breakpoint_large: 1240px;
-
 // font mixins
 @mixin sansserif-font {
   font-family: 'Helvetica Neue', sans-serif;
@@ -44,7 +13,6 @@ $breakpoint_large: 1240px;
 
 @mixin icon-font {
   font-family: 'entypo';
-
   -webkit-font-smoothing: antialiased;
 }
 

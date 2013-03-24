@@ -1,0 +1,55 @@
+//
+//  Colors
+//
+$hue: 55;
+$bgcolor: adjust_hue(darken(#686f78, 0.5%), $hue - 10); // #6C6777, #716d85;
+
+// general
+$red: #E0676C;
+$green: #BCF865;
+$green_2: #5CD15C;
+$blue: #00CCFF;
+$yellow: #FBB829;
+$yellow_2: #FCEB29;
+$orange: #FC913A;
+$purple: #A065CB;
+
+// record box
+$rbn_outer_color_a: adjust_hue(lighten(#757a80, 3%), $hue);
+$rbn_outer_color_b: adjust_hue(darken(#4b4e52, 3%), $hue);
+$rbn_inner_color_a: adjust_hue(#6c7075, $hue);
+$rbn_inner_color_b: adjust_hue(#595d61, $hue);
+$rbn_item_border_color: adjust_hue(#65686e, $hue);
+$rbn_item_shadow_color: adjust_hue(#2d2e30, $hue);
+
+$rbn_button_color_a: adjust_hue(darken(#525559, 4%), $hue);
+$rbn_button_color_b: adjust_hue(rgba(#3d3f42, .39), $hue);
+$rbn_button_text_color: adjust_hue(#b6babf, $hue);
+
+$rbn_input_color_a: adjust_hue(#343538, $hue);
+$rbn_input_color_b: adjust_hue(rgba(#3d3f42, .7), $hue);
+
+$rbf_border_top_color: adjust_hue(#44464a, $hue);
+$rbf_outer_color_a: adjust_hue(#63666b, $hue);
+$rbf_outer_color_b: adjust_hue(lighten(#313336, 4.5%), $hue);
+$rbf_inner_color_a: adjust_hue(#525559, $hue);
+$rbf_inner_color_b: adjust_hue(lighten(#3d3f42, 4.5%), $hue);
+
+// <todo: deprecated>
+$bgcolor_1: #644E74;
+$bgcolor_2: #724562;
+$bgcolor_3: #944D5D;
+
+$blueish: #B6BABF;
+$blueish_dark: #6C7075;
+$light: lighten($blueish, 17.5%);
+$dark: #292929;
+
+
+
+//
+//  Breakpoints
+//
+$breakpoint_small: 480px;
+$breakpoint_medium: 800px;
+$breakpoint_large: 1240px;

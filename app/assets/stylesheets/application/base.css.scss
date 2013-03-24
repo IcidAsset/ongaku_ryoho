@@ -10,7 +10,7 @@ $controller_width: 321px;
 
 
 body {
-  background: #716d85 image-url("background.png") 0 0 repeat;
+  background: $bgcolor image-url("background.png") 0 0 repeat;
   font-size: 13px;
   line-height: 16px;
   margin: $body_margin;

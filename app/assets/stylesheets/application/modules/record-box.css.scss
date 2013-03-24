@@ -12,7 +12,7 @@
   -webkit-flex: 1;
   -webkit-flex-direction: column;
 
-  @include single-box-shadow(rgba(#000, .29), 0, 0, 30px, 0);
+  @include single-box-shadow(rgba(black, .29), 0, 0, 30px, 0);
 
   //
   //  Navigation
@@ -21,9 +21,10 @@
     height: 52px;
 
     @include background-image(
-      linear-gradient(lighten(#757a80, 3%), darken(#4b4e52, 3%))
+      linear-gradient($rbn_outer_color_a, $rbn_outer_color_b)
     );
 
+    // general
     & > nav {
       display: -webkit-flex;
       height: 50px;
@@ -33,16 +34,18 @@
       position: relative;
       top: 1px;
 
-      @include background-image(linear-gradient(#6c7075, #595d61));
+      @include background-image(
+        linear-gradient($rbn_inner_color_a, $rbn_inner_color_b)
+      );
     }
 
     .button, .input-wrap {
-      border: 1px solid #65686e;
+      border: 1px solid $rbn_item_border_color;
       height: 25px;
-      margin-top: 50px / 2 - 26px / 2;
+      margin-top: (50px / 2) - (26px / 2);
 
       @include single-box-shadow(
-        #2d2e30, 0, 1px, 3px, 0, "inset"
+        $rbn_item_shadow_color, 0, 1px, 3px, 0, "inset"
       );
     }
 
@@ -54,7 +57,7 @@
       -webkit-order: 3;
 
       @include background-image(
-        linear-gradient(darken(#525559, 4%), rgba(#3d3f42, .39))
+        linear-gradient($rbn_button_color_a, $rbn_button_color_b)
       );
 
       &, .icon {
@@ -62,7 +65,7 @@
       }
 
       .icon {
-        color: #b6babf;
+        color: $rbn_button_text_color;
         font-size: 28px;
         height: 25px;
         line-height: 20px;
@@ -73,15 +76,16 @@
         @include transition-property(box-shadow color);
       }
 
-      &:active,
-      &.on { border-bottom-color: darken(#8d9299, 8.25%) }
+      // TODO
+      // &:active,
+      // &.on { border-bottom-color: darken(#8d9299, 8.25%) }
 
-      &.on .icon {
-        color: lighten(#b6babf, 10.25%);
-        @include single-box-shadow(
-          rgba(white, .2), 0, 0, 32px, -2px
-        );
-      }
+      // &.on .icon {
+      //   color: lighten(#b6babf, 10.25%);
+      //   @include single-box-shadow(
+      //     rgba(white, .2), 0, 0, 32px, -2px
+      //   );
+      // }
     }
 
     // button - toggle favourites
@@ -100,11 +104,11 @@
       position: relative;
 
       @include background-image(
-        linear-gradient(#343538, rgba(#3d3f42, .7))
+        linear-gradient($rbn_input_color_a, $rbn_input_color_b)
       );
 
       .icon {
-        color: #6C7075;
+        color: $rbn_inner_color_a;
         font-size: 27px;
         height: 16px;
         line-height: 8px;
@@ -119,13 +123,15 @@
         @include background-size(80%);
       }
 
-      &, input, select { overflow: hidden }
+      &, input, select {
+        overflow: hidden;
+      }
     }
 
     input, select {
       background: none;
       border: none;
-      color: #b6babf;
+      color: $rbn_button_text_color;
       display: block;
       font-size: 11px;
       font-weight: bold;
@@ -134,17 +140,17 @@
       width: 100%;
       z-index: 0;
 
-      -webkit-appearance: none;
-
+      @include appearance(none);
       @include box-sizing(border-box);
 
-      &:focus { outline: none }
+      &:focus {
+        outline: none;
+      }
     }
 
     input {
       line-height: normal;
-
-      @include input-placeholder(#6c7075);
+      @include input-placeholder($rbn_inner_color_a);
     }
 
     select {
@@ -154,13 +160,11 @@
     .input-wrap.sort-by {
       margin-left: 5px;
       width: 29%;
-
       -webkit-order: 2;
     }
 
     .input-wrap.search {
       width: auto;
-
       -webkit-flex: 1;
       -webkit-order: 1;
     }
@@ -181,14 +185,12 @@
       overflow: hidden;
 
       .favourite, .title, .artist, .album { float: left }
-
       .favourite { width: 10px + 7 + 12 }
       .title  { width: 38% }
       .artist { width: 28% }
       .album  { width: 28% }
 
       span { display: block; padding: 0 7px }
-
       .favourite span { padding-left: 10px }
       .album span { padding-right: 10px }
     }
@@ -256,13 +258,13 @@
 
     // playing
     &.playing:not(.queue-item) {
-      background-color: $blueish;
+      background-color: $rbn_button_text_color;
 
-      & > div { color: darken($blueish_dark, 12%) }
-      .favourite { color: darken($blueish, 7%) }
+      & > div { color: darken($rbn_inner_color_a, 12%) }
+      .favourite { color: darken($rbn_button_text_color, 7%) }
 
       .favourite[data-favourite="true"],
-      .favourite:hover { color: darken($blueish_dark, 4.75%) !important }
+      .favourite:hover { color: darken($rbn_inner_color_a, 4.75%) !important }
     }
 
     // unavailable & queue-item
@@ -273,7 +275,7 @@
 
     // drag target
     &.drag-target {
-      border-top: 1px solid lighten($blueish, 11.5%);
+      border-top: 1px solid lighten($rbn_button_text_color, 11.5%);
     }
 
     // favourite (star)
@@ -368,8 +370,8 @@
   //  Footer
   //
   footer {
-    border-top: 1px solid #44464a;
-    color: darken(#b6babf, 9%);
+    border-top: 1px solid $rbf_border_top_color;
+    color: darken($rbn_button_text_color, 9%);
     font-size: 9px;
     font-weight: normal;
     padding: 1px;
@@ -377,7 +379,7 @@
     text-align: center;
 
     @include background-image(
-      linear-gradient(#63666b, lighten(#313336, 4.5%))
+      linear-gradient($rbf_outer_color_a, $rbf_outer_color_b)
     );
 
     .intestines {
@@ -387,7 +389,7 @@
       text-transform: uppercase;
 
       @include background-image(
-        linear-gradient(#525559, lighten(#3d3f42, 4.5%))
+        linear-gradient($rbf_inner_color_a, $rbf_inner_color_b)
       );
     }
 
@@ -405,7 +407,7 @@
     .page-nav a {
       background-position: center;
       background-repeat: no-repeat;
-      color: #b6babf;
+      color: $rbn_button_text_color;
       cursor: pointer;
       display: inline-block;
       height: 26px;
