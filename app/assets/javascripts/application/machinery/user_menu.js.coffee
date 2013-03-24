@@ -82,6 +82,9 @@ class OngakuRyoho.Classes.Machinery.UserMenu
     else
       this.set_theater_mode_visibility("on")
 
+    @tooltip.hide_and_remove_current_tooltip()
+    e.stopPropagation()
+
 
 
   check_theater_mode: () ->
@@ -96,5 +99,8 @@ class OngakuRyoho.Classes.Machinery.UserMenu
   #
   #  Source manager
   #
-  source_manager_toggle: (e) ->
+  source_manager_toggle: (e) =>
     OngakuRyoho.SourceManager.view.show()
+
+    @tooltip.hide_and_remove_current_tooltip()
+    e.stopPropagation()
