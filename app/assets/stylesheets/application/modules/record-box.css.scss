@@ -76,16 +76,15 @@
         @include transition-property(box-shadow color);
       }
 
-      // TODO
-      // &:active,
-      // &.on { border-bottom-color: darken(#8d9299, 8.25%) }
+      &:active,
+      &.on { border-bottom-color: $rbn_button_active_border_color }
 
-      // &.on .icon {
-      //   color: lighten(#b6babf, 10.25%);
-      //   @include single-box-shadow(
-      //     rgba(white, .2), 0, 0, 32px, -2px
-      //   );
-      // }
+      &.on .icon {
+        color: lighten($rbn_button_text_color, 10.25%);
+        @include single-box-shadow(
+          rgba(white, .2), 0, 0, 32px, -2px
+        );
+      }
     }
 
     // button - toggle favourites
@@ -175,7 +174,7 @@
   //  List
   //
   .list {
-    background: #fff;
+    background: #e3e3e3;
     display: -webkit-flex;
 
     -webkit-flex: 1;
@@ -232,9 +231,11 @@
   }
 
   .list .tracks {
+    background: white;
     font-size: 11px;
     font-weight: 400;
     list-style-type: none;
+    margin: 0 1px;
 
     @include sourcesanspro-font;
   }
@@ -259,6 +260,7 @@
     // playing
     &.playing:not(.queue-item) {
       background-color: $rbn_button_text_color;
+      margin: 0 -1px;
 
       & > div { color: darken($rbn_inner_color_a, 12%) }
       .favourite { color: darken($rbn_button_text_color, 7%) }
