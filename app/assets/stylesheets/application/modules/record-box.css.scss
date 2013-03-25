@@ -375,10 +375,12 @@
     border-top: 1px solid $rbf_border_top_color;
     color: darken($rbn_button_text_color, 9%);
     font-size: 9px;
-    font-weight: normal;
+    font-weight: bold;
     padding: 1px;
     position: relative;
     text-align: center;
+
+    -webkit-font-smoothing: antialiased;
 
     @include background-image(
       linear-gradient($rbf_outer_color_a, $rbf_outer_color_b)
