@@ -5,13 +5,14 @@
     header
       .box
         .title Source Manager
-        .close-button
+        .close-button &#10060;
 
     section
       .toolbar
         a.add[rel="add-source"] Add source
         a[rel="check-sources"] Refresh
-      table#source-list[cellspacing="0" border="0"]
+      .scrollable
+        table#source-list[cellspacing="0" border="0"]
 
 
 
@@ -32,7 +33,7 @@
         {{/if}}
       </td>
       <td>
-        <strong>{{label}}</strong><br>
+        <strong>{{{label}}}</strong><br>
         {{{source_subtext}}}
       </td>
       <td>
