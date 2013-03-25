@@ -86,6 +86,11 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     this.el.innerHTML = ""
     this.el.appendChild(list_element)
 
+    # add background to main elements
+    background = document.createElement("div")
+    background.classList.add("background")
+    this.el.appendChild(background)
+
     # check
     if $(list_element).children("li").length is 0
       this.add_nothing_here_message()

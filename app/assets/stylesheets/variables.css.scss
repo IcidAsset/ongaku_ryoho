@@ -30,7 +30,7 @@ $rbn_button_active_border_color: adjust_hue(darken(#8d9299, 8.25%), $hue);
 $rbn_input_color_a: adjust_hue(#343538, $hue);
 $rbn_input_color_b: adjust_hue(rgba(#3d3f42, .7), $hue);
 
-$rbf_border_top_color: adjust_hue(#44464a, $hue);
+$rbf_border_top_color: adjust_hue(lighten(#44464a, 1.5%), $hue);
 $rbf_outer_color_a: adjust_hue(#63666b, $hue);
 $rbf_outer_color_b: adjust_hue(lighten(#313336, 4.5%), $hue);
 $rbf_inner_color_a: adjust_hue(#525559, $hue);
