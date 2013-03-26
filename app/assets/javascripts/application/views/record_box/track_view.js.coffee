@@ -6,21 +6,13 @@ class OngakuRyoho.Classes.Views.RecordBox.Track extends Backbone.View
 
 
   #
-  #  Initialize
-  #
-  initialize: () ->
-    @template = Helpers.get_template("track")
-
-
-
-  #
   #  Render
   #
-  render: () ->
+  render: (template) ->
     model_attr = @model.toJSON()
 
     # content
-    this.el.innerHTML = @template(model_attr)
+    this.el.innerHTML = template(model_attr)
     this.el.setAttribute("rel", @model.id)
 
     # extra data and classes

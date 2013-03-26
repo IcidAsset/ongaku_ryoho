@@ -15,16 +15,14 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
     super()
 
     # this element
-    this.setElement($("#source-manager"))
-
-    # more elements
-    $source_list_view = this.$el.find("#source-list")
+    this.setElement(document.getElementById("source-manager"))
 
     # menu button
-    this.$menu_button = OngakuRyoho.RecordBox.Navigation.view.$el.find(".show-source-manager")
+    this.$menu_button = OngakuRyoho.RecordBox.Navigation.
+                        view.$el.find(".show-source-manager")
 
-    # main section
-    @source_list_view = new OngakuRyoho.Classes.Views.SourceList({ el: $source_list_view })
+    # render
+    this.render()
 
 
 
@@ -33,3 +31,12 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
   #
   show: () -> this.$menu_button.addClass("on"); this.$el.show(0)
   hide: () -> this.$menu_button.removeClass("on"); this.$el.hide(0)
+
+
+
+  #
+  #  Render
+  #
+  render: (item="SourceList") ->
+    view = new OngakuRyoho.Classes.Views[item]
+    view.render().$el.appendTo(this.$el.find("section"))

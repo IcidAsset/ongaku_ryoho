@@ -6,6 +6,7 @@
 #= require_tree "./collections"
 #= require_tree "./views"
 #= require_tree "./views/record_box"
+#= require_tree "./views/source_manager"
 #= require_tree "./people"
 
 window.OngakuRyoho =

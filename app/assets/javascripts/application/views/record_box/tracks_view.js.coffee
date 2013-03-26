@@ -1,8 +1,7 @@
 class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
-  group_template: _.template("<li class=\"group\"><span><%= title %></span></li>")
-  mode: "default"
   dragged_track_element: null
+  mode: "default"
 
 
 
@@ -34,7 +33,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # this element
     this.setElement($("#record-box").find(".tracks-wrapper")[0])
 
-    # message template
+    # templates
+    @track_template = Helpers.get_template("track")
     @message_template = Helpers.get_template("list-message")
 
     # add loading message
@@ -104,11 +104,12 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   render_default: (list_element) =>
     page_info = @group.collection.page_info()
     list_fragment = document.createDocumentFragment()
+    track_template = @track_template
 
     # tracks
-    @group.collection.each((track) =>
+    @group.collection.each((track) ->
       track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
-      list_fragment.appendChild(track_view.render().el)
+      list_fragment.appendChild(track_view.render(track_template).el)
     )
 
     # set footer contents
@@ -126,19 +127,22 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     queue = OngakuRyoho.Engines.Queue
     message = "Queue &mdash; The next #{queue.data.combined_next.length} items"
     list_fragment = document.createDocumentFragment()
+    track_template = @track_template
 
     # group
-    group = $(@group_template({ title: "Queue" }))[0]
+    group = document.createElement("li")
+    group.classList.add("group")
+    group.innerHTML = "<span>Queue</span>"
     list_fragment.appendChild(group)
 
     # tracks
-    _.each(queue.data.combined_next, (map) =>
+    _.each(queue.data.combined_next, (map) ->
       return unless map.track
       track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: map.track })
       track_view.el.classList.add("queue-item")
       track_view.el.classList.add("user-selected") if map.user
 
-      list_fragment.appendChild(track_view.render().el)
+      list_fragment.appendChild(track_view.render(track_template).el)
     )
 
     # set foorter contents

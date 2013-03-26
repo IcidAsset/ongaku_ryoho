@@ -8,11 +8,6 @@
         .close-button &#10060;
 
     section
-      .toolbar
-        a.add[rel="add-source"] Add source
-        a[rel="check-sources"] Refresh
-      .scrollable
-        table#source-list[cellspacing="0" border="0"]
 
 
 
@@ -20,21 +15,14 @@
   /  Templates
   /
   script type="text/x-handlebars-template" data-template-name="source-list"
-    | <tbody></tbody>
+    | <div class="toolbar">
+        <a class="add" rel="add-source">Add source</a>
+        <a rel="check-sources">Refresh</a>
+      </div>
+      <div class="scrollable"></div>
 
 
 
   script type="text/x-handlebars-template" data-template-name="source"
-    | <td class="availability">
-        {{#if activated}}
-          <input type="checkbox" checked="checked" />
-        {{else}}
-          <input type="checkbox" />
-        {{/if}}
-      </td>
-      <td>
-        <strong>{{{label}}}</strong><br>
-        {{{source_subtext}}}
-      </td>
-      <td>
-      </td>
+    | <strong>{{{label}}}</strong><br>
+      {{{source_subtext}}}
