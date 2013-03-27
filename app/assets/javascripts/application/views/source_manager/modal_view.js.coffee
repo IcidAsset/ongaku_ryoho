@@ -1,16 +1,10 @@
-class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
+class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
-  #
-  #  Events
-  #
   events:
     "click header .close-button" : "hide"
 
 
 
-  #
-  #  Initialize
-  #
   initialize: () ->
     super()
 
@@ -35,8 +29,8 @@ class OngakuRyoho.Classes.Views.SourceManager extends Backbone.View
 
 
   #
-  #  Render
+  #  Rendering
   #
   render: (item="SourceList") ->
-    view = new OngakuRyoho.Classes.Views[item]
+    view = new OngakuRyoho.Classes.Views.SourceManager[item]
     view.render().$el.appendTo(this.$el.find("section"))

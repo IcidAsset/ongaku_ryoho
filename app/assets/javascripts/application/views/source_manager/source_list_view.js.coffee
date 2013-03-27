@@ -1,12 +1,9 @@
-class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
+class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
   className: "mod-source-list"
 
 
 
-  #
-  #  Initialize
-  #
   initialize: () ->
     super()
 
@@ -18,9 +15,14 @@ class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
     OngakuRyoho.SourceManager.collection.on("reset", this.render)
 
 
+  destroy: () ->
+    OngakuRyoho.SourceManager.collection.off("reset", this.render)
+    this.remove()
+
+
 
   #
-  #  Render
+  #  Rendering
   #
   render: () =>
     fragment = document.createDocumentFragment()
@@ -29,13 +31,14 @@ class OngakuRyoho.Classes.Views.SourceList extends Backbone.View
     # add sources
     OngakuRyoho.SourceManager.collection.each((source) ->
       source_el = document.createElement("div")
+      source_el.classList.add("source")
       source_el.innerHTML = source_template(source.toJSON())
       fragment.appendChild(source_el)
     )
 
     # replace
     this.el.innerHTML = @template()
-    this.el.querySelector(".scrollable").appendChild(fragment)
+    this.el.querySelector(".sources").appendChild(fragment)
 
     # chain
     return this

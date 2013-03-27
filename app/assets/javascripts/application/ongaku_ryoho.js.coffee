@@ -14,8 +14,8 @@ window.OngakuRyoho =
   Classes:
     Models: {}
     Collections: {}
-    Views: { RecordBox: {} }
-    Machinery: { RecordBox: {} }
+    Views: { RecordBox: {}, SourceManager: {} }
+    Machinery: { RecordBox: {}, SourceManager: {} }
     People: {}
     Engines: {}
     Routers: {}

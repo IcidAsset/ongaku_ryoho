@@ -78,7 +78,7 @@ Zepto ->
 
   App.SourceManager = {}
   App.SourceManager.collection = new Collections.Sources
-  App.SourceManager.view = new Views.SourceManager
+  App.SourceManager.view = new Views.SourceManager.Modal
 
   App.UserMenu = {}
   App.UserMenu.view = new Views.UserMenu
