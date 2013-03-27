@@ -1,0 +1,49 @@
+/*
+
+  Browser not supported
+
+*/
+
+.mod-browser-not-supported {
+  background: #222;
+  color: #444;
+  font-size: 19px;
+  line-height: 27px;
+
+  @include stretch_fixed;
+  @include lato-font;
+
+  .content {
+    background: white;
+    left: 50%;
+    margin-left: -230px - 34;
+    padding: 36px 34px;
+    position: absolute;
+    top: 25%;
+    width: 460px;
+  }
+
+  .content p {
+    font-weight: bolder;
+    margin: 0 0 20px;
+    width: 90%;
+  }
+
+  .content ul {
+    font-size: 16px;
+    list-style: inside circle;
+    margin: 0;
+  }
+
+  .content ul li {
+    margin-bottom: 4px;
+  }
+
+  .content ul li span {
+    display: inline-block;
+    font-size: 19px;
+    margin-left: 4px;
+  }
+
+
+}

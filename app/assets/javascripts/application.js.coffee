@@ -28,10 +28,11 @@
 #= require "./application/ongaku_ryoho"
 #= require "./application/helpers"
 #= require "./application/legacy"
+#= require "./application/bsc"
 
 
 
-Zepto ->
+initialize = ->
   App = OngakuRyoho
   Engines = App.Classes.Engines
   People = App.Classes.People
@@ -89,3 +90,13 @@ Zepto ->
 
   # check for legacy stuff
   window.Legacy.check()
+
+
+
+Zepto ->
+  supported = BSC.check()
+
+  if supported
+    initialize()
+  else
+    BSC.show_not_supported_message()
