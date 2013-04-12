@@ -56,6 +56,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
       success(this, response) if success
       OngakuRyoho.MessageCenter.collection.remove(message)
       this.trigger("fetched")
+      message = null
 
     # call super
     return Backbone.Collection.prototype.fetch.call(this, options)

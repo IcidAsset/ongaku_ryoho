@@ -27,10 +27,10 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   #  Add & remove
   #
   add_message: (message) =>
-    view = new OngakuRyoho.Classes.Views.Message({ model: message })
+    message.view = new OngakuRyoho.Classes.Views.Message({ model: message })
 
     # $message
-    $message = view.render().$el
+    $message = message.view.render().$el
 
     # append html
     this.$el.append($message)
@@ -48,8 +48,9 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
 
 
   remove_message: (message) =>
+    view = message.view
     this.$el.find(".message[rel=\"#{message.cid}\"]")
         .animate({ opacity: 0 }, {
           duration: 500
-          complete: -> $(this).remove()
+          complete: -> view.remove()
         })

@@ -48,9 +48,10 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(unprocessing_message)
 
     # exec
-    RSVP.all(unprocessing).then () =>
+    RSVP.all(unprocessing).then () ->
       OngakuRyoho.MessageCenter.collection.remove(unprocessing_message)
       promise.resolve(unprocessed_sources)
+      unprocessing_message = null
 
     # promise
     return promise
@@ -77,9 +78,10 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(checking_message)
 
     # exec
-    RSVP.all(checking).then () =>
+    RSVP.all(checking).then () ->
       OngakuRyoho.MessageCenter.collection.remove(checking_message)
       promise.resolve(sources_to_check)
+      checking_message = null
 
     # promise
     return promise
