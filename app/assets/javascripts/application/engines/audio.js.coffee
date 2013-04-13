@@ -317,6 +317,10 @@ class OngakuRyoho.Classes.Engines.Audio
     # remove from sources array
     @sources.splice(@sources.indexOf(source), 1)
 
+    # nullify (ensure gc)
+    source.track = null
+    source = null
+
 
 
   #

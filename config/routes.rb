@@ -2,17 +2,19 @@ OngakuRyoho::Application.routes.draw do
 
   # api
   namespace :data do
-    resources :tracks, :only => [:index]
-    resources :favourites, :only => [:index, :create, :destroy]
+    resources :tracks, only: [:index]
+    resources :favourites, only: [:index, :create, :destroy]
+    resources :playlists, only: [:index, :create, :update, :destroy]
 
-    resources :sources, :only => [:index, :show] do
+    resources :sources, only: [:index, :show] do
       member do
-        get 'process', :action => :process_source
-        get 'check', :action => :check_source
+        get 'process', action: :process_source
+        get 'check', action: :check_source
       end
     end
   end
 
+  # TODO
   resources :servers, except: [:show]
 
   # pages

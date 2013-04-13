@@ -89,9 +89,21 @@ class OngakuRyoho.Classes.Engines.Queue
 
 
 
-  clear_history: ()       -> @data.history.length = 0
-  clear_user_next: ()     -> @data.user_next.length = 0
-  clear_computed_next: () -> @data.computed_next.length = 0
+  clear_history: ()       -> this.nullify_array_contents(@data.history)
+  clear_user_next: ()     -> this.nullify_array_contents(@data.user_next)
+  clear_computed_next: () -> this.nullify_array_contents(@data.computed_next)
+
+
+
+  nullify_array_contents: (array) ->
+    i = array.length - 1
+
+    while i > 0
+      array[i] = null
+      --i
+
+    array = _.compact(array)
+    array.length = 0
 
 
 

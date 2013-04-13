@@ -2,7 +2,6 @@ class Data::SourcesController < ApplicationController
   before_filter :require_login
   layout false
 
-  # GET 'sources'
   def index
     @sources = current_user.sources.sort { |a, b| a.label <=> b.label }
 
@@ -13,7 +12,6 @@ class Data::SourcesController < ApplicationController
   end
 
 
-  # GET 'sources/:id'
   def show
     @source = current_user.sources.find(params[:id])
 
@@ -24,7 +22,6 @@ class Data::SourcesController < ApplicationController
   end
 
 
-  # GET 'sources/:id/process'
   def process_source
     source = current_user.sources.find(params[:id])
 
@@ -47,7 +44,6 @@ class Data::SourcesController < ApplicationController
   end
 
 
-  # GET 'sources/:id/check'
   def check_source
     source = current_user.sources.find(params[:id])
 

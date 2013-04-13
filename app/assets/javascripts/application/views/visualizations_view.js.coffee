@@ -53,3 +53,6 @@ class OngakuRyoho.Classes.Views.Visualizations extends Backbone.View
     # draw colors
     c.fillRect(0, 0, data[0], 21)
     c.fillRect(0, 30, data[1], 21)
+
+    # nullify
+    c = null
