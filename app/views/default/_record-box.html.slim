@@ -5,8 +5,13 @@
         input[type="text" name="search" placeholder="Search"]
         .icon[data-icon="&#128269;"]
 
-      .button.toggle-queue
+      .select-wrap.playlist
+        span Selected playlist
         .icon[data-icon="&#57349;"]
+        .tooltip-data= render partial: "playlist-menu"
+
+      .button.toggle-queue
+        .icon[data-icon="&#128340;"]
 
       .button.toggle-favourites
         .icon[data-icon="&#9733;"]

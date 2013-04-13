@@ -30,3 +30,7 @@ input, textarea, select {
 
   @include sansserif-font;
 }
+
+.tooltip-data {
+  display: none;
+}

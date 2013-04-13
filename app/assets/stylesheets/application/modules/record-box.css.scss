@@ -24,7 +24,6 @@
       linear-gradient($rbn_outer_color_a, $rbn_outer_color_b)
     );
 
-    // general
     & > nav {
       display: -webkit-flex;
       height: 50px;
@@ -39,7 +38,8 @@
       );
     }
 
-    .button, .input-wrap {
+    // general
+    .button, .input-wrap, .select-wrap {
       border: 1px solid $rbn_item_border_color;
       height: 25px;
       margin-top: (50px / 2) - (26px / 2);
@@ -47,6 +47,30 @@
       @include single-box-shadow(
         $rbn_item_shadow_color, 0, 1px, 3px, 0, "inset"
       );
+    }
+
+    .input-wrap .icon,
+    .select-wrap .icon {
+      color: $rbn_inner_color_a;
+      font-size: 27px;
+      height: 16px;
+      line-height: 8px;
+      margin-top: -7px;
+      position: absolute;
+      right: 6px;
+      text-align: center;
+      top: 50%;
+      width: 16px;
+      z-index: 1;
+
+      @include background-size(80%);
+    }
+
+    .input-wrap input,
+    .select-wrap {
+      font-size: 11px;
+      font-weight: bold;
+      padding: 0 34px 0 7px;
     }
 
     // button
@@ -88,6 +112,11 @@
     }
 
     // button - toggle favourites
+    .button.toggle-queue {
+      .icon { font-size: 24px }
+    }
+
+    // button - toggle favourites
     .button.toggle-favourites {
       .icon { font-size: 26px }
     }
@@ -95,7 +124,6 @@
     // button - toggle user menu
     .button.toggle-user-menu {
       .icon { font-size: 25px }
-      .tooltip-data { display: none }
     }
 
     // input
@@ -106,66 +134,54 @@
         linear-gradient($rbn_input_color_a, $rbn_input_color_b)
       );
 
-      .icon {
-        color: $rbn_inner_color_a;
-        font-size: 27px;
-        height: 16px;
-        line-height: 8px;
-        margin-top: -7px;
-        position: absolute;
-        right: 6px;
-        text-align: center;
-        top: 50%;
-        width: 16px;
-        z-index: 1;
-
-        @include background-size(80%);
-      }
-
-      &, input, select {
+      &, input {
         overflow: hidden;
       }
     }
 
-    input, select {
+    input {
       background: none;
       border: none;
       color: $rbn_button_text_color;
       display: block;
-      font-size: 11px;
-      font-weight: bold;
       height: 25px;
-      padding: 0 34px 0 7px;
+      line-height: normal;
       width: 100%;
       z-index: 0;
 
       @include appearance(none);
       @include box-sizing(border-box);
+      @include input-placeholder($rbn_inner_color_a);
 
       &:focus {
         outline: none;
       }
     }
 
-    input {
-      line-height: normal;
-      @include input-placeholder($rbn_inner_color_a);
-    }
-
-    select {
-      line-height: 26px;
-    }
-
-    .input-wrap.sort-by {
-      margin-left: 5px;
-      width: 29%;
-      -webkit-order: 2;
-    }
-
     .input-wrap.search {
       width: auto;
       -webkit-flex: 1;
       -webkit-order: 1;
+    }
+
+    // select
+    .select-wrap {
+      color: $rbn_inner_color_a;
+      line-height: 26px;
+      margin-left: 5px;
+      overflow: hidden;
+      position: relative;
+      width: 31%;
+
+      -webkit-order: 2;
+
+      @include background-image(
+        linear-gradient($rbn_input_color_a, $rbn_input_color_b)
+      );
+    }
+
+    .select-wrap.selected-playlist {
+      color: $rbn_button_text_color;
     }
   }
 

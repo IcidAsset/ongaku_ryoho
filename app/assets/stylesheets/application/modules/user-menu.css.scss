@@ -1,101 +1,12 @@
 /*
 
-  User Menu
+  User menu
 
 */
 
 .mod-user-menu {
-  color: white;
-  font-size: 11px;
-  position: absolute;
-  right: -13px;
-  top: 49px;
-  width: 166px;
-  z-index: 99;
-
-  @include sansserif-font;
-  @include single-box-shadow(rgba(black, .15), 0, 0, 14px, 0);
-
-  &.hidden {
-    display: none;
-  }
-
-  // arrow
   .arrow {
-    border-bottom: 5px solid white;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    display: block;
-    height: 0;
     left: 118px;
-    position: absolute;
-    top: -5px;
-    width: 0;
+    margin-left: 0;
   }
-
-  // group
-  .group {
-    background: white;
-
-    &:not(:last-child) {
-      border-bottom: 1px solid rgba(black, .1);
-    }
-  }
-
-  .group:last-child {
-    z-index: 0;
-  }
-
-  // buttons
-  a {
-    border-bottom: 1px solid rgba(black, .06);
-    color: darken($rbn_button_text_color, 20%);
-    cursor: pointer;
-    display: block;
-    line-height: 20px;
-    padding: 6px 11px 5px;
-    text-decoration: none;
-  }
-
-  a:last-child {
-    border-bottom: 0;
-  }
-
-  a:hover {
-    background: #343538;
-    color: white;
-  }
-
-  // checkbox
-  .checkbox {
-    border: 1px solid rgba($light, .725);
-    display: inline-block;
-    height: 10px;
-    margin-right: 10px;
-    position: relative;
-    top: 2px;
-    width: 10px;
-
-    @include border-radius(3px);
-  }
-
-  a.on .checkbox:after {
-    color: $orange;
-    content: "\02713";
-    font-size: 33px;
-    left: -1px;
-    line-height: 10px;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    top: 0;
-
-    @include icon-font;
-  }
-
-  a:hover .checkbox {
-    border-color: rgba(white, .275);
-  }
-
-
 }

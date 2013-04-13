@@ -24,6 +24,7 @@
 @import "application/general";
 
 @import "application/components/modal";
+@import "application/components/tooltip";
 
 @import "application/modules/mixing-console";
 @import "application/modules/visualizations";
@@ -31,6 +32,7 @@
 @import "application/modules/message-center";
 
 @import "application/modules/record-box";
+@import "application/modules/playlist-menu";
 @import "application/modules/user-menu";
 @import "application/modules/source-manager";
 @import "application/modules/bns";

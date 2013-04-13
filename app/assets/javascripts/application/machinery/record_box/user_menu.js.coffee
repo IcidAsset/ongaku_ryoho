@@ -1,4 +1,4 @@
-class OngakuRyoho.Classes.Machinery.UserMenu
+class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
 
   constructor: () ->
     @timeout_ids = []
@@ -13,9 +13,9 @@ class OngakuRyoho.Classes.Machinery.UserMenu
 
     @tooltip = new BareTooltip(@group.view.$el, {
       trigger_type: "click",
-      tooltip_klass: "mod-user-menu",
+      tooltip_klass: "mod-user-menu tooltip",
       animation_speed: 0,
-      timeout_duration: 3000,
+      timeout_duration: 15000,
       template: '<div class="{{CLASSES}}">' +
         '<div class="arrow"></div>' +
         '{{CONTENT}}' +
