@@ -3,11 +3,15 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
   model: OngakuRyoho.Classes.Models.Favourite,
   url: "/data/favourites/",
 
+
   initialize: () ->
     this.on("destroy", this.destroy_handler)
 
 
 
+  #
+  #  Destroy favourite(s)
+  #
   destroy_handler: (favourite) ->
     Tracks = OngakuRyoho.RecordBox.Tracks
 

@@ -11,6 +11,16 @@ class Data::PlaylistsController < ApplicationController
 
 
   def create
+    playlist = Playlist.new(params[:playlist])
+
+    # playlist belongs to user
+    playlist.user_id = current_user.id
+
+    # save playlist
+    playlist.save
+
+    # render json
+    render json: playlist
   end
 
 

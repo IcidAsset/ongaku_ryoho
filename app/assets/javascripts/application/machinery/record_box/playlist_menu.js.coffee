@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
       trigger_type: "click",
       tooltip_klass: "mod-playlist-menu tooltip",
       animation_speed: 0,
-      timeout_duration: 15000,
+      timeout_duration: 0,
       template: '<div class="{{CLASSES}}">' +
         '<div class="arrow"></div>' +
         '{{CONTENT}}' +
@@ -24,8 +24,8 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
 
     # extend
     @tooltip.show_tooltip = () ->
-      # this.state.$tooltip_element.on("click", "a[rel=\"set-theater-mode\"]", self.theater_mode_toggle)
-      # this.state.$tooltip_element.on("click", "a[rel=\"source-manager\"]", self.source_manager_toggle)
+      this.state.$tooltip_element.on("click", ".group.ignore-click-hide", (e) -> e.stopPropagation())
+      this.state.$tooltip_element.on("click", ".playlist-add input[type=\"submit\"]", self.add_playlist)
       self.group.view.$el.addClass("on")
 
       BareTooltip.prototype.show_tooltip.apply(this)
@@ -48,3 +48,20 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     # setup
     @tooltip.setup()
 
+
+
+  #
+  #  Add playlist
+  #
+  add_playlist: (e) ->
+    $t = $(e.currentTarget)
+    $add_playlist = $t.parent()
+
+    name = $add_playlist.find("input[type='text']").val()
+    playlist = new OngakuRyoho.Classes.Models.Playlist({ name: name })
+
+    if playlist.isValid()
+      OngakuRyoho.RecordBox.Playlists.collection.create(playlist)
+    else
+      playlist = null
+      alert("Please enter a valid name for your playlist")

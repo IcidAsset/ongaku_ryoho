@@ -46,6 +46,7 @@ class OngakuRyoho.Classes.Engines.Queue
       @tracks.trigger("reset")
 
 
+
   set_next_normal: (x) ->
     current_track = OngakuRyoho.People.SoundGuy.get_current_track()
 

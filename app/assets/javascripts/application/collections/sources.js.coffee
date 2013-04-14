@@ -4,7 +4,6 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   url: "/data/sources/"
 
 
-
   #
   #  Process & Check
   #

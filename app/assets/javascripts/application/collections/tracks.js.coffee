@@ -4,9 +4,6 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   url: "/data/tracks/"
 
 
-  #
-  #  Initialize
-  #
   initialize: () ->
     @page = 1
     @per_page = 500
@@ -62,6 +59,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     return Backbone.Collection.prototype.fetch.call(this, options)
 
 
+
   #
   #  Parse
   #
@@ -72,8 +70,9 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     return response.models
 
 
+
   #
-  #  Page info
+  #  Pagination
   #
   page_info: () ->
     info =
@@ -104,9 +103,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     return info
 
 
-  #
-  #  Previous page
-  #
+
   previous_page: () ->
     return no unless this.page_info().prev
 
@@ -116,9 +113,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     return this.fetch()
 
 
-  #
-  #  Next page
-  #
+
   next_page: () ->
     return no unless this.page_info().next
 

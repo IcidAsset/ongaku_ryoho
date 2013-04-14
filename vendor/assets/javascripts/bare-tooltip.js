@@ -256,7 +256,7 @@ root.BareTooltip = (function($) {
 
     if (this.state.$current_trigger) {
       var current_trigger = this.state.$current_trigger[0];
-      if (!this.settings.hide_on_document_click) this.hide_and_remove_current_tooltip();
+      this.hide_and_remove_current_tooltip();
       if (current_trigger !== e.currentTarget) setup_new.call(this);
 
     } else {
