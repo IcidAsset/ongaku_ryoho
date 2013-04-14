@@ -3,6 +3,7 @@ class OngakuRyoho.Classes.Models.Playlist extends Backbone.Model
   defaults:
     name: ""
     tracks: []
+    special: false
 
 
   tracks_attributes: ->

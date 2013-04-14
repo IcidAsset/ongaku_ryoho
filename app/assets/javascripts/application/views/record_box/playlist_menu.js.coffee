@@ -46,4 +46,4 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
       $groups = $(this).find(".group[rel$='-playlists']")
       $groups.each ->
         this.innerHTML = ""
-        this.appendChild( items[this.getAttribute("rel").replace("-", "_")] )
+        this.appendChild( items[this.getAttribute("rel").replace("-", "_")].cloneNode(true) )
