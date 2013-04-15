@@ -4,10 +4,19 @@ class Track < ActiveRecord::Base
 
   attr_accessor :available
 
+  #
+  #  Associations
+  #
   belongs_to :source
-  has_one :favourite, dependent: :nullify
-  has_and_belongs_to_many :playlists
 
+  has_one :favourite, dependent: :nullify
+
+  has_many :playlists_tracks
+  has_many :playlists, through: :playlists_tracks
+
+  #
+  #  Validations
+  #
   validates_presence_of :artist
   validates_presence_of :title
   validates_presence_of :album

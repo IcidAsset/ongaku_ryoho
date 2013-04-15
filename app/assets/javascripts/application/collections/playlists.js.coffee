@@ -4,6 +4,11 @@ class OngakuRyoho.Classes.Collections.Playlists extends Backbone.Collection
   url: "/data/playlists/",
 
 
+  fetch: (options={}) ->
+    options.reset = true
+    Backbone.Collection.prototype.fetch.call(this, options)
+
+
   get_user_playlists: () ->
     this.filter (playlist) -> not playlist.get("special")
 

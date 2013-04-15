@@ -22,6 +22,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #
   fetch: (options={}) ->
     success = options.success
+    options.reset = true
 
     # new message
     message = new OngakuRyoho.Classes.Models.Message
@@ -31,7 +32,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     # add message
     OngakuRyoho.MessageCenter.collection.add(message)
 
-    # trigger 'fetching' event
+    # trigger events
     this.trigger("fetching")
 
     # check options
@@ -49,8 +50,8 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     }
 
     # success
-    options.success = (response) =>
-      success(this, response) if success
+    options.success = (collection, response, request_options) =>
+      success(collection, response, request_options) if success
       OngakuRyoho.MessageCenter.collection.remove(message)
       this.trigger("fetched")
       message = null

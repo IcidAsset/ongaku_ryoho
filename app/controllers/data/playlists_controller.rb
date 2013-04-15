@@ -3,10 +3,10 @@ class Data::PlaylistsController < ApplicationController
   layout false
 
   def index
-    @playlists = current_user.playlists
+    @playlists = current_user.playlists.includes(:tracks)
 
     # render
-    render json: @playlists.to_json
+    render json: @playlists.to_json(except: [:user_id], methods: [:playlists_tracks])
   end
 
 

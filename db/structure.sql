@@ -117,7 +117,8 @@ ALTER SEQUENCE playlists_id_seq OWNED BY playlists.id;
 
 CREATE TABLE playlists_tracks (
     playlist_id integer,
-    track_id integer
+    track_id integer,
+    "position" integer DEFAULT 0
 );
 
 
@@ -461,3 +462,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130210111909');
 INSERT INTO schema_migrations (version) VALUES ('20130210114740');
 
 INSERT INTO schema_migrations (version) VALUES ('20130210122335');
+
+INSERT INTO schema_migrations (version) VALUES ('20130415192126');

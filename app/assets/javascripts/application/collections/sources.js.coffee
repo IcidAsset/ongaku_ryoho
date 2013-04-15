@@ -1,7 +1,12 @@
 class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
   model: OngakuRyoho.Classes.Models.Source,
-  url: "/data/sources/"
+  url: "/data/sources/",
+
+
+  fetch: (options={}) ->
+    options.reset = true
+    Backbone.Collection.prototype.fetch.call(this, options)
 
 
   #

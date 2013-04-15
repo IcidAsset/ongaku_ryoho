@@ -60,8 +60,14 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     name = $add_playlist.find("input[type='text']").val()
     playlist = new OngakuRyoho.Classes.Models.Playlist({ name: name })
 
-    if playlist.isValid()
-      OngakuRyoho.RecordBox.Playlists.collection.create(playlist)
-    else
+    show_error = (message) ->
       playlist = null
-      alert("Please enter a valid name for your playlist")
+      alert(message)
+
+    if playlist.isValid()
+      playlist.save(null, {
+        success: -> OngakuRyoho.RecordBox.Playlists.collection.add(playlist),
+        error: -> show_error("Could not create playlist, please try again")
+      })
+    else
+      show_error(playlist.validationError)
