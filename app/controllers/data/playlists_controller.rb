@@ -5,8 +5,13 @@ class Data::PlaylistsController < ApplicationController
   def index
     @playlists = current_user.playlists.includes(:tracks)
 
+    # special playlists
+    specials = Track.get_unique_first_level_directories(current_user)
+    specials.map! { |name| Playlist.new(name: name, special: true) }
+    @playlists.concat(specials)
+
     # render
-    render json: @playlists.to_json(except: [:user_id], methods: [:playlists_tracks])
+    render json: @playlists.to_json(only: [:id, :name], methods: [:track_ids, :special])
   end
 
 

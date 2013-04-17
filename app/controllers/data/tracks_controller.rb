@@ -88,17 +88,17 @@ private
 
     # condition sql
     conditions_a = []
-    conditions_a << "id IN (?)" if playlist.kind_of?(Playlist)
+    conditions_a << "id IN (?)" if playlist.is_a?(Playlist)
     conditions_a << "source_id IN (?)" unless select_favourites
-    conditions_a << "location LIKE (?)" if playlist.kind_of?(String)
+    conditions_a << "location LIKE (?)" if playlist.is_a?(String)
     conditions_a << "search_vector @@ to_tsquery('english', ?)" if filter
     condition_sql = conditions_a.join(" AND ")
 
     # condition arguments
     condition_arguments = []
-    condition_arguments << playlist.track_ids if playlist.kind_of?(Playlist)
+    condition_arguments << playlist.track_ids if playlist.is_a?(Playlist)
     condition_arguments << available_source_ids unless select_favourites
-    condition_arguments << "#{playlist}%" if playlist.kind_of?(String)
+    condition_arguments << "#{playlist}%" if playlist.is_a?(String)
     condition_arguments << filter_value if filter
 
     # conditions

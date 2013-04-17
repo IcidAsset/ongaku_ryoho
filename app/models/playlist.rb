@@ -1,5 +1,5 @@
 class Playlist < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :special
   attr_accessor :special
 
   belongs_to :user
@@ -9,4 +9,9 @@ class Playlist < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name
+
+  def track_ids
+    if self.special then []
+    else self.playlists_tracks end
+  end
 end

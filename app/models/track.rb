@@ -26,10 +26,23 @@ class Track < ActiveRecord::Base
   validates_presence_of :url
 
   #
-  # Accessors
+  #  Accessors
   #
   def available
     @available.nil? ? true : @available
+  end
+
+  #
+  #  Other
+  #
+  def self.get_unique_first_level_directories(user)
+    tracks = self
+      .select("DISTINCT ON (left(location, strpos(location, '/'))) tracks.*")
+      .where("source_id IN (?) AND location ~* ?", Source.available_ids_for_user(user), "/+")
+
+    tracks.map do |track|
+      track.location[/([^\/]*)/]
+    end
   end
 
 end
