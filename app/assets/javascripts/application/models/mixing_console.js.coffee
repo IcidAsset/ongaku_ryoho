@@ -1,7 +1,6 @@
 class OngakuRyoho.Classes.Models.MixingConsole extends Backbone.Model
 
   defaults:
-    time: 0
     duration: 0
     now_playing: "Music Therapy - <strong>Ongaku Ryoho</strong>"
     shuffle: false

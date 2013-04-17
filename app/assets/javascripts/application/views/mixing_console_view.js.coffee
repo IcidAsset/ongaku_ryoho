@@ -37,7 +37,6 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
 
     # render events
     @group.model
-      .on("change:time", this.render_time)
       .on("change:now_playing", this.render_now_playing)
 
     # sound events
@@ -59,7 +58,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     this.$controls = this.$el.find(".controls")
 
     # render
-    this.render_time()
+    this.render_time(0)
     this.render_now_playing()
 
     # knobs
@@ -80,8 +79,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
   #
   #  Render
   #
-  render_time: () =>
-    time     = @group.model.get("time")
+  render_time: (time) =>
     duration = @group.model.get("duration")
 
     # set

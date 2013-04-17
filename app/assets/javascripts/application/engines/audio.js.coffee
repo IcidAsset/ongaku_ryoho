@@ -392,7 +392,7 @@ class OngakuRyoho.Classes.Engines.Audio
 
 
     time_update: (e) =>
-      OngakuRyoho.MixingConsole.model.set({ time: e.target.currentTime })
+      OngakuRyoho.MixingConsole.view.render_time(e.target.currentTime)
 
 
 
