@@ -9,6 +9,7 @@
 
   .group {
     border-bottom: none;
+    position: relative;
   }
 
   .group[rel] {
@@ -34,7 +35,7 @@
     font-size: 12px;
     margin: 8px 4px 1px 6px;
     padding: 2px 6px 1px;
-    width: 63%;
+    width: 60%;
 
     &:focus {
       outline: none;
@@ -46,7 +47,7 @@
   }
 
   .playlist-add input[type="submit"] {
-    background: $green_2; // #5CB65C
+    background: $green_2;
     border: 0;
     color: white;
     font-size: 11px;
@@ -58,4 +59,22 @@
 
     -webkit-font-smoothing: antialiased;
   }
+
+  // info button
+  .info-button {
+    color: $rbn_button_text_color;
+    cursor: pointer;
+    font-size: 22px;
+    height: 25px;
+    line-height: 26px;
+    position: absolute;
+    right: 8px;
+    text-align: center;
+    top: 8px;
+    width: 16px;
+
+    @include icon-font;
+  }
+
+
 }

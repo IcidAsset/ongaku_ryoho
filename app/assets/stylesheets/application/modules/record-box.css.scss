@@ -66,6 +66,13 @@
       @include background-size(80%);
     }
 
+    .input-wrap,
+    .select-wrap {
+      .icon.close { display: none }
+      &.activated .icon { display: none }
+      &.activated .icon.close { display: block }
+    }
+
     .input-wrap input,
     .select-wrap {
       font-size: 11px;
@@ -171,7 +178,7 @@
       margin-left: 5px;
       overflow: hidden;
       position: relative;
-      width: 31%;
+      width: 230px; // 31%
 
       -webkit-order: 2;
 
@@ -180,8 +187,15 @@
       );
     }
 
-    .select-wrap.selected-playlist {
-      color: $rbn_button_text_color;
+    .select-wrap.activated {
+      &, .icon.close { color: $rbn_button_text_color; }
+    }
+
+    .select-wrap > span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 

@@ -25,7 +25,8 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     # extend
     @tooltip.show_tooltip = () ->
       this.state.$tooltip_element.on("click", ".group.ignore-click-hide", (e) -> e.stopPropagation())
-      this.state.$tooltip_element.on("click", ".playlist-add input[type=\"submit\"]", self.add_playlist)
+      this.state.$tooltip_element.on("click", ".playlist-add input[type=\"submit\"]", self.add_button_click_handler)
+      this.state.$tooltip_element.on("click", ".group[rel] a", self.playlist_click_handler)
       self.group.view.$el.addClass("on")
 
       BareTooltip.prototype.show_tooltip.apply(this)
@@ -51,9 +52,9 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
 
 
   #
-  #  Add playlist
+  #  Event handlers
   #
-  add_playlist: (e) ->
+  add_button_click_handler: (e) ->
     $t = $(e.currentTarget)
     $add_playlist = $t.parent()
 
@@ -71,3 +72,20 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
       })
     else
       show_error(playlist.validationError)
+
+
+
+  playlist_click_handler: (e) =>
+    rel = e.currentTarget.getAttribute("rel")
+    playlist = OngakuRyoho.RecordBox.Playlists.collection.get(rel)
+    return unless playlist
+
+    OngakuRyoho.RecordBox.Tracks.collection.playlist = if playlist.get("special")
+      "#{playlist.get("name")}/"
+    else
+      playlist.get("id")
+
+    OngakuRyoho.RecordBox.Tracks.collection.fetch()
+
+    @group.view.$el.children("span:first-child").html(playlist.get("name"))
+    @group.view.$el.addClass("activated")

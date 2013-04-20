@@ -34,7 +34,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
 
     create_new_item = (playlist, type) ->
       a = document.createElement("a")
-      a.setAttribute("rel", playlist.get("id"))
+      a.setAttribute("rel", playlist.cid)
       a.innerHTML = playlist.get("name")
       items["#{type}_playlists"].appendChild(a)
 
