@@ -68,9 +68,9 @@
 
     .input-wrap,
     .select-wrap {
-      .icon.close { display: none }
+      .icon.close { cursor: pointer; display: none }
       &.activated .icon { display: none }
-      &.activated .icon.close { display: block }
+      &.activated .icon.close { color: $rbn_button_text_color; display: block }
     }
 
     .input-wrap input,
@@ -174,6 +174,7 @@
     // select
     .select-wrap {
       color: $rbn_inner_color_a;
+      cursor: pointer;
       line-height: 26px;
       margin-left: 5px;
       overflow: hidden;
@@ -188,7 +189,7 @@
     }
 
     .select-wrap.activated {
-      &, .icon.close { color: $rbn_button_text_color; }
+      color: $rbn_button_text_color;
     }
 
     .select-wrap > span {

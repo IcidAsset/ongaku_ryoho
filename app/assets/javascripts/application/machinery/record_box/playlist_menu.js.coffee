@@ -6,6 +6,30 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
 
 
   #
+  #  Close button
+  #
+  setup_close_button: () ->
+    @group.view.$el.find(".icon.close")
+      .on("click", this.close_button_click_handler)
+
+
+
+  close_button_click_handler: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+
+    OngakuRyoho.RecordBox.Tracks.collection.playlist = off
+    OngakuRyoho.RecordBox.Tracks.collection.fetch()
+
+    $select_wrap = $(e.currentTarget).parent()
+    $select_wrap.removeClass("activated")
+    $select_wrap.children("span").html(
+      $select_wrap.children("span").attr("data-default") + ""
+    )
+
+
+
+  #
   #  Tooltip
   #
   setup_tooltip: () ->
@@ -52,7 +76,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
 
 
   #
-  #  Event handlers
+  #  Tooltip / event handlers
   #
   add_button_click_handler: (e) ->
     $t = $(e.currentTarget)

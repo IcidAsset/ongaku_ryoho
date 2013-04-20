@@ -16,6 +16,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
 
     # machinema
     @group.machine.setup_tooltip()
+    @group.machine.setup_close_button()
 
     # events
     @group.playlists_collection.on("reset", this.render)

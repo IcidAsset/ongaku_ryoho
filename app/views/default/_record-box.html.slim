@@ -4,9 +4,10 @@
       .input-wrap.search
         input[type="text" name="search" placeholder="Search"]
         .icon[data-icon="&#128269;"]
+        .icon.close[data-icon="&#10006;"]
 
       .select-wrap.playlist
-        span Selected playlist
+        span[data-default="Playlists"] Playlists
         .icon[data-icon="&#57349;"]
         .icon.close[data-icon="&#10006;"]
         .tooltip-data= render partial: "playlist-menu"

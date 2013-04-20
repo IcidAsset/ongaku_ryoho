@@ -42,6 +42,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
       OngakuRyoho.RecordBox.Tracks.collection.filter = state.filter
       OngakuRyoho.RecordBox.Tracks.collection.page = state.page
       OngakuRyoho.RecordBox.Navigation.view.$el.find(".search input").val(state.filter)
+      OngakuRyoho.RecordBox.Navigation.machine.check_activated_state_for_search()
 
     # state
     @state.ready = true

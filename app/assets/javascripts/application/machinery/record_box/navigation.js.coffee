@@ -22,7 +22,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
   #
   search_input_change: (e) =>
     $t = $(e.currentTarget)
-    value = $t.val()
+    value = $.trim($t.val())
 
     # search
     this.search(value)
@@ -40,6 +40,8 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
     # view state manager
     OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
 
+    # check activated state
+    this.check_activated_state_for_search()
 
 
   search_success: () =>
@@ -47,3 +49,15 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
 
     # add playing class
     @parent_group.Tracks.machine.add_playing_class_to_track(current_track) if current_track
+
+
+
+  search_clear: (e) =>
+    $(e.currentTarget).parent().children("input").val("").trigger("change")
+
+
+
+  check_activated_state_for_search: () ->
+    $search = @group.view.$el.find(".search")
+    if @parent_group.Tracks.collection.filter.length is 0 then $search.removeClass("activated")
+    else $search.addClass("activated")
