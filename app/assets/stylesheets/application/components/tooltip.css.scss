@@ -14,7 +14,7 @@
   z-index: 99;
 
   @include sourcesanspro-font;
-  @include single-box-shadow(rgba(black, .15), 0, 0, 5px, 0);
+  @include single-box-shadow(rgba($rbn_input_color_a, .125), 0, 3px, 6px, 1px);
 
   &.hidden {
     display: none;
@@ -47,6 +47,23 @@
     z-index: 0;
   }
 
+  // group label
+  .group-label {
+    background: $rbn_button_text_color;
+    color: lighten($rbn_button_text_color, 24);
+    font-size: 10px;
+    line-height: 12px;
+    margin-top: -1px;
+    padding: 6px 11px 4px;
+    text-transform: uppercase;
+
+    span {
+      color: darken($rbn_button_text_color, 19);
+      display: inline-block;
+      margin-left: 3px;
+    }
+  }
+
   // buttons
   a {
     border-bottom: 1px solid rgba(black, .03);
@@ -54,16 +71,12 @@
     cursor: pointer;
     display: block;
     line-height: 24px;
-    padding: 6px 11px 3px;
+    padding: 6px 11px 2px;
     text-decoration: none;
   }
 
-  a:last-child {
-    border-bottom: 0;
-  }
-
   a:hover {
-    background: #343538;
+    background: $rbn_outer_color_a;
     color: white;
   }
 

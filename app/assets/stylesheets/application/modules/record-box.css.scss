@@ -151,7 +151,7 @@
 
       @include appearance(none);
       @include box-sizing(border-box);
-      @include input-placeholder($rbn_inner_color_a);
+      @include input-placeholder-color($rbn_inner_color_a);
 
       &:focus {
         outline: none;

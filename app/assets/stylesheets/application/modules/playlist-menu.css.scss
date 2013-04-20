@@ -5,5 +5,57 @@
 */
 
 .mod-playlist-menu {
-  width: 196px;
+  width: 230px;
+
+  .group {
+    border-bottom: none;
+  }
+
+  .group[rel] {
+    max-height: 33px * 5 - 1;
+    overflow: auto;
+  }
+
+  .group:not(:last-child) {
+    padding-bottom: 6px;
+  }
+
+  a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  // playlist add
+  .playlist-add input[type="text"] {
+    background: none;
+    border: 2px solid lighten($rbn_button_text_color, 15);
+    color: darken(desaturate($rbn_button_text_color, 5%), 20%);
+    font-size: 12px;
+    margin: 8px 4px 1px 6px;
+    padding: 2px 6px 1px;
+    width: 63%;
+
+    &:focus {
+      outline: none;
+    }
+
+    @include input-placeholder-color(
+      lighten($rbn_button_text_color, 12.5)
+    );
+  }
+
+  .playlist-add input[type="submit"] {
+    background: $green_2; // #5CB65C
+    border: 0;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 18px;
+    margin: 8px 0 0;
+    padding: 4px 8px 3px;
+    vertical-align: top;
+
+    -webkit-font-smoothing: antialiased;
+  }
 }

@@ -45,5 +45,12 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
     $el.each ->
       $groups = $(this).find(".group[rel$='-playlists']")
       $groups.each ->
+        group_items_fragment = items[this.getAttribute("rel").replace("-", "_")]
+        length = group_items_fragment.childNodes.length
+
         this.innerHTML = ""
-        this.appendChild( items[this.getAttribute("rel").replace("-", "_")].cloneNode(true) )
+        this.appendChild(group_items_fragment.cloneNode(true))
+
+        $(this)
+          .prev(".group-label").children(".count")
+          .html("#{length} item#{if length is 1 then '' else 's'}")
