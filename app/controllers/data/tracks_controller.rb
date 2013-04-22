@@ -86,26 +86,29 @@ private
       order = order.split(", ").map { |o| "#{o} DESC" }.join(", ")
     end
 
-    # condition sql
-    conditions_a = []
-    conditions_a << "id IN (?)" if playlist.is_a?(Playlist)
-    conditions_a << "source_id IN (?)" unless select_favourites
-    conditions_a << "location LIKE (?)" if playlist.is_a?(String)
-    conditions_a << "search_vector @@ to_tsquery('english', ?)" if filter
-    condition_sql = conditions_a.join(" AND ")
+    # conditions
+    conditions = []
+    conditions << "source_id IN (?)" unless select_favourites
+    conditions << "search_vector @@ to_tsquery('english', ?)" if filter
 
     # condition arguments
     condition_arguments = []
-    condition_arguments << playlist.track_ids if playlist.is_a?(Playlist)
     condition_arguments << available_source_ids unless select_favourites
-    condition_arguments << "#{playlist}%" if playlist.is_a?(String)
     condition_arguments << filter_value if filter
-
-    # conditions
-    conditions = [condition_sql] + condition_arguments.compact
 
     # grab tracks
     unless select_favourites
+      if playlist.is_a?(Playlist)
+        conditions.unshift "id IN (?)"
+        condition_arguments.unshift playlist.track_ids
+      elsif playlist.is_a?(String)
+        conditions << "location LIKE (?)"
+        condition_arguments << "#{playlist}%"
+      end
+
+      condition_sql = conditions.join(" AND ")
+      conditions = [condition_sql] + condition_arguments.compact
+
       tracks = Track.find(:all, {
         offset: options[:offset],
         limit: options[:per_page],
@@ -116,13 +119,25 @@ private
       total = Track.count(conditions: conditions)
 
     else
-      favourites = Favourite.find(:all, {
-        offset: options[:offset],
-        limit: options[:per_page],
+      if playlist.is_a?(Playlist)
+        conditions.unshift "track_id IN (?)"
+        condition_arguments.unshift playlist.track_ids
+      end
+
+      condition_sql = conditions.join(" AND ")
+      conditions = [condition_sql] + condition_arguments.compact
+
+      find_arguments = {
         conditions: conditions,
         order: order
-      })
+      }
 
+      unless playlist
+        find_arguments[:offset] = options[:offset]
+        find_arguments[:limit] = options[:per_page]
+      end
+
+      favourites = Favourite.find(:all, find_arguments)
       total = Favourite.count(conditions: conditions)
 
       track_ids = []
@@ -134,7 +149,7 @@ private
       favourites.each_with_index do |f, idx|
         if f.track_id
           track_ids << f.track_id
-        else
+        elsif !playlist
           imaginary_track = Track.new({
             title: f.title,
             artist: f.artist,
@@ -161,10 +176,30 @@ private
         track_ids.delete(ut.id)
       end
 
-      _tracks = Track.where(id: track_ids, source_id: available_source_ids)
+      _track_conditions = [
+        "id in (?) AND source_id in (?)",
+        track_ids, available_source_ids
+      ]
+
+      if playlist.is_a?(String)
+        _track_conditions[0] << " AND location LIKE ?"
+        _track_conditions << "#{playlist}%"
+      end
+
+      _tracks = Track.where(_track_conditions)
       _tracks.each do |t|
         index = tracks_placeholder.index(t.favourite_id)
         tracks_placeholder[index] = t
+      end
+
+      if playlist.is_a?(String)
+        tracks_placeholder = tracks_placeholder.map do |t|
+          t.is_a?(Fixnum) ? nil : t
+        end.compact
+      end
+
+      if playlist and tracks_placeholder.size > options[:per_page]
+        tracks_placeholder = tracks_placeholder.slice(options[:offset], options[:per_page])
       end
 
       tracks = tracks_placeholder
