@@ -10,8 +10,12 @@ class Playlist < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
 
-  def track_ids
+  def tracks_with_position
     if self.special then []
     else self.playlists_tracks end
+  end
+
+  def track_ids
+    tracks_with_position.map(&:track_id)
   end
 end

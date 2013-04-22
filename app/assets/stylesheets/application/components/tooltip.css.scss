@@ -82,7 +82,8 @@
     text-decoration: none;
   }
 
-  a:hover {
+  a:hover,
+  a.drag-target {
     background: $rbn_outer_color_a;
     color: white;
   }

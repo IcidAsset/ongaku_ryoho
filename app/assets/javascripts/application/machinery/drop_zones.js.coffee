@@ -14,14 +14,14 @@ class OngakuRyoho.Classes.Machinery.DropZones
 
 
 
-  queue_dragover: (e) =>
+  queue_dragover: (e) ->
     e.preventDefault()
     e.dataTransfer.dropEffect = "move"
 
 
 
   queue_drop: (e) =>
-    id = parseInt(e.dataTransfer.getData("text/plain"))
+    id = parseInt(e.dataTransfer.getData("text/plain"), 10)
 
     # clear old timeouts
     if this.timeout_ids
@@ -61,6 +61,7 @@ class OngakuRyoho.Classes.Machinery.DropZones
     # remove message
     setTimeout(() ->
       OngakuRyoho.MessageCenter.collection.remove(message)
+      message = null
     , 1500) if track
 
     # add to queue

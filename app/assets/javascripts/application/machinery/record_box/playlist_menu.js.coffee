@@ -51,12 +51,22 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
       this.state.$tooltip_element.on("click", ".group.ignore-click-hide", (e) -> e.stopPropagation())
       this.state.$tooltip_element.on("click", ".playlist-add input[type=\"submit\"]", self.add_button_click_handler)
       this.state.$tooltip_element.on("click", ".group[rel] a", self.playlist_click_handler)
+
+      this.state.$tooltip_element.on("dragenter", "a[rel]", self.item_dragenter)
+      this.state.$tooltip_element.on("dragleave", "a[rel]", self.item_dragleave)
+      this.state.$tooltip_element.on("dragover", "a[rel]", self.item_dragover)
+      this.state.$tooltip_element.on("drop", "a[rel]", self.item_drop)
+
       self.group.view.$el.addClass("on")
 
       BareTooltip.prototype.show_tooltip.apply(this)
 
     @tooltip.hide_tooltip = () ->
       this.state.$tooltip_element.off("click")
+      this.state.$tooltip_element.off("dragenter")
+      this.state.$tooltip_element.off("dragleave")
+      this.state.$tooltip_element.off("drop")
+
       self.group.view.$el.removeClass("on")
 
       BareTooltip.prototype.hide_tooltip.apply(this, arguments)
@@ -113,3 +123,48 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
 
     @group.view.$el.children("span:first-child").html(playlist.get("name"))
     @group.view.$el.addClass("activated")
+
+
+
+  #
+  #  Drag & drop
+  #
+  item_dragenter: (e) ->
+    e.currentTarget.classList.add("drag-target")
+
+
+  item_dragleave: (e) ->
+    e.currentTarget.classList.remove("drag-target")
+
+
+  item_dragover: (e) ->
+    e.preventDefault()
+    e.dataTransfer.dropEffect = "copyMove"
+
+
+  item_drop: (e) ->
+    e.currentTarget.classList.remove("drag-target")
+
+    # get track
+    track_id = parseInt(e.dataTransfer.getData("text/plain"), 10)
+    track = OngakuRyoho.RecordBox.Tracks.collection.get(track_id)
+
+    # get playlist and update it
+    playlist_cid = e.currentTarget.getAttribute("rel")
+    playlist = OngakuRyoho.RecordBox.Playlists.collection.get(playlist_cid)
+    playlist_track_ids = playlist.get("track_ids")
+    playlist_track_ids.push(track_id)
+    OngakuRyoho.RecordBox.Playlists.collection.sync("update", playlist)
+
+    # add message
+    message = new OngakuRyoho.Classes.Models.Message
+      text: "<span class=\"icon\" data-icon=\"&#9776;\"></span>
+            #{track.get('artist')} - #{track.get('title')}"
+
+    OngakuRyoho.MessageCenter.collection.add(message) if track
+
+    # remove message
+    setTimeout(() ->
+      OngakuRyoho.MessageCenter.collection.remove(message)
+      message = null
+    , 1500) if track
