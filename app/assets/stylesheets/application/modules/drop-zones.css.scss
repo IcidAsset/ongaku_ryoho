@@ -9,15 +9,13 @@
 
   // queue
   .queue {
-    border: 1px solid rgba(black, .04);
+    border: 1px dashed rgba(black, .1);
     color: rgba(black, .425);
     height: 132px;
     overflow: hidden;
     padding: 0 11px;
     position: relative;
     text-align: center;
-
-    @include single-box-shadow(rgba(#000, .09), 0, -4px, 6px, 0, "inset");
   }
 
   .queue .window {
