@@ -100,7 +100,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
             artist: artist,
             album: album,
             track_id: track_id
-          })
+          }, { wait: true })
 
         track.set("favourite_id", true)
 

@@ -51,7 +51,12 @@ CREATE TABLE favourites (
     artist character varying(255),
     title character varying(255),
     album character varying(255),
+    genre character varying(255),
     tracknr integer DEFAULT 0,
+    year integer,
+    filename character varying(255),
+    location character varying(255),
+    url character varying(255),
     user_id integer,
     track_id integer,
     search_vector tsvector,
@@ -177,7 +182,7 @@ CREATE TABLE tracks (
     title character varying(255),
     album character varying(255),
     genre character varying(255),
-    tracknr integer,
+    tracknr integer DEFAULT 0,
     year integer,
     filename character varying(255),
     location character varying(255),
@@ -321,10 +326,38 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: favourites_default_lookup_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX favourites_default_lookup_index ON favourites USING btree (id, user_id);
+
+
+--
 -- Name: favourites_search_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX favourites_search_index ON favourites USING gin (search_vector);
+
+
+--
+-- Name: favourites_sorting_album_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX favourites_sorting_album_index ON favourites USING btree (lower((album)::text), tracknr, lower((artist)::text), lower((title)::text));
+
+
+--
+-- Name: favourites_sorting_default_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX favourites_sorting_default_index ON favourites USING btree (lower((artist)::text), lower((album)::text), tracknr, lower((title)::text));
+
+
+--
+-- Name: favourites_sorting_title_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX favourites_sorting_title_index ON favourites USING btree (lower((title)::text), tracknr, lower((artist)::text), lower((album)::text));
 
 
 --
@@ -391,13 +424,6 @@ CREATE INDEX index_users_on_remember_me_token ON users USING btree (remember_me_
 
 
 --
--- Name: sorting_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX sorting_index ON tracks USING btree (artist, album, tracknr, title);
-
-
---
 -- Name: sources_gin_configuration; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -405,10 +431,38 @@ CREATE INDEX sources_gin_configuration ON sources USING gin (configuration);
 
 
 --
+-- Name: tracks_default_lookup_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX tracks_default_lookup_index ON tracks USING btree (id, source_id);
+
+
+--
 -- Name: tracks_search_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX tracks_search_index ON tracks USING gin (search_vector);
+
+
+--
+-- Name: tracks_sorting_album_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX tracks_sorting_album_index ON tracks USING btree (lower((album)::text), tracknr, lower((artist)::text), lower((title)::text));
+
+
+--
+-- Name: tracks_sorting_default_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX tracks_sorting_default_index ON tracks USING btree (lower((artist)::text), lower((album)::text), tracknr, lower((title)::text));
+
+
+--
+-- Name: tracks_sorting_title_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX tracks_sorting_title_index ON tracks USING btree (lower((title)::text), tracknr, lower((artist)::text), lower((album)::text));
 
 
 --
@@ -464,3 +518,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130210114740');
 INSERT INTO schema_migrations (version) VALUES ('20130210122335');
 
 INSERT INTO schema_migrations (version) VALUES ('20130415192126');
+
+INSERT INTO schema_migrations (version) VALUES ('20130509125536');

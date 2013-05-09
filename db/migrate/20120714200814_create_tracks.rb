@@ -6,7 +6,7 @@ class CreateTracks < ActiveRecord::Migration
       t.string :album
       t.string :genre
 
-      t.integer :tracknr
+      t.integer :tracknr, default: 0
       t.integer :year
 
       t.string :filename

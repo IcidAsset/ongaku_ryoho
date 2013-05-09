@@ -4,8 +4,14 @@ class CreateFavourites < ActiveRecord::Migration
       t.string :artist
       t.string :title
       t.string :album
+      t.string :genre
 
       t.integer :tracknr, default: 0
+      t.integer :year
+
+      t.string :filename
+      t.string :location
+      t.string :url
 
       t.references :user
       t.references :track

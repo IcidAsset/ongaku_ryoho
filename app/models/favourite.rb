@@ -1,5 +1,6 @@
 class Favourite < ActiveRecord::Base
-  attr_accessible :artist, :title, :album, :track_id
+  attr_accessible :artist, :title, :album, :genre, :tracknr, :year,
+                  :filename, :location, :url, :track_id
 
   belongs_to :user
   has_one :track
