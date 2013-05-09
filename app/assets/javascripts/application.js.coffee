@@ -78,8 +78,6 @@ initialize = ->
   App.RecordBox.Navigation.view = new Views.RecordBox.Navigation
   App.RecordBox.Footer = {}
   App.RecordBox.Footer.view = new Views.RecordBox.Footer
-  App.RecordBox.PlaylistMenu = {}
-  App.RecordBox.PlaylistMenu.view = new Views.RecordBox.PlaylistMenu
   App.RecordBox.UserMenu = {}
   App.RecordBox.UserMenu.view = new Views.RecordBox.UserMenu
 

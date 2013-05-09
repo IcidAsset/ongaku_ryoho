@@ -1,11 +1,16 @@
 class Server < Source
   attr_accessor :location
 
+  #
+  #  Worker (sidekiq)
+  #
   def self.worker
     ServerWorker
   end
 
-
+  #
+  #  Label
+  #
   def label
     label = if name.blank? and configuration["location"]
       configuration["location"]
@@ -16,9 +21,10 @@ class Server < Source
     "#{type} &mdash; #{label}"
   end
 
-
-  # check if the server is available
-  # and doesn't return any errors
+  #
+  #  Check if the server is available
+  #  and doesn't return any errors
+  #
   def available?
     sess = Patron::Session.new
 
@@ -30,7 +36,6 @@ class Server < Source
 
     return response.status == 200
   end
-
 
   #
   #  Utility functions

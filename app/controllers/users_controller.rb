@@ -1,12 +1,11 @@
 class UsersController < ApplicationController
   layout 'pages'
 
-  # GET 'sign-up'
   def new
     @user = User.new
   end
 
-  # POST 'sign-up'
+
   def create
     @user = User.new(params[:user])
 
@@ -18,12 +17,12 @@ class UsersController < ApplicationController
     end
   end
 
-  # GET 'account'
+
   def edit
     @user = current_user
   end
 
-  # PUT 'account'
+
   def update
     @user = current_user
 

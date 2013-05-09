@@ -26,9 +26,7 @@ window.Helpers =
     $(document).on("touchmove", (e) ->
         target = e.target
         parent = $(target).closest(".tracks-wrapper")
-
-        if parent.length is 0
-          e.preventDefault()
+        e.preventDefault() if parent.length is 0
     )
 
 

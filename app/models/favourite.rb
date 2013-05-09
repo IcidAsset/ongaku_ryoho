@@ -9,9 +9,11 @@ class Favourite < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :album
 
-  # match favourites
-  # -> bind favourites without track_ids
-  #    to a matching track
+  #
+  #  Match favourites
+  #  -> bind favourites without track_ids
+  #     to a matching track
+  #
   def self.match_unbounded(source_ids)
     favourites = self.where(track_id: nil)
     favourites = favourites.map do |favourite|

@@ -4,7 +4,11 @@ class PlaylistsTrack < ActiveRecord::Base
 
   default_scope order("position ASC")
 
+  #
+  #  JSON
+  #
   def as_json(options={})
     { id: self.track.id, position: position }
   end
+
 end

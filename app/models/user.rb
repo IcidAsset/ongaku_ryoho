@@ -20,8 +20,12 @@ class User < ActiveRecord::Base
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
 
+  #
+  #  JSON
+  #
   def as_json(options={})
     options = { only: [:settings] }
     super(options)
   end
+
 end

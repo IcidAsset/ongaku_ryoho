@@ -135,79 +135,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
       e.dataTransfer.setData("text/plain", $(e.currentTarget).attr("rel"))
       e.dataTransfer.setDragImage(@drag_icon, 17, 17)
 
-      @group.view.dragged_track_element = e.currentTarget
-
 
 
   track_dragend: (e) ->
     e.dataTransfer.clearData() if e.dataTransfer
-
-
-
-  track_dragenter: (e) =>
-    if @group.view.mode is "queue" then $(e.currentTarget).addClass("drag-target")
-
-
-
-  track_dragleave: (e) =>
-    if @group.view.mode is "queue" then $(e.currentTarget).removeClass("drag-target")
-
-
-
-  track_dragover: (e) =>
-    e.preventDefault()
-    e.dataTransfer.dropEffect = "move"
-
-
-
-  track_drop: (e) =>
-    unless @group.view.mode is "queue" then return
-
-    # stop them bubbles
-    e.stopPropagation()
-    e.preventDefault()
-
-    # set
-    queue = OngakuRyoho.Engines.Queue
-
-    # source
-    $s = $(@group.view.dragged_track_element)
-    return if $s.length is 0
-
-    source_index = @group.view.$el.find(".track").index($s)
-    source_origin_name = if source_index < queue.data.user_next.length
-      "user"
-    else
-      "computed"
-
-    # target
-    $t = $(e.currentTarget)
-    $t.removeClass("drag-target")
-
-    target_index = @group.view.$el.find(".track").index($t)
-    target_origin_name = if target_index < queue.data.user_next.length
-      "user"
-    else
-      "computed"
-
-    # fix numbers
-    if source_origin_name is "computed"
-      source_index = source_index - queue.data.user_next.length
-
-    if target_origin_name is "computed"
-      target_index = target_index - queue.data.user_next.length
-
-    if source_origin_name is target_origin_name
-      if source_index < target_index
-        target_index = target_index - 1
-
-    # get source queue item
-    source_queue_item = queue.data["#{source_origin_name}_next"].splice(source_index, 1)[0]
-
-    # alter queue item
-    if source_origin_name isnt target_origin_name
-      source_queue_item.user = !source_queue_item.user
-
-    # shift queue
-    queue.data["#{target_origin_name}_next"].splice(target_index, 0, source_queue_item)
-    queue.set_next()

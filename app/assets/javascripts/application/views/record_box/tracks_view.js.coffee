@@ -1,10 +1,5 @@
 class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
-  dragged_track_element: null
-  mode: "default"
-
-
-
   #
   #  Events
   #
@@ -12,10 +7,6 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     "click .track .favourite"  : @group.machine.track_rating_star_click
     "dragstart .track"         : @group.machine.track_dragstart
     "dragend .track"           : @group.machine.track_dragend
-    "dragenter .track"         : @group.machine.track_dragenter
-    "dragleave .track"         : @group.machine.track_dragleave
-    "dragover .track"          : @group.machine.track_dragover
-    "drop .track"              : @group.machine.track_drop
 
 
 
@@ -76,7 +67,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     list_element.classList.add("tracks")
 
     # render
-    list_fragment = this["render_#{this.mode}"](list_element)
+    list_fragment = this.render_default(list_element)
     list_element.appendChild(list_fragment)
 
     # scroll to top
@@ -116,36 +107,6 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     word_tracks = (if page_info.total is 1 then "track" else "tracks")
     message = "#{page_info.total} #{word_tracks} found &mdash; page #{page_info.page} / #{page_info.pages}"
 
-    OngakuRyoho.RecordBox.Footer.view.set_contents(message)
-
-    # return list fragment
-    return list_fragment
-
-
-
-  render_queue: (list_element) =>
-    queue = OngakuRyoho.Engines.Queue
-    message = "Queue &mdash; The next #{queue.data.combined_next.length} items"
-    list_fragment = document.createDocumentFragment()
-    track_template = @track_template
-
-    # group
-    group = document.createElement("li")
-    group.classList.add("group")
-    group.innerHTML = "<span>Queue</span>"
-    list_fragment.appendChild(group)
-
-    # tracks
-    _.each(queue.data.combined_next, (map) ->
-      return unless map.track
-      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: map.track })
-      track_view.el.classList.add("queue-item")
-      track_view.el.classList.add("user-selected") if map.user
-
-      list_fragment.appendChild(track_view.render(track_template).el)
-    )
-
-    # set foorter contents
     OngakuRyoho.RecordBox.Footer.view.set_contents(message)
 
     # return list fragment

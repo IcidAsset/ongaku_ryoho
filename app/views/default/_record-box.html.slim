@@ -1,25 +1,11 @@
 #record-box
   .navigation
     nav
-      .input-wrap.search
-        input[type="text" name="search" placeholder="Search"]
-        .icon[data-icon="&#128269;"]
-        .icon.close[data-icon="&#10006;"]
-
-      .select-wrap.playlist
-        span[data-default="Playlists"] Playlists
-        .icon[data-icon="&#57349;"]
-        .icon.close[data-icon="&#10006;"]
-        .tooltip-data= render partial: "playlist-menu"
-
-      .button.toggle-queue
-        .icon[data-icon="&#128340;"]
-
-      .button.toggle-favourites
-        .icon[data-icon="&#9733;"]
+      .filter
+        .icon[data-icon="&#9835;"]
 
       .button.toggle-user-menu
-        .icon[data-icon="&#128100;"]
+        .icon[data-icon="&#9776;"]
         .tooltip-data= render partial: "user-menu"
 
   .list

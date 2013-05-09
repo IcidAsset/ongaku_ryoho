@@ -18,4 +18,5 @@ class Playlist < ActiveRecord::Base
   def track_ids
     tracks_with_position.map(&:track_id)
   end
+
 end

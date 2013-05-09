@@ -11,12 +11,3 @@
   Pages JS file
 
 ###
-
-#= require "zepto"
-#= require "underscore"
-#= require "spin"
-
-
-
-Zepto ->
-  #

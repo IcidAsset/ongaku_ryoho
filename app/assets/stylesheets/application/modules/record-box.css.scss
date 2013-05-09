@@ -18,7 +18,7 @@
   //  Navigation
   //
   .navigation {
-    height: 52px;
+    padding: 1px;
 
     @include background-image(
       linear-gradient($rbn_outer_color_a, $rbn_outer_color_b)
@@ -26,12 +26,8 @@
 
     & > nav {
       display: -webkit-flex;
-      height: 50px;
-      margin: 0 1px;
       padding-left: 10px;
       padding-right: 10px;
-      position: relative;
-      top: 1px;
 
       @include background-image(
         linear-gradient($rbn_inner_color_a, $rbn_inner_color_b)
@@ -39,45 +35,14 @@
     }
 
     // general
-    .button, .input-wrap, .select-wrap {
+    .button, .filter {
       border: 1px solid $rbn_item_border_color;
-      height: 25px;
-      margin-top: (50px / 2) - (26px / 2);
+      height: 27px;
+      margin: 11px 0;
 
       @include single-box-shadow(
         $rbn_item_shadow_color, 0, 1px, 3px, 0, "inset"
       );
-    }
-
-    .input-wrap .icon,
-    .select-wrap .icon {
-      color: $rbn_inner_color_a;
-      font-size: 27px;
-      height: 16px;
-      line-height: 8px;
-      margin-top: -7px;
-      position: absolute;
-      right: 6px;
-      text-align: center;
-      top: 50%;
-      width: 16px;
-      z-index: 1;
-
-      @include background-size(80%);
-    }
-
-    .input-wrap,
-    .select-wrap {
-      .icon.close { cursor: pointer; display: none }
-      &.activated .icon { display: none }
-      &.activated .icon.close { color: $rbn_button_text_color; display: block }
-    }
-
-    .input-wrap input,
-    .select-wrap {
-      font-size: 11px;
-      font-weight: bold;
-      padding: 0 34px 0 7px;
     }
 
     // button
@@ -85,7 +50,7 @@
       cursor: pointer;
       margin-left: 5px;
 
-      -webkit-order: 3;
+      -webkit-order: 2;
 
       @include background-image(
         linear-gradient($rbn_button_color_a, $rbn_button_color_b)
@@ -94,109 +59,65 @@
       &, .icon {
         width: 34px;
       }
-
-      .icon {
-        color: $rbn_button_text_color;
-        font-size: 28px;
-        height: 25px;
-        line-height: 20px;
-        overflow: hidden;
-        text-align: center;
-
-        @include transition-duration(450ms);
-        @include transition-property(box-shadow color);
-      }
-
-      &:active,
-      &.on { border-bottom-color: $rbn_button_active_border_color }
-
-      &.on .icon {
-        color: lighten($rbn_button_text_color, 10.25%);
-        @include single-box-shadow(
-          rgba(white, .2), 0, 0, 32px, -2px
-        );
-      }
     }
 
-    // button - toggle favourites
-    .button.toggle-queue {
-      .icon { font-size: 24px }
-    }
-
-    // button - toggle favourites
-    .button.toggle-favourites {
-      .icon { font-size: 26px }
-    }
-
-    // button - toggle user menu
-    .button.toggle-user-menu {
-      .icon { font-size: 25px }
-    }
-
-    // input
-    .input-wrap {
-      position: relative;
-
-      @include background-image(
-        linear-gradient($rbn_input_color_a, $rbn_input_color_b)
-      );
-
-      &, input {
-        overflow: hidden;
-      }
-    }
-
-    input {
-      background: none;
-      border: none;
+    .button .icon {
       color: $rbn_button_text_color;
-      display: block;
-      height: 25px;
-      line-height: normal;
-      width: 100%;
-      z-index: 0;
+      font-size: 30px;
+      height: 27px;
+      line-height: 22px;
+      overflow: hidden;
+      text-align: center;
 
-      @include appearance(none);
-      @include box-sizing(border-box);
-      @include input-placeholder-color($rbn_inner_color_a);
-
-      &:focus {
-        outline: none;
-      }
+      @include transition-duration(450ms);
+      @include transition-property(box-shadow color);
     }
 
-    .input-wrap.search {
+    .button:active,
+    .button.on { border-bottom-color: $rbn_button_active_border_color }
+
+    .button.on .icon {
+      color: lighten($rbn_button_text_color, 10.25%);
+      @include single-box-shadow(rgba(white, .2), 0, 0, 32px, -2px);
+    }
+
+    // filter
+    .filter {
+      color: $rbn_inner_color_a;
+      font-size: 11px;
+      font-weight: bold;
+      line-height: 28px;
+      overflow: hidden;
+      padding: 0 34px 0 7px;
+      position: relative;
       width: auto;
+
       -webkit-flex: 1;
       -webkit-order: 1;
-    }
-
-    // select
-    .select-wrap {
-      color: $rbn_inner_color_a;
-      cursor: pointer;
-      line-height: 26px;
-      margin-left: 5px;
-      overflow: hidden;
-      position: relative;
-      width: 230px; // 31%
-
-      -webkit-order: 2;
 
       @include background-image(
         linear-gradient($rbn_input_color_a, $rbn_input_color_b)
       );
     }
 
-    .select-wrap.activated {
+    .filter.activated {
       color: $rbn_button_text_color;
     }
 
-    .select-wrap > span {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .filter .icon {
+      color: $rbn_inner_color_a;
+      font-size: 27px;
+      height: 16px;
+      line-height: 8px;
+      margin-top: -7px;
+      position: absolute;
+      right: 7px;
+      text-align: center;
+      top: 50%;
+      width: 18px;
+      z-index: 1;
+
+      @include background-size(80%);
     }
   }
 
