@@ -10,7 +10,7 @@ class Data::TracksController < ApplicationController
     tracks_box = select_tracks(available_source_ids, options)
 
     # render
-    only = %w(artist title album tracknr url id favourite_id source_id)
+    only = %w(artist title album tracknr filename location url id favourite_id source_id)
 
     tracks = tracks_box[:tracks].map do |track|
       attrs = track.attributes.select do |k, v|
