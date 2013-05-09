@@ -20,20 +20,15 @@ class Server < Source
   # check if the server is available
   # and doesn't return any errors
   def available?
-    require "net/http"
-
-    uri = URI.parse(self.configuration["location"])
-    response = nil
+    sess = Patron::Session.new
 
     begin
-      Net::HTTP.start(uri.host, uri.port) { |http|
-        response = http.head(uri.path.size > 0 ? uri.path : "/")
-      }
+      response = sess.head(self.configuration["location"])
     rescue
       return false
     end
 
-    return response.code == "200"
+    return response.status == 200
   end
 
 

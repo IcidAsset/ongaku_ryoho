@@ -10,15 +10,22 @@ class Data::TracksController < ApplicationController
     tracks_box = select_tracks(available_source_ids, options)
 
     # render
-    render json: {
+    only = %w(artist title album tracknr url id favourite_id source_id)
+
+    tracks = tracks_box[:tracks].map do |track|
+      attrs = track.attributes.select do |k, v|
+        only.include?(k)
+      end
+      attrs["available"] = track.available
+      attrs
+    end
+
+    render json: Oj.dump({
       page: options[:page],
       per_page: options[:per_page],
       total: tracks_box[:total],
-      models: tracks_box[:tracks]
-    }.to_json(
-      methods: [:available],
-      except: [:search_vector]
-    )
+      models: tracks
+    }, mode: :compat)
   end
 
 

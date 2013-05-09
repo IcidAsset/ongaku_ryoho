@@ -19,7 +19,7 @@ class Data::FavouritesController < ApplicationController
     if track
       attributes = { track_id: track.id }
 
-      %w(artist title album genre track_nr year filename location url).each do |attribute|
+      %w(artist title album genre tracknr year filename location url).each do |attribute|
         attributes[attribute] = track.send(attribute.to_sym)
       end
 
