@@ -12,7 +12,7 @@ class OngakuRyoho.Classes.People.SoundGuy
   go_to_work: () ->
     @audio_engine = OngakuRyoho.Engines.Audio
 
-    # queue
+    # his queue
     @queue = OngakuRyoho.Engines.Queue
     @queue.setup()
 
