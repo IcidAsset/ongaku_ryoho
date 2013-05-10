@@ -31,7 +31,6 @@ class OngakuRyoho.Classes.People.ViewStateManager
 
   apply_state_from_local_storage: () ->
     state = window.localStorage.getItem("view_state")
-    return this.load_tracks()
 
     # apply
     if state
@@ -46,8 +45,8 @@ class OngakuRyoho.Classes.People.ViewStateManager
     self = this
     this.load_favourites()
       .then -> self.load_playlists()
-      .then -> self.load_tracks()
       .then -> self.load_sources()
+      .then -> self.load_tracks()
       # .then -> self.process_and_check_sources()
 
 

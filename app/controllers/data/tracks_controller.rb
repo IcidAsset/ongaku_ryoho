@@ -3,10 +3,16 @@ class Data::TracksController < ApplicationController
   layout false
 
   def index
-    available_source_ids = Source.available_ids_for_user(current_user)
+    options = get_options_from_params
+
+    # available source ids
+    available_source_ids = unless options[:source_ids].empty?
+      options[:source_ids]
+    else
+      Source.available_ids_for_user(current_user)
+    end
 
     # select tracks
-    options = get_options_from_params
     tracks_box = select_tracks(available_source_ids, options)
 
     # render
@@ -37,6 +43,7 @@ private
   #
   def get_options_from_params
     options = {
+      source_ids: clean_up_source_ids(params[:source_ids]),
       filter: clean_up_filter_value(params[:filter]),
       page: params[:page].to_i,
       per_page: params[:per_page].to_i,
@@ -63,6 +70,15 @@ private
       .gsub(/!\ /, "!")
       .gsub(/ \|\|+ /, " | ")
       .gsub(/(?<!\||!)\ (?!\|)/, " & ")
+  end
+
+
+  def clean_up_source_ids(source_ids)
+    user_source_ids = current_user.sources.pluck(:id)
+    source_ids.split(",").map do |source_id|
+      id = source_id.to_i
+      id if id > 0 && user_source_ids.include?(id)
+    end.compact
   end
 
 

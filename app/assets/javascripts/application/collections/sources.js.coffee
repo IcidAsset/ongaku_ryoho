@@ -9,6 +9,10 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     Backbone.Collection.prototype.fetch.call(this, options)
 
 
+  get_available_ids: () ->
+    _.map(this.where({ available: true }), (s) -> s.id)
+
+
   #
   #  Process & Check
   #

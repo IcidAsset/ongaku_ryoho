@@ -6,7 +6,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
 
   initialize: () ->
     @page = 1
-    @per_page = 50
+    @per_page = 500
     @filter = ""
     @sort_by = "artist"
     @sort_direction = "asc"
@@ -24,6 +24,9 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     success = options.success
     options.reset = true
 
+    # trigger events
+    this.trigger("fetching")
+
     # new message
     message = new OngakuRyoho.Classes.Models.Message
       text: "Loading tracks",
@@ -32,14 +35,16 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     # add message
     OngakuRyoho.MessageCenter.collection.add(message)
 
-    # trigger events
-    this.trigger("fetching")
+    # get source ids
+    source_ids = OngakuRyoho.SourceManager.collection.get_available_ids()
+    source_ids = source_ids.join(",")
 
     # check options
     options.data ?= {}
 
     # pagination, filter, etc.
     _.extend options.data, {
+      source_ids: source_ids,
       page: @page,
       per_page: @per_page,
       filter: @filter,
