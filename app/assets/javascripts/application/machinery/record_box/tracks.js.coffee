@@ -126,7 +126,49 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
   #
-  #  Drag & Drop
+  #  Move elements in queue
+  #
+  move_elements_in_queue: (source_index, target_index) ->
+    queue = OngakuRyoho.Engines.Queue
+
+    # source
+    source_origin_name = if source_index < queue.data.user_next.length
+      "user"
+    else
+      "computed"
+
+    # target
+    target_origin_name = if target_index <= queue.data.user_next.length
+      "user"
+    else
+      "computed"
+
+    # fix numbers
+    if source_origin_name is "computed"
+      source_index = source_index - queue.data.user_next.length
+
+    if target_origin_name is "computed"
+      target_index = target_index - queue.data.user_next.length
+
+    if source_origin_name is target_origin_name
+      if source_index < target_index
+        target_index = target_index - 1
+
+    # get source queue item
+    source_queue_item = queue.data["#{source_origin_name}_next"].splice(source_index, 1)[0]
+
+    # alter queue item
+    if source_origin_name isnt target_origin_name
+      source_queue_item.user = !source_queue_item.user
+
+    # shift queue
+    queue.data["#{target_origin_name}_next"].splice(target_index, 0, source_queue_item)
+    queue.set_next()
+
+
+
+  #
+  #  Drag & Drop / Track
   #
   track_dragstart: (e) =>
     if e.dataTransfer
@@ -135,7 +177,96 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
       e.dataTransfer.setData("text/plain", $(e.currentTarget).attr("rel"))
       e.dataTransfer.setDragImage(@drag_icon, 17, 17)
 
+      @group.view.dragged_track_element = e.currentTarget
+
 
 
   track_dragend: (e) ->
     e.dataTransfer.clearData() if e.dataTransfer
+
+
+
+  track_dragenter: (e) =>
+    setTimeout(() =>
+      $(e.currentTarget).addClass("drag-target") if @group.view.mode is "queue"
+    , 0)
+
+
+
+  track_dragleave: (e) =>
+    setTimeout(() =>
+      $(e.currentTarget).removeClass("drag-target")
+    , 0)
+
+
+
+  track_dragover: (e) =>
+    e.preventDefault()
+    e.dataTransfer.dropEffect = "move"
+
+
+
+  track_drop: (e) =>
+    unless @group.view.mode is "queue" then return
+
+    # stop them bubbles
+    e.stopPropagation()
+    e.preventDefault()
+
+    # elements
+    $source = $(@group.view.dragged_track_element)
+    $target = $(e.currentTarget)
+    $target.removeClass("drag-target")
+
+    # check
+    return if $source.length is 0
+
+    # move
+    source_index = @group.view.$el.find(".track").index($source)
+    target_index = @group.view.$el.find(".track").index($target)
+
+    this.move_elements_in_queue(source_index, target_index)
+
+
+
+  #
+  #  Drag & Drop / Group
+  #
+  group_dragenter: (e) =>
+    setTimeout(() =>
+      if @group.view.mode is "queue"
+        @group.view.$el.find(".track").first().addClass("drag-target")
+    , 0)
+
+
+
+  group_dragleave: (e) =>
+    @group.view.$el.find(".track").first().removeClass("drag-target")
+
+
+
+  group_dragover: (e) ->
+    e.preventDefault()
+    e.dataTransfer.dropEffect = "move"
+
+
+
+  group_drop: (e) =>
+    unless @group.view.mode is "queue" then return
+
+    # stop them bubbles
+    e.stopPropagation()
+    e.preventDefault()
+
+    # elements
+    $source = $(@group.view.dragged_track_element)
+
+    # check
+    return if $source.length is 0
+
+    # move
+    source_index = @group.view.$el.find(".track").index($source)
+    target_index = 0
+
+    this.move_elements_in_queue(source_index, target_index)
+

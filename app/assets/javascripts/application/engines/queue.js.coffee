@@ -43,7 +43,9 @@ class OngakuRyoho.Classes.Engines.Queue
 
     # trigger collection reset if needed
     if OngakuRyoho.RecordBox.Tracks.view.mode is "queue"
+      scroll_top = OngakuRyoho.RecordBox.Tracks.view.el.scrollTop
       @tracks.trigger("reset")
+      OngakuRyoho.RecordBox.Tracks.view.el.scrollTop = scroll_top
 
 
 

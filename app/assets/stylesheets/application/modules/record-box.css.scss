@@ -81,6 +81,10 @@
       @include single-box-shadow(rgba(white, .2), 0, 0, 32px, -2px);
     }
 
+    .button.toggle-queue {
+      .icon { font-size: 24px }
+    }
+
     // filter
     .filter {
       color: $rbn_inner_color_a;
