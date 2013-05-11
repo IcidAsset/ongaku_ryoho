@@ -48,8 +48,14 @@
     }
   }
 
+  .group:first-child {
+    @include border-top-radius(4px);
+  }
+
   .group:last-child {
     z-index: 0;
+
+    @include border-bottom-radius(4px);
   }
 
   // group label
