@@ -2,7 +2,19 @@
   .navigation
     nav
       .filter
-        .icon[data-icon="&#9835;"]
+        .wrapper
+          .box.playlist
+          .box.search
+            a.item
+              | Soulwax
+              .icon[data-icon="&#128269;"]
+              .icon.close[data-icon="&#10006;"]
+          .box.favourites
+
+          .add-buttons
+            a.add-button.icon.playlist[data-icon="&#57349;"]
+            a.add-button.icon.search[data-icon="&#128269;"]
+            a.add-button.icon.favourites[data-icon="&#9733;"]
 
       .button.toggle-queue
         .icon[data-icon="&#128340;"]

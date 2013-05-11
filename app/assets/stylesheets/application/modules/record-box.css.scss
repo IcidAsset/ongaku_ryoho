@@ -92,7 +92,7 @@
       font-weight: bold;
       line-height: 28px;
       overflow: hidden;
-      padding: 0 34px 0 7px;
+      padding: 0 4px;
       position: relative;
       width: auto;
 
@@ -104,24 +104,105 @@
       );
     }
 
-    .filter.activated {
-      color: $rbn_button_text_color;
+    .filter .wrapper,
+    .filter .box,
+    .filter .add-buttons {
+      height: 100%;
     }
 
-    .filter .icon {
-      color: $rbn_inner_color_a;
-      font-size: 27px;
-      height: 16px;
-      line-height: 8px;
-      margin-top: -7px;
-      position: absolute;
-      right: 7px;
-      text-align: center;
-      top: 50%;
-      width: 18px;
-      z-index: 1;
+    .filter .wrapper {
+      overflow: hidden;
+    }
 
-      @include background-size(80%);
+    .filter .box {
+      float: left;
+    }
+
+    .filter .add-buttons {
+      float: right;
+      text-align: right;
+    }
+
+    // filter box content
+    .filter a {
+      display: inline-block;
+      font-size: 9px;
+      line-height: 14px;
+      padding: 3px 6px 1px 18px;
+      position: relative;
+      text-transform: uppercase;
+
+      @include lato-font;
+      @include border-radius(3px);
+    }
+
+    .filter a .icon {
+      color: rgba(white, .275);
+      display: inline-block;
+      font-size: 22px;
+      left: 4px;
+      position: absolute;
+      top: 0;
+    }
+
+    .filter a .icon.close {
+      display: none;
+    }
+
+    .filter .add-button {
+      background: black;
+      color: rgba(white, .425);
+      cursor: pointer;
+      font-size: 22px;
+      margin-left: 4px;
+      padding: 3px 6px 1px;
+    }
+
+    .filter .item {
+      background-color: #999;
+      color: white;
+      cursor: pointer;
+      margin-right: 4px;
+    }
+
+    .filter .item .icon {
+      color: rgba(white, .725);
+    }
+
+    .filter .item:hover .icon {
+      display: none;
+      &.close { display: block }
+    }
+
+    // filter - playlist
+    .filter .add-button.playlist {
+      background-color: mix($rbn_inner_color_a, $blue, 92.5);
+    }
+
+    .filter .add-button.playlist:hover {
+      background-color: $blue;
+    }
+
+    // filter - search
+    .filter .add-button.search {
+      background: mix($rbn_inner_color_a, $green_2, 92.5);
+    }
+
+    .filter .add-button.search:hover {
+      background-color: $green_2;
+    }
+
+    // filter - favourites
+    .filter .add-button.favourites {
+      background-color: mix($rbn_inner_color_a, $yellow, 92.5);
+    }
+
+    .filter .add-button.favourites:hover {
+      background-color: $yellow;
+    }
+
+    .filter .box.favourites .add-button {
+      font-size: 24px;
     }
   }
 
