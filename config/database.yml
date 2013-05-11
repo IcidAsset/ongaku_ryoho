@@ -4,7 +4,7 @@ development:
   host: localhost
   database: ongaku_ryoho_development
   pool: 5
-  username: purpleSynth
+  username: purplesynth
   password: hello
 
 test:
@@ -13,7 +13,7 @@ test:
   host: localhost
   database: ongaku_ryoho_test
   pool: 5
-  username: purpleSynth
+  username: purplesynth
   password: hello
 
 # production:
