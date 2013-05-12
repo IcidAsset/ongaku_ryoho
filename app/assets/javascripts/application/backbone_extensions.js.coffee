@@ -5,14 +5,28 @@
 Backbone.View::initialize = () ->
   group_name = this.constructor.toString().match(/^function (\w+)/)[1]
   group = OngakuRyoho[group_name]
-  this.group = group
+  parent_group = false
 
-  # this view
-  group.view = this if group
+  _.each(["RecordBox", "SourceManager"], (cat) ->
+    unless group
+      group = OngakuRyoho[cat][group_name]
+      parent_group = OngakuRyoho[cat] if group
+  )
+
+  return unless group
+
+  # view
+  this.group = group
+  this.group.view = this
 
   # machine
   Machine = OngakuRyoho.Classes.Machinery[group_name]
 
-  if group and Machine
-    group.machine = new Machine
-    group.machine.group = group
+  _.each(["RecordBox", "SourceManager"], (cat) ->
+    Machine = OngakuRyoho.Classes.Machinery[cat][group_name] unless Machine
+  )
+
+  if Machine
+    this.group.machine = new Machine
+    this.group.machine.group = this.group
+    this.group.machine.parent_group = parent_group if parent_group

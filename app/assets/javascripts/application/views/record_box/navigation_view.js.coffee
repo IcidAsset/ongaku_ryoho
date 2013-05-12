@@ -12,12 +12,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Navigation extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    @parent_group = OngakuRyoho.RecordBox
-    @group = @parent_group.Navigation
-    @group.view = this
-    @group.machine = new OngakuRyoho.Classes.Machinery.RecordBox.Navigation
-    @group.machine.group = @group
-    @group.machine.parent_group = @parent_group
+    super
 
     # this element
     this.setElement($("#record-box").children(".navigation")[0])

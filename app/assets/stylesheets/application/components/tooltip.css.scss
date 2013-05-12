@@ -18,7 +18,7 @@
 
   @include box-shadow(
     0px 2px 0px 1px rgba(black, 0.05),
-    0px 1px 6px 1px rgba(black, 0.125)
+    0px 5px 7px -1px rgba(black, 0.325)
   );
 
   &.hidden {
@@ -44,15 +44,16 @@
     background: white;
 
     &:not(:last-child) {
-      border-bottom: 1px solid rgba(black, .05);
+      border-bottom: 2px solid rgba(black, .31);
     }
   }
 
-  .group:first-child {
+  .group.first {
     @include border-top-radius(4px);
   }
 
-  .group:last-child {
+  .group:last-child,
+  .group.last {
     z-index: 0;
 
     @include border-bottom-radius(4px);
@@ -79,12 +80,13 @@
 
   // buttons
   a {
-    border-bottom: 1px solid rgba(black, .03);
+    border-bottom: 1px solid rgba(black, .14);
     color: darken(desaturate($rbn_button_text_color, 5%), 20%);
     cursor: pointer;
     display: block;
     line-height: 24px;
     padding: 6px 11px 2px;
+    position: relative;
     text-decoration: none;
   }
 
@@ -92,6 +94,22 @@
   a.drag-target {
     background: $rbn_outer_color_a;
     color: white;
+
+    .icon { opacity: .5 }
+  }
+
+  // icon
+  a .icon {
+    font-size: 27px;
+    height: 16px;
+    line-height: 8px;
+    margin-top: -5px;
+    position: absolute;
+    right: 11px;
+    text-align: center;
+    top: 50%;
+    width: 16px;
+    z-index: 1;
   }
 
   // checkbox

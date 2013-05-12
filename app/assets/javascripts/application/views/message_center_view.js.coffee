@@ -12,7 +12,7 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    super()
+    super
 
     # this element
     this.setElement($("#message-center"))

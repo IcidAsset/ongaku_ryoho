@@ -28,12 +28,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    @parent_group = OngakuRyoho.RecordBox
-    @group = @parent_group.Tracks
-    @group.view = this
-    @group.machine = new OngakuRyoho.Classes.Machinery.RecordBox.Tracks
-    @group.machine.group = @group
-    @group.machine.parent_group = @parent_group
+    super
 
     # this element
     this.setElement($("#record-box").find(".tracks-wrapper")[0])

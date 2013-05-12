@@ -13,12 +13,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Footer extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    @parent_group = OngakuRyoho.RecordBox
-    @group = @parent_group.Footer
-    @group.view = this
-    @group.machine = new OngakuRyoho.Classes.Machinery.RecordBox.Footer
-    @group.machine.group = @group
-    @group.machine.parent_group = @parent_group
+    super
 
     # this element
     this.setElement($("#record-box").children("footer")[0])

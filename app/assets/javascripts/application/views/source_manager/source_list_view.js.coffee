@@ -5,7 +5,7 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
 
   initialize: () ->
-    super()
+    super
 
     # templates
     @template = Helpers.get_template("source-list")

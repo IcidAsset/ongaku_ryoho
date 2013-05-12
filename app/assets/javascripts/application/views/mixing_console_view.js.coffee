@@ -30,7 +30,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    super()
+    super
 
     # this element
     this.setElement($("#mixing-console"))

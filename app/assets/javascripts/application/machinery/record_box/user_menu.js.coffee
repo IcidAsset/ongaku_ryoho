@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
       trigger_type: "click",
       tooltip_klass: "mod-user-menu tooltip",
       animation_speed: 0,
-      timeout_duration: 15000,
+      timeout_duration: 0,
       template: '<div class="{{CLASSES}}">' +
         '<div class="arrow"></div>' +
         '{{CONTENT}}' +

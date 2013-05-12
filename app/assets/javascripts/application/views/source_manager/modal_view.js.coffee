@@ -6,7 +6,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
 
   initialize: () ->
-    super()
+    super
 
     # this element
     this.setElement(document.getElementById("source-manager"))

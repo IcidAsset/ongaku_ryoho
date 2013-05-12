@@ -78,6 +78,10 @@ initialize = ->
   App.RecordBox.Navigation.view = new Views.RecordBox.Navigation
   App.RecordBox.Footer = {}
   App.RecordBox.Footer.view = new Views.RecordBox.Footer
+
+  App.RecordBox.Filter = {}
+  App.RecordBox.Filter.model = new Models.Filter
+  App.RecordBox.Filter.view = new Views.RecordBox.Filter
   App.RecordBox.UserMenu = {}
   App.RecordBox.UserMenu.view = new Views.RecordBox.UserMenu
 
