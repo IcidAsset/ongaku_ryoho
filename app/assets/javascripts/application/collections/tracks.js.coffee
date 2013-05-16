@@ -4,18 +4,6 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   url: "/data/tracks/"
 
 
-  initialize: () ->
-    @page = 1
-    @per_page = 500
-    @filter = ""
-    @sort_by = "artist"
-    @sort_direction = "asc"
-
-    # special filters
-    @favourites = off
-    @playlist = off
-
-
 
   #
   #  Fetch
@@ -42,17 +30,22 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     # check options
     options.data ?= {}
 
-    # pagination, filter, etc.
-    _.extend options.data, {
-      source_ids: source_ids,
-      page: @page,
-      per_page: @per_page,
-      filter: @filter,
-      sort_by: @sort_by,
-      sort_direction: @sort_direction,
-      favourites: @favourites,
-      playlist: @playlist
-    }
+    # source_ids, pagination, etc.
+    _.extend(options.data, {
+      source_ids: source_ids
+    })
+
+    _.extend(options.data, _.omit(
+      OngakuRyoho.RecordBox.Filter.model.attributes
+    , "searches"))
+
+    # TODO: filter
+    filter = OngakuRyoho.RecordBox.Filter.model.get("searches")
+    filter = filter.join(" ")
+
+    _.extend(options.data, {
+      filter: filter
+    })
 
     # success
     options.success = (collection, response, request_options) =>

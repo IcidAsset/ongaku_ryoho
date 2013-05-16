@@ -67,6 +67,16 @@ initialize = ->
   App.DropZones.view = new Views.DropZones
 
   App.RecordBox = {}
+  App.RecordBox.Navigation = {}
+  App.RecordBox.Navigation.view = new Views.RecordBox.Navigation
+  App.RecordBox.Footer = {}
+  App.RecordBox.Footer.view = new Views.RecordBox.Footer
+  App.RecordBox.UserMenu = {}
+  App.RecordBox.UserMenu.view = new Views.RecordBox.UserMenu
+  App.RecordBox.Filter = {}
+  App.RecordBox.Filter.model = new Models.Filter
+  App.RecordBox.Filter.view = new Views.RecordBox.Filter
+
   App.RecordBox.Tracks = {}
   App.RecordBox.Tracks.collection = new Collections.Tracks
   App.RecordBox.Tracks.view = new Views.RecordBox.Tracks
@@ -74,16 +84,6 @@ initialize = ->
   App.RecordBox.Favourites.collection = new Collections.Favourites
   App.RecordBox.Playlists = {}
   App.RecordBox.Playlists.collection = new Collections.Playlists
-  App.RecordBox.Navigation = {}
-  App.RecordBox.Navigation.view = new Views.RecordBox.Navigation
-  App.RecordBox.Footer = {}
-  App.RecordBox.Footer.view = new Views.RecordBox.Footer
-
-  App.RecordBox.Filter = {}
-  App.RecordBox.Filter.model = new Models.Filter
-  App.RecordBox.Filter.view = new Views.RecordBox.Filter
-  App.RecordBox.UserMenu = {}
-  App.RecordBox.UserMenu.view = new Views.RecordBox.UserMenu
 
   App.SourceManager = {}
   App.SourceManager.collection = new Collections.Sources
