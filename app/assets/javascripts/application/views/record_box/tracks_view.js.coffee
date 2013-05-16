@@ -57,13 +57,13 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # scroll/touch events
     scroll_el = this.el
     scroll_el.addEventListener("touchstart", (e) ->
-        start_y = e.touches[0].pageY;
-        start_top_scroll = e.scrollTop;
+        start_y = e.touches[0].pageY
+        start_top_scroll = e.scrollTop
 
         scroll_el.scrollTop = 1 if start_top_scroll <= 0
 
         if start_top_scroll + scroll_el.offsetHeight >= scroll_el.scrollHeight
-          scroll_el.scrollTop = scroll_el.scrollHeight - scroll_el.offsetHeight - 1;
+          scroll_el.scrollTop = scroll_el.scrollHeight - scroll_el.offsetHeight - 1
     , false)
 
 

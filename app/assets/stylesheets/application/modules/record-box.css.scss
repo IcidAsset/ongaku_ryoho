@@ -103,14 +103,9 @@
       );
     }
 
-    .filter .wrapper,
     .filter .box,
     .filter .add-buttons {
       height: 100%;
-    }
-
-    .filter .wrapper {
-      overflow: hidden;
     }
 
     .filter .box {
@@ -144,7 +139,7 @@
       font-size: 22px;
       left: 4px;
       position: absolute;
-      top: -1px;
+      top: 0;
     }
 
     .filter a .icon.close {
@@ -172,7 +167,7 @@
     }
 
     .filter .item {
-      background-color: #999;
+      background-color: $rbn_outer_color_a;
       color: white;
       cursor: pointer;
       margin-right: 4px;

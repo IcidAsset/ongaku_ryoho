@@ -19,7 +19,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
       template: '<div class="{{CLASSES}}">' +
         '<div class="arrow"></div>' +
         '{{CONTENT}}' +
-      '</div>';
+      '</div>'
     })
 
     # extend
