@@ -89,14 +89,15 @@
 
     // playing
     &.playing:not(.queue-item) {
-      background-color: $rbn_button_text_color;
+      background-color: lighten($rbn_button_text_color, 10);
       margin: 0 -1px;
 
-      & > div { color: darken($rbn_inner_color_a, 12%) }
-      .favourite { color: darken($rbn_button_text_color, 7%) }
+      & > div { color: darken($rbn_inner_color_a, 10) }
+      .favourite { color: lighten($rbn_button_text_color, 3) }
 
-      .favourite[data-favourite="true"],
-      .favourite:hover { color: darken($rbn_inner_color_a, 4.75%) !important }
+      .favourite[data-favourite="true"] {
+        color: darken($rbn_inner_color_a, 2.5) !important;
+      }
     }
 
     // unavailable & queue-item

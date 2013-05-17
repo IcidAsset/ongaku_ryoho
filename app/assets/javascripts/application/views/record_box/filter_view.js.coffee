@@ -48,7 +48,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
       item_element_clone = item_element.cloneNode(true)
       item_element_clone.classList.add("favourites")
       item_element_clone.innerHTML = @filter_item_template({
-        text: "Favourites selected",
+        text: "Favourites only",
         icon: "&#9733;"
       })
 

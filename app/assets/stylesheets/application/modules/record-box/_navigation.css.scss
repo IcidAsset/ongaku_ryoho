@@ -57,7 +57,7 @@
 
   .button.on .icon {
     color: lighten($rbn_button_text_color, 10.25%);
-    @include single-box-shadow(rgba(white, .2), 0, 0, 32px, -2px);
+    @include single-box-shadow(rgba(white, .375), 0, 0, 32px, -2px);
   }
 
   .button .icon {
@@ -121,7 +121,7 @@
     font-size: 9px;
     line-height: 14px;
     margin-top: 5px;
-    padding: 3px 6px 1px 18px;
+    padding: 3px 6px 1px 19px;
     position: relative;
     text-transform: uppercase;
 
@@ -132,10 +132,10 @@
   a .icon {
     color: rgba(white, .275);
     display: inline-block;
-    font-size: 22px;
+    font-size: 23px;
     left: 4px;
     position: absolute;
-    top: 0;
+    top: -1px;
   }
 
   a .icon.close {
@@ -163,15 +163,14 @@
   }
 
   .item {
-    background-color: $rbn_outer_color_b;
-    color: white;
+    background-color: $rbn_item_border_color;
+    color: lighten(desaturate($rbn_button_text_color, 3), 12.5);
     cursor: pointer;
     margin-right: 4px;
-    text-shadow: rgba(0, 0, 0, 0.125) 1px 1px 0px;
   }
 
   .item .icon {
-    color: rgba(white, .725);
+    color: rgba(lighten(desaturate($rbn_button_text_color, 3), 12.5), .725);
   }
 
   .item:hover .icon {
@@ -207,10 +206,6 @@
 
   .add-button.favourites:hover {
     background-color: $yellow_3;
-  }
-
-  .item.favourites {
-    background-color: $rbn_outer_color_a
   }
 
 
