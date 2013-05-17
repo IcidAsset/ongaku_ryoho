@@ -236,9 +236,9 @@ $button_height: 52px;
         @include border-radius(6px);
 
         &.on {
-          background: #00ccff;
+          background: $blue;
 
-          @include single-box-shadow(#00ccff, 0, 0, 25px, 2px);
+          @include single-box-shadow($blue, 0, 0, 25px, 2px);
         }
       }
 

@@ -6,13 +6,20 @@ $bgcolor: adjust_hue(darken(#686f78, 0.5%), $hue - 10); // #6C6777, #716d85;
 
 // general
 $red: #E0676C;
+$red_2: #e74c3c;
 $green: #BCF865;
 $green_2: #5CD15C;
+$green_3: #2ecc71;
 $blue: #00CCFF;
+$blue_2: #3498db;
 $yellow: #FBB829;
 $yellow_2: #FCEB29;
+$yellow_3: #f1c40f;
 $orange: #FC913A;
+$orange_2: #e67e22;
 $purple: #A065CB;
+$purple_2: #9b59b6;
+$dark_blue: #34495e;
 
 // record box
 $rbn_outer_color_a: adjust_hue(lighten(#757a80, 3%), $hue);

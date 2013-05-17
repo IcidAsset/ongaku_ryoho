@@ -167,10 +167,11 @@
     }
 
     .filter .item {
-      background-color: $rbn_outer_color_a;
+      background-color: $rbn_outer_color_b;
       color: white;
       cursor: pointer;
       margin-right: 4px;
+      text-shadow: rgba(0, 0, 0, 0.125) 1px 1px 0px;
     }
 
     .filter .item .icon {
@@ -204,16 +205,16 @@
 
     // filter - favourites
     .filter .add-button.favourites {
-      background-color: mix($rbn_inner_color_a, $yellow, 92.5);
+      background-color: mix($rbn_inner_color_a, $yellow_3, 92.5);
       font-size: 24px;
     }
 
     .filter .add-button.favourites:hover {
-      background-color: $yellow;
+      background-color: $yellow_3;
     }
 
-    .filter .box.favourites .add-button {
-      font-size: 24px;
+    .filter .item.favourites {
+      background-color: $rbn_outer_color_a
     }
   }
 
@@ -341,7 +342,7 @@
 
       @include icon-font;
 
-      &[data-favourite="true"] { color: $yellow }
+      &[data-favourite="true"] { color: $yellow_3 }
     }
   }
 
