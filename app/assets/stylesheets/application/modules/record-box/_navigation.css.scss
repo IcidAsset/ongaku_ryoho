@@ -1,0 +1,217 @@
+/*
+
+  Record Box — Navigation
+
+*/
+
+#record-box .navigation {
+  padding: 1px;
+
+  @include background-image(
+    linear-gradient($rbn_outer_color_a, $rbn_outer_color_b)
+  );
+
+  & > nav {
+    display: -webkit-flex;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    @include background-image(
+      linear-gradient($rbn_inner_color_a, $rbn_inner_color_b)
+    );
+  }
+
+  //
+  //  General
+  //
+  .button, .filter {
+    border: 1px solid $rbn_item_border_color;
+    height: 27px;
+    margin: 11px 0;
+
+    @include single-box-shadow(
+      $rbn_item_shadow_color, 0, 1px, 3px, 0, "inset"
+    );
+  }
+
+  //
+  //  Button
+  //
+  .button {
+    cursor: pointer;
+    margin-left: 5px;
+
+    -webkit-order: 2;
+
+    @include background-image(
+      linear-gradient($rbn_button_color_a, $rbn_button_color_b)
+    );
+
+    &, .icon {
+      width: 34px;
+    }
+  }
+
+  .button:active,
+  .button.on { border-bottom-color: $rbn_button_active_border_color }
+
+  .button.on .icon {
+    color: lighten($rbn_button_text_color, 10.25%);
+    @include single-box-shadow(rgba(white, .2), 0, 0, 32px, -2px);
+  }
+
+  .button .icon {
+    color: $rbn_button_text_color;
+    font-size: 30px;
+    height: 27px;
+    line-height: 22px;
+    overflow: hidden;
+    text-align: center;
+
+    @include transition-duration(450ms);
+    @include transition-property(box-shadow color);
+  }
+
+  .button.toggle-queue {
+    .icon { font-size: 24px }
+  }
+
+
+}
+
+
+//
+//  Filter
+//
+.filter {
+  color: $rbn_inner_color_a;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 28px;
+  overflow: hidden;
+  position: relative;
+  width: auto;
+
+  -webkit-flex: 1;
+  -webkit-order: 1;
+
+  @include background-image(
+    linear-gradient($rbn_input_color_a, $rbn_input_color_b)
+  );
+
+  .box,
+  .add-buttons {
+    height: 100%;
+  }
+
+  .box {
+    float: left;
+    padding-left: 5px;
+  }
+
+  .add-buttons {
+    float: right;
+    padding-right: 5px;
+    text-align: right;
+  }
+
+  // filter box content
+  a {
+    display: inline-block;
+    font-size: 9px;
+    line-height: 14px;
+    margin-top: 5px;
+    padding: 3px 6px 1px 18px;
+    position: relative;
+    text-transform: uppercase;
+
+    @include lato-font;
+    @include border-radius(2px);
+  }
+
+  a .icon {
+    color: rgba(white, .275);
+    display: inline-block;
+    font-size: 22px;
+    left: 4px;
+    position: absolute;
+    top: 0;
+  }
+
+  a .icon.close {
+    display: none;
+  }
+
+  .add-button {
+    background: black;
+    color: rgba(white, .425);
+    cursor: pointer;
+    font-size: 23px;
+    height: 18px;
+    line-height: 12px;
+    margin-left: 4px;
+    margin-top: 4px;
+    overflow: hidden;
+    padding: 0 7px;
+    position: relative;
+    text-align: center;
+    width: 13px;
+  }
+
+  .add-button:hover {
+    color: white;
+  }
+
+  .item {
+    background-color: $rbn_outer_color_b;
+    color: white;
+    cursor: pointer;
+    margin-right: 4px;
+    text-shadow: rgba(0, 0, 0, 0.125) 1px 1px 0px;
+  }
+
+  .item .icon {
+    color: rgba(white, .725);
+  }
+
+  .item:hover .icon {
+    display: none;
+    &.close { display: block }
+  }
+
+  // filter - playlist
+  .add-button.playlist {
+    background-color: mix($rbn_inner_color_a, $blue, 92.5);
+    font-size: 26px;
+    top: 1px;
+  }
+
+  .add-button.playlist:hover {
+    background-color: $blue;
+  }
+
+  // filter - search
+  .add-button.search {
+    background: mix($rbn_inner_color_a, $green_2, 92.5);
+  }
+
+  .add-button.search:hover {
+    background-color: $green_2;
+  }
+
+  // filter - favourites
+  .add-button.favourites {
+    background-color: mix($rbn_inner_color_a, $yellow_3, 92.5);
+    font-size: 24px;
+  }
+
+  .add-button.favourites:hover {
+    background-color: $yellow_3;
+  }
+
+  .item.favourites {
+    background-color: $rbn_outer_color_a
+  }
+
+
+}

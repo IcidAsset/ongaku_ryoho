@@ -1,0 +1,63 @@
+/*
+
+  Record Box — Footer
+
+*/
+
+#record-box footer {
+  border-top: 1px solid $rbf_border_top_color;
+  color: darken($rbn_button_text_color, 9%);
+  font-size: 9px;
+  font-weight: bold;
+  padding: 1px;
+  position: relative;
+  text-align: center;
+
+  -webkit-font-smoothing: antialiased;
+
+  @include background-image(
+    linear-gradient($rbf_outer_color_a, $rbf_outer_color_b)
+  );
+
+  .intestines {
+    height: 24px;
+    line-height: 24px;
+    padding: 0 10px;
+    text-transform: uppercase;
+
+    @include background-image(
+      linear-gradient($rbf_inner_color_a, $rbf_inner_color_b)
+    );
+  }
+
+  .page-nav {
+    font-size: 37px;
+    height: 24px;
+    left: 9px;
+    overflow: hidden;
+    position: absolute;
+    text-align: left;
+    top: 1px;
+    width: 25%;
+  }
+
+  .page-nav a {
+    background-position: center;
+    background-repeat: no-repeat;
+    color: $rbn_button_text_color;
+    cursor: pointer;
+    float: left;
+    height: 24px;
+    line-height: 14px;
+    margin-right: 3px;
+    overflow: hidden;
+    width: 16px;
+  }
+
+  .page-nav a.disabled {
+    cursor: default;
+    opacity: .45;
+  }
+
+
+}

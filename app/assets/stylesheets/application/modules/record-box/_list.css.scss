@@ -1,0 +1,213 @@
+/*
+
+  Record Box — List
+
+*/
+
+#record-box .list {
+  background: #e3e3e3;
+  display: -webkit-flex;
+
+  -webkit-flex: 1;
+  -webkit-flex-direction: column;
+
+  header, .track {
+    overflow: hidden;
+
+    .favourite, .title, .artist, .album { float: left }
+    .favourite { width: 10px + 7 + 12 }
+    .title  { width: 38% }
+    .artist { width: 28% }
+    .album  { width: 28% }
+
+    span { display: block; padding: 0 7px }
+    .favourite span { padding-left: 10px }
+    .album span { padding-right: 10px }
+  }
+
+  //
+  //  Header
+  //
+  header {
+    border: 1px solid #e3e3e3;
+    border-bottom: 1px solid #f0f0f0;
+    border-top: none;
+    color: #aaa;
+    font-size: 10px;
+    font-weight: bold;
+    height: 24px;
+    line-height: 27px;
+
+    @include background-image(linear-gradient(#fff, #fafafa));
+    @include lato-font;
+
+    span { border-right: 1px solid #f0f0f0 }
+    div { @include single-box-shadow(rgba(white, 1), 0, 0, 0, 1px, "inset") }
+    div:last-child span { border-right: none }
+  }
+
+  //
+  //  Tracks
+  //
+  .tracks-wrapper {
+    min-height: 0;
+    overflow-y: scroll;
+    position: relative;
+
+    -webkit-overflow-scrolling: touch;
+    -webkit-flex: 1;
+  }
+
+  .tracks {
+    background: white;
+    font-size: 11px;
+    font-weight: 400;
+    list-style-type: none;
+    margin: 0 1px;
+    position: relative;
+    z-index: 1;
+
+    @include sourcesanspro-font;
+  }
+
+  .track {
+    color: lighten(#4a4a4a, 10%);
+    cursor: pointer;
+    height: 26px;
+    line-height: 28px;
+    white-space: nowrap;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    // alt. row
+    &:nth-child(2n) {
+      background-color: #fbfbfb;
+    }
+
+    // playing
+    &.playing:not(.queue-item) {
+      background-color: $rbn_button_text_color;
+      margin: 0 -1px;
+
+      & > div { color: darken($rbn_inner_color_a, 12%) }
+      .favourite { color: darken($rbn_button_text_color, 7%) }
+
+      .favourite[data-favourite="true"],
+      .favourite:hover { color: darken($rbn_inner_color_a, 4.75%) !important }
+    }
+
+    // unavailable & queue-item
+    &.unavailable,
+    &.queue-item:not(.user-selected) {
+      color: #999;
+    }
+
+    // drag target
+    &.drag-target {
+      border-top: 1px solid lighten($rbn_button_text_color, 11.5%);
+    }
+
+    // favourite (star)
+    .favourite {
+      color: #ececec;
+      cursor: pointer;
+      font-size: 26px;
+      line-height: 26px;
+
+      -webkit-font-smoothing: antialiased;
+
+      @include icon-font;
+
+      &[data-favourite="true"] { color: $yellow_3 }
+    }
+  }
+
+  //
+  //  Track groups
+  //
+  .group {
+    background: rgba(#757a80, .125);
+    border-bottom: 1px solid rgba(black, .0225);
+    border-top: 1px solid rgba(black, .04);
+    color: rgba(#44464A, .425);
+    font-size: 11px;
+    font-weight: bold;
+    height: 38px;
+    line-height: 40px;
+    overflow: hidden;
+    text-align: center;
+    text-transform: uppercase;
+
+    -webkit-font-smoothing: antialiased;
+
+    @include sansserif-font;
+  }
+
+  //
+  //  Messages
+  //
+  .message {
+    color: #838383;
+    font-size: 12px;
+    left: 30px;
+    margin-top: -(56px / 2);
+    position: absolute;
+    right: 30px;
+    text-align: center;
+    top: 50%;
+    z-index: 1;
+
+    @include sourcesanspro-font;
+
+    .title {
+      color: #b9b9b9;
+      font-size: 22px;
+      font-weight: 100;
+      line-height: 24px;
+      text-transform: uppercase;
+
+      -webkit-font-smoothing: antialiased;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+  }
+
+  .loading {
+    margin-top: 0;
+    top: 47%;
+
+    & > span {
+      display: inline-block;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .animation {
+      left: 0;
+      margin-top: -1px;
+      position: absolute;
+      top: 50%;
+      width: 16px;
+    }
+  }
+
+  //
+  //  Background
+  //
+  .background {
+    background: white;
+    bottom: 0;
+    left: 1px;
+    position: absolute;
+    right: 1px;
+    top: 0;
+    z-index: 0;
+  }
+
+
+}
