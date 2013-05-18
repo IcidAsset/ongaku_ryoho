@@ -13,7 +13,7 @@
   width: 166px;
   z-index: 99;
 
-  @include lato-font;
+  @include sourcesanspro-font;
   @include box-shadow(
     0px 1px 0px 1px rgba(black, 0.05),
     0px 5px 7px -1px rgba(black, 0.05)
@@ -84,7 +84,7 @@
 
   a:hover,
   a.drag-target {
-    background: $rbn_inner_color_a;
+    background: $rbn_outer_color_b;
     color: white;
   }
 

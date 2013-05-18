@@ -24,6 +24,12 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
 
     # model events
     @group.model.on("change", this.render)
+    @group.model.on("change", @group.machine.fetch_tracks)
+    @group.model.on("change:sort_by", @group.machine.sort_by_change_handler)
+    @group.model.on("change:sort_direction", @group.machine.sort_by_change_handler)
+
+    # TODO
+    this.render()
 
 
 

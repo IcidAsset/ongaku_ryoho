@@ -11,8 +11,8 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
 
   initialize: () ->
-    this.on("change", this.fetch_tracks)
+    this.on("change", this.change_handler)
 
 
-  fetch_tracks: () ->
-    OngakuRyoho.RecordBox.Tracks.collection.fetch({ reset: true })
+  change_handler: () ->
+    OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()

@@ -85,8 +85,8 @@
 //
 .filter {
   color: $rbn_inner_color_a;
-  font-size: 11px;
-  font-weight: bold;
+  font-size: 10px;
+  font-weight: 500;
   line-height: 28px;
   overflow: hidden;
   position: relative;
@@ -95,10 +95,12 @@
   -webkit-flex: 1;
   -webkit-order: 1;
 
+  @include sourcesanspro-font;
   @include background-image(
     linear-gradient($rbn_input_color_a, $rbn_input_color_b)
   );
 
+  // general - containers
   .box,
   .add-buttons {
     height: 100%;
@@ -106,7 +108,7 @@
 
   .box {
     float: left;
-    padding-left: 5px;
+    padding-left: 1px;
   }
 
   .add-buttons {
@@ -115,40 +117,20 @@
     text-align: right;
   }
 
-  // filter box content
+  // general - content
   a {
     display: inline-block;
-    font-size: 9px;
-    line-height: 14px;
-    margin-top: 5px;
-    padding: 3px 6px 1px 19px;
     position: relative;
-    text-transform: uppercase;
-
-    @include lato-font;
-    @include border-radius(2px);
   }
 
-  a .icon {
-    color: rgba(white, .275);
-    display: inline-block;
-    font-size: 23px;
-    left: 4px;
-    position: absolute;
-    top: -1px;
-  }
-
-  a .icon.close {
-    display: none;
-  }
-
+  // add buttons
   .add-button {
     background: black;
     color: rgba(white, .425);
     cursor: pointer;
     font-size: 23px;
     height: 18px;
-    line-height: 12px;
+    line-height: 14px;
     margin-left: 4px;
     margin-top: 4px;
     overflow: hidden;
@@ -156,55 +138,78 @@
     position: relative;
     text-align: center;
     width: 13px;
+
+    @include border-radius(2px);
   }
 
   .add-button:hover {
     color: white;
   }
 
+  // items
   .item {
-    background-color: $rbn_item_border_color;
-    color: lighten(desaturate($rbn_button_text_color, 3), 12.5);
+    border-right: 1px dotted rgba(white, .15);
+    color: rgba(white, .7);
     cursor: pointer;
-    margin-right: 4px;
+    line-height: 14px;
+    margin-right: 1px;
+    margin-top: 1px;
+    padding: 7px 12px 4px 22px;
+    text-transform: uppercase;
   }
 
   .item .icon {
-    color: rgba(lighten(desaturate($rbn_button_text_color, 3), 12.5), .725);
+    color: rgba(white, .5);
+    display: inline-block;
+    font-size: 23px;
+    left: 7px;
+    position: absolute;
+    top: 4px;
+  }
+
+  .item .icon.close {
+    display: none;
+  }
+
+  .item:hover {
+    color: white;
   }
 
   .item:hover .icon {
+    color: rgba(white, .8);
     display: none;
     &.close { display: block }
   }
 
   // filter - playlist
   .add-button.playlist {
-    background-color: mix($rbn_inner_color_a, $blue, 92.5);
+    background-color: saturate($bgcolor, 10);
     font-size: 26px;
     top: 1px;
   }
 
   .add-button.playlist:hover {
-    background-color: $blue;
+    background-color: $red_2;
   }
 
   // filter - search
   .add-button.search {
-    background: mix($rbn_inner_color_a, $green_2, 92.5);
+    background-color: saturate($bgcolor, 5);
   }
 
-  .add-button.search:hover {
-    background-color: $green_2;
+  .add-button.search:hover,
+  .item.search:hover {
+    background-color: $orange_2;
   }
 
   // filter - favourites
   .add-button.favourites {
-    background-color: mix($rbn_inner_color_a, $yellow_3, 92.5);
+    background-color: $bgcolor;
     font-size: 24px;
   }
 
-  .add-button.favourites:hover {
+  .add-button.favourites:hover,
+  .item.favourites:hover {
     background-color: $yellow_3;
   }
 

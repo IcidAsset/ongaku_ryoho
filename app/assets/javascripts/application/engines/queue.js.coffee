@@ -72,8 +72,10 @@ class OngakuRyoho.Classes.Engines.Queue
       counter = if (counter + 2) > @tracks.models.length then 0
       else counter + 1
 
-      if counter is indexof_last then break
-      else @data.computed_next.push({ track: @tracks.at(counter), user: false })
+      track = @tracks.at(counter)
+      @data.computed_next.push({ track: track, user: false }) if track.get("available")
+
+      break if counter is indexof_last
 
 
 
@@ -82,7 +84,7 @@ class OngakuRyoho.Classes.Engines.Queue
       already_selected = @data.user_next.concat(@data.computed_next)
       already_selected = _.map(already_selected, (queue_item) -> queue_item.track.id)
       track = @tracks.get_random_track(already_selected)
-      @data.computed_next.push({ track: track, user: false }) if track
+      @data.computed_next.push({ track: track, user: false }) if track and track.get("available")
       break unless track
 
 

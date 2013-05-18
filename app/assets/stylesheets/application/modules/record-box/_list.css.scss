@@ -41,6 +41,26 @@
     @include background-image(linear-gradient(#fff, #fafafa));
     @include lato-font;
 
+    [data-sort-key] {
+      cursor: pointer;
+      position: relative;
+    }
+
+    [data-sort-key].active:after {
+      content: "\E75C";
+      font-size: 25px;
+      font-weight: normal;
+      position: absolute;
+      right: 8px;
+      top: 0;
+
+      @include icon-font;
+    }
+
+    [data-sort-key].reverse.active:after {
+      content: "\E75F";
+    }
+
     span { border-right: 1px solid #f0f0f0 }
     div { @include single-box-shadow(rgba(white, 1), 0, 0, 0, 1px, "inset") }
     div:last-child span { border-right: none }
@@ -74,7 +94,7 @@
     color: lighten(#4a4a4a, 10%);
     cursor: pointer;
     height: 26px;
-    line-height: 28px;
+    line-height: 26px;
     white-space: nowrap;
 
     span {

@@ -18,9 +18,8 @@ class OngakuRyoho.Classes.People.ViewStateManager
   #
   save_state_in_local_storage: () ->
     state = {
-      queue_status: this.get_queue_status(),
-      filter: OngakuRyoho.RecordBox.Tracks.collection.filter,
-      page: OngakuRyoho.RecordBox.Tracks.collection.page
+      filter_attributes: OngakuRyoho.RecordBox.Filter.model.attributes
+      queue_status: this.get_queue_status()
     }
 
     # store
@@ -36,9 +35,8 @@ class OngakuRyoho.Classes.People.ViewStateManager
     # apply
     if state
       state = JSON.parse(state)
+      OngakuRyoho.RecordBox.Filter.model.set(state.filter_attributes)
       this.set_queue_status(state.queue_status)
-      OngakuRyoho.RecordBox.Tracks.collection.filter = state.filter
-      OngakuRyoho.RecordBox.Tracks.collection.page = state.page
 
     # state
     @state.ready = true
@@ -91,7 +89,6 @@ class OngakuRyoho.Classes.People.ViewStateManager
     RB.Navigation.view.$el.find(".toggle-queue").removeClass("on")
     RB.Tracks.view.mode = "default"
     RB.Tracks.view.render()
-    RB.Tracks.machine.show_current_track()
     RB.Footer.machine.check_page_navigation()
 
     if RB.Tracks.collection.length > 0

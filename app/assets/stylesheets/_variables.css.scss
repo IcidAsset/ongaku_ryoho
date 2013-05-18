@@ -19,7 +19,7 @@ $orange: #FC913A;
 $orange_2: #e67e22;
 $purple: #A065CB;
 $purple_2: #9b59b6;
-$dark_blue: #34495e;
+$wet_asphalt: #34495e;
 
 // record box
 $rbn_outer_color_a: adjust_hue(lighten(#757a80, 3%), $hue);
@@ -42,6 +42,11 @@ $rbf_outer_color_a: adjust_hue(#63666b, $hue);
 $rbf_outer_color_b: adjust_hue(lighten(#313336, 4.5%), $hue);
 $rbf_inner_color_a: adjust_hue(#525559, $hue);
 $rbf_inner_color_b: adjust_hue(lighten(#3d3f42, 4.5%), $hue);
+
+// subtle
+$subtle_red: mix($rbn_inner_color_a, $red_2, 92.5);
+$subtle_orange: mix($rbn_inner_color_a, $orange_2, 92.5);
+$subtle_yellow: mix($rbn_inner_color_a, $yellow_3, 92.5);
 
 // <todo: deprecated>
 $bgcolor_1: #644E74;

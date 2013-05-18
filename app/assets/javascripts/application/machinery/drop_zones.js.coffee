@@ -23,30 +23,8 @@ class OngakuRyoho.Classes.Machinery.DropZones
   queue_drop: (e) =>
     id = parseInt(e.dataTransfer.getData("text/plain"), 10)
 
-    # clear old timeouts
-    if this.timeout_ids
-      timeout_ids_clone = _.clone(this.timeout_ids)
-
-      _.each(timeout_ids_clone, (tid, idx) =>
-        index = this.timeout_ids.indexOf(tid)
-        this.timeout_ids.splice(index, 1)
-        clearTimeout(tid)
-      )
-
-    # add light-up class
-    @group.view.$queue.addClass("light-up")
-
     # remove hover class
     @group.view.$queue.removeClass("hover")
-
-    # set new timeout
-    timeout_id = setTimeout(() =>
-      @group.view.$queue.removeClass("light-up")
-    , 750)
-
-    # add timeout_id to array
-    this.timeout_ids ?= []
-    this.timeout_ids.push(timeout_id)
 
     # get track
     track = OngakuRyoho.RecordBox.Tracks.collection.get(id)

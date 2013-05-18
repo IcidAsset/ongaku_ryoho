@@ -39,7 +39,7 @@
     top: 8px;
     z-index: 0;
 
-    @include transition-duration(650ms);
+    @include transition-duration(400ms);
   }
 
   .queue .text {
@@ -50,18 +50,13 @@
     line-height: 132px;
     position: relative;
     z-index: 1;
-
-    @include transition-duration(1s);
-    @include transition-property(color);
-  }
-
-  .queue.light-up .icon {
-    color: rgba(black, .1);
   }
 
   // queue - dragging/hover
   .queue.hover {
-    .text { color: rgba(black, .575) }
+    .icon {
+      color: rgba(black, .125);
+    }
   }
 
 
