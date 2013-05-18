@@ -48,6 +48,23 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
 
     # search
     # -> todo
+    item_element_clone = item_element.cloneNode(true)
+    item_element_clone.classList.add("search")
+    item_element_clone.innerHTML = @filter_item_template({
+      text: "Justice",
+      icon: "&#128269;"
+    })
+
+    fragment.appendChild(item_element_clone)
+
+    item_element_clone = item_element.cloneNode(true)
+    item_element_clone.classList.add("search")
+    item_element_clone.innerHTML = @filter_item_template({
+      text: "Boys Noize",
+      icon: "&#128269;"
+    })
+
+    fragment.appendChild(item_element_clone)
 
     # favourites
     if model.get("favourites")

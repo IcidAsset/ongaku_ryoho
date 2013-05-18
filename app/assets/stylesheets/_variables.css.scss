@@ -31,6 +31,7 @@ $rbn_item_shadow_color: adjust_hue(#2d2e30, $hue);
 
 $rbn_button_color_a: adjust_hue(darken(#525559, 4%), $hue);
 $rbn_button_color_b: adjust_hue(rgba(#3d3f42, .39), $hue);
+$rbn_button_color_b_alt: adjust_hue(rgba(#3d3f42, .31), $hue);
 $rbn_button_text_color: adjust_hue(#b6babf, $hue);
 $rbn_button_active_border_color: adjust_hue(darken(#8d9299, 8.25%), $hue);
 
