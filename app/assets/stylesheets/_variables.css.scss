@@ -44,9 +44,9 @@ $rbf_inner_color_a: adjust_hue(#525559, $hue);
 $rbf_inner_color_b: adjust_hue(lighten(#3d3f42, 4.5%), $hue);
 
 // subtle
+$subtle_green: mix($rbn_inner_color_a, $green_3, 92.5);
+$subtle_blue: mix($rbn_inner_color_a, $blue_2, 92.5);
 $subtle_red: mix($rbn_inner_color_a, $red_2, 92.5);
-$subtle_orange: mix($rbn_inner_color_a, $orange_2, 92.5);
-$subtle_yellow: mix($rbn_inner_color_a, $yellow_3, 92.5);
 
 // <todo: deprecated>
 $bgcolor_1: #644E74;

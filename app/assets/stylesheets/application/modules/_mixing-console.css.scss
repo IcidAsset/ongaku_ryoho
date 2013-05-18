@@ -165,9 +165,9 @@ $button_height: 52px;
         @include border-radius(4px);
 
         &.on {
-          background: $green;
+          background: $green_3;
 
-          @include single-box-shadow($green, 0, 0, 25px, 2px);
+          @include single-box-shadow($green_3, 0, 0, 25px, 2px);
         }
 
         .overlay {
@@ -233,9 +233,9 @@ $button_height: 52px;
         @include border-radius(6px);
 
         &.on {
-          background: $blue;
+          background: $blue_2;
 
-          @include single-box-shadow($blue, 0, 0, 25px, 2px);
+          @include single-box-shadow($blue_2, 0, 0, 25px, 2px);
         }
       }
 

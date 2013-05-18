@@ -148,14 +148,18 @@
 
   // items
   .item {
-    border-right: 1px dotted rgba(white, .15);
+    background: $bgcolor;
     color: rgba(white, .7);
     cursor: pointer;
     line-height: 14px;
     margin-right: 1px;
     margin-top: 1px;
-    padding: 7px 12px 4px 22px;
+    padding: 7px 11px 4px 22px;
     text-transform: uppercase;
+
+    @include background-image(
+      linear-gradient(rgba(black, 0), $rbn_button_color_b)
+    );
   }
 
   .item .icon {
@@ -183,34 +187,44 @@
 
   // filter - playlist
   .add-button.playlist {
-    background-color: saturate($bgcolor, 10);
     font-size: 26px;
     top: 1px;
   }
 
-  .add-button.playlist:hover {
-    background-color: $red_2;
+  .add-button.playlist,
+  .item.playlist {
+    background-color: $subtle_green;
+  }
+
+  .add-button.playlist:hover,
+  .item.playlist:hover {
+    background-color: $green_3;
   }
 
   // filter - search
-  .add-button.search {
-    background-color: saturate($bgcolor, 5);
+  .add-button.search,
+  .item.search {
+    background-color: $subtle_blue;
   }
 
   .add-button.search:hover,
   .item.search:hover {
-    background-color: $orange_2;
+    background-color: $blue_2;
   }
 
   // filter - favourites
   .add-button.favourites {
-    background-color: $bgcolor;
     font-size: 24px;
+  }
+
+  .add-button.favourites,
+  .item.favourites {
+    background-color: $subtle_red;
   }
 
   .add-button.favourites:hover,
   .item.favourites:hover {
-    background-color: $yellow_3;
+    background-color: $red_2;
   }
 
 

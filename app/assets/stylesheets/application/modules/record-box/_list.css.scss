@@ -112,11 +112,20 @@
       background-color: lighten($rbn_button_text_color, 10);
       margin: 0 -1px;
 
-      & > div { color: darken($rbn_inner_color_a, 10) }
-      .favourite { color: lighten($rbn_button_text_color, 3) }
+      & > div {
+        color: darken($rbn_inner_color_a, 10);
+      }
 
-      .favourite[data-favourite="true"] {
-        color: darken($rbn_inner_color_a, 2.5) !important;
+      .favourite {
+        color: lighten($rbn_button_text_color, 3);
+      }
+
+      .favourite span {
+        padding-left: 11px;
+      }
+
+      & > div:not(.favourite) span {
+        padding: 0 8px;
       }
     }
 
@@ -142,7 +151,9 @@
 
       @include icon-font;
 
-      &[data-favourite="true"] { color: $yellow_3 }
+      &[data-favourite="true"] {
+        color: darken($rbn_inner_color_a, 2.5) !important;
+      }
     }
   }
 
