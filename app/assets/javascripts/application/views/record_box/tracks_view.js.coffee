@@ -200,3 +200,11 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     _.delay(=>
       this.$el.find(".message.loading").addClass("visible")
     , 250)
+
+
+
+  #
+  #  Statusses
+  #
+  is_in_queue_mode: () ->
+    @mode is "queue"

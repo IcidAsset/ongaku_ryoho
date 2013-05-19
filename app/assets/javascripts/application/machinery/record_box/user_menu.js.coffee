@@ -41,8 +41,8 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
       $trigger = $(e.currentTarget)
 
       $t.css({
-        left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2) - 40,
-        top: $trigger.offset().top + $trigger.height() + 10
+        left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2) - 41,
+        top: $trigger.offset().top + $trigger.height() + 9
       })
 
     # setup

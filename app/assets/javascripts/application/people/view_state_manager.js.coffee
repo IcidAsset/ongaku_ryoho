@@ -79,6 +79,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
   show_queue: () ->
     RB = OngakuRyoho.RecordBox
     RB.Navigation.view.$el.find(".toggle-queue").addClass("on")
+    RB.Navigation.view.$track_list_header.addClass("queue-mode")
     RB.Tracks.view.mode = "queue"
     RB.Tracks.view.render()
     RB.Footer.machine.disable_navigation_entirely()
@@ -87,6 +88,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
   hide_queue: () ->
     RB = OngakuRyoho.RecordBox
     RB.Navigation.view.$el.find(".toggle-queue").removeClass("on")
+    RB.Navigation.view.$track_list_header.removeClass("queue-mode")
     RB.Tracks.view.mode = "default"
     RB.Tracks.view.render()
     RB.Footer.machine.check_page_navigation()

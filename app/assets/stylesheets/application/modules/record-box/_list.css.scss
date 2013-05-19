@@ -41,6 +41,12 @@
     @include background-image(linear-gradient(#fff, #fafafa));
     @include lato-font;
 
+    span { border-right: 1px solid #f0f0f0 }
+    div { @include single-box-shadow(rgba(white, 1), 0, 0, 0, 1px, "inset") }
+    div:last-child span { border-right: none }
+  }
+
+  header:not(.queue-mode) {
     [data-sort-key] {
       cursor: pointer;
       position: relative;
@@ -60,10 +66,6 @@
     [data-sort-key].reverse.active:after {
       content: "\E75F";
     }
-
-    span { border-right: 1px solid #f0f0f0 }
-    div { @include single-box-shadow(rgba(white, 1), 0, 0, 0, 1px, "inset") }
-    div:last-child span { border-right: none }
   }
 
   //

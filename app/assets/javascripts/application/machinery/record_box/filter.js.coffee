@@ -56,7 +56,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
 
       $t.css({
         left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2),
-        top: $trigger.offset().top + $trigger.height() + 10
+        top: $trigger.offset().top + $trigger.height() + 9
       })
 
     # setup
