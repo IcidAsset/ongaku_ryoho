@@ -21,6 +21,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
   #  Other model event handlers
   #
   fetch_tracks: () ->
+    return unless OngakuRyoho.People.ViewStateManager.state.ready
     OngakuRyoho.RecordBox.Tracks.collection.fetch({ reset: true })
 
 

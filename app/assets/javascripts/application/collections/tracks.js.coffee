@@ -15,14 +15,6 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     # trigger events
     this.trigger("fetching")
 
-    # new message
-    message = new OngakuRyoho.Classes.Models.Message
-      text: "Loading tracks",
-      loading: true
-
-    # add message
-    OngakuRyoho.MessageCenter.collection.add(message)
-
     # get source ids
     source_ids = OngakuRyoho.SourceManager.collection.get_available_ids()
     source_ids = source_ids.join(",")
@@ -35,24 +27,14 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
       source_ids: source_ids
     })
 
-    _.extend(options.data, _.omit(
+    _.extend(options.data,
       OngakuRyoho.RecordBox.Filter.model.attributes
-    , "searches"))
-
-    # TODO: filter
-    filter = OngakuRyoho.RecordBox.Filter.model.get("searches")
-    filter = filter.join(" ")
-
-    _.extend(options.data, {
-      filter: filter
-    })
+    )
 
     # success
     options.success = (collection, response, request_options) =>
       success(collection, response, request_options) if success
-      OngakuRyoho.MessageCenter.collection.remove(message)
       this.trigger("fetched")
-      message = null
 
     # call super
     return Backbone.Collection.prototype.fetch.call(this, options)

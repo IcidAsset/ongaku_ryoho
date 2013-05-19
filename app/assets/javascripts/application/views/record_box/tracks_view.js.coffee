@@ -47,6 +47,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     # fetch events
     @group.collection
+      .on("fetching", @group.machine.fetching)
       .on("fetched", @group.machine.fetched)
 
     # tap events
@@ -185,11 +186,17 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
 
   add_loading_message: () ->
+    return if this.$el.find(".message.loading").length
+
     $loading = $("<div class=\"message loading\" />")
-    $loading.append("<span><span class=\"animation\"></span>loading ...</span>")
+    $loading.append("<span><span class=\"animation\"></span>loading tracks</span>")
     $loading.appendTo(this.$el)
 
     Helpers.add_loading_animation(
       this.$el.find(".loading .animation")[0],
-      "#000", 4
+      "#fff", 3
     )
+
+    _.delay(=>
+      this.$el.find(".message.loading").addClass("visible")
+    , 250)

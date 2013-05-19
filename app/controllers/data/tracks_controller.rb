@@ -44,7 +44,7 @@ private
   def get_options_from_params
     options = {
       source_ids: clean_up_source_ids(params[:source_ids]),
-      filter: clean_up_filter_value(params[:filter]),
+      filter: get_filter_value(params[:searches]),
       page: params[:page].to_i,
       per_page: params[:per_page].to_i,
       sort_by: params[:sort_by].try(:to_sym),
@@ -63,13 +63,30 @@ private
   end
 
 
-  def clean_up_filter_value(value)
-    value.strip
-      .gsub(/([\&\(\)]+)|(\A[\|\ ]+)|([!\|\ ]+\z)|(!!+)/, "")
-      .gsub(/ {2,}/, " ")
-      .gsub(/!\ /, "!")
-      .gsub(/ \|\|+ /, " | ")
-      .gsub(/(?<!\||!)\ (?!\|)/, " & ")
+  def get_filter_value(searches)
+    excludes = []
+
+    searches = (searches || []).map do |search_query|
+      search_query = view_context.sanitize(search_query)
+      search_query = search_query
+        .gsub(/\:|\*|\&|\||\'|\"|\+/, "")
+        .strip
+        .gsub(/\!+\s*/, "!")
+        .gsub(" ", "+")
+
+      if search_query.include?("!")
+        excludes << search_query
+        nil
+      else
+        search_query
+      end
+    end.compact
+
+    # filter
+    filter = ""
+    filter << "(#{searches.join(" | ")})" if searches.length > 0
+    filter << " & (#{excludes.join(" & ")})" if excludes.length > 0
+    filter
   end
 
 

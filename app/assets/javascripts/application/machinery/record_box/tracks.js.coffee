@@ -38,9 +38,16 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
   #
   #  Fetching and fetched events
   #
+  fetching: () =>
+    @group.view.$el.scrollTop(0)
+    @group.view.$el.addClass("disable-scrolling")
+    @group.view.add_loading_message()
+
+
   fetched: () =>
     OngakuRyoho.Engines.Queue.reset_computed_next()
     @parent_group.Footer.machine.check_page_navigation()
+    @group.view.$el.removeClass("disable-scrolling")
 
     if @group.collection.length > 0 and @group.view.mode isnt "queue"
       this.add_playing_class_to_track(OngakuRyoho.People.SoundGuy.get_current_track())

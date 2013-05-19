@@ -120,7 +120,9 @@
   // general - content
   a {
     display: inline-block;
+    overflow: hidden;
     position: relative;
+    vertical-align: top;
   }
 
   // add buttons
@@ -132,8 +134,7 @@
     height: 23px;
     line-height: 20px;
     margin-left: 2px;
-    margin-top: 1px;
-    overflow: hidden;
+    margin-top: 2px;
     padding: 0 11px;
     position: relative;
     text-align: center;
@@ -146,7 +147,7 @@
 
   .add-button:hover {
     background-color: saturate($bgcolor, 5);
-    color: white;
+    color: rgba(white, .725);
   }
 
   // items
@@ -192,14 +193,42 @@
   // filter - playlist
   .add-button.playlist {
     font-size: 26px;
-    top: 1px;
+  }
+
+  .add-button.playlist,
+  .item.playlist {
+    background-color: $subtle_green;
+  }
+
+  .add-button.playlist:hover,
+  .item.playlist:hover {
+    background-color: mix($rbn_inner_color_a, $green_3, 65);
   }
 
   // filter - search
+  .add-button.search,
+  .item.search {
+    background-color: $subtle_blue;
+  }
+
+  .add-button.search:hover,
+  .item.search:hover {
+    background-color: mix($rbn_inner_color_a, $blue_2, 65);
+  }
 
   // filter - favourites
   .add-button.favourites {
     font-size: 24px;
+  }
+
+  .add-button.favourites,
+  .item.favourites {
+    background-color: $subtle_red;
+  }
+
+  .add-button.favourites:hover,
+  .item.favourites:hover {
+    background-color: mix($rbn_inner_color_a, $red_2, 65);
   }
 
 
