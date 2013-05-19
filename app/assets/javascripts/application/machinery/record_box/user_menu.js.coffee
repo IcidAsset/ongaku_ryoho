@@ -9,7 +9,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
   #  Tooltip
   #
   setup_tooltip: () ->
-    self = this
+    _this = this
 
     @tooltip = new BareTooltip(@group.view.$el, {
       trigger_type: "click",
@@ -24,15 +24,15 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
 
     # extend
     @tooltip.show_tooltip = () ->
-      this.state.$tooltip_element.on("click", "a[rel=\"set-theater-mode\"]", self.theater_mode_toggle)
-      this.state.$tooltip_element.on("click", "a[rel=\"source-manager\"]", self.source_manager_toggle)
-      self.group.view.$el.addClass("on")
+      this.state.$tooltip_element.on("click", "a[rel=\"set-theater-mode\"]", _this.theater_mode_toggle)
+      this.state.$tooltip_element.on("click", "a[rel=\"source-manager\"]", _this.source_manager_toggle)
+      _this.group.view.$el.addClass("on")
 
       BareTooltip.prototype.show_tooltip.apply(this)
 
     @tooltip.hide_tooltip = () ->
       this.state.$tooltip_element.off("click")
-      self.group.view.$el.removeClass("on")
+      _this.group.view.$el.removeClass("on")
 
       BareTooltip.prototype.hide_tooltip.apply(this, arguments)
 

@@ -5,7 +5,9 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
   #
   events: () ->
     "click .add-button.favourites" : @group.machine.toggle_favourites
-    "click .item.favourites" : @group.machine.disable_favourites
+
+    "click .item.favourites" : @group.machine.item_favourites_click_handler
+    "click .item.search" : @group.machine.item_search_click_handler
 
 
 
@@ -28,7 +30,11 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
     @group.model.on("change:sort_by", @group.machine.sort_by_change_handler)
     @group.model.on("change:sort_direction", @group.machine.sort_by_change_handler)
 
-    # TODO
+    # machinery
+    @group.machine.sort_by_change_handler()
+    @group.machine.setup_search_tooltip()
+
+    # render
     this.render()
 
 
@@ -37,47 +43,43 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
   #  Render
   #
   render: () =>
+    _this = this
     model = @group.model
     box_element = this.$el.children(".box")[0]
     fragment = document.createDocumentFragment()
-    item_element = document.createElement("a")
-    item_element.className = "item"
 
     # playlist
     # -> todo
 
     # search
-    # -> todo
-    item_element_clone = item_element.cloneNode(true)
-    item_element_clone.classList.add("search")
-    item_element_clone.innerHTML = @filter_item_template({
-      text: "Justice",
-      icon: "&#128269;"
-    })
-
-    fragment.appendChild(item_element_clone)
-
-    item_element_clone = item_element.cloneNode(true)
-    item_element_clone.classList.add("search")
-    item_element_clone.innerHTML = @filter_item_template({
-      text: "Boys Noize",
-      icon: "&#128269;"
-    })
-
-    fragment.appendChild(item_element_clone)
+    _.each(model.get("searches"), (search_query, idx) ->
+      keyword = if idx > 0 then "AND" else false
+      new_item = _this.new_item("search", search_query, "&#128269;", keyword)
+      fragment.appendChild(new_item)
+    )
 
     # favourites
     if model.get("favourites")
-      item_element_clone = item_element.cloneNode(true)
-      item_element_clone.classList.add("favourites")
-      item_element_clone.innerHTML = @filter_item_template({
-        text: "Favourites only",
-        icon: "&#9733;"
-      })
+      new_item = _this.new_item("favourites", "favourites", "&#9733;")
+      fragment.appendChild(new_item)
 
-      fragment.appendChild(item_element_clone)
+    # reset
+    box_element.innerHTML = ""
 
     # add fragment to box
-    box_element.innerHTML = ""
-    box_element.appendChild(fragment)
+    if fragment.childNodes.length > 0
+      box_element.appendChild(fragment)
+    else
 
+
+
+  new_item: (klass, text, icon, keyword) ->
+    item_element = document.createElement("a")
+    item_element.className = "item #{klass}"
+    item_element.innerHTML = @filter_item_template({
+      text: text,
+      icon: icon,
+      keyword: keyword
+    })
+
+    item_element

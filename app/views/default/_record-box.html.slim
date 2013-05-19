@@ -5,8 +5,12 @@
         .box
         .add-buttons
           a.add-button.icon.playlist[data-icon="&#57349;"]
-          a.add-button.icon.search[data-icon="&#128269;"]
           a.add-button.icon.favourites[data-icon="&#9733;"]
+          a.add-button.icon.search[data-icon="&#128269;"]
+            .tooltip-data
+              .group.last
+                form
+                  input[type="search"]
 
       .button.toggle-queue
         .icon[data-icon="&#128340;"]
@@ -58,7 +62,10 @@
 
 
   script type="text/x-handlebars-template" data-template-name="filter-item"
-    | {{text}}
+    | <span>
+        {{#if keyword}}<span class="keyword">{{keyword}}</span>{{/if}}
+        <span class="text">{{text}}</span>
+      </span>
       <span class="icon" data-icon="{{{icon}}}"></span>
       <span class="icon close" data-icon="&#10006;"></span>
 
