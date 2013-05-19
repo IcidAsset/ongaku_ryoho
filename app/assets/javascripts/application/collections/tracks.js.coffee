@@ -45,9 +45,11 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #  Parse
   #
   parse: (response) ->
-    @page = response.page
-    @per_page = response.per_page
-    @total = response.total
+    OngakuRyoho.RecordBox.Filter.model.set({
+      page: response.page
+      per_page: response.per_page
+      total: response.total
+    }, { silent: true })
     return response.models
 
 
@@ -56,29 +58,32 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #  Pagination
   #
   page_info: () ->
+    filter = OngakuRyoho.RecordBox.Filter.model
+    attr = filter.attributes
+
     info =
-      total: @total
-      page: @page
-      per_page: @per_page
-      pages: Math.ceil(@total / @per_page)
+      total: attr.total
+      page: attr.page
+      per_page: attr.per_page
+      pages: Math.ceil(attr.total / attr.per_page)
       prev: false
       next: false
 
     # max
-    if @total is @pages * @per_page
-      max = @total
+    if info.total is info.pages * info.per_page
+      max = attr.total
     else
-      max = Math.min(@total, @page * @per_page)
+      max = Math.min(info.total, info.page * info.per_page)
 
     # range
-    info.range = [(@page - 1) * @per_page + 1, max]
+    info.range = [(info.page - 1) * info.per_page + 1, max]
 
     # previous and next
-    if @page > 1
-      info.prev = @page - 1
+    if info.page > 1
+      info.prev = info.page - 1
 
-    if @page < info.pages
-      info.next = @page + 1
+    if info.page < info.pages
+      info.next = info.page + 1
 
     # return
     return info
@@ -88,7 +93,8 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   previous_page: () ->
     return no unless this.page_info().prev
 
-    @page = @page - 1
+    previous_page_number = OngakuRyoho.RecordBox.Filter.model.get("page") - 1
+    OngakuRyoho.RecordBox.Filter.model.set("page", previous_page_number)
     OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
 
     return this.fetch()
@@ -98,7 +104,8 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   next_page: () ->
     return no unless this.page_info().next
 
-    @page = @page + 1
+    next_page_number = OngakuRyoho.RecordBox.Filter.model.get("page") + 1
+    OngakuRyoho.RecordBox.Filter.model.set("page", next_page_number)
     OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
 
     return this.fetch()

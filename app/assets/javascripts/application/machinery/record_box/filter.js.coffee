@@ -66,6 +66,10 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
   search_form_submit_handler: (e) =>
     e.preventDefault()
 
+    # reset page
+    @group.model.set("page", 1)
+
+    # search
     query = $(e.currentTarget).find('input[type="search"]').val()
     @group.model.add_search_query(query) if query
 
