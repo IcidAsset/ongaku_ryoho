@@ -191,7 +191,8 @@
   }
 
   // filter - playlist
-  .add-button.playlist {
+  .add-button.playlist,
+  .item.playlist .icon {
     font-size: 26px;
   }
 
@@ -217,7 +218,8 @@
   }
 
   // filter - favourites
-  .add-button.favourites {
+  .add-button.favourites,
+  .item.favourites .icon {
     font-size: 24px;
   }
 
