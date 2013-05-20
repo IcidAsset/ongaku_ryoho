@@ -50,17 +50,17 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
     # playlist
     # -> todo
 
+    # favourites
+    if model.get("favourites")
+      new_item = _this.new_item("favourites", "favourites", "&#9733;")
+      fragment.appendChild(new_item)
+
     # search
     _.each(model.get("searches"), (search_query, idx) ->
       keyword = if idx > 0 then "AND" else false
       new_item = _this.new_item("search", search_query, "&#128269;", keyword)
       fragment.appendChild(new_item)
     )
-
-    # favourites
-    if model.get("favourites")
-      new_item = _this.new_item("favourites", "favourites", "&#9733;")
-      fragment.appendChild(new_item)
 
     # reset
     box_element.innerHTML = ""
@@ -69,7 +69,10 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
     if fragment.childNodes.length > 0
       box_element.appendChild(fragment)
     else
-
+      empty_state_element = document.createElement("div")
+      empty_state_element.className = "empty-state"
+      empty_state_element.innerHTML = "a nice unfiltered collection"
+      box_element.appendChild(empty_state_element)
 
 
   new_item: (klass, text, icon, keyword) ->

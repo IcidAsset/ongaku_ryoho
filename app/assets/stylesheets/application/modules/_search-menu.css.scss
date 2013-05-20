@@ -1,0 +1,35 @@
+/*
+
+  Search menu
+
+*/
+
+.mod-search-menu {
+  width: 166px * 1.5;
+
+  .group {
+    overflow: hidden;
+  }
+
+  form {
+    margin: 12px 12px 11px;
+  }
+
+  input {
+    background: #eee;
+    border: 0;
+    display: inline-block;
+    margin: 0;
+    padding: 4px 9px;
+
+    @include box-sizing(border-box);
+    @include lato-font;
+  }
+
+  .note {
+    color: #999;
+    font-size: 11px;
+  }
+
+
+}

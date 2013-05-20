@@ -49,6 +49,9 @@ $subtle_green: mix($rbn_inner_color_a, $green_3, 92.5);
 $subtle_blue: mix($rbn_inner_color_a, $blue_2, 92.5);
 $subtle_red: mix($rbn_inner_color_a, $red_2, 92.5);
 
+// other
+$now_playing_track_color: saturate(lighten($rbn_outer_color_a, 15), 2.5);
+
 // <todo: deprecated>
 $bgcolor_1: #644E74;
 $bgcolor_2: #724562;

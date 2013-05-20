@@ -115,17 +115,17 @@
 
     // playing
     &.playing:not(.queue-item) {
-      background-color: lighten($rbn_button_text_color, 10);
+      background-color: $now_playing_track_color;
       margin: 0 -1px;
 
       & > div {
-        color: darken($rbn_inner_color_a, 10);
+        color: darken($now_playing_track_color, 37.5);
       }
 
       .favourite {
-        color: lighten($rbn_button_text_color, 3);
+        color: darken($now_playing_track_color, 6.5);
         &[data-favourite="true"] {
-          color: darken($rbn_inner_color_a, 2.5) !important;
+          color: darken($now_playing_track_color, 30) !important;
         }
       }
 

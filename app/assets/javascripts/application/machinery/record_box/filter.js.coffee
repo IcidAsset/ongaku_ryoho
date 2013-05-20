@@ -21,7 +21,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     # initialize
     @search_tooltip = new BareTooltip($trigger, {
       trigger_type: "click",
-      tooltip_klass: "tooltip",
+      tooltip_klass: "mod-search-menu tooltip",
       animation_speed: 0,
       timeout_duration: 0,
       template: '<div class="{{CLASSES}}">' +
@@ -34,6 +34,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     @search_tooltip.show_tooltip = () ->
       this.state.$tooltip_element.on("click", ".group", _this.cancel_default_click)
       this.state.$tooltip_element.on("submit", "form", _this.search_form_submit_handler)
+      this.$el.addClass("active")
 
       BareTooltip.prototype.show_tooltip.apply(this)
 
@@ -41,6 +42,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     @search_tooltip.hide_tooltip = () ->
       this.state.$tooltip_element.off("click")
       this.state.$tooltip_element.off("submit")
+      this.$el.removeClass("active")
 
       BareTooltip.prototype.hide_tooltip.apply(this, arguments)
 
@@ -51,7 +53,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
 
       $t.css({
         left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2),
-        top: $trigger.offset().top + $trigger.height() + 9
+        top: $trigger.offset().top + $trigger.height() + 12
       })
 
     # setup
@@ -61,7 +63,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
   search_form_submit_handler: (e) =>
     e.preventDefault()
 
-    query = $(e.currentTarget).find('input[type="search"]').val()
+    query = $(e.currentTarget).find('input[type="text"]').val()
     @group.model.add_search_query(query) if query
 
 

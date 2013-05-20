@@ -84,7 +84,7 @@
 //  Filter
 //
 .filter {
-  color: $rbn_inner_color_a;
+  color: darken($rbn_inner_color_a, 10);
   font-size: 9px;
   font-weight: bold;
   line-height: 28px;
@@ -145,7 +145,8 @@
     );
   }
 
-  .add-button:hover {
+  .add-button:hover,
+  .add-button.active {
     background-color: saturate($bgcolor, 5);
     color: rgba(white, .725);
   }
@@ -208,19 +209,9 @@
   }
 
   .add-button.playlist:hover,
+  .add-button.playlist.active,
   .item.playlist:hover {
     background-color: mix($rbn_inner_color_a, $green_3, 65);
-  }
-
-  // filter - search
-  .add-button.search,
-  .item.search {
-    background-color: $subtle_blue;
-  }
-
-  .add-button.search:hover,
-  .item.search:hover {
-    background-color: mix($rbn_inner_color_a, $blue_2, 65);
   }
 
   // filter - favourites
@@ -237,6 +228,26 @@
   .add-button.favourites:hover,
   .item.favourites:hover {
     background-color: mix($rbn_inner_color_a, $red_2, 65);
+  }
+
+  // filter - search
+  .add-button.search,
+  .item.search {
+    background-color: $subtle_blue;
+  }
+
+  .add-button.search:hover,
+  .add-button.search.active,
+  .item.search:hover {
+    background-color: mix($rbn_inner_color_a, $blue_2, 65);
+  }
+
+  // empty state
+  .empty-state {
+    letter-spacing: 1px;
+    line-height: 30px;
+    margin-left: 6px;
+    text-transform: uppercase;
   }
 
 
