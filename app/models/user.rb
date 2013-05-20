@@ -4,12 +4,19 @@ class User < ActiveRecord::Base
 
   authenticates_with_sorcery!
 
+  #
+  #  Associations
+  #
   has_many :sources
   has_many :servers
 
   has_many :favourites
   has_many :playlists
 
+
+  #
+  #  Validations
+  #
   validates_presence_of :email
   validates_uniqueness_of :email
   validates_format_of :email,
@@ -19,6 +26,7 @@ class User < ActiveRecord::Base
 
   validates_confirmation_of :password
   validates_presence_of :password, :on => :create
+
 
   #
   #  JSON

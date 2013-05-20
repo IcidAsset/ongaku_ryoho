@@ -29,18 +29,23 @@ class UsersController < ApplicationController
     paru = params[:user]
     old_password = paru[:old_password]
 
+    # check old password, stop if invalid
     unless User.authenticate(@user.email, old_password)
       flash.now[:error] = "Old password was invalid"
 
       return render :edit
     end
 
+    # attributes object
     email_attr = { email: paru[:email] }
 
+    # only update e-mail
     if paru[:password].blank?
       if @user.update_attributes(email_attr)
         flash.now[:success] = "E-mail updated"
       end
+
+    # update e-mail and password
     else
       password = paru[:password]
       password_confirmation = paru[:password_confirmation]
@@ -57,8 +62,10 @@ class UsersController < ApplicationController
       else
         flash.now[:error] = "Password doesn't match confirmation"
       end
+
     end
 
+    # render page
     render :edit
   end
 

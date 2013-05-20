@@ -1,4 +1,4 @@
-class Data::SourcesController < ApplicationController
+class Api::SourcesController < ApplicationController
   before_filter :require_login
   layout false
 

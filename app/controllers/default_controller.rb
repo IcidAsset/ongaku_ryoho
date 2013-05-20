@@ -2,7 +2,7 @@ class DefaultController < ApplicationController
 
   def index
     if logged_in?
-      render "default/index", layout: "default"
+      render "default/index"
     else
       redirect_to "/about"
     end

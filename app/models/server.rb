@@ -2,42 +2,6 @@ class Server < Source
   attr_accessor :location
 
   #
-  #  Worker (sidekiq)
-  #
-  def self.worker
-    ServerWorker
-  end
-
-  #
-  #  Label
-  #
-  def label
-    label = if name.blank? and configuration["location"]
-      configuration["location"]
-    else
-      name
-    end
-
-    "#{type} &mdash; #{label}"
-  end
-
-  #
-  #  Check if the server is available
-  #  and doesn't return any errors
-  #
-  def available?
-    sess = Patron::Session.new
-
-    begin
-      response = sess.head(self.configuration["location"])
-    rescue
-      return false
-    end
-
-    return response.status == 200
-  end
-
-  #
   #  Utility functions
   #
   def self.add_new_tracks(server, new_tracks)
@@ -81,6 +45,45 @@ class Server < Source
 
     # destroy tracks
     tracks.destroy_all
+  end
+
+
+  #
+  #  Worker (sidekiq)
+  #
+  def self.worker
+    ServerWorker
+  end
+
+
+  #
+  #  Label
+  #
+  def label
+    label = if name.blank? and configuration["location"]
+      configuration["location"]
+    else
+      name
+    end
+
+    "#{type} &mdash; #{label}"
+  end
+
+
+  #
+  #  Check if the server is available
+  #  and doesn't return any errors
+  #
+  def available?
+    sess = Patron::Session.new
+
+    begin
+      response = sess.head(self.configuration["location"])
+    rescue
+      return false
+    end
+
+    return response.status == 200
   end
 
 end

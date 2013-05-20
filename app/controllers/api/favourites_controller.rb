@@ -1,4 +1,4 @@
-class Data::FavouritesController < ApplicationController
+class Api::FavouritesController < ApplicationController
   before_filter :require_login
   layout false
 
@@ -15,7 +15,7 @@ class Data::FavouritesController < ApplicationController
     # favourite belongs to user
     favourite.user_id = current_user.id
 
-    # if track
+    # if the track exists, copy its attributes
     if track
       attributes = { track_id: track.id }
 

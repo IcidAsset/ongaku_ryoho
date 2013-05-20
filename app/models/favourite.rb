@@ -2,12 +2,24 @@ class Favourite < ActiveRecord::Base
   attr_accessible :artist, :title, :album, :genre, :tracknr, :year,
                   :filename, :location, :url, :track_id
 
+  #
+  #  Associations
+  #
   belongs_to :user
   has_one :track
 
+
+  #
+  #  Validations
+  #
   validates_presence_of :artist
   validates_presence_of :title
   validates_presence_of :album
+  validates_presence_of :tracknr
+  validates_presence_of :filename
+  validates_presence_of :location
+  validates_presence_of :url
+
 
   #
   #  Match favourites

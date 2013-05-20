@@ -1,4 +1,4 @@
-class Data::TracksController < ApplicationController
+class Api::TracksController < ApplicationController
   before_filter :require_login
   layout false
 

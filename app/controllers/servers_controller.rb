@@ -2,16 +2,7 @@ class ServersController < ApplicationController
   before_filter :require_login
   layout false
 
-  def index
-    render json: current_user.servers.all
-  end
-
-
-  def new
-    @server = Server.new
-  end
-
-
+  # DEPRECATED
   def create
     location = params[:server].delete(:location)
     location = "http://#{location}" unless location.include?('http://')
@@ -37,10 +28,5 @@ class ServersController < ApplicationController
 
     redirect_to new_server_path
   end
-
-
-  def edit; end
-  def update; end
-  def destroy; end
 
 end

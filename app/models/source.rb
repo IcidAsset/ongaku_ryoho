@@ -3,11 +3,19 @@ class Source < ActiveRecord::Base
   attr_accessor :available, :label, :track_amount
   serialize :configuration, ActiveRecord::Coders::Hstore
 
+  #
+  #  Associations
+  #
   belongs_to :user
   has_many :tracks, dependent: :destroy
 
+
+  #
+  #  Validations
+  #
   validates_presence_of :configuration
   validates_presence_of :name
+
 
   #
   #  Class methods
@@ -17,10 +25,12 @@ class Source < ActiveRecord::Base
     sources.select { |source| source.available? }
   end
 
+
   def self.available_ids_for_user(user)
     sources = self.available_for_user(user)
     sources.map { |source| source.id }
   end
+
 
   #
   #  Instance methods
@@ -29,17 +39,21 @@ class Source < ActiveRecord::Base
     self.available?
   end
 
+
   def track_amount
     self.tracks.count
   end
+
 
   def busy
     self.busy?
   end
 
+
   def busy?
     return self.in_queue?
   end
+
 
   def in_queue?
     in_queue = $redis.sismember(:process_source_queue, self.id)
@@ -47,11 +61,13 @@ class Source < ActiveRecord::Base
     in_queue
   end
 
+
   def set_definite_status(status, type)
     self.status = status.to_s
     self.save
     self.remove_from_redis_queue(type)
   end
+
 
   #
   #  Redis helpers
@@ -59,6 +75,7 @@ class Source < ActiveRecord::Base
   def add_to_redis_queue(type)
     $redis.sadd("#{type}_source_queue".to_sym, self.id)
   end
+
 
   def remove_from_redis_queue(type)
     $redis.srem("#{type}_source_queue".to_sym, self.id)

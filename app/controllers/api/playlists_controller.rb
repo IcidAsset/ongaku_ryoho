@@ -1,11 +1,11 @@
-class Data::PlaylistsController < ApplicationController
+class Api::PlaylistsController < ApplicationController
   before_filter :require_login
   layout false
 
   def index
     @playlists = current_user.playlists.includes(:tracks)
 
-    # special playlists
+    # get special playlists if needed
     if current_user.settings["special_playlists"] == "1"
       specials = Track.get_unique_first_level_directories(current_user)
       specials.map! { |name| Playlist.new(name: name, special: true) }
@@ -13,7 +13,10 @@ class Data::PlaylistsController < ApplicationController
     end
 
     # render
-    render json: @playlists.to_json(only: [:id, :name], methods: [:track_ids, :special])
+    render json: @playlists.to_json(
+      only: [:id, :name],
+      methods: [:track_ids, :special]
+    )
   end
 
 

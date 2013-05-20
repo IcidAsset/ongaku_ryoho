@@ -14,6 +14,7 @@ class Track < ActiveRecord::Base
   has_many :playlists_tracks
   has_many :playlists, through: :playlists_tracks
 
+
   #
   #  Validations
   #
@@ -25,6 +26,7 @@ class Track < ActiveRecord::Base
   validates_presence_of :location
   validates_presence_of :url
 
+
   #
   #  Accessors
   #
@@ -32,8 +34,9 @@ class Track < ActiveRecord::Base
     @available.nil? ? true : @available
   end
 
+
   #
-  #  Other
+  #  Get unique first level directories
   #
   def self.get_unique_first_level_directories(user)
     tracks = self

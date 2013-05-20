@@ -1,7 +1,7 @@
 class OngakuRyoho.Classes.Models.Playlist extends Backbone.Model
 
   urlRoot:
-    "/data/playlists/"
+    "/api/playlists/"
 
   defaults:
     name: ""
