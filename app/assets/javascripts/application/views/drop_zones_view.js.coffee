@@ -4,10 +4,10 @@ class OngakuRyoho.Classes.Views.DropZones extends Backbone.View
   #  Events
   #
   events: () ->
-    "dragenter .queue" : @group.machine.queue_dragenter
-    "dragleave .queue" : @group.machine.queue_dragleave
-    "dragover .queue"  : @group.machine.queue_dragover
-    "drop .queue"      : @group.machine.queue_drop
+    "dragenter .queue"    : @group.machine.queue_dragenter
+    "dragleave .queue"    : @group.machine.queue_dragleave
+    "dragover .queue"     : @group.machine.queue_dragover
+    "drop .queue"         : @group.machine.queue_drop
 
 
 
@@ -18,5 +18,7 @@ class OngakuRyoho.Classes.Views.DropZones extends Backbone.View
     super
 
     # this element
-    this.setElement($("#drop-zones").get(0))
+    Helpers.set_view_element(this, "#drop-zones")
+
+    # other elements
     this.$queue = this.$el.children(".queue")

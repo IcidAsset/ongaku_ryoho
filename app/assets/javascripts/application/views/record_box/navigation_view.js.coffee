@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Navigation extends Backbone.View
     super
 
     # this element
-    this.setElement($("#record-box").children(".navigation")[0])
+    Helpers.set_view_element(this, "#record-box .navigation")
 
     # track list header
     this.$track_list_header = this.$el.next(".list").children("header")

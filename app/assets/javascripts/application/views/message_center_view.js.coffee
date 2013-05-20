@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
     super
 
     # this element
-    this.setElement($("#message-center").get(0))
+    Helpers.set_view_element(this, "#message-center")
 
     # collection events
     @group.collection.on("add", this.add_message)

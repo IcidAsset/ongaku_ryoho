@@ -41,6 +41,19 @@ window.Helpers =
 
 
   #
+  #  Set view element
+  #
+  set_view_element: (view, element) ->
+    element = if typeof element is String
+      $(element).get(0)
+    else
+      element
+
+    view.setElement(element)
+
+
+
+  #
   #  Setup handlebars helpers
   #
   setup_handlebars_helpers: () ->

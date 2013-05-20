@@ -4,14 +4,14 @@ class OngakuRyoho.Classes.Views.Visualizations extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    this.setElement($("#visualizations").get(0))
+    Helpers.set_view_element(this, "#visualizations")
 
     # peak data
-    $peak_data_canvas = this.$el.find(".peak-data canvas:first-child")[0]
-    $peak_data_canvas.width = 293
-    $peak_data_canvas.height = 51
+    peak_data_canvas = this.$el.find(".peak-data canvas:first-child")[0]
+    peak_data_canvas.width = 293
+    peak_data_canvas.height = 51
 
-    @peak_data_context = $peak_data_canvas.getContext("2d")
+    @peak_data_context = peak_data_canvas.getContext("2d")
 
 
 

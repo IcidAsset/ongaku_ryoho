@@ -4,13 +4,13 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   url: "/api/sources/",
 
 
+  get_available_ids: () ->
+    _.map(this.where({ available: true }), (s) -> s.id)
+
+
   fetch: (options={}) ->
     options.reset = true
     Backbone.Collection.prototype.fetch.call(this, options)
-
-
-  get_available_ids: () ->
-    _.map(this.where({ available: true }), (s) -> s.id)
 
 
   #
@@ -28,10 +28,8 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     return promise
 
 
-
   reload: () ->
     OngakuRyoho.RecordBox.Tracks.collection.fetch()
-
 
 
   process_sources: () =>
@@ -65,7 +63,6 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     return promise
 
 
-
   check_sources: (sources_to_skip=[]) =>
     promise = new RSVP.Promise()
 
@@ -95,7 +92,6 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     return promise
 
 
-
   process_source: (source) ->
     promise = new RSVP.Promise()
     url = this.url + source.get("id") + "/process"
@@ -108,7 +104,6 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     )
 
     return promise
-
 
 
   check_source: (source) ->

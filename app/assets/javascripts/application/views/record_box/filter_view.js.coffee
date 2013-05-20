@@ -18,8 +18,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
     super
 
     # elements
-    btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".filter").get(0)
-    this.setElement(btn_element)
+    menu_btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".filter")[0]
+    this.setElement(menu_btn_element)
 
     # templates
     @filter_item_template = Helpers.get_template("filter-item")

@@ -9,20 +9,20 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
   #  Events
   #
   events: () ->
-    "click .now-playing"                              : @group.machine.now_playing_click_handler
-    "click .progress-bar-wrapper"                     : @group.machine.progress_bar_click_handler
+    "click .now-playing"                                : @group.machine.now_playing_click_handler
+    "click .progress-bar-wrapper"                       : @group.machine.progress_bar_click_handler
 
-    "click .controls a .button.play-pause"            : @group.machine.button_playpause_click_handler
-    "click .controls a .button-column .btn.previous"  : @group.machine.button_previous_click_handler
-    "click .controls a .button-column .btn.next"      : @group.machine.button_next_click_handler
-    "click .controls a .switch.shuffle"               : @group.machine.switch_shuffle_click_handler
-    "click .controls a .switch.repeat"                : @group.machine.switch_repeat_click_handler
-    "click .controls a .switch.volume"                : @group.machine.switch_volume_click_handler
+    "click .controls a .button.play-pause"              : @group.machine.button_playpause_click_handler
+    "click .controls a .button-column .btn.previous"    : @group.machine.button_previous_click_handler
+    "click .controls a .button-column .btn.next"        : @group.machine.button_next_click_handler
+    "click .controls a .switch.shuffle"                 : @group.machine.switch_shuffle_click_handler
+    "click .controls a .switch.repeat"                  : @group.machine.switch_repeat_click_handler
+    "click .controls a .switch.volume"                  : @group.machine.switch_volume_click_handler
 
-    "dblclick .controls a .knob.volume"               : @group.machine.knob_volume_doubleclick_handler
-    "dblclick .controls a .knob.low"                  : @group.machine.knob_low_doubleclick_handler
-    "dblclick .controls a .knob.mid"                  : @group.machine.knob_mid_doubleclick_handler
-    "dblclick .controls a .knob.hi"                   : @group.machine.knob_hi_doubleclick_handler
+    "dblclick .controls a .knob.volume"                 : @group.machine.knob_volume_doubleclick_handler
+    "dblclick .controls a .knob.low"                    : @group.machine.knob_low_doubleclick_handler
+    "dblclick .controls a .knob.mid"                    : @group.machine.knob_mid_doubleclick_handler
+    "dblclick .controls a .knob.hi"                     : @group.machine.knob_hi_doubleclick_handler
 
 
 
@@ -33,24 +33,10 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     super
 
     # this element
-    this.setElement($("#mixing-console").get(0))
+    Helpers.set_view_element(this, "#mixing-console")
 
-    # render events
-    @group.model
-      .on("change:now_playing", this.render_now_playing)
-
-    # sound events
-    @group.model
-      .on("change:shuffle", OngakuRyoho.People.SoundGuy.set_shuffle)
-      .on("change:repeat", OngakuRyoho.People.SoundGuy.set_repeat)
-      .on("change:volume", OngakuRyoho.People.SoundGuy.set_volume)
-      .on("change:mute", OngakuRyoho.People.SoundGuy.set_mute)
-
-    # sound filter events
-    @group.model
-      .on("change:low_gain", OngakuRyoho.People.SoundGuy.set_biquad_filter_gain_values)
-      .on("change:mid_gain", OngakuRyoho.People.SoundGuy.set_biquad_filter_gain_values)
-      .on("change:hi_gain", OngakuRyoho.People.SoundGuy.set_biquad_filter_gain_values)
+    # render on events
+    @group.model.on("change:now_playing", this.render_now_playing)
 
     # cache dom elements
     this.$now_playing  = this.$el.find(".now-playing")
@@ -102,9 +88,6 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
       .children(".progress.track")
       .css("width", "#{progress}%")
 
-    # chain
-    return this
-
 
 
   render_now_playing: () =>
@@ -114,6 +97,3 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
 
     # activate animation
     @group.machine.setup_now_playing_marquee(this.$now_playing)
-
-    # chain
-    return this

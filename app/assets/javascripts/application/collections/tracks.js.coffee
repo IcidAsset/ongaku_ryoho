@@ -4,6 +4,13 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   url: "/api/tracks/"
 
 
+  get_random_track: (ids_array=[]) ->
+    filtered_tracks = this.reject (t) ->
+      return _.include(ids_array, t.get("id"))
+
+    # shuffle & get first
+    _.shuffle(filtered_tracks)[0]
+
 
   #
   #  Fetch
@@ -23,11 +30,8 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     options.data ?= {}
 
     # source_ids, pagination, etc.
-    _.extend(options.data, {
-      source_ids: source_ids
-    })
-
     _.extend(options.data,
+      { source_ids: source_ids },
       OngakuRyoho.RecordBox.Filter.model.attributes
     )
 
@@ -37,8 +41,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
       this.trigger("fetched")
 
     # call super
-    return Backbone.Collection.prototype.fetch.call(this, options)
-
+    Backbone.Collection.prototype.fetch.call(this, options)
 
 
   #
@@ -50,8 +53,8 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
       per_page: response.per_page
       total: response.total
     }, { silent: true })
-    return response.models
 
+    response.models
 
 
   #
@@ -86,36 +89,18 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
       info.next = info.page + 1
 
     # return
-    return info
+    info
 
 
-  previous_page: () ->
+  go_to_previous_page: () ->
     return no unless this.page_info().prev
 
     previous_page_number = OngakuRyoho.RecordBox.Filter.model.get("page") - 1
     OngakuRyoho.RecordBox.Filter.model.set("page", previous_page_number)
-    OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
-
-    return this.fetch()
 
 
-  next_page: () ->
+  go_to_next_page: () ->
     return no unless this.page_info().next
 
     next_page_number = OngakuRyoho.RecordBox.Filter.model.get("page") + 1
     OngakuRyoho.RecordBox.Filter.model.set("page", next_page_number)
-    OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
-
-    return this.fetch()
-
-
-
-  #
-  #  Get random track
-  #
-  get_random_track: (ids_array=[]) ->
-    filtered_tracks = this.reject (t) ->
-      return _.include(ids_array, t.get("id"))
-
-    # shuffle & get first
-    return _.shuffle(filtered_tracks)[0]

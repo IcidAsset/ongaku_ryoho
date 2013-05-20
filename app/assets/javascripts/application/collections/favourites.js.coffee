@@ -8,15 +8,15 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
     this.on("destroy", this.destroy_handler)
 
 
-
   #
   #  Destroy / remove favourite(s)
   #
   destroy_handler: (favourite) ->
     Tracks = OngakuRyoho.RecordBox.Tracks
+    Filter = OngakuRyoho.RecordBox.Filter
 
-    # remove track from collection if favourites are enable
-    if Tracks.collection.favourites is true
+    # remove track from its collection if favourites are enable
+    if Filter.model.get("favourites") is true
       track_id = favourite.get("track_id")
       track = Tracks.collection.get(track_id) if track_id
       Tracks.collection.remove(track) if track

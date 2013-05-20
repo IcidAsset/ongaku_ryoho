@@ -9,18 +9,18 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #  Events
   #
   events: () ->
-    "click .track .favourite"  : @group.machine.track_rating_star_click
-    "dragstart .track"         : @group.machine.track_dragstart
-    "dragend .track"           : @group.machine.track_dragend
-    "dragenter .track"         : @group.machine.track_dragenter
-    "dragleave .track"         : @group.machine.track_dragleave
-    "dragover .track"          : @group.machine.track_dragover
-    "drop .track"              : @group.machine.track_drop
+    "click .track .favourite"   : @group.machine.track_rating_star_click
+    "dragstart .track"          : @group.machine.track_dragstart
+    "dragend .track"            : @group.machine.track_dragend
+    "dragenter .track"          : @group.machine.track_dragenter
+    "dragleave .track"          : @group.machine.track_dragleave
+    "dragover .track"           : @group.machine.track_dragover
+    "drop .track"               : @group.machine.track_drop
 
-    "dragenter .group"         : @group.machine.group_dragenter
-    "dragleave .group"         : @group.machine.group_dragleave
-    "dragover .group"          : @group.machine.group_dragover
-    "drop .group"              : @group.machine.group_drop
+    "dragenter .group"          : @group.machine.group_dragenter
+    "dragleave .group"          : @group.machine.group_dragleave
+    "dragover .group"           : @group.machine.group_dragover
+    "drop .group"               : @group.machine.group_drop
 
 
 
@@ -31,7 +31,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     super
 
     # this element
-    this.setElement($("#record-box").find(".tracks-wrapper")[0])
+    Helpers.set_view_element(this, "#record-box .tracks-wrapper")
 
     # templates
     @track_template = Helpers.get_template("track")

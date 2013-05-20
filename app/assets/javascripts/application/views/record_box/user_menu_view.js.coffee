@@ -6,10 +6,8 @@ class OngakuRyoho.Classes.Views.RecordBox.UserMenu extends Backbone.View
   initialize: () ->
     super
 
-    # set elements
-    btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".toggle-user-menu").get(0)
-
     # this element
+    btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".toggle-user-menu")[0]
     this.setElement(btn_element)
 
     # machinema

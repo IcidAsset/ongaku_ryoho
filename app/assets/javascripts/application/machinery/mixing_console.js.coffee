@@ -50,7 +50,7 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
     anim_speed = text_width * 39.5
 
     # this machine
-    mc = this
+    _this = this
 
     # animation
     animation = () ->
@@ -60,7 +60,7 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
           $t = $(this)
           $t.css("left", 0)
 
-          mc.now_playing_marquee_animation($t)
+          _this.now_playing_marquee_animation($t)
       )
 
     # animate
@@ -95,20 +95,17 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
   switch_shuffle_click_handler: (e) =>
-    @group.model.set("shuffle", !@group.model.get("shuffle"))
+    @group.model.toggle_attribute("shuffle")
 
 
 
   switch_repeat_click_handler: (e) =>
-    @group.model.set("repeat", !@group.model.get("repeat"))
+    @group.model.toggle_attribute("repeat")
 
 
 
   knob_volume_doubleclick_handler: (e) =>
     $t = $(e.currentTarget).find(".it div")
-
-    # reset rotation
-    Helpers.css.rotate($t, 0)
 
     # set volume
     @group.model.set("volume", 50)
@@ -116,27 +113,21 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
   switch_volume_click_handler: (e) =>
-    @group.model.set("mute", !@group.model.get("mute"))
+    @group.model.toggle_attribute("mute")
 
 
 
   knob_low_doubleclick_handler: (e) =>
-    $t = $(e.currentTarget).find(".it div")
-    Helpers.css.rotate($t, 0)
     @group.model.set("low_gain", 0)
 
 
 
   knob_mid_doubleclick_handler: (e) =>
-    $t = $(e.currentTarget).find(".it div")
-    Helpers.css.rotate($t, 0)
     @group.model.set("mid_gain", 0)
 
 
 
   knob_hi_doubleclick_handler: (e) =>
-    $t = $(e.currentTarget).find(".it div")
-    Helpers.css.rotate($t, 0)
     @group.model.set("hi_gain", 0)
 
 

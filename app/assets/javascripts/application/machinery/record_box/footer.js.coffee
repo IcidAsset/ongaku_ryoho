@@ -4,12 +4,12 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
   #  Page navigation
   #
   previous_page_button_click_handler: (e) =>
-    @parent_group.Tracks.collection.previous_page()
+    @parent_group.Tracks.collection.go_to_previous_page()
 
 
 
   next_page_button_click_handler: (e) =>
-    @parent_group.Tracks.collection.next_page()
+    @parent_group.Tracks.collection.go_to_next_page()
 
 
 
