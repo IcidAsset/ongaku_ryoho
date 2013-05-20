@@ -16,12 +16,28 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
   change_handler: () ->
     return unless OngakuRyoho.People.ViewStateManager.state.ready
+    OngakuRyoho.RecordBox.Tracks.collection.fetch()
     OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
 
 
+  #
+  #  Favourites
+  #
+  toggle_favourites: () ->
+    this.set("favourites", !this.get("favourites"))
+
+
+  disable_favourites: () ->
+    this.set("favourites", off)
+
+
+  #
+  #  Search
+  #
   add_search_query: (query) ->
     searches = this.get("searches").slice(0)
     searches.push(query)
+    this.search_action_reset()
     this.set("searches", searches)
 
 
@@ -31,4 +47,12 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
     if indexof_query isnt -1
       searches.splice(indexof_query, 1)
+      this.search_action_reset()
       this.set("searches", searches)
+
+
+  #
+  #  Reset
+  #
+  search_action_reset: () ->
+    this.set("page", 1, { silent: true })

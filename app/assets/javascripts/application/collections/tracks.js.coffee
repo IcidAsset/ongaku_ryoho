@@ -89,7 +89,6 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     return info
 
 
-
   previous_page: () ->
     return no unless this.page_info().prev
 
@@ -98,7 +97,6 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
 
     return this.fetch()
-
 
 
   next_page: () ->

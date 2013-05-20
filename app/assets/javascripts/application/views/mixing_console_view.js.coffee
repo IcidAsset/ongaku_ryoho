@@ -33,7 +33,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     super
 
     # this element
-    this.setElement($("#mixing-console"))
+    this.setElement($("#mixing-console").get(0))
 
     # render events
     @group.model

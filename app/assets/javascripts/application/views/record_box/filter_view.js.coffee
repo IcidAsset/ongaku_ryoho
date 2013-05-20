@@ -4,10 +4,10 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
   #  Events
   #
   events: () ->
-    "click .add-button.favourites" : @group.machine.toggle_favourites
+    "click .add-button.favourites"    : @group.machine.add_button_favourites_click_handler
+    "click .item.favourites"          : @group.machine.item_favourites_click_handler
 
-    "click .item.favourites" : @group.machine.item_favourites_click_handler
-    "click .item.search" : @group.machine.item_search_click_handler
+    "click .item.search"              : @group.machine.item_search_click_handler
 
 
 
@@ -18,15 +18,14 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
     super
 
     # elements
-    $btn = OngakuRyoho.RecordBox.Navigation.view.$el.find(".filter")
-    this.setElement($btn[0])
+    btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".filter").get(0)
+    this.setElement(btn_element)
 
     # templates
     @filter_item_template = Helpers.get_template("filter-item")
 
     # model events
     @group.model.on("change", this.render)
-    @group.model.on("change", @group.machine.fetch_tracks)
     @group.model.on("change:sort_by", @group.machine.sort_by_change_handler)
     @group.model.on("change:sort_direction", @group.machine.sort_by_change_handler)
 

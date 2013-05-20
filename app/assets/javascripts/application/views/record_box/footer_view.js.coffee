@@ -4,8 +4,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Footer extends Backbone.View
   #  Events
   #
   events: () ->
-    "click .page-nav .previous:not(.disabled)"  : @group.machine.previous_page_button_click_handler
-    "click .page-nav .next:not(.disabled)"      : @group.machine.next_page_button_click_handler
+    "click .page-nav .previous:not(.disabled)"    : @group.machine.previous_page_button_click_handler
+    "click .page-nav .next:not(.disabled)"        : @group.machine.next_page_button_click_handler
 
 
 

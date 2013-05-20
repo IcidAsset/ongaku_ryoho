@@ -10,7 +10,7 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
 
 
   #
-  #  Destroy favourite(s)
+  #  Destroy / remove favourite(s)
   #
   destroy_handler: (favourite) ->
     Tracks = OngakuRyoho.RecordBox.Tracks
@@ -20,7 +20,6 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
       track_id = favourite.get("track_id")
       track = Tracks.collection.get(track_id) if track_id
       Tracks.collection.remove(track) if track
-
 
 
   remove_matching_favourites: (title, artist, album) ->
