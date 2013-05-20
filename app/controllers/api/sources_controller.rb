@@ -22,14 +22,37 @@ class Api::SourcesController < ApplicationController
   end
 
 
+  def create
+    type = params[:source].delete(:type)
+
+    if type
+      source = type.constantize.new(
+        params[:source], {},
+        current_user.id
+      )
+
+      if source and source.save
+        render json: source
+      else
+        render nothing: true, status: 403
+      end
+
+    else
+      render nothing: true, status: 403
+
+    end
+  end
+
+
+  def update; end
+  def destroy; end
+
+
   def process_source
     source = current_user.sources.find(params[:id])
 
     # should i?
-    allowed_to_proceed = (
-      source and !source.busy and
-      source.status.include?("unprocessed")
-    )
+    allowed_to_proceed = source && !source.busy && !source.processed
 
     # process if needed
     if allowed_to_proceed
@@ -52,9 +75,7 @@ class Api::SourcesController < ApplicationController
     Favourite.match_unbounded([source.id])
 
     # should i?
-    allowed_to_proceed = (
-      source and !source.busy
-    )
+    allowed_to_proceed = source && !source.busy && source.processed
 
     # check if possible
     if allowed_to_proceed

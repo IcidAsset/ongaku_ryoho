@@ -20,51 +20,39 @@ class ServerWorker
 
 
   def self.process_tracks(server)
-    args = [:process]
-
     begin
       uri = URI.parse(server.configuration["location"])
       response = Net::HTTP.get(uri)
     rescue
-      args.unshift "unprocessed / server not found"
-      server.set_definite_status(*args)
+      server.remove_from_redis_queue(:process)
       return
     end
 
     # parse json
     tracks = JSON.parse(response)
 
-    # no music =(
-    if tracks.empty?
-      args.unshift "unprocessed / no music found"
-      server.set_definite_status(*args)
-      return
-    end
-
     # put them tracks in them database
     Server.add_new_tracks(server, tracks)
 
     # the end
-    args.unshift "processed"
-    server.set_definite_status(*args)
+    server.processed = true
+    server.save
+    server.remove_from_redis_queue(:process)
   end
 
 
   # check if there is any music added or removed from the server
   # and then add and/or remove from the database
   def self.check_tracks(server)
-    args = [:check]
-    file_list = server.tracks.map(&:location)
+    file_list = server.tracks.all.map(&:location)
 
     # get json data from server
     begin
       uri = URI.parse(server.configuration["location"] + "check")
       response = Net::HTTP.post_form(uri, { file_list: file_list.to_json })
     rescue
-      args.unshift "processed"
-      server.set_definite_status(*args)
-
-      return false
+      server.remove_from_redis_queue(:check)
+      return
     end
 
     # parse json
@@ -78,11 +66,13 @@ class ServerWorker
     # new_tracks
     Server.add_new_tracks(server, new_tracks)
 
-    # last checked
-    time = Time.now.strftime("%d %b %y / %I:%M %p")
+    # if changed
+    if missing_files.present? or new_tracks.present?
+      server.updated_at = Time.now
+      server.save
+    end
 
-    # the end
-    args.unshift "last updated at #{time}"
-    server.set_definite_status(*args)
+    # remove from redis queue
+    server.remove_from_redis_queue(:check)
   end
 end

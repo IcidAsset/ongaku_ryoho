@@ -2,10 +2,9 @@ class CreateSources < ActiveRecord::Migration
   def up
     create_table :sources do |t|
       t.boolean :activated, default: false
-      t.hstore :configuration
-
-      t.string :status, default: ""
+      t.boolean :processed, default: false
       t.string :name
+      t.hstore :configuration
 
       t.string :type
       t.references :user

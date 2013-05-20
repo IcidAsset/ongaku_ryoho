@@ -224,7 +224,7 @@
     z-index: 99;
 
     @include lato-font;
-    @include transition-duration(300ms);
+    // @include transition-duration(300ms);
 
     &.visible {
       opacity: 1;

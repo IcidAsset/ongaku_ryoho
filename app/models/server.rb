@@ -2,6 +2,30 @@ class Server < Source
   attr_accessor :location
 
   #
+  #  Override ActiveRecord::Base.new
+  #
+  def self.new(attributes=nil, options={}, user_id)
+    location = attributes.delete(:location)
+    location = "http://#{location}" unless location.include?('http://')
+    location << (location.end_with?('/') ? '' : '/')
+
+    attributes[:name] = location.gsub('http://', '').gsub('/', '')
+    attributes[:configuration] = { location: location }
+    attributes[:processed] = false
+
+    existing_server = Server.all.select { |s|
+      s.configuration["location"] == location
+    }.first
+
+    unless existing_server
+      server = super(attributes, options)
+      server.user_id = user_id
+      server
+    end
+  end
+
+
+  #
   #  Utility functions
   #
   def self.add_new_tracks(server, new_tracks)

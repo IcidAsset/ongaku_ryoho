@@ -9,8 +9,8 @@ describe Source do
 
   # mass assignment
   it { must allow_mass_assignment_of(:activated) }
+  it { must allow_mass_assignment_of(:processed) }
   it { must allow_mass_assignment_of(:configuration) }
-  it { must allow_mass_assignment_of(:status) }
   it { must allow_mass_assignment_of(:name) }
 
   # validations

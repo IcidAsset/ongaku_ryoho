@@ -7,8 +7,8 @@ class OngakuRyoho.Classes.Views.RecordBox.UserMenu extends Backbone.View
     super
 
     # this element
-    btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".toggle-user-menu")[0]
-    this.setElement(btn_element)
+    menu_btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".toggle-user-menu")[0]
+    this.setElement(menu_btn_element)
 
     # machinema
     @group.machine.setup_tooltip()

@@ -18,11 +18,12 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   #
   process_and_check_sources: () =>
     promise = new RSVP.Promise()
+    @changes = false
 
     this.process_sources()
       .then(this.check_sources)
       .then () =>
-        this.reload()
+        this.reload() if @changes
         promise.resolve()
 
     return promise
@@ -37,7 +38,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
     # find
     unprocessed_sources = _.filter(OngakuRyoho.SourceManager.collection.models, (source) ->
-      source.get("status").indexOf("unprocessed") isnt -1
+      source.get("processed") is false
     )
 
     # unprocessing function
@@ -54,7 +55,8 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(unprocessing_message)
 
     # exec
-    RSVP.all(unprocessing).then () ->
+    RSVP.all(unprocessing).then (changes_array) ->
+      @changes = _.contains(changes_array, true) if @changes is false
       OngakuRyoho.MessageCenter.collection.remove(unprocessing_message)
       promise.resolve(unprocessed_sources)
       unprocessing_message = null
@@ -83,7 +85,8 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(checking_message)
 
     # exec
-    RSVP.all(checking).then () ->
+    RSVP.all(checking).then (changes_array) ->
+      @changes = _.contains(changes_array, true) if @changes is false
       OngakuRyoho.MessageCenter.collection.remove(checking_message)
       promise.resolve(sources_to_check)
       checking_message = null
@@ -95,12 +98,17 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   process_source: (source) ->
     promise = new RSVP.Promise()
     url = this.url + source.get("id") + "/process"
+    original_updated_at = source.get("updated_at")
 
     $.get(url, (response) ->
+      changed = false
+
       unless response.processing
-        promise.resolve()
+        promise.resolve(changed)
       else
-        source.poll_for_busy_state().then () -> promise.resolve()
+        source.poll_for_busy_state().then () ->
+          changed = true if source.get("updated_at") isnt original_updated_at
+          promise.resolve(changed)
     )
 
     return promise
@@ -109,12 +117,17 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   check_source: (source) ->
     promise = new RSVP.Promise()
     url = this.url + source.get("id") + "/check"
+    original_updated_at = source.get("updated_at")
 
     $.get(url, (response) ->
+      changed = false
+
       unless response.checking
-        promise.resolve()
+        promise.resolve(changed)
       else
-        source.poll_for_busy_state().then () -> promise.resolve()
+        source.poll_for_busy_state().then () ->
+          changed = true if source.get("updated_at") isnt original_updated_at
+          promise.resolve(changed)
     )
 
     return promise

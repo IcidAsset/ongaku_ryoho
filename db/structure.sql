@@ -143,9 +143,9 @@ CREATE TABLE schema_migrations (
 CREATE TABLE sources (
     id integer NOT NULL,
     activated boolean DEFAULT false,
-    configuration hstore,
-    status character varying(255) DEFAULT ''::character varying,
+    processed boolean DEFAULT false,
     name character varying(255),
+    configuration hstore,
     type character varying(255),
     user_id integer,
     created_at timestamp without time zone NOT NULL,

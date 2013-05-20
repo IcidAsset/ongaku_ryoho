@@ -47,7 +47,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
       .then -> self.load_playlists()
       .then -> self.load_sources()
       .then -> self.load_tracks()
-      # .then -> self.process_and_check_sources()
+      .then -> self.process_and_check_sources()
 
 
 

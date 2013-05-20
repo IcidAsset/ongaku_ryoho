@@ -64,8 +64,8 @@ window.Helpers =
 
     # sources
     Handlebars.registerHelper("source_subtext", () ->
-      if @status.match(/(unprocessed|processing)/gi) isnt null
-        "<span>#{@status}</span>"
+      unless @processed
+        "<span>Not processed yet</span>"
       else
         "<span>#{@track_amount} tracks</span>"
     )

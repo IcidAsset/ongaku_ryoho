@@ -1,5 +1,5 @@
 class Source < ActiveRecord::Base
-  attr_accessible :activated, :configuration, :status, :name
+  attr_accessible :activated, :processed, :name, :configuration
   attr_accessor :available, :label, :track_amount
   serialize :configuration, ActiveRecord::Coders::Hstore
 
@@ -59,13 +59,6 @@ class Source < ActiveRecord::Base
     in_queue = $redis.sismember(:process_source_queue, self.id)
     in_queue = $redis.sismember(:check_source_queue, self.id) unless in_queue
     in_queue
-  end
-
-
-  def set_definite_status(status, type)
-    self.status = status.to_s
-    self.save
-    self.remove_from_redis_queue(type)
   end
 
 

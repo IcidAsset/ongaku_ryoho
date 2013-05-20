@@ -6,7 +6,7 @@ OngakuRyoho::Application.routes.draw do
     resources :favourites,  only: [:index, :create, :destroy]
     resources :playlists,   only: [:index, :create, :update, :destroy]
 
-    resources :sources,     only: [:index, :show] do
+    resources :sources,     only: [:index, :show, :create, :update, :destroy] do
       member do
         get 'process', action: :process_source
         get 'check', action: :check_source
