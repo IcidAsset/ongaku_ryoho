@@ -55,7 +55,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(unprocessing_message)
 
     # exec
-    RSVP.all(unprocessing).then (changes_array) ->
+    RSVP.all(unprocessing).then (changes_array) =>
       @changes = _.contains(changes_array, true) if @changes is false
       OngakuRyoho.MessageCenter.collection.remove(unprocessing_message)
       promise.resolve(unprocessed_sources)
@@ -85,7 +85,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(checking_message)
 
     # exec
-    RSVP.all(checking).then (changes_array) ->
+    RSVP.all(checking).then (changes_array) =>
       @changes = _.contains(changes_array, true) if @changes is false
       OngakuRyoho.MessageCenter.collection.remove(checking_message)
       promise.resolve(sources_to_check)
