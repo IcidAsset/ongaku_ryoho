@@ -17,19 +17,6 @@
 }
 
 // other mixins
-@mixin disable-user-select {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-
-@mixin input-placeholder-color($color) {
-  &:-moz-placeholder { color: $color }
-  &::-webkit-input-placeholder { color: $color }
-}
-
 @mixin stretch {
   bottom: 0;
   left: 0;
@@ -44,4 +31,23 @@
   position: fixed;
   right: 0;
   top: 0;
+}
+
+@mixin disable-user-select {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+@mixin input-placeholder-color($color) {
+  &:-moz-placeholder { color: $color }
+  &::-webkit-input-placeholder { color: $color }
+}
+
+@mixin button-gradient {
+  @include background-image(
+    linear-gradient(rgba(black, 0), $rbn_button_color_b_alt)
+  );
 }

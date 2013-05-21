@@ -140,9 +140,7 @@
     text-align: center;
     width: 13px;
 
-    @include background-image(
-      linear-gradient(rgba(black, 0), $rbn_button_color_b_alt)
-    );
+    @include button-gradient;
   }
 
   .add-button:hover,
