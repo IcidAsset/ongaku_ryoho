@@ -25,10 +25,12 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
   #  Favourites
   #
   toggle_favourites: () ->
+    this.search_action_reset()
     this.set("favourites", !this.get("favourites"))
 
 
   disable_favourites: () ->
+    this.search_action_reset()
     this.set("favourites", off)
 
 

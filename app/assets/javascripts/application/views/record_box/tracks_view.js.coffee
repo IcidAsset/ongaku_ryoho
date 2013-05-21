@@ -189,17 +189,12 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     return if this.$el.find(".message.loading").length
 
     $loading = $("<div class=\"message loading\" />")
-    $loading.append("<span><span class=\"animation\"></span>loading tracks</span>")
+    $loading.append("<span>loading tracks</span>")
     $loading.appendTo(this.$el)
-
-    Helpers.add_loading_animation(
-      this.$el.find(".loading .animation")[0],
-      "#fff", 3
-    )
 
     _.delay(=>
       this.$el.find(".message.loading").addClass("visible")
-    , 250)
+    , 100)
 
 
 

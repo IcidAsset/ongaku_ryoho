@@ -231,14 +231,14 @@
     }
 
     & > span {
-      background: $rbn_inner_color_b;
+      background: rgba($rbn_inner_color_b, .7);
       color: rgba(white, .725);
       display: inline-block;
-      font-size: 11px;
+      font-size: 9px;
       letter-spacing: 1px;
       margin-top: 18%;
       position: relative;
-      padding: 6px 11px 5px 29px;
+      padding: 7px 11px 4px;
       text-transform: uppercase;
 
       @include border-radius(4px);
