@@ -24,11 +24,12 @@
 }
 
 input, textarea, select {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: normal;
-  line-height: 18px;
+  line-height: 20px;
+  padding: 6px 8px 4px;
 
-  @include sansserif-font;
+  @include lato-font;
 }
 
 .tooltip-data {

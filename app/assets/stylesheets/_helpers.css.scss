@@ -42,8 +42,12 @@
 }
 
 @mixin input-placeholder-color($color) {
-  &:-moz-placeholder { color: $color }
-  &::-webkit-input-placeholder { color: $color }
+  @include input-placeholder { color: $color }
+}
+
+@mixin input-placeholder {
+  &:-moz-placeholder { @content }
+  &::-webkit-input-placeholder { @content }
 }
 
 @mixin button-gradient {

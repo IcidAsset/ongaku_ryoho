@@ -64,7 +64,12 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     e.preventDefault()
 
     query = $(e.currentTarget).find('input[type="text"]').val()
+    console.log(query)
     @group.model.add_search_query(query) if query
+
+
+  search_form_submit_click_handler: (e) ->
+    $(e.currentTarget).closest("form").trigger("submit")
 
 
   item_search_click_handler: (e) =>

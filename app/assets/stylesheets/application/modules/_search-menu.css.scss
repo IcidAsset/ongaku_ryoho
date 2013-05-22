@@ -5,7 +5,7 @@
 */
 
 .mod-search-menu {
-  width: 166px * 1.5;
+  width: 166px * 1.52;
 
   .group {
     overflow: hidden;
@@ -15,14 +15,37 @@
     margin: 12px 12px 11px;
   }
 
-  input {
-    background: #eee;
-    border: 0;
+  input:focus {
+    outline: none;
+  }
+
+  input[type="text"] {
+    background: rgba($less_subtle_blue, .1);
+    border: 1px solid rgba($less_subtle_blue, .125);
+    color: darken($less_subtle_blue, 15);
     display: inline-block;
     margin: 0;
-    padding: 4px 9px;
 
     @include box-sizing(border-box);
+    @include input-placeholder {
+      color: rgba($less_subtle_blue, .425);
+      font-size: 12px;
+    };
+  }
+
+  .submit {
+    background: $less_subtle_blue;
+    border: 0;
+    color: rgba(white, .725);
+    display: block;
+    font-size: 11px;
+    line-height: 20px;
+    margin: 7px 0 0;
+    padding: 8px 0 6px;
+    text-align: center;
+    text-transform: uppercase;
+
+    @include button-gradient;
     @include lato-font;
   }
 

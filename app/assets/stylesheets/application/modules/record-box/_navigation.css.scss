@@ -160,9 +160,7 @@
     padding: 6px 12px 3px 23px;
     text-transform: uppercase;
 
-    @include background-image(
-      linear-gradient(rgba(black, 0), $rbn_button_color_b_alt)
-    );
+    @include button-gradient;
   }
 
   .item .icon {
@@ -209,7 +207,7 @@
   .add-button.playlist:hover,
   .add-button.playlist.active,
   .item.playlist:hover {
-    background-color: mix($rbn_inner_color_a, $green_3, 65);
+    background-color: $less_subtle_green;
   }
 
   // filter - favourites
@@ -225,7 +223,7 @@
 
   .add-button.favourites:hover,
   .item.favourites:hover {
-    background-color: mix($rbn_inner_color_a, $red_2, 65);
+    background-color: $less_subtle_red;
   }
 
   // filter - search
@@ -237,7 +235,7 @@
   .add-button.search:hover,
   .add-button.search.active,
   .item.search:hover {
-    background-color: mix($rbn_inner_color_a, $blue_2, 65);
+    background-color: $less_subtle_blue;
   }
 
   // empty state
