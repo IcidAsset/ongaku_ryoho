@@ -85,7 +85,8 @@ private
     # filter
     filter = ""
     filter << "(#{searches.join(" | ")})" if searches.length > 0
-    filter << " & (#{excludes.join(" & ")})" if excludes.length > 0
+    filter << " & " if searches.length > 0 && excludes.length > 0
+    filter << "(#{excludes.join(" & ")})" if excludes.length > 0
     filter
   end
 

@@ -24,12 +24,18 @@
 }
 
 input, textarea, select {
+  border: 0;
   font-size: 12px;
   font-weight: normal;
   line-height: 20px;
+  margin: 0;
   padding: 6px 8px 4px;
 
   @include lato-font;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .tooltip-data {

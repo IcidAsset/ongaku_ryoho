@@ -85,6 +85,7 @@
 //
 .filter {
   color: darken($rbn_inner_color_a, 10);
+  display: -webkit-flex;
   font-size: 9px;
   font-weight: bold;
   line-height: 28px;
@@ -100,21 +101,59 @@
     linear-gradient($rbn_input_color_a, $rbn_input_color_b)
   );
 
+  // empty state
+  .empty-state {
+    display: none;
+    left: 8px;
+    letter-spacing: 1px;
+    line-height: 30px;
+    position: absolute;
+    text-transform: uppercase;
+    top: 0;
+    z-index: 0;
+  }
+
+  &.is-empty .empty-state {
+    display: block;
+  }
+
+  &.is-empty.is-using-extra-search-field .empty-state {
+    display: none;
+  }
+
   // general - containers
-  .box,
-  .add-buttons {
+  .box, .extra-search-field, .add-buttons {
     height: 100%;
   }
 
   .box {
-    float: left;
     padding-left: 2px;
+    -webkit-order: 1;
+  }
+
+  .extra-search-field {
+    position: relative;
+    z-index: 1;
+    -webkit-flex: 1;
+    -webkit-order: 2;
   }
 
   .add-buttons {
-    float: right;
     padding-right: 2px;
     text-align: right;
+    -webkit-order: 3;
+  }
+
+  // extra search box
+  .extra-search-field input {
+    background: none;
+    bottom: 4px;
+    color: rgba(white, .7);
+    left: 0;
+    padding: 0 5px;
+    position: absolute;
+    right: 0;
+    top: 5px;
   }
 
   // general - content
@@ -236,14 +275,6 @@
   .add-button.search.active,
   .item.search:hover {
     background-color: $less_subtle_blue;
-  }
-
-  // empty state
-  .empty-state {
-    letter-spacing: 1px;
-    line-height: 30px;
-    margin-left: 6px;
-    text-transform: uppercase;
   }
 
 

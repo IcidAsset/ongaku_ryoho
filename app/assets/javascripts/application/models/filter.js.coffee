@@ -37,8 +37,17 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
   #
   #  Search
   #
-  add_search_query: (query) ->
-    searches = this.get("searches").slice(0)
+  add_search_query: (query, options={}) ->
+    searches = if options.action
+      this.get("searches").slice(0)
+    else
+      []
+
+    # update query depending on action
+    if options.action is "subtract"
+      query = "!#{query}"
+
+    # set searches
     searches.push(query)
     this.search_action_reset()
     this.set("searches", searches)

@@ -4,10 +4,13 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
   #  Events
   #
   events: () ->
-    "click .add-button.favourites"    : @group.machine.add_button_favourites_click_handler
-    "click .item.favourites"          : @group.machine.item_favourites_click_handler
+    "click .add-button.favourites"      : @group.machine.add_button_favourites_click_handler
+    "click .item.favourites"            : @group.machine.item_favourites_click_handler
+    "click .item.search"                : @group.machine.item_search_click_handler
 
-    "click .item.search"              : @group.machine.item_search_click_handler
+    "submit .extra-search-field"        : @group.machine.extra_search_field_form_submit_handler
+    "focus .extra-search-field input"   : @group.machine.extra_search_field_focus_handler
+    "blur .extra-search-field input"    : @group.machine.extra_search_field_blur_handler
 
 
 
@@ -56,9 +59,16 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
       fragment.appendChild(new_item)
 
     # search
-    _.each(model.get("searches"), (search_query, idx) ->
-      keyword = if idx > 0 then "AND" else false
-      new_item = _this.new_item("search", search_query, "&#128269;", keyword)
+    _.each(model.get("searches"), (query, idx) ->
+      data = query
+
+      if query.substr(0, 1) is "!"
+        keyword = "NOT"
+        query = query.substr(1)
+      else if idx > 0
+        keyword = "AND"
+
+      new_item = _this.new_item("search", query, "&#128269;", keyword, data)
       fragment.appendChild(new_item)
     )
 
@@ -68,14 +78,13 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
     # add fragment to box
     if fragment.childNodes.length > 0
       box_element.appendChild(fragment)
+      this.$el.removeClass("is-empty")
     else
-      empty_state_element = document.createElement("div")
-      empty_state_element.className = "empty-state"
-      empty_state_element.innerHTML = "a nice unfiltered collection"
-      box_element.appendChild(empty_state_element)
+      this.$el.addClass("is-empty")
 
 
-  new_item: (klass, text, icon, keyword) ->
+
+  new_item: (klass, text, icon, keyword, data) ->
     item_element = document.createElement("a")
     item_element.className = "item #{klass}"
     item_element.innerHTML = @filter_item_template({
@@ -84,4 +93,5 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
       keyword: keyword
     })
 
+    item_element.setAttribute("data-query", data) if data
     item_element

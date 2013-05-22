@@ -2,6 +2,8 @@
   .navigation
     nav
       .filter
+        form.extra-search-field
+          input[type="text"]
         .box
         .add-buttons
           a.add-button.icon.playlist[data-icon="&#57349;"]
@@ -10,8 +12,13 @@
             .tooltip-data
               .group.last
                 form
-                  input[type="text" placeholder="Artist, title or album"]
-                  .submit Add search query
+                  .row
+                    input[type="text" placeholder="artist, title or album"]
+                    .actions
+                      div[data-action="add"] +
+                      div[data-action="subtract"] -
+                  .submit add search query
+        .empty-state a nice unfiltered collection
 
       .button.toggle-queue
         .icon[data-icon="&#128340;"]

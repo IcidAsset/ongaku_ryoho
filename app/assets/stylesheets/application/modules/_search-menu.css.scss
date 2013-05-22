@@ -15,8 +15,11 @@
     margin: 12px 12px 11px;
   }
 
-  input:focus {
-    outline: none;
+  //
+  //  Row
+  //
+  .row {
+    display: -webkit-flex;
   }
 
   input[type="text"] {
@@ -26,6 +29,9 @@
     display: inline-block;
     margin: 0;
 
+    -webkit-flex: 1;
+    -webkit-order: 1;
+
     @include box-sizing(border-box);
     @include input-placeholder {
       color: rgba($less_subtle_blue, .425);
@@ -33,22 +39,61 @@
     };
   }
 
+  .actions {
+    color: rgba(white, .75);
+    margin-left: 8px;
+    text-align: center;
+
+    -webkit-order: 2;
+
+    @include sansserif-font;
+
+    div {
+      background: $subtle_blue;
+      cursor: pointer;
+      float: left;
+      font-size: 14px;
+      height: 32px;
+      line-height: 32px;
+      overflow: hidden;
+      width: 28px;
+    }
+
+    div:last-child {
+      border-left: 1px solid rgba(black, .2);
+    }
+
+    div.active,
+    div:hover {
+      background-color: $blue_2;
+      border-color: rgba(black, .325);
+    }
+  }
+
+  //
+  //  Submit
+  //
   .submit {
     background: $less_subtle_blue;
-    border: 0;
     color: rgba(white, .725);
+    cursor: pointer;
     display: block;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 20px;
     margin: 7px 0 0;
     padding: 8px 0 6px;
     text-align: center;
-    text-transform: uppercase;
 
-    @include button-gradient;
     @include lato-font;
+
+    &:hover {
+      background-color: $blue_2;
+    }
   }
 
+  //
+  //  Note (TODO)
+  //
   .note {
     color: #999;
     font-size: 11px;

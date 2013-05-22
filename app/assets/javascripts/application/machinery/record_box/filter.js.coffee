@@ -64,7 +64,6 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     e.preventDefault()
 
     query = $(e.currentTarget).find('input[type="text"]').val()
-    console.log(query)
     @group.model.add_search_query(query) if query
 
 
@@ -73,8 +72,41 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
 
 
   item_search_click_handler: (e) =>
-    query = $(e.currentTarget).find(".text").text()
+    query = $(e.currentTarget).attr("data-query")
     @group.model.remove_search_query(query)
+
+
+  #
+  #  Extra search box
+  #
+  extra_search_field_form_submit_handler: (e) =>
+    e.preventDefault()
+
+    # set elements
+    $input = $(e.currentTarget).children("input")
+
+    # get and set query
+    query = $input.val()
+    action = if query
+      if query.substr(0, 1) is "+" then "add"
+      else if query.substr(0, 1) is "-" then "subtract"
+
+    query = query.substr(1) if action
+    @group.model.add_search_query(query, { action: action }) if query
+
+    # clean up
+    $input.val("")
+
+
+  extra_search_field_focus_handler: (e) =>
+    @group.view.$el.addClass("is-using-extra-search-field")
+
+
+  extra_search_field_blur_handler: (e) =>
+    @group.view.$el.removeClass("is-using-extra-search-field")
+
+    $t = $(e.currentTarget)
+    $t.val("")
 
 
   #
