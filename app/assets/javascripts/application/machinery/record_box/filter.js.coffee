@@ -7,12 +7,14 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     @group.model.toggle_favourites()
 
 
+
   item_favourites_click_handler: (e) =>
     @group.model.disable_favourites()
 
 
+
   #
-  #  Search
+  #  Search -> Tooltip
   #
   setup_search_tooltip: () ->
     _this = this
@@ -32,16 +34,18 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
 
     # extend / show
     @search_tooltip.show_tooltip = () ->
-      this.state.$tooltip_element.on("click", ".group", _this.cancel_default_click)
       this.state.$tooltip_element.on("submit", "form", _this.search_form_submit_handler)
+      this.state.$tooltip_element.on("click", ".group", _this.cancel_default_click)
+      this.state.$tooltip_element.on("click", ".submit", _this.search_form_submit_click_handler)
+      this.state.$tooltip_element.on("click", "[data-action]", _this.search_form_action_click_handler)
       this.$el.addClass("active")
 
       BareTooltip.prototype.show_tooltip.apply(this)
 
     # extend / hide
     @search_tooltip.hide_tooltip = () ->
-      this.state.$tooltip_element.off("click")
       this.state.$tooltip_element.off("submit")
+      this.state.$tooltip_element.off("click")
       this.$el.removeClass("active")
 
       BareTooltip.prototype.hide_tooltip.apply(this, arguments)
@@ -60,24 +64,42 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     @search_tooltip.setup()
 
 
+
   search_form_submit_handler: (e) =>
     e.preventDefault()
 
     query = $(e.currentTarget).find('input[type="text"]').val()
-    @group.model.add_search_query(query) if query
+    @group.model.add_search_query(query)
+
 
 
   search_form_submit_click_handler: (e) ->
     $(e.currentTarget).closest("form").trigger("submit")
 
 
+
+  search_form_action_click_handler: (e) ->
+    $t = $(e.currentTarget)
+
+    if $t.hasClass("active")
+      $t.removeClass("active")
+    else
+      $t.parent().children("div.active").removeClass("active")
+      $t.addClass("active")
+
+
+
+  #
+  #  Search -> Items
+  #
   item_search_click_handler: (e) =>
     query = $(e.currentTarget).attr("data-query")
     @group.model.remove_search_query(query)
 
 
+
   #
-  #  Extra search box
+  #  Search -> Extra field
   #
   extra_search_field_form_submit_handler: (e) =>
     e.preventDefault()
@@ -85,21 +107,17 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     # set elements
     $input = $(e.currentTarget).children("input")
 
-    # get and set query
-    query = $input.val()
-    action = if query
-      if query.substr(0, 1) is "+" then "add"
-      else if query.substr(0, 1) is "-" then "subtract"
-
-    query = query.substr(1) if action
-    @group.model.add_search_query(query, { action: action }) if query
+    # send query to model
+    @group.model.add_search_query($input.val())
 
     # clean up
     $input.val("")
 
 
+
   extra_search_field_focus_handler: (e) =>
     @group.view.$el.addClass("is-using-extra-search-field")
+
 
 
   extra_search_field_blur_handler: (e) =>
@@ -109,13 +127,10 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     $t.val("")
 
 
+
   #
   #  Other event handlers
   #
-  sort_by_change_handler: (e) ->
-    OngakuRyoho.RecordBox.Navigation.machine.add_active_class_to_selected_sort_by_column()
-
-
   cancel_default_click: (e) ->
     e.preventDefault()
     e.stopPropagation()

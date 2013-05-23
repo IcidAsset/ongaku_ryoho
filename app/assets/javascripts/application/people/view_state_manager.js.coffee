@@ -38,6 +38,9 @@ class OngakuRyoho.Classes.People.ViewStateManager
       OngakuRyoho.RecordBox.Filter.model.set(state.filter_attributes)
       this.set_queue_status(state.queue_status)
 
+    # just to make sure
+    OngakuRyoho.RecordBox.Filter.model.sort_by_change_handler()
+
     # state
     @state.ready = true
 

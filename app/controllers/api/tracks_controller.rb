@@ -71,13 +71,17 @@ private
       search_query = search_query
         .gsub(/\:|\*|\&|\||\'|\"|\+/, "")
         .strip
-        .gsub(/\!+\s*/, "!")
+        .gsub(/^\!+\s*/, "!")
         .gsub(" ", "+")
 
-      if search_query.include?("!")
+      if search_query.size == 0
+        nil
+      elsif search_query[0] == "!"
+        search_query = "!" + search_query[1..-1].gsub("!", "")
         excludes << search_query
         nil
       else
+        search_query = search_query.gsub("!", "")
         search_query
       end
     end.compact

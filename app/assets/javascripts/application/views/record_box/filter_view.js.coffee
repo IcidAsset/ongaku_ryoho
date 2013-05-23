@@ -29,11 +29,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
 
     # model events
     @group.model.on("change", this.render)
-    @group.model.on("change:sort_by", @group.machine.sort_by_change_handler)
-    @group.model.on("change:sort_direction", @group.machine.sort_by_change_handler)
 
     # machinery
-    @group.machine.sort_by_change_handler()
     @group.machine.setup_search_tooltip()
 
     # render
@@ -60,15 +57,15 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
 
     # search
     _.each(model.get("searches"), (query, idx) ->
-      data = query
+      text = query
 
-      if query.substr(0, 1) is "!"
+      if query.charAt(0) is "!"
         keyword = "NOT"
-        query = query.substr(1)
+        text = query.substr(1)
       else if idx > 0
         keyword = "AND"
 
-      new_item = _this.new_item("search", query, "&#128269;", keyword, data)
+      new_item = _this.new_item("search", text, "&#128269;", keyword, query)
       fragment.appendChild(new_item)
     )
 
@@ -84,7 +81,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
 
 
 
-  new_item: (klass, text, icon, keyword, data) ->
+  new_item: (klass, text, icon, keyword, query) ->
     item_element = document.createElement("a")
     item_element.className = "item #{klass}"
     item_element.innerHTML = @filter_item_template({
@@ -93,5 +90,5 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
       keyword: keyword
     })
 
-    item_element.setAttribute("data-query", data) if data
+    item_element.setAttribute("data-query", query) if query
     item_element

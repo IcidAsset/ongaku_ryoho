@@ -11,14 +11,19 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
     sort_direction: "asc"
 
 
+
   initialize: () ->
     this.on("change", this.change_handler)
+    this.on("change:sort_by", this.sort_by_change_handler)
+    this.on("change:sort_direction", this.sort_by_change_handler)
+
 
 
   change_handler: () ->
     return unless OngakuRyoho.People.ViewStateManager.state.ready
     OngakuRyoho.RecordBox.Tracks.collection.fetch()
     OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
+
 
 
   #
@@ -29,28 +34,46 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
     this.set("favourites", !this.get("favourites"))
 
 
+
   disable_favourites: () ->
     this.search_action_reset()
     this.set("favourites", off)
 
 
+
   #
   #  Search
   #
-  add_search_query: (query, options={}) ->
-    searches = if options.action
+  add_search_query: (query) ->
+    searches = if query.charAt(0).match(/^(\+|\-)$/g)
       this.get("searches").slice(0)
     else
       []
 
+    # check
+    if query.length is 0
+      return no
+
     # update query depending on action
-    if options.action is "subtract"
-      query = "!#{query}"
+    if query.charAt(0) is "-"
+      query = "!#{query.substr(1)}"
+      query = this.clean_up_search_query(query, 1)
+    else
+      query = query.substr(1) if query.charAt(0) is "+"
+      query = this.clean_up_search_query(query)
+
+    # check again
+    if query.length is 0
+      return message = new OngakuRyoho.Classes.Models.Message({
+        text: "Invalid search query",
+        error: true
+      })
 
     # set searches
     searches.push(query)
     this.search_action_reset()
     this.set("searches", searches)
+
 
 
   remove_search_query: (query) ->
@@ -63,8 +86,26 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
       this.set("searches", searches)
 
 
+
+  clean_up_search_query: (query, from_index) ->
+    new_query = query
+    new_query = new_query.substr(from_index) if from_index
+    new_query = new_query.replace(/(\:|\*|\&|\||\'|\"|\+|\!)+/g, "")
+    new_query = query.substr(0, from_index) + new_query if from_index
+    new_query
+
+
+
   #
   #  Reset
   #
   search_action_reset: () ->
     this.set("page", 1, { silent: true })
+
+
+
+  #
+  #  Sorting
+  #
+  sort_by_change_handler: (e) ->
+    OngakuRyoho.RecordBox.Navigation.machine.add_active_class_to_selected_sort_by_column()
