@@ -4,7 +4,7 @@
 
 */
 
-#record-box .list {
+.mod-record-box .list {
   background: #e3e3e3;
   display: -webkit-flex;
 
@@ -231,6 +231,7 @@
 
     & > span {
       background: rgba($rbn_inner_color_b, .7);
+      border-radius: 4px;
       color: rgba(white, .725);
       display: inline-block;
       font-size: 9px;
@@ -239,8 +240,6 @@
       position: relative;
       padding: 7px 11px 4px;
       text-transform: uppercase;
-
-      @include border-radius(4px);
     }
 
     .animation {

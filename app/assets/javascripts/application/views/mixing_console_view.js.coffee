@@ -33,7 +33,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     super
 
     # this element
-    Helpers.set_view_element(this, "#mixing-console")
+    Helpers.set_view_element(this, ".mod-mixing-console")
 
     # render on events
     @group.model.on("change:now_playing", this.render_now_playing)

@@ -6,7 +6,7 @@
 
 $button_height: 52px;
 
-#mixing-console {
+.mod-mixing-console {
   position: relative;
 
   -webkit-font-smoothing: antialiased;
@@ -93,13 +93,13 @@ $button_height: 52px;
 
     & > a {
       border-bottom: 1px solid rgba(#000, .19);
+      border-radius: 4px;
       cursor: pointer;
       float: left;
       margin-right: 6px;
       padding: 1px;
 
       @include background-image(linear-gradient(rgba(#000, .11), rgba(#000, .19)));
-      @include border-radius(4px);
 
       &.no-margin,
       &:last-child { margin-right: 0 }
@@ -111,6 +111,7 @@ $button_height: 52px;
 
     .subtitle {
       background: rgba(black, .17);
+      border-radius: 2px;
       color: rgba(white, .65);
       float: left;
       font-size: 7px;
@@ -123,8 +124,6 @@ $button_height: 52px;
       text-align: center;
       text-transform: uppercase;
       width: $button_height + 2 - (2 * 4);
-
-      @include border-radius(2px);
 
       span {
         display: block;
@@ -144,12 +143,12 @@ $button_height: 52px;
     }
 
     .switch, .button, .button-column, .knob {
+      border-radius: 3px;
       height: $button_height;
       overflow: hidden;
       position: relative;
 
       @include background-image(linear-gradient(#fff, rgba(#fff, .87)));
-      @include border-radius(3px);
     }
 
     //// <button>
@@ -158,11 +157,10 @@ $button_height: 52px;
 
       .light {
         background: #dadada;
+        border-radius: 4px;
         height: 5px;
         margin: 8px auto 0;
         width: 20px;
-
-        @include border-radius(4px);
 
         &.on {
           background: $green_3;
@@ -171,12 +169,12 @@ $button_height: 52px;
         }
 
         .overlay {
+          border-radius: 4px;
           height: 5px;
           position: absolute;
           width: 20px;
 
           @include background-image(linear-gradient(left, rgba(#fff, .38), rgba(#fff, 0)));
-          @include border-radius(4px);
         }
       }
 
@@ -226,11 +224,10 @@ $button_height: 52px;
 
       .light {
         background: #dadada;
+        border-radius: 6px;
         height: 6px;
         margin: 8px auto 0;
         width: 6px;
-
-        @include border-radius(6px);
 
         &.on {
           background: $blue_2;
@@ -267,7 +264,7 @@ $button_height: 52px;
         z-index: 2;
 
         @include single-box-shadow(lighten(#d1d1d1, 2%), 0, 2px, 8px, 0);
-        &, & > div { @include border-radius(36px) }
+        &, & > div { border-radius: 50% }
       }
 
       .it > div {

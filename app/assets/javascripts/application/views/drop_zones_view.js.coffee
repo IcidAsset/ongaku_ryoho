@@ -18,7 +18,7 @@ class OngakuRyoho.Classes.Views.DropZones extends Backbone.View
     super
 
     # this element
-    Helpers.set_view_element(this, "#drop-zones")
+    Helpers.set_view_element(this, ".mod-drop-zones")
 
     # other elements
     this.$queue = this.$el.children(".queue")

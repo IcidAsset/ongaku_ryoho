@@ -1,16 +1,16 @@
-#wrapper
-  = render "record-box"
+.wrapper
+  = render partial: "record-box"
 
   aside
-    = render "mixing-console"
-    = render "visualizations"
-    = render "drop-zones"
-    = render "message-center"
+    = render partial: "mixing-console"
+    = render partial: "visualizations"
+    = render partial: "drop-zones"
+    = render partial: "message-center"
 
 
 
-#color-overlay
+.mod-color-overlay
 
 
 
-= render "source-manager"
+= render partial: "source-manager"

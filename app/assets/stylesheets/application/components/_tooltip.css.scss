@@ -91,14 +91,13 @@
   // checkbox
   .checkbox {
     border: 1px solid rgba(black, .125);
+    border-radius: 3px;
     display: inline-block;
     height: 10px;
     margin-right: 9px;
     position: relative;
     top: 2px;
     width: 10px;
-
-    @include border-radius(3px);
   }
 
   a.on .checkbox:after {

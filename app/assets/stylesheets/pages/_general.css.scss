@@ -114,12 +114,11 @@ header nav {
   }
 
   a {
+    border-radius: 3px;
     color: white;
     display: inline-block;
     margin-left: 46px;
     text-decoration: none;
-
-    @include border-radius(3px);
   }
 
   a:hover,
@@ -208,11 +207,10 @@ header nav {
 .note {
   background: rgba($red, .15);
   border: 5px solid rgba($red, .065);
+  border-radius: 3px;
   color: $red;
   padding: 12px 18px 11px;
   position: relative;
-
-  @include border-radius(3px);
 
   i {
     font-size: 32px;
@@ -231,6 +229,7 @@ form {
   input[type=password] {
     background: none;
     border: 2px solid darken($light, 0.5%);
+    border-radius: 3px;
     color: $dark;
     display: inline-block;
     font-weight: 300;
@@ -241,7 +240,6 @@ form {
     -webkit-appearance: none;
 
     @include sourcesanspro-font;
-    @include border-radius(3px);
   }
 
   input[type=text]:focus,

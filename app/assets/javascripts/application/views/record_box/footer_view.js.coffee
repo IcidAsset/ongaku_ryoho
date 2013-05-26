@@ -16,7 +16,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Footer extends Backbone.View
     super
 
     # this element
-    Helpers.set_view_element(this, "#record-box footer")
+    Helpers.set_view_element(this, ".mod-record-box footer")
 
 
 

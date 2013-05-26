@@ -9,7 +9,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     super
 
     # this element
-    Helpers.set_view_element(this, "#source-manager")
+    Helpers.set_view_element(this, ".mod-source-manager")
 
     # menu button
     this.$menu_button = OngakuRyoho.RecordBox.Navigation.

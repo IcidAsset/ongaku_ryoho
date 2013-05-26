@@ -1,0 +1,34 @@
+.filter
+
+  /
+  /  Extra search field
+  /
+  form.extra-search-field
+    input.mousetrap[type="text"]
+
+  /
+  /  Box (for active elements)
+  /
+  .box
+
+  /
+  /  Add buttons
+  /
+  .add-buttons
+    a.add-button.icon.playlist[data-icon="&#57349;"]
+    a.add-button.icon.favourites[data-icon="&#9733;"]
+    a.add-button.icon.search[data-icon="&#128269;"]
+      .tooltip-data
+        .group.last
+          form
+            .row
+              input[type="text" placeholder="artist, title or album"]
+              .actions
+                div[data-action="add"] +
+                div[data-action="subtract"] -
+            .submit add search query
+
+  /
+  /  Empty state
+  /
+  .empty-state a nice unfiltered collection

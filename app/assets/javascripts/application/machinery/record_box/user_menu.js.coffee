@@ -58,7 +58,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
 
     # set elements
     $switch = @group.view.$el.find(".tooltip-data [rel=\"set-theater-mode\"]")
-    $color_overlay = $("#color-overlay")
+    $color_overlay = $(".mod-color-overlay")
 
     # go
     if state is "off"

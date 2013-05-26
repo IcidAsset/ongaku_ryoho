@@ -28,6 +28,7 @@ form {
 
   .submit input {
     border: none;
+    border-radius: 3px;
     color: rgba(#fff, .75);
     cursor: pointer;
     font-size: 11px;
@@ -39,7 +40,6 @@ form {
     text-transform: uppercase;
 
     @include background-image(linear-gradient(#F67280, #C06C84));
-    @include border-radius(3px);
 
     &:hover,
     &:active,

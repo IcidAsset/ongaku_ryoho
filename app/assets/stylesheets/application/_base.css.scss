@@ -36,12 +36,12 @@ html, body {
   min-height: 100%;
 }
 
-html, body, #wrapper {
+html, body, .wrapper {
   display: -webkit-flex;
   -webkit-flex-direction: column;
 }
 
-body, #wrapper {
+body, .wrapper {
   -webkit-flex: 1;
 }
 
@@ -49,14 +49,14 @@ body, #wrapper {
 //
 //  Wrapper
 //
-#wrapper {
+.wrapper {
   margin: 0 auto;
   max-width: 1300px;
   position: relative;
   z-index: 0;
 }
 
-  #wrapper aside {
+  .wrapper aside {
     display: block;
     left: 0;
     position: absolute;

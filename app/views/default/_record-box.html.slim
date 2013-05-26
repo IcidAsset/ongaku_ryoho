@@ -1,31 +1,14 @@
-#record-box
+.mod-record-box
   .navigation
     nav
-      .filter
-        form.extra-search-field
-          input.mousetrap[type="text"]
-        .box
-        .add-buttons
-          a.add-button.icon.playlist[data-icon="&#57349;"]
-          a.add-button.icon.favourites[data-icon="&#9733;"]
-          a.add-button.icon.search[data-icon="&#128269;"]
-            .tooltip-data
-              .group.last
-                form
-                  .row
-                    input[type="text" placeholder="artist, title or album"]
-                    .actions
-                      div[data-action="add"] +
-                      div[data-action="subtract"] -
-                  .submit add search query
-        .empty-state a nice unfiltered collection
+      = render partial: "default/parts/filter"
 
       .button.toggle-queue
         .icon[data-icon="&#128340;"]
 
       .button.toggle-user-menu
         .icon[data-icon="&#9776;"]
-        .tooltip-data= render partial: "user-menu"
+        .tooltip-data= render partial: "default/parts/user-menu"
 
   .list
     header
@@ -40,6 +23,8 @@
 
     .tracks-wrapper
       .background
+
+    = render partial: "default/parts/playlist-menu"
 
   footer
     .intestines

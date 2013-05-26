@@ -4,7 +4,7 @@ class OngakuRyoho.Classes.Views.Visualizations extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    Helpers.set_view_element(this, "#visualizations")
+    Helpers.set_view_element(this, ".mod-visualizations")
 
     # peak data
     peak_data_canvas = this.$el.find(".peak-data canvas:first-child")[0]
