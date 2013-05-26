@@ -16,12 +16,13 @@
 #= require "underscore"
 #= require "backbone"
 #= require "backbone_rails_sync"
+#= require "modernizr_custom"
 #= require "handlebars"
 #= require "rsvp"
+#= require "mousetrap"
 #= require "hammer"
 #= require "spin"
 #= require "browser"
-#= require "modernizr_custom"
 #= require "bare-tooltip"
 
 #= require "./application/backbone_extensions"
@@ -51,6 +52,7 @@ initialize = ->
   App.People = {}
   App.People.SoundGuy = new People.SoundGuy
   App.People.ViewStateManager = new People.ViewStateManager
+  App.People.KeyMaster = new People.KeyMaster
 
   App.MixingConsole = {}
   App.MixingConsole.model = new Models.MixingConsole
@@ -92,6 +94,7 @@ initialize = ->
   # send people off to work
   App.People.SoundGuy.go_to_work()
   App.People.ViewStateManager.go_to_work()
+  App.People.KeyMaster.go_to_work()
 
   # check for legacy stuff
   window.Legacy.check()

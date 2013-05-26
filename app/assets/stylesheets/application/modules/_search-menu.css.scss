@@ -60,13 +60,13 @@
     }
 
     div:last-child {
-      border-left: 1px solid rgba(black, .2);
+      border-left: 1px solid rgba(black, .125);
     }
 
     div.active,
     div:hover {
       background-color: $blue_2;
-      border-color: rgba(black, .325);
+      border-color: rgba(black, .275);
     }
   }
 

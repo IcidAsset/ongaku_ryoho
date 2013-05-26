@@ -67,8 +67,20 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
 
   search_form_submit_handler: (e) =>
     e.preventDefault()
+    $form = $(e.currentTarget)
 
-    query = $(e.currentTarget).find('input[type="text"]').val()
+    # get query
+    query = $form.find('input[type="text"]').val()
+
+    # action?
+    action_element = $form.find('[data-action].active')[0]
+
+    if action_element
+      switch action_element.getAttribute("data-action")
+        when "add" then query = "+" + query
+        when "subtract" then query = "-" + query
+
+    # set query on model
     @group.model.add_search_query(query)
 
 
@@ -118,11 +130,18 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
   extra_search_field_focus_handler: (e) =>
     @group.view.$el.addClass("is-using-extra-search-field")
 
+    # bind backspace action
+    OngakuRyoho.People.KeyMaster.filter_extra_search_field_bind()
+
 
 
   extra_search_field_blur_handler: (e) =>
     @group.view.$el.removeClass("is-using-extra-search-field")
 
+    # unbind backspace action
+    OngakuRyoho.People.KeyMaster.filter_extra_search_field_unbind()
+
+    # clean input
     $t = $(e.currentTarget)
     $t.val("")
 

@@ -105,7 +105,20 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
 
   #
-  #  Sorting
+  #  Other
   #
   sort_by_change_handler: (e) ->
     OngakuRyoho.RecordBox.Navigation.machine.add_active_class_to_selected_sort_by_column()
+
+
+
+  remove_last_filter_in_line: () ->
+    attr = this.attributes
+
+    if attr.searches.length > 0
+      this.remove_search_query(_.last(attr.searches))
+    else if attr.favourites
+      this.disable_favourites()
+
+    # else if attr.playlist
+      # TODO
