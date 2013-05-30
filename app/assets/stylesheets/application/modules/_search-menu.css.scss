@@ -23,8 +23,7 @@
   }
 
   input[type="text"] {
-    background: rgba($less_subtle_blue, .1);
-    border: 1px solid rgba($less_subtle_blue, .125);
+    background: rgba($less_subtle_blue, .195);
     color: darken($less_subtle_blue, 15);
     display: inline-block;
     margin: 0;
@@ -40,7 +39,7 @@
   }
 
   .actions {
-    color: rgba(white, .75);
+    color: rgba(white, .5);
     margin-left: 8px;
     text-align: center;
 
@@ -60,13 +59,12 @@
     }
 
     div:last-child {
-      border-left: 1px solid rgba(black, .125);
+      border-left: 1px solid rgba(white, .1);
     }
 
     div.active,
     div:hover {
       background-color: $blue_2;
-      border-color: rgba(black, .275);
     }
   }
 
