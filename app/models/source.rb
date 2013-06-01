@@ -44,34 +44,4 @@ class Source < ActiveRecord::Base
     self.tracks.count
   end
 
-
-  def busy
-    self.busy?
-  end
-
-
-  def busy?
-    return self.in_queue?
-  end
-
-
-  def in_queue?
-    in_queue = $redis.sismember(:process_source_queue, self.id)
-    in_queue = $redis.sismember(:check_source_queue, self.id) unless in_queue
-    in_queue
-  end
-
-
-  #
-  #  Redis helpers
-  #
-  def add_to_redis_queue(type)
-    $redis.sadd("#{type}_source_queue".to_sym, self.id)
-  end
-
-
-  def remove_from_redis_queue(type)
-    $redis.srem("#{type}_source_queue".to_sym, self.id)
-  end
-
 end

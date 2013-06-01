@@ -73,14 +73,6 @@ class Server < Source
 
 
   #
-  #  Worker (sidekiq)
-  #
-  def self.worker
-    ServerWorker
-  end
-
-
-  #
   #  Label
   #
   def label

@@ -7,7 +7,7 @@ class Api::SourcesController < ApplicationController
 
     # render
     render json: @sources.to_json(
-      methods: [:available, :track_amount, :label, :busy]
+      methods: [:available, :track_amount, :label, :type]
     )
   end
 
@@ -17,7 +17,7 @@ class Api::SourcesController < ApplicationController
 
     # render
     render json: @source.to_json(
-      methods: [:available, :track_amount, :label, :busy]
+      methods: [:available, :track_amount, :label, :type]
     )
   end
 
@@ -48,45 +48,7 @@ class Api::SourcesController < ApplicationController
   def destroy; end
 
 
-  def process_source
-    source = current_user.sources.find(params[:id])
-
-    # should i?
-    allowed_to_proceed = source && !source.busy && !source.processed
-
-    # process if needed
-    if allowed_to_proceed
-      $redis.sadd(:process_source_queue, source.id)
-      source.class.worker.perform_async(
-        current_user.id, source.id, :process_tracks
-      )
-    end
-
-    # render
-    render json: { processing: allowed_to_proceed }
-  end
-
-
-  def check_source
-    source = current_user.sources.find(params[:id])
-
-    # match unbounded favourites
-    # (without a track)
-    Favourite.match_unbounded([source.id])
-
-    # should i?
-    allowed_to_proceed = source && !source.busy && source.processed
-
-    # check if possible
-    if allowed_to_proceed
-      $redis.sadd(:check_source_queue, source.id)
-      source.class.worker.perform_async(
-        current_user.id, source.id, :check_tracks
-      )
-    end
-
-    # render
-    render json: { checking: allowed_to_proceed }
+  def get_file_list
   end
 
 end
