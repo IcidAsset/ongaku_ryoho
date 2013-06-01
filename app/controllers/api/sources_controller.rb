@@ -25,21 +25,15 @@ class Api::SourcesController < ApplicationController
   def create
     type = params[:source].delete(:type)
 
-    if type
-      source = type.constantize.new(
-        params[:source], {},
-        current_user.id
-      )
+    source = type.constantize.new(
+      params[:source], {},
+      current_user.id
+    )
 
-      if source and source.save
-        render json: source
-      else
-        render nothing: true, status: 403
-      end
-
+    if source and source.save
+      render json: source
     else
       render nothing: true, status: 403
-
     end
   end
 
@@ -48,7 +42,11 @@ class Api::SourcesController < ApplicationController
   def destroy; end
 
 
-  def get_file_list
+  def file_list
+    source = current_user.sources.find(params[:id])
+    file_list = source.tracks.pluck(:location)
+
+    render json: Oj.dump(file_list)
   end
 
 end

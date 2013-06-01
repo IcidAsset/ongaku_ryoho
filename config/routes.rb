@@ -7,7 +7,9 @@ OngakuRyoho::Application.routes.draw do
     resources :playlists,   only: [:index, :create, :update, :destroy]
 
     resources :sources,     only: [:index, :show, :create, :update, :destroy] do
-      member do; end
+      member do
+        get :file_list
+      end
     end
   end
 

@@ -17,6 +17,9 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   #  Process
   #
   process_all: () =>
+    return if @models.length is 0
+
+    # make a promise
     promise = new RSVP.Promise()
 
     # queue
