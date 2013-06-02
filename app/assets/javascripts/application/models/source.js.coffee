@@ -1,11 +1,14 @@
 class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
   get_file_list: () ->
+    promise = new RSVP.Promise()
     url = "#{this.url()}/file_list"
 
-    $.get(url, (response) ->
-      console.log(response)
-    )
+    # get file list from server
+    $.get(url, (response) -> promise.resolve(response))
+
+    # return
+    promise
 
 
 
@@ -25,6 +28,8 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
 
   process_server_type: (promise) ->
-    this.get_file_list()
+    this.get_file_list().then((file_list) ->
+      console.log(file_list)
+    )
 
     promise.resolve()
