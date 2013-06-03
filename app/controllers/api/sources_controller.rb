@@ -7,7 +7,7 @@ class Api::SourcesController < ApplicationController
 
     # render
     render json: @sources.to_json(
-      methods: [:available, :track_amount, :label, :type]
+      methods: [:available, :track_amount, :label, :type, :busy]
     )
   end
 
@@ -17,7 +17,7 @@ class Api::SourcesController < ApplicationController
 
     # render
     render json: @source.to_json(
-      methods: [:available, :track_amount, :label, :type]
+      methods: [:available, :track_amount, :label, :type, :busy]
     )
   end
 
@@ -47,6 +47,11 @@ class Api::SourcesController < ApplicationController
     file_list = source.tracks.pluck(:location)
 
     render json: Oj.dump(file_list)
+  end
+
+
+  def process_data
+    #
   end
 
 end

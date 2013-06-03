@@ -6,6 +6,8 @@ gem 'rails', '3.2.13'
 gem 'puma', '~> 2.0'
 
 gem 'pg'
+gem 'redis'
+gem 'sidekiq', '~> 2.12'
 gem 'sorcery', '~> 0.8'
 
 gem 'activerecord-postgres-hstore', '~> 0.7'

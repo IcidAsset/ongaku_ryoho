@@ -34,4 +34,7 @@ OngakuRyoho::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Redis
+  $redis = Redis.new(host: "localhost", port: 6379)
 end

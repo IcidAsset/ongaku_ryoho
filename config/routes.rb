@@ -8,7 +8,8 @@ OngakuRyoho::Application.routes.draw do
 
     resources :sources,     only: [:index, :show, :create, :update, :destroy] do
       member do
-        get :file_list
+        get :file_list, action: :file_list
+        post :process, action: :process_data
       end
     end
   end
