@@ -78,7 +78,7 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
     if file_list.length is 0
       $.ajax(
         type: "GET"
-        url: "#{url}?callback=ongakuryoho"
+        url: url
         success: (response) -> promise.resolve(response)
         error: () -> promise.resolve(false)
       )
@@ -86,8 +86,8 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
     else
       $.ajax(
         type: "POST"
-        url: "#{url}check?callback=ongakuryoho"
-        data: { file_list: file_list }
+        url: "#{url}check"
+        data: { file_list: JSON.stringify(file_list) }
         success: (response) -> promise.resolve(response)
         error: () -> promise.resolve(false)
       )
@@ -98,4 +98,9 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
 
   ps_send_data_to_server: (ongaku_ryoho_server_data) =>
-    console.log("here")
+    promise = new RSVP.Promise()
+
+    console.log("-> send data to server")
+
+    promise.resolve()
+    promise

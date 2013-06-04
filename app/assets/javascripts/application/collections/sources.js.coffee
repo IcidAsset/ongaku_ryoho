@@ -36,7 +36,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(message)
 
     # exec
-    RSVP.all(checking).then (changes_array) =>
+    RSVP.all(queue).then () =>
       OngakuRyoho.MessageCenter.collection.remove(message)
       promise.resolve()
       message = null
