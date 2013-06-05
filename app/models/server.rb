@@ -2,6 +2,14 @@ class Server < Source
   attr_accessor :location
 
   #
+  #  Worker (sidekiq)
+  #
+  def self.worker
+    ServerWorker
+  end
+
+
+  #
   #  Override ActiveRecord::Base.new
   #
   def self.new(attributes=nil, options={}, user_id)

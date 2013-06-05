@@ -45,6 +45,11 @@ class Source < ActiveRecord::Base
   end
 
 
+  def file_list
+    self.tracks.pluck(:location)
+  end
+
+
   def busy
     self.busy?
   end

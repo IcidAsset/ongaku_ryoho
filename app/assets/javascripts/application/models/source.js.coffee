@@ -66,7 +66,7 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
   process_server_type: (promise) ->
     this.get_file_list()
       .then(this.ps_get_data)
-      .then(this.ps_send_data_to_server)
+      .then(this.ps_process_data)
       .then(() -> promise.resolve())
 
 
@@ -79,6 +79,7 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
       $.ajax(
         type: "GET"
         url: url
+        dataType: "text"
         success: (response) -> promise.resolve(response)
         error: () -> promise.resolve(false)
       )
@@ -88,6 +89,7 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
         type: "POST"
         url: "#{url}check"
         data: { file_list: JSON.stringify(file_list) }
+        dataType: "text"
         success: (response) -> promise.resolve(response)
         error: () -> promise.resolve(false)
       )
@@ -97,10 +99,21 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
 
 
-  ps_send_data_to_server: (ongaku_ryoho_server_data) =>
+  ps_process_data: (data) =>
     promise = new RSVP.Promise()
+    url = "#{this.url()}/process"
 
-    console.log("-> send data to server")
+    if false #### data
+      $.ajax(
+        type: "POST"
+        url: url
+        data: { data: data }
+        success: (response) -> promise.resolve(response)
+        error: () -> promise.resolve(false)
+      )
 
-    promise.resolve()
+    else
+      promise.resolve(false)
+
+    # return
     promise
