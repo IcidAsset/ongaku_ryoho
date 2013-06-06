@@ -13,6 +13,7 @@ class ServerWorker
       # end
 
     else
+      server.remove_from_redis_queue
       puts "Server instance not found!"
 
     end
@@ -20,28 +21,29 @@ class ServerWorker
 
 
   def self.update_tracks(server, data)
-    missing_files = nil
-
-    # parse data
     parsed_data = Oj.load(data)
 
     # data might be one of two things
-    if parsed_data.has_key?("missing_files")
+    if parsed_data.kind_of?(Hash)
       missing_files = parsed_data["missing_files"]
       new_tracks = parsed_data["new_tracks"]
     else
+      missing_files = []
       new_tracks = parsed_data
     end
 
     # remove tracks if needed
-    Server.remove_tracks(server, missing_files) if missing_files
+    Server.remove_tracks(server, missing_files)
 
     # put them tracks in them database
     Server.add_new_tracks(server, new_tracks)
 
     # update server if needed
     if !missing_files.empty? or !new_tracks.empty?
-      server.processed = true
+      if parsed_data.kind_of?(Array)
+        server.activated = true
+        server.processed = true
+      end
       server.updated_at = Time.now
       server.save
     end

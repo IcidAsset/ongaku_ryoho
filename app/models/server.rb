@@ -37,6 +37,9 @@ class Server < Source
   #  Utility functions
   #
   def self.add_new_tracks(server, new_tracks)
+    return unless new_tracks.present?
+
+    # attributes -> models
     new_track_models = new_tracks.map do |tags|
       tags["tracknr"] = tags.delete("track") || ""
       tags["url"] = server.configuration["location"] + tags["location"]
@@ -52,16 +55,15 @@ class Server < Source
       new_track_model
     end
 
+    # save models
     ActiveRecord::Base.transaction do
       new_track_models.each(&:save)
     end
-
-    server.activated = true
   end
 
 
   def self.remove_tracks(server, missing_files)
-    return if missing_files.length == 0
+    return unless missing_files.present?
 
     # collect tracks
     tracks = Track.where(location: missing_files, source_id: server.id)

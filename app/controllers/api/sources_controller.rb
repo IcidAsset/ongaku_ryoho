@@ -23,10 +23,11 @@ class Api::SourcesController < ApplicationController
 
 
   def create
-    type = params[:source].delete(:type)
+    type = params.delete(:type)
+    location = params.delete(:location)
 
     source = type.constantize.new(
-      params[:source], {},
+      { location: location }, {},
       current_user.id
     )
 
