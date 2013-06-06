@@ -61,7 +61,7 @@ class Source < ActiveRecord::Base
 
 
   def in_queue?
-    $redis.sismember(:process_source_queue, self.id)
+    $redis.sismember(:source_queue, self.id)
   end
 
 
@@ -69,12 +69,12 @@ class Source < ActiveRecord::Base
   #  Redis helpers
   #
   def add_to_redis_queue
-    $redis.sadd(:process_source_queue, self.id)
+    $redis.sadd(:source_queue, self.id)
   end
 
 
   def remove_from_redis_queue
-    $redis.srem(:process_source_queue, self.id)
+    $redis.srem(:source_queue, self.id)
   end
 
 end

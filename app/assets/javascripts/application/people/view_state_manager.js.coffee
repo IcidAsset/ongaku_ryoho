@@ -50,7 +50,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
       .then -> self.load_playlists()
       .then -> self.load_sources()
       .then -> self.load_tracks()
-      .then -> self.process_sources()
+      .then -> self.update_sources()
 
 
 
@@ -61,7 +61,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
   load_favourites: -> Helpers.promise_fetch(OngakuRyoho.RecordBox.Favourites.collection)
   load_playlists: -> Helpers.promise_fetch(OngakuRyoho.RecordBox.Playlists.collection)
   load_sources: -> Helpers.promise_fetch(OngakuRyoho.SourceManager.collection)
-  process_sources: -> OngakuRyoho.SourceManager.collection.process_all()
+  update_sources: -> OngakuRyoho.SourceManager.collection.update_tracks_on_all()
 
 
 

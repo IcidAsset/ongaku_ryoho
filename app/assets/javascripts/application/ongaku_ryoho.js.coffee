@@ -2,6 +2,7 @@
 #= require_tree "./engines"
 #= require_tree "./machinery"
 #= require_tree "./machinery/record_box"
+#= require_tree "./source_types"
 #= require_tree "./models"
 #= require_tree "./collections"
 #= require_tree "./views"
@@ -12,6 +13,7 @@
 window.OngakuRyoho =
 
   Classes:
+    SourceTypes: {}
     Models: {}
     Collections: {}
     Views: { RecordBox: {}, SourceManager: {} }

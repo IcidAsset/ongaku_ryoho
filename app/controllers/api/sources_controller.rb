@@ -57,23 +57,24 @@ class Api::SourcesController < ApplicationController
   end
 
 
-  def process_data
+  def update_tracks
     source = current_user.sources.find(params[:id])
     data = params[:data]
 
     # should i?
     allowed_to_proceed = source && !source.busy && data
+    allowed_to_proceed = true if allowed_to_proceed
 
     # process if needed
     if allowed_to_proceed
-      $redis.sadd(:process_source_queue, source.id)
+      source.add_to_redis_queue
       source.class.worker.perform_async(
         current_user.id, source.id, data
       )
     end
 
     # render
-    render json: { processing: allowed_to_proceed }
+    render json: { working: allowed_to_proceed }
   end
 
 end

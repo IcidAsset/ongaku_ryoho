@@ -1,6 +1,12 @@
 class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
-  poll_for_busy_state: () =>
+  initialize: () ->
+    this.type_instance = new OngakuRyoho.Classes.SourceTypes[this.attributes.type]()
+    this.type_instance[this.attributes.type.toLowerCase()] = this
+
+
+
+  poll_for_busy_state: () ->
     promise = new RSVP.Promise()
     tries = 0
     max_tries = 60 # 5 minutes
@@ -46,74 +52,59 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
 
   #
-  #  Processing
+  #  Update tracks
   #
-  process: () ->
+  update_tracks: () ->
     promise = new RSVP.Promise()
 
-    # each type has another method
-    type = @attributes.type.toLowerCase()
-    this["process_#{type}_type"](promise)
+    # after
+    after = (has_changed) ->
+      OngakuRyoho.RecordBox.Tracks.collection.fetch() if has_changed
+      promise.resolve()
 
-    # return
-    promise
-
-
-
-  #
-  #  Processing / Server
-  #
-  process_server_type: (promise) ->
+    # update
     this.get_file_list()
-      .then(this.ps_get_data)
-      .then(this.ps_process_data)
-      .then(() -> promise.resolve())
-
-
-
-  ps_get_data: (file_list) =>
-    promise = new RSVP.Promise()
-    url = this.get("configuration")["location"]
-
-    if file_list.length is 0
-      $.ajax(
-        type: "GET"
-        url: url
-        dataType: "text"
-        success: (response) -> promise.resolve(response)
-        error: () -> promise.resolve(false)
-      )
-
-    else
-      $.ajax(
-        type: "POST"
-        url: "#{url}check"
-        data: { file_list: JSON.stringify(file_list) }
-        dataType: "text"
-        success: (response) -> promise.resolve(response)
-        error: () -> promise.resolve(false)
-      )
+      .then(this.type_instance.update_tracks)
+      .then(this.process_data_from_source)
+      .then(after)
 
     # return
     promise
 
 
 
-  ps_process_data: (data) =>
+  process_data_from_source: (data) =>
     promise = new RSVP.Promise()
-    url = "#{this.url()}/process"
+    url = "#{this.url()}/update_tracks"
+    original_updated_at = this.get("updated_at")
 
-    if false #### data
+    # state
+    has_changed = false
+    _this = this
+
+    # request data
+    request_data = { data: data }
+    request_data[window._auth_token_name] = window._auth_token
+
+    # process
+    if data
       $.ajax(
         type: "POST"
         url: url
-        data: { data: data }
-        success: (response) -> promise.resolve(response)
-        error: () -> promise.resolve(false)
+        data: request_data
+        success: (response) ->
+          if response.working
+            _this.poll_for_busy_state().then () ->
+              has_changed = true if _this.get("updated_at") isnt original_updated_at
+              promise.resolve(has_changed)
+          else
+            promise.resolve(has_changed)
+
+        error: () -> promise.resolve(has_changed)
       )
 
     else
-      promise.resolve(false)
+      promise.resolve(has_changed)
 
     # return
     promise

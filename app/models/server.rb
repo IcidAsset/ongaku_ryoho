@@ -38,8 +38,6 @@ class Server < Source
   #
   def self.add_new_tracks(server, new_tracks)
     new_track_models = new_tracks.map do |tags|
-      tags.delete("last_modified")
-
       tags["tracknr"] = tags.delete("track") || ""
       tags["url"] = server.configuration["location"] + tags["location"]
 

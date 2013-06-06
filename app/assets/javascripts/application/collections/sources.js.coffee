@@ -14,9 +14,9 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
 
   #
-  #  Process
+  #  Update tracks
   #
-  process_all: () =>
+  update_tracks_on_all: () =>
     return if @models.length is 0
 
     # make a promise
@@ -24,12 +24,12 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
     # queue
     queue = _.map(@models, (source, idx) =>
-      source.process()
+      source.update_tracks()
     )
 
     # add message
     message = new OngakuRyoho.Classes.Models.Message({
-      text: "Processing sources",
+      text: "Updating tracks database",
       loading: true
     })
 
