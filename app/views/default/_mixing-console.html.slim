@@ -34,9 +34,7 @@
         .icon
 
     a.no-margin.without-active-state
-      .knob.volume
-        .it: div
-        .lines
+      .knob.volume= render partial: "default/parts/knob-internals"
 
     .line: .hr
 
@@ -50,19 +48,13 @@
   /
   .controls.alt
     a.without-active-state
-      .knob.low
-        .it: div
-        .lines
+      .knob.low= render partial: "default/parts/knob-internals"
 
     a.without-active-state
-      .knob.mid
-        .it: div
-        .lines
+      .knob.mid= render partial: "default/parts/knob-internals"
 
     a.without-active-state
-      .knob.hi
-        .it: div
-        .lines
+      .knob.hi= render partial: "default/parts/knob-internals"
 
     .subtitle[style="clear: left"] low
     .subtitle mid

@@ -254,36 +254,108 @@ $button_height: 52px;
     //// <knob>
     .knob {
       width: $button_height;
+    }
 
-      .it {
-        background: rgba(black, .13) image-url('background-pages.png');
-        height: 36px;
-        margin: $button_height / 2 - 36 / 2 auto 0;
-        position: relative;
-        width: 36px;
-        z-index: 2;
+    .knob .it {
+      background: rgba(black, 0.13);
+      box-shadow: 0 2px 8px 0 #d8d8d8;
+      border-radius: 50%;
+      height: 36px;
+      margin: $button_height / 2 - 36 / 2 auto 0;
+      position: relative;
+      width: 36px;
 
-        @include single-box-shadow(lighten(#d1d1d1, 2%), 0, 2px, 8px, 0);
-        &, & > div { border-radius: 50% }
+      .layer-a,
+      .layer-b,
+      .layer-c {
+        border-radius: 50%;
+        position: absolute;
       }
 
-      .it > div {
-        background: transparent image-url('controller/knob.png') center no-repeat;
+      .layer-a {
+        background: white;
         bottom: 3px;
         left: 3px;
-        position: absolute;
         right: 3px;
         top: 3px;
+        z-index: 1;
+      }
+
+      .layer-b {
+        bottom: 5px;
+        left: 5px;
+        right: 5px;
+        top: 5px;
+        z-index: 2;
+
+        .rectangle {
+          background: #e0e0e0;
+          height: 8px;
+          left: 0;
+          margin-top: -4px;
+          position: absolute;
+          right: 0;
+          top: 50%;
+        }
+
+        .rectangle:nth-child(2) { @include rotate(36deg); }
+        .rectangle:nth-child(3) { @include rotate(36deg * 2); }
+        .rectangle:nth-child(4) { @include rotate(36deg * 3); }
+        .rectangle:nth-child(5) { @include rotate(36deg * 4); }
+      }
+
+      .layer-c {
+        background-color: white;
+        background-image: url("http://ongaku-ryoho.s3.amazonaws.com/knob-gradient-2x.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        bottom: 8px;
+        box-shadow: 0 0 2px 1px #ccc;
+        left: 8px;
+        overflow: hidden;
+        right: 8px;
+        top: 8px;
+        z-index: 3;
+      }
+
+      .layer-c:after {
+        background: #5c5c5c;
+        content: "";
+        height: 9px;
+        left: 50%;
+        margin-left: -1px;
+        position: absolute;
+        top: 0;
+        width: 2px;
+        z-index: 4;
       }
 
       .lines {
-        background: transparent image-url('controller/knob-lines.png') center top no-repeat;
-        height: 7px;
-        margin: -8px auto 0;
-        opacity: .49;
-        position: relative;
-        width: 38px;
-        z-index: 3;
+        bottom: 0;
+        left: 2px;
+        position: absolute;
+        right: 2px;
+        z-index: 0;
+      }
+
+      .lines:before,
+      .lines:after {
+        background-color: #c7c7c7;
+        bottom: 0;
+        content: "";
+        height: 9px;
+        position: absolute;
+        width: 1px;
+      }
+
+      .lines:before {
+        left: 0;
+        @include rotate(45deg);
+      }
+
+      .lines:after {
+        right: 0;
+        @include rotate(-45deg);
       }
     }
   }
@@ -307,11 +379,12 @@ $button_height: 52px;
 
     .it {
       background: rgba(white, .15);
-      @include single-box-shadow(rgba(lighten(#d1d1d1, 2%), .1), 0, 2px, 8px, 0);
+      box-shadow: 0 2px 8px 0 rgba(lighten(#d1d1d1, 2%), .1);
+      opacity: .9;
     }
 
-    .it > div {
-      opacity: .9;
+    .lines {
+      opacity: .45;
     }
   }
 

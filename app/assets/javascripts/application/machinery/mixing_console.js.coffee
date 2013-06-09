@@ -105,9 +105,6 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
   knob_volume_doubleclick_handler: (e) =>
-    $t = $(e.currentTarget).find(".it div")
-
-    # set volume
     @group.model.set("volume", 50)
 
 
@@ -164,8 +161,6 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
       # continue
       if specific_mouse_move_event
         specific_mouse_move_event.apply(this, funtion_arguments)
-      else
-        Helpers.css.rotate($knob.find(".it div"), angle)
 
 
     mouse_up = (e) ->
@@ -175,7 +170,7 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
   knob_get_angle: ($knob, e) ->
-    $t = $knob.find(".it div")
+    $t = $knob.find(".it .layer-a")
     knob_x = $t.offset().left + $t.width() / 2
     knob_y = $t.offset().top + $t.height() / 2
     mouse_x = e.pageX

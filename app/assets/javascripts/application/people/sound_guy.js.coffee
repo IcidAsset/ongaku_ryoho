@@ -133,11 +133,13 @@ class OngakuRyoho.Classes.People.SoundGuy
     volume = @mixing_console.model.get("volume")
 
     # needed elements
-    $knob = @mixing_console.view.$control("knob", "volume", ".it div")
+    $knob_layer_b = @mixing_console.view.$control("knob", "volume", ".it .layer-b")
+    $knob_layer_c = @mixing_console.view.$control("knob", "volume", ".it .layer-c")
 
     # rotate volume knob
     angle = ((volume - 50) * 135) / 50
-    Helpers.css.rotate($knob, angle)
+    Helpers.css.rotate($knob_layer_b, angle)
+    Helpers.css.rotate($knob_layer_c, angle)
 
     # sound
     unless @mixing_console.model.get("mute")
@@ -184,14 +186,16 @@ class OngakuRyoho.Classes.People.SoundGuy
 
     _.each(["low", "mid", "hi"], (type) ->
       value = mc.model.get("#{type}_gain")
-      $knob = mc.view.$control("knob", type, ".it div")
+      $knob_layer_b = mc.view.$control("knob", type, ".it .layer-b")
+      $knob_layer_c = mc.view.$control("knob", type, ".it .layer-c")
 
       angle = if value < 0
         (Math.abs(value) / 50) * -135
       else
         Math.ceil((value / mc.model.get("#{type}_max_db")) * 135)
 
-      Helpers.css.rotate($knob, angle)
+      Helpers.css.rotate($knob_layer_b, angle)
+      Helpers.css.rotate($knob_layer_c, angle)
 
       ac.set_biquad_filter_gain(type, value)
     )
