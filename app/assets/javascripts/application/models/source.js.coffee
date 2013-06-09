@@ -80,7 +80,6 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
     # state
     has_changed = false
-    _this = this
 
     # request data
     request_data = { data: data }
@@ -92,15 +91,16 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
         type: "POST"
         url: url
         data: request_data
-        success: (response) ->
+        success: (response) =>
           if response.working
-            _this.poll_for_busy_state().then () ->
-              has_changed = true if _this.get("updated_at") isnt original_updated_at
+            this.poll_for_busy_state().then () =>
+              has_changed = true if this.get("updated_at") isnt original_updated_at
               promise.resolve(has_changed)
           else
             promise.resolve(has_changed)
 
-        error: () -> promise.resolve(has_changed)
+        error: () ->
+          promise.resolve(has_changed)
       )
 
     else
