@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'entypo';
+  src: url('fonts/entypo/entypo.eot');
+  src: url('fonts/entypo/entypo.eot?#iefix') format('embedded-opentype'),
+       url('fonts/entypo/entypo.woff') format('woff'),
+       url('fonts/entypo/entypo.ttf') format('truetype'),
+       url('fonts/entypo/entypo.svg#entypo') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'mixing-console';
+  src: url('fonts/mixing_console/mixing-console.eot');
+  src: url('fonts/mixing_console/mixing-console.eot?#iefix') format('embedded-opentype'),
+       url('fonts/mixing_console/mixing-console.woff') format('woff'),
+       url('fonts/mixing_console/mixing-console.ttf') format('truetype'),
+       url('fonts/mixing_console/mixing-console.svg#mixing-console') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon[data-icon]:after {
+  font-family: 'entypo';
+  font-weight: normal;
+  content: attr(data-icon);
+
+  -webkit-font-smoothing: antialiased;
+}
+
+.icon[data-mc-icon]:after {
+  font-family: 'mixing-console';
+  font-weight: normal;
+  content: attr(data-mc-icon);
+}

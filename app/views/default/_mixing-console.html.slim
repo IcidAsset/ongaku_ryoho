@@ -16,22 +16,24 @@
       .button.play-pause
         .light: .overlay
         .name PLAY
-        .icon
+        .icon[rel="play" data-mc-icon="&#x3e;"]
+        .icon-seperator= "/"
+        .icon[rel="pause" data-mc-icon="&#x7c;"]
 
     a
       .button-column.previous-next
-        .btn.previous
-        .btn.next
+        .btn.previous: .icon[data-mc-icon="&#x70;"]
+        .btn.next: .icon[data-mc-icon="&#x6e;"]
 
     a
       .switch.shuffle
         .light
-        .icon
+        .icon[data-mc-icon="&#x73;"]
 
     a
       .switch.repeat
         .light
-        .icon
+        .icon[data-mc-icon="&#x72;"]
 
     a.no-margin.without-active-state
       .knob.volume= render partial: "default/parts/knob-internals"
@@ -41,7 +43,7 @@
     a
       .switch.volume
         .light
-        .icon
+        .icon[data-mc-icon="&#x76;"]
 
   /
   /  Controls / Alt

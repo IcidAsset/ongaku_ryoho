@@ -87,9 +87,11 @@ $button_height: 52px;
   .controls {
     background: transparent image-url('controller/almost_invisible_pattern.png') 0 0 repeat;
     border: 1px solid rgba(#000, .04);
+    color: #4c4c4c;
     margin-top: 7px;
     overflow: hidden;
     padding: 9px 12px;
+    text-align: center;
 
     & > a {
       border-bottom: 1px solid rgba(#000, .19);
@@ -121,7 +123,6 @@ $button_height: 52px;
       margin-right: 6px;
       margin-top: 7px;
       padding: 4px 4px 3px;
-      text-align: center;
       text-transform: uppercase;
       width: $button_height + 2 - (2 * 4);
 
@@ -183,38 +184,52 @@ $button_height: 52px;
         font-size: 10px;
         font-weight: 400;
         margin-top: 4px;
-        text-align: center;
       }
 
       .icon {
-        background-position: center bottom;
-        background-repeat: no-repeat;
         bottom: 7px;
+        font-size: 32px;
         height: 20px;
-        left: 0;
+        left: 50%;
+        line-height: 32px;
         position: absolute;
-        width: 100%;
+        width: 16px;
       }
 
-      &.play-pause .icon { background-image: image-url('controller/media-play_pause.png') }
+      .icon[rel="play"] {
+        margin-left: -25px;
+      }
+
+      .icon[rel="pause"] {
+        margin-left: -6px;
+      }
+
+      .icon-seperator {
+        color: #c2c2c2;
+        font-size: 8px;
+        font-style: italic;
+
+        -webkit-font-smoothing: subpixel-antialiased;
+
+        @include lato-font;
+      }
     }
 
     //// <button-column>
     .button-column {
-
       .btn {
-        background-position: center;
-        background-repeat: no-repeat;
         height: $button_height / 2;
-        padding: 0 10px;
-        width: 16px;
-
-        &.previous { background-image: image-url('controller/media-previous.png') }
-        &.next     { background-image: image-url('controller/media-next.png')     }
+        width: 36px;
       }
 
-      .btn:first-child { border-bottom: 1px solid #e8eced }
+      .btn:first-child {
+        border-bottom: 1px solid #e8eced;
+      }
 
+      .btn .icon {
+        font-size: 32px;
+        line-height: 26px;
+      }
     }
 
     //// <switch>
@@ -237,18 +252,19 @@ $button_height: 52px;
       }
 
       .icon {
-        background-position: center bottom;
-        background-repeat: no-repeat;
         bottom: 7px;
+        font-size: 32px;
         height: 20px;
         left: 0;
+        line-height: 28px;
         position: absolute;
         width: 100%;
       }
 
-      &.shuffle .icon { background-image: image-url('controller/media-shuffle.png') }
-      &.repeat .icon  { background-image: image-url('controller/media-repeat.png')  }
-      &.volume .icon  { background-image: image-url('controller/media-volume.png')  }
+      &.volume .icon {
+        line-height: 30px;
+        text-indent: 2px;
+      }
     }
 
     //// <knob>
