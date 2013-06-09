@@ -4,8 +4,12 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   url: "/api/sources/",
 
 
+  get_available: () ->
+    this.where({ available: true })
+
+
   get_available_ids: () ->
-    _.map(this.where({ available: true }), (s) -> s.id)
+    _.map(this.get_available(), (s) -> s.id)
 
 
   fetch: (options={}) ->
@@ -17,13 +21,16 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   #  Update tracks
   #
   update_tracks_on_all: () =>
-    return if @models.length is 0
+    available_sources = this.get_available()
+
+    # check
+    return if available_sources.length is 0
 
     # make a promise
     promise = new RSVP.Promise()
 
     # queue
-    queue = _.map(@models, (source, idx) =>
+    queue = _.map(available_sources, (source, idx) =>
       source.update_tracks()
     )
 
