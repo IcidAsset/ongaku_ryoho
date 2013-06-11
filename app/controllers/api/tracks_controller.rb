@@ -179,15 +179,18 @@ private
     order = get_sql_for_order(options[:sort_by], options[:sort_direction])
 
     # get favourites
-    find_arguments = {
+    favourites = Favourite.find(:all, {
       offset: options[:offset],
       limit: options[:per_page],
       conditions: conditions,
       order: order
-    }
+    })
 
-    favourites = Favourite.find(:all, find_arguments)
-    total = Favourite.count(conditions: conditions)
+    total = if options[:offset] == 0 && favourites.length < options[:per_page]
+      favourites.length
+    else
+      Favourite.count(conditions: conditions)
+    end
 
     # process favourites
     track_ids = []

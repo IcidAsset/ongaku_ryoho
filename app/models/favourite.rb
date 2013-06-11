@@ -1,12 +1,13 @@
 class Favourite < ActiveRecord::Base
   attr_accessible :artist, :title, :album, :genre, :tracknr, :year,
-                  :filename, :location, :url, :track_id
+                  :filename, :location, :url
+
+  serialize :track_ids, ActiveRecord::Coders::Hstore
 
   #
   #  Associations
   #
   belongs_to :user
-  has_one :track
 
 
   #
@@ -22,33 +23,55 @@ class Favourite < ActiveRecord::Base
 
 
   #
-  #  Match favourites
-  #  -> bind favourites without track_ids
-  #     to a matching track
+  #  Instance methods
   #
-  def self.match_unbounded(source_ids)
-    favourites = self.where(track_id: nil)
-    favourites = favourites.map do |favourite|
-      track = Track.where({
-        source_id: source_ids,
-        title: favourite.title,
-        artist: favourite.artist,
-        album: favourite.album,
-        favourite_id: nil
-      }).first
+  def bind_track(source_id, track_id)
+    track_ids = self.track_ids
 
-      if track
-        favourite.track_id = track.id
-        favourite.save
+    # get track
+    track = Track.find(track_id)
 
-        track.favourite_id = favourite.id
-        track.save
-      end
+    # check
+    return unless track
 
-      track ? favourite : nil
-    end.compact
+    # convert to string
+    source_id = source_id.to_s
+    track_id = track_id.to_s
 
-    favourites
+    # create {{source_id}} key if doesn't exist yet
+    unless track_ids[source_id]
+      track_ids[source_id] = ""
+    end
+
+    # get track ids for this source id
+    source_track_ids = track_ids[source_id].split(",")
+
+    # update key -> value
+    unless source_track_ids.include?(track_id)
+      source_track_ids << track_id
+    end
+
+    # array -> string
+    track_ids[source_id] = source_track_ids.join(",")
+
+    # set favourite_id on track
+    track.favourite_id = self.id
+
+    # save in db
+    ActiveRecord::Base.transaction do
+      self.save
+      track.save
+    end
+  end
+
+
+  #
+  #  Bind tracks to favourites
+  #  -> bind the user's favourites
+  #     to all matching tracks
+  #
+  def self.bind_favourites_with_tracks(user_id)
+    favourites = self.where(user_id: user_id)
   end
 
 end

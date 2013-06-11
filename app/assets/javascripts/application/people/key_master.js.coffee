@@ -14,7 +14,7 @@ class OngakuRyoho.Classes.People.KeyMaster
 
 
   #
-  #
+  #  Filter
   #
   filter_extra_search_field_bind: () ->
     Mousetrap.bind("backspace", this.filter_extra_search_field_backspace, "keyup")

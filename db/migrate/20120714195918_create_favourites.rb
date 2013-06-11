@@ -14,7 +14,7 @@ class CreateFavourites < ActiveRecord::Migration
       t.string :url
 
       t.references :user
-      t.references :track
+      t.hstore :track_ids
 
       t.column :search_vector, 'tsvector'
 
@@ -22,7 +22,10 @@ class CreateFavourites < ActiveRecord::Migration
     end
 
     add_index :favourites, :user_id
-    add_index :favourites, :track_id
+
+    execute <<-EOS
+      CREATE INDEX favourites_gin_track_ids ON favourites USING gin(track_ids)
+    EOS
 
     execute <<-EOS
       CREATE INDEX favourites_search_index ON favourites USING gin(search_vector)

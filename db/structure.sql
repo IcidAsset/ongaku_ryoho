@@ -58,7 +58,7 @@ CREATE TABLE favourites (
     location character varying(255),
     url character varying(255),
     user_id integer,
-    track_id integer,
+    track_ids hstore,
     search_vector tsvector,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -333,6 +333,13 @@ CREATE INDEX favourites_default_lookup_index ON favourites USING btree (id, user
 
 
 --
+-- Name: favourites_gin_track_ids; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX favourites_gin_track_ids ON favourites USING gin (track_ids);
+
+
+--
 -- Name: favourites_search_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -358,13 +365,6 @@ CREATE INDEX favourites_sorting_default_index ON favourites USING btree (lower((
 --
 
 CREATE INDEX favourites_sorting_title_index ON favourites USING btree (lower((title)::text), tracknr, lower((artist)::text), lower((album)::text));
-
-
---
--- Name: index_favourites_on_track_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_favourites_on_track_id ON favourites USING btree (track_id);
 
 
 --
