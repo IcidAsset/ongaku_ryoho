@@ -1,7 +1,19 @@
 //
 //  Colors
 //
-$hue: 55; // 55
+$hue: 25;
+
+// 25     blue silver
+// 55     purple rain
+// 90     pink lad
+// 140    evening
+// 167    red stone
+// 190    earth
+// 215    swamp
+// 240    forest
+// 280    grass
+// 335    aqua
+
 $bgcolor: adjust_hue(darken(#686f78, 0.5%), $hue - 10); // #6C6777, #716d85;
 
 // general
@@ -45,13 +57,13 @@ $rbf_inner_color_a: adjust_hue(#525559, $hue);
 $rbf_inner_color_b: adjust_hue(lighten(#3d3f42, 4.5%), $hue);
 
 // subtle
-$subtle_green: mix($rbn_inner_color_a, $green_3, 92.5);
-$subtle_red: mix($rbn_inner_color_a, $red_2, 92.5);
-$subtle_blue: mix($rbn_inner_color_a, $blue_2, 92.5);
+$subtle_green: mix($rbn_inner_color_a, $green, 92.5);
+$subtle_red: mix($rbn_inner_color_a, $yellow, 92.5);
+$subtle_blue: mix($rbn_inner_color_a, $blue, 92.5);
 
-$less_subtle_green: mix($rbn_inner_color_a, $green_3, 65);
-$less_subtle_red: mix($rbn_inner_color_a, $red_2, 65);
-$less_subtle_blue: mix($rbn_inner_color_a, $blue_2, 65);
+$less_subtle_green: mix($rbn_inner_color_a, $green, 65);
+$less_subtle_red: mix($rbn_inner_color_a, $yellow, 65);
+$less_subtle_blue: mix($rbn_inner_color_a, $blue, 65);
 
 // other
 $now_playing_track_color: saturate(lighten($rbn_outer_color_a, 15), 2.5);
