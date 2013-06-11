@@ -23,8 +23,9 @@
   }
 
   input[type="text"] {
-    background: rgba($less_subtle_blue, .195);
-    color: darken($less_subtle_blue, 15);
+    background: transparent;
+    border: 1px dotted rgba($less_subtle_blue, .525);
+    color: $subtle_blue;
     display: inline-block;
     margin: 0;
 
@@ -33,13 +34,13 @@
 
     @include box-sizing(border-box);
     @include input-placeholder {
-      color: rgba($less_subtle_blue, .425);
+      color: rgba($less_subtle_blue, .365);
       font-size: 12px;
     };
   }
 
   .actions {
-    color: rgba(white, .5);
+    color: rgba($subtle_blue, .825);
     margin-left: 8px;
     text-align: center;
 
@@ -48,23 +49,29 @@
     @include sansserif-font;
 
     div {
-      background: $subtle_blue;
+      border: 1px dotted rgba($less_subtle_blue, .325);
       cursor: pointer;
       float: left;
       font-size: 14px;
-      height: 32px;
-      line-height: 32px;
+      height: 30px;
+      line-height: 30px;
       overflow: hidden;
-      width: 29px;
+      width: 28px;
     }
 
     div:last-child {
-      border-left: 1px solid rgba(white, .1);
+      border-left: 0;
+      &.active,
+      &:hover {
+        border-left: 1px dotted $blue;
+        margin-left: -1px;
+      }
     }
 
     div.active,
     div:hover {
-      background-color: $blue_2;
+      border-color: $blue;
+      color: $blue;
     }
   }
 
@@ -72,8 +79,9 @@
   //  Submit
   //
   .submit {
-    background: $less_subtle_blue;
-    color: rgba(white, .725);
+    background: transparent;
+    border: 2px solid rgba($less_subtle_blue, .2);
+    color: rgba($less_subtle_blue, .75);
     cursor: pointer;
     display: block;
     font-size: 12px;
@@ -85,7 +93,8 @@
     @include lato-font;
 
     &:hover {
-      background-color: $blue_2;
+      border-color: $blue;
+      color: $blue;
     }
   }
 

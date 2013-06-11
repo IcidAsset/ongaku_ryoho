@@ -51,7 +51,7 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
       []
 
     # check
-    if query.length is 0
+    if query.length is 0 or query is "+" or query is "-"
       return no
 
     # update query depending on action
