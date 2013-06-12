@@ -204,30 +204,12 @@ private
       track_id = nil
 
       unless f.track_ids.keys.empty?
-        source_ids.each do |source_id|
-          value = f.track_ids[source_id.to_s]
-          if value
-            available_track_id = value.split(",").first
-            if available_track_id
-              track_ids << available_track_id
-              track_id = available_track_id
-              break
-            end
-          end
-        end
+        track_id = get_track_id_from_track_ids_hash(f.track_ids, source_ids)
+        track_ids << track_id if track_id
 
         unless track_id
-          unavailable_source_ids.each do |source_id|
-            value = f.track_ids[source_id.to_s]
-            if value
-              unavailable_track_id = value.split(",").first
-              if unavailable_track_id
-                unavailable_track_ids << unavailable_track_id
-                track_id = unavailable_track_id
-                break
-              end
-            end
-          end
+          track_id = get_track_id_from_track_ids_hash(f.track_ids, unavailable_source_ids)
+          unavailable_track_ids << track_id if track_id
         end
       end
 
@@ -304,6 +286,24 @@ private
     else
       order
     end
+  end
+
+
+  def get_track_id_from_track_ids_hash(track_ids, source_ids)
+    track_id = nil
+
+    # loop
+    source_ids.each do |source_id|
+      if ids_array_string = f.track_ids[source_id.to_s]
+        if tid = ids_array_string.split(",").first
+          track_id = tid
+          break
+        end
+      end
+    end
+
+    # return
+    track_id
   end
 
 end
