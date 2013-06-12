@@ -5,12 +5,12 @@ class ServerWorker
     server = Server.find(server_id, conditions: { user_id: user_id })
 
     if server
-      # begin
+      begin
         ServerWorker.update_tracks(server, data)
-      # rescue
-      #   server.remove_from_redis_queue
-      #   puts "ServerWorker could not process job!"
-      # end
+      rescue
+        server.remove_from_redis_queue
+        puts "ServerWorker could not process job!"
+      end
 
     else
       server.remove_from_redis_queue
@@ -39,17 +39,19 @@ class ServerWorker
     Server.add_new_tracks(server, new_tracks)
 
     # update some attributes if needed
-    if !missing_files.empty? or !new_tracks.empty?
-      if parsed_data.kind_of?(Array)
-        server.activated = true
-        server.processed = true
-      end
-      server.updated_at = Time.now
-      server.save
+    if parsed_data.kind_of?(Array) && (!missing_files.empty? or !new_tracks.empty?)
+      server.activated = true
+      server.processed = true
     end
 
     # bind favourites to tracks
-    Favourite.bind_favourites_with_tracks(server.user_id)
+    made_bindings = Favourite.bind_favourites_with_tracks(server.user_id)
+
+    # if changes -> save
+    if !missing_files.empty? or !new_tracks.empty? or made_bindings
+      server.updated_at = Time.now
+      server.save
+    end
 
     # remove from redis queue
     server.remove_from_redis_queue()

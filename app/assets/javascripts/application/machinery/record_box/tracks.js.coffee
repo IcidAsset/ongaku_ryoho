@@ -92,15 +92,25 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
       artist = track.get("artist")
       album = track.get("album")
 
-      if $t.attr("data-favourite") is "true"
-        $t.attr("data-favourite", "false")
+      tracks = @group.collection.where({
+        title: title,
+        artist: artist,
+        album: album
+      })
 
+      if $t.attr("data-favourite") is "true"
         @parent_group.Favourites.collection
           .remove_matching_favourites(title, artist, album)
 
-      else
-        $t.attr("data-favourite", "true")
+        _.each(tracks, (t) ->
+          OngakuRyoho.RecordBox.Tracks.view.$el
+            .find(".track[rel='#{t.id}'] > .favourite")
+            .attr("data-favourite", "")
 
+          t.set("favourite_id", null)
+        )
+
+      else
         new_favourite = @parent_group.Favourites.collection
           .create({
             title: title,
@@ -109,7 +119,13 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
             track_id: track_id
           }, { wait: true })
 
-        track.set("favourite_id", true)
+        _.each(tracks, (t) ->
+          OngakuRyoho.RecordBox.Tracks.view.$el
+            .find(".track[rel='#{t.id}'] > .favourite")
+            .attr("data-favourite", "true")
+
+          t.set("favourite_id", true)
+        )
 
     # if the track doesn't exist
     # e.g. unavailable track

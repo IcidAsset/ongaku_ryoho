@@ -27,6 +27,7 @@ class Favourite < ActiveRecord::Base
   #
   def bind_track(track)
     track_ids = self.track_ids
+    changed = false
 
     # convert to string
     source_id = track.source_id.to_s
@@ -43,19 +44,20 @@ class Favourite < ActiveRecord::Base
     # update key -> value
     unless source_track_ids.include?(track_id)
       source_track_ids << track_id
+
+      track_ids[source_id] = source_track_ids.join(",")
+      track.favourite_id = self.id
+
+      ActiveRecord::Base.transaction do
+        self.save
+        track.save
+      end
+
+      changed = true
     end
 
-    # array -> string
-    track_ids[source_id] = source_track_ids.join(",")
-
-    # set favourite_id on track
-    track.favourite_id = self.id
-
-    # save in db
-    ActiveRecord::Base.transaction do
-      self.save
-      track.save
-    end
+    # return
+    changed
   end
 
   def unbind_track(track)
@@ -91,9 +93,15 @@ class Favourite < ActiveRecord::Base
   #  -> bind the user's favourites
   #     to all matching tracks
   #
-  def self.bind_favourites_with_tracks(user_id)
-    favourites = self.where(user_id: user_id)
+  def self.bind_favourites_with_tracks(user_id, favourite=nil)
+    favourites = if favourite
+      [favourite]
+    else
+      self.where(user_id: user_id)
+    end
+
     source_ids = Source.where(user_id: user_id, activated: true).pluck(:id)
+    changes = false
 
     # loop
     favourites.each do |favourite|
@@ -105,9 +113,13 @@ class Favourite < ActiveRecord::Base
       )
 
       tracks.each do |track|
-        favourite.bind_track(track)
+        changed = favourite.bind_track(track)
+        changes = changed unless changes
       end
     end
+
+    # return
+    changes
   end
 
 end

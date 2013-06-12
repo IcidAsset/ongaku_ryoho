@@ -32,7 +32,7 @@ class Api::FavouritesController < ApplicationController
 
     # save favourite
     if favourite.save
-      favourite.bind_track(track)
+      Favourite.bind_favourites_with_tracks(favourite.user_id, favourite)
     end
 
     # render json
