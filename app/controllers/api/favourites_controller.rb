@@ -12,28 +12,27 @@ class Api::FavouritesController < ApplicationController
     favourite = Favourite.new
     track = Track.find(params[:favourite][:track_id])
 
+    # check
+    unless track
+      render json: {}
+      return
+    end
+
     # favourite belongs to user
     favourite.user_id = current_user.id
 
-    # if the track exists, copy its attributes
-    if track
-      attributes = { track_id: track.id }
+    # copy the track's attributes
+    attributes = {}
 
-      %w(artist title album genre tracknr year filename location url).each do |attribute|
-        attributes[attribute] = track.send(attribute.to_sym)
-      end
-
-      favourite.assign_attributes(attributes)
-    else
-      favourite.assign_attributes(params[:favourite])
+    %w(artist title album genre tracknr year filename location url).each do |attribute|
+      attributes[attribute] = track.send(attribute.to_sym)
     end
+
+    favourite.assign_attributes(attributes)
 
     # save favourite
     if favourite.save
-      if track
-        track.favourite_id = favourite.id
-        track.save
-      end
+      favourite.bind_track(track)
     end
 
     # render json

@@ -114,8 +114,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     # if the track doesn't exist
     # e.g. unavailable track
     else
-      favourites = @parent_group.Favourites.collection.where({ track_id: track_id })
-      _.each favourites, (f) -> f.destroy()
+      @parent_group.Favourites.remove_matching_favourites_by_track_id(track_id)
 
     # remove dom element if needed
     # and also add 'nothing here' message if the collection is empty

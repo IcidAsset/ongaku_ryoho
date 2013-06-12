@@ -8,11 +8,16 @@ class Track < ActiveRecord::Base
   #  Associations
   #
   belongs_to :source
-
-  has_one :favourite, dependent: :nullify
+  belongs_to :favourite
 
   has_many :playlists_tracks
   has_many :playlists, through: :playlists_tracks
+
+
+  #
+  #  Callbacks
+  #
+  before_destroy :remove_track_id_from_favourite
 
 
   #
@@ -46,6 +51,12 @@ class Track < ActiveRecord::Base
     tracks.map do |track|
       track.location[/([^\/]*)/]
     end
+  end
+
+private
+
+  def remove_track_id_from_favourite
+    self.favourite.unbind_track(self) if self.favourite
   end
 
 end

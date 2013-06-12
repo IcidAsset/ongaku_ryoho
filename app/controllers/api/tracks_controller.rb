@@ -193,6 +193,7 @@ private
     end
 
     # process favourites
+    unavailable_track_ids = []
     track_ids = []
     tracks_placeholder = favourites.map { |f| f.id }
 
@@ -200,9 +201,37 @@ private
     unavailable_source_ids = source_ids - available_source_ids
 
     favourites.each_with_index do |f, idx|
-      if f.track_id
-        track_ids << f.track_id
-      else
+      track_id = nil
+
+      unless f.track_ids.keys.empty?
+        source_ids.each do |source_id|
+          value = f.track_ids[source_id.to_s]
+          if value
+            available_track_id = value.split(",").first
+            if available_track_id
+              track_ids << available_track_id
+              track_id = available_track_id
+              break
+            end
+          end
+        end
+
+        unless track_id
+          unavailable_source_ids.each do |source_id|
+            value = f.track_ids[source_id.to_s]
+            if value
+              unavailable_track_id = value.split(",").first
+              if unavailable_track_id
+                unavailable_track_ids << unavailable_track_id
+                track_id = unavailable_track_id
+                break
+              end
+            end
+          end
+        end
+      end
+
+      unless track_id
         imaginary_track = Track.new({
           title: f.title,
           artist: f.artist,
@@ -220,7 +249,7 @@ private
     end
 
     # get unavailable tracks
-    _unavailable_tracks = Track.where(id: track_ids, source_id: unavailable_source_ids)
+    _unavailable_tracks = Track.where(id: unavailable_track_ids)
     _unavailable_tracks.each do |ut|
       ut.available = false
 
@@ -231,7 +260,7 @@ private
     end
 
     # get available tracks
-    _tracks = Track.where(id: track_ids, source_id: available_source_ids)
+    _tracks = Track.where(id: track_ids)
     _tracks.each do |t|
       index = tracks_placeholder.index(t.favourite_id)
       tracks_placeholder[index] = t

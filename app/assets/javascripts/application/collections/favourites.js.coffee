@@ -36,3 +36,7 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
 
       t = OngakuRyoho.RecordBox.Tracks.collection.get(track_id)
       t.set("favourite_id", null) if t
+
+
+  remove_matching_favourites_by_track_id: (track_id) ->
+    # TODO
