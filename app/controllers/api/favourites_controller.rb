@@ -10,7 +10,7 @@ class Api::FavouritesController < ApplicationController
 
   def create
     favourite = Favourite.new
-    track = Track.find(params[:favourite][:track_id])
+    track = Track.find(params[:track_id])
 
     # check
     unless track
@@ -43,13 +43,16 @@ class Api::FavouritesController < ApplicationController
   def destroy
     favourite = current_user.favourites.find(params[:id])
 
-    # related track
-    track = favourite.track
-
-    # reset track attributes
-    if track
-      track.favourite_id = nil
-      track.save
+    # reset tracks
+    favourite.track_ids.each do |source_id, track_ids|
+      track_ids = track_ids.split(",")
+      track_ids.each do |track_id|
+        track = Track.find(track_id)
+        if track
+          track.favourite_id = nil
+          track.save
+        end
+      end
     end
 
     # destroy favourite

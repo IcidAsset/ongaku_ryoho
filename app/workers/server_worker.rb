@@ -5,12 +5,12 @@ class ServerWorker
     server = Server.find(server_id, conditions: { user_id: user_id })
 
     if server
-      begin
+      # begin
         ServerWorker.update_tracks(server, data)
-      rescue
-        server.remove_from_redis_queue
-        puts "ServerWorker could not process job!"
-      end
+      # rescue
+      #   server.remove_from_redis_queue
+      #   puts "ServerWorker could not process job!"
+      # end
 
     else
       server.remove_from_redis_queue

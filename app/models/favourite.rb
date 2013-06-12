@@ -93,18 +93,20 @@ class Favourite < ActiveRecord::Base
   #
   def self.bind_favourites_with_tracks(user_id)
     favourites = self.where(user_id: user_id)
-    source_ids = self.where(user_id: user_id, activated: true).pluck(:id)
+    source_ids = Source.where(user_id: user_id, activated: true).pluck(:id)
 
     # loop
     favourites.each do |favourite|
-      track = Track.find(
+      tracks = Track.where(
         source_id: source_ids,
         artist: favourite.artist,
         title: favourite.title,
         album: favourite.album
       )
 
-      favourite.bind_track(track.source_id, track) if track
+      tracks.each do |track|
+        favourite.bind_track(track)
+      end
     end
   end
 
