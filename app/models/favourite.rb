@@ -88,7 +88,7 @@ class Favourite < ActiveRecord::Base
   end
 
   def has_unknown_tags?
-    return self.artist == "unknown" && self.title == "unknown"
+    return self.artist.downcase == "unknown" && self.title.downcase == "unknown"
   end
 
   #

@@ -125,7 +125,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
 
     # don't link favourite with other tracks
     # if the artist and title are 'unknown'
-    if artist is "unknown" and title is "unknown"
+    if artist.toLowerCase() is "unknown" and title.toLowerCase() is "unknown"
       tracks = [track]
     else
       tracks = this.where({
