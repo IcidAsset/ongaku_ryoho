@@ -124,6 +124,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
 
     # clean up
     $input.val("")
+    $input[0].is_empty = true
 
 
 
@@ -131,7 +132,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     @group.view.$el.addClass("is-using-extra-search-field")
 
     # bind backspace action
-    OngakuRyoho.People.KeyMaster.filter_extra_search_field_bind()
+    OngakuRyoho.People.KeyMaster.filter_extra_search_field_bind(e.currentTarget)
 
 
 
@@ -139,7 +140,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     @group.view.$el.removeClass("is-using-extra-search-field")
 
     # unbind backspace action
-    OngakuRyoho.People.KeyMaster.filter_extra_search_field_unbind()
+    OngakuRyoho.People.KeyMaster.filter_extra_search_field_unbind(e.currentTarget)
 
     # clean input
     $t = $(e.currentTarget)
