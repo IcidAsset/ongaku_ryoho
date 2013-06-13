@@ -42,6 +42,7 @@ class ServerWorker
     if parsed_data.kind_of?(Array) && (!missing_files.empty? or !new_tracks.empty?)
       server.activated = true
       server.processed = true
+      server.save
     end
 
     # bind favourites to tracks

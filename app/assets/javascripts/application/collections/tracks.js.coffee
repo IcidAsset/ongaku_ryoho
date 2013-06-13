@@ -104,3 +104,67 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
 
     next_page_number = OngakuRyoho.RecordBox.Filter.model.get("page") + 1
     OngakuRyoho.RecordBox.Filter.model.set("page", next_page_number)
+
+
+  #
+  #  Toggle favourite on track
+  #
+  toggle_favourite: (track_id) ->
+    track = this.get(track_id)
+
+    if track.get("available")
+      this.toggle_favourite_if_available(track)
+    else
+      this.toggle_favourite_if_unavailable(track)
+
+
+  toggle_favourite_if_available: (track) ->
+    title = track.get("title")
+    artist = track.get("artist")
+    album = track.get("album")
+
+    # don't link favourite with other tracks
+    # if the artist and title are 'unknown'
+    if artist is "unknown" and title is "unknown"
+      tracks = [track]
+    else
+      tracks = this.where({
+        title: title,
+        artist: artist,
+        album: album
+      })
+
+    # if favourite
+    if track.get("favourite_id")
+      OngakuRyoho.RecordBox.Favourites.collection
+        .remove_matching_favourites(title, artist, album)
+
+      _.each(tracks, (t) ->
+        OngakuRyoho.RecordBox.Tracks.view.$el
+          .find(".track[rel='#{t.id}'] > .favourite")
+          .attr("data-favourite", "")
+
+        t.set("favourite_id", null)
+      )
+
+    # if not a favourite,
+    # create one
+    else
+      OngakuRyoho.RecordBox.Favourites.collection.create({
+        title: title,
+        artist: artist,
+        album: album,
+        track_id: track.id
+      }, { wait: true })
+
+      _.each(tracks, (t) ->
+        OngakuRyoho.RecordBox.Tracks.view.$el
+          .find(".track[rel='#{t.id}'] > .favourite")
+          .attr("data-favourite", "true")
+
+        t.set("favourite_id", true)
+      )
+
+
+  toggle_favourite_if_unavailable: (track) ->
+    OngakuRyoho.RecordBox.Favourites.remove_matching_favourites_by_track_id(track_id)

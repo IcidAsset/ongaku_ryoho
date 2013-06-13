@@ -87,6 +87,9 @@ class Favourite < ActiveRecord::Base
     self.save
   end
 
+  def has_unknown_tags?
+    return self.artist == "unknown" && self.title == "unknown"
+  end
 
   #
   #  Bind tracks to favourites
@@ -105,6 +108,8 @@ class Favourite < ActiveRecord::Base
 
     # loop
     favourites.each do |favourite|
+      next if favourite.has_unknown_tags?
+
       tracks = Track.where(
         source_id: source_ids,
         artist: favourite.artist,

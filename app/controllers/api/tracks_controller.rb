@@ -294,7 +294,7 @@ private
 
     # loop
     source_ids.each do |source_id|
-      if ids_array_string = f.track_ids[source_id.to_s]
+      if ids_array_string = track_ids[source_id.to_s]
         if tid = ids_array_string.split(",").first
           track_id = tid
           break

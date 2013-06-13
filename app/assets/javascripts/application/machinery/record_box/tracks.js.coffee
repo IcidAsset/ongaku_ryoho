@@ -79,58 +79,11 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
   #  Track rating star click event
   #
   track_rating_star_click: (e) =>
-    $t = $(e.currentTarget)
-    $track = $t.closest(".track")
+    $track = $(e.currentTarget).closest(".track")
+    track_id = parseInt($track.attr("rel"), 10)
 
-    available = !$track.hasClass("unavailable")
-    track_id = parseInt($track.attr("rel"))
-
-    # if the track exists
-    if available
-      track = @group.collection.get(track_id)
-      title = track.get("title")
-      artist = track.get("artist")
-      album = track.get("album")
-
-      tracks = @group.collection.where({
-        title: title,
-        artist: artist,
-        album: album
-      })
-
-      if $t.attr("data-favourite") is "true"
-        @parent_group.Favourites.collection
-          .remove_matching_favourites(title, artist, album)
-
-        _.each(tracks, (t) ->
-          OngakuRyoho.RecordBox.Tracks.view.$el
-            .find(".track[rel='#{t.id}'] > .favourite")
-            .attr("data-favourite", "")
-
-          t.set("favourite_id", null)
-        )
-
-      else
-        new_favourite = @parent_group.Favourites.collection
-          .create({
-            title: title,
-            artist: artist,
-            album: album,
-            track_id: track_id
-          }, { wait: true })
-
-        _.each(tracks, (t) ->
-          OngakuRyoho.RecordBox.Tracks.view.$el
-            .find(".track[rel='#{t.id}'] > .favourite")
-            .attr("data-favourite", "true")
-
-          t.set("favourite_id", true)
-        )
-
-    # if the track doesn't exist
-    # e.g. unavailable track
-    else
-      @parent_group.Favourites.remove_matching_favourites_by_track_id(track_id)
+    # pass to collection
+    @group.collection.toggle_favourite(track_id)
 
     # remove dom element if needed
     # and also add 'nothing here' message if the collection is empty
@@ -143,7 +96,6 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     # prevent default
     e.preventDefault()
     e.stopPropagation()
-    return false
 
 
 
