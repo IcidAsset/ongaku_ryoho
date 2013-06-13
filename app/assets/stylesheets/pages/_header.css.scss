@@ -1,0 +1,84 @@
+header {
+  background: $bgcolor image-url("background.png") 0 0 repeat;
+  display: block;
+  overflow: hidden;
+  padding: 22px 0;
+
+  @include lato-font;
+
+
+}
+
+
+
+//
+//  Navigation
+//
+header nav {
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 14px;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  a, a.sign-in.active {
+    border: 0;
+    padding: 7px 12px 6px;
+  }
+
+  a.sign-in,
+  a.sign-out {
+    padding: 6px 11px 5px;
+  }
+
+  a {
+    border-radius: 3px;
+    color: $rbn_button_text_color;
+    display: inline-block;
+    margin-left: 46px;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    color: white;
+    outline: 0;
+  }
+
+  a.active,
+  a.sign-in.active {
+    background: rgba(white, .85);
+    color: $bgcolor;
+  }
+
+  a.application {
+    background: darken($bgcolor, 15);
+    @include button-gradient;
+  }
+
+  a.sign-in,
+  a.sign-out {
+    border: 1px solid rgba(white, .425);
+    color: rgba(white, .825);
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  a.sign-up {
+    background: $rbn_input_color_a;
+    color: white;
+  }
+
+  // inner
+  a i {
+    font-size: 14px;
+    margin-right: 5px;
+  }
+
+
+}

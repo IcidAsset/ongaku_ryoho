@@ -257,12 +257,12 @@
 
   .add-button.favourites,
   .item.favourites {
-    background-color: $subtle_red;
+    background-color: $subtle_yellow;
   }
 
   .add-button.favourites:hover,
   .item.favourites:hover {
-    background-color: $less_subtle_red;
+    background-color: $less_subtle_yellow;
   }
 
   // filter - search

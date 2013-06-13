@@ -19,9 +19,6 @@ html
     /
     header
       .wrapper
-        a.application-name[href="/"]
-          .icon[data-icon="&#9835;"]
-
         nav
           - @pages.each do |page|
             - klass = page[:title].parameterize

@@ -14,8 +14,6 @@ $hue: 25;
 // 280    grass
 // 335    aqua
 
-$bgcolor: adjust_hue(darken(#686f78, 0.5%), $hue - 10); // #6C6777, #716d85;
-
 // general
 $red: #E0676C;
 $red_2: #e74c3c;
@@ -58,24 +56,31 @@ $rbf_inner_color_b: adjust_hue(lighten(#3d3f42, 4.5%), $hue);
 
 // subtle
 $subtle_green: mix($rbn_inner_color_a, $green, 92.5);
-$subtle_red: mix($rbn_inner_color_a, $yellow, 92.5);
+$subtle_yellow: mix($rbn_inner_color_a, $yellow, 92.5);
 $subtle_blue: mix($rbn_inner_color_a, $blue, 92.5);
+$subtle_red: mix($rbn_inner_color_a, $red, 92.5);
 
 $less_subtle_green: mix($rbn_inner_color_a, $green, 65);
-$less_subtle_red: mix($rbn_inner_color_a, $yellow, 65);
+$less_subtle_yellow: mix($rbn_inner_color_a, $yellow, 65);
 $less_subtle_blue: mix($rbn_inner_color_a, $blue, 65);
+$less_subtle_red: mix($rbn_inner_color_a, $red, 65);
+
+// important
+$bgcolor: adjust_hue(darken(#686f78, 0.5%), $hue - 10); // #6C6777, #716d85;
+$textcolor: darken(desaturate($rbn_button_text_color, 4), 25);
 
 // other
 $now_playing_track_color: saturate(lighten($rbn_outer_color_a, 15), 2.5);
 
-// <todo: deprecated>
+// deprecated
 $bgcolor_1: #644E74;
 $bgcolor_2: #724562;
 $bgcolor_3: #944D5D;
 
 $blueish: #B6BABF;
 $blueish_dark: #6C7075;
-$light: lighten($blueish, 17.5%);
+
+$light: lighten($rbn_button_text_color, 17.5);
 $dark: #292929;
 
 

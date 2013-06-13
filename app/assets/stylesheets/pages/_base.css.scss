@@ -1,0 +1,63 @@
+/*
+
+    Base
+
+*/
+
+body {
+  background: white;
+  color: $textcolor;
+  font-size: 18px;
+  line-height: 32px;
+  margin: 0;
+  min-width: $breakpoint_medium;
+
+  @include sourcesanspro-font;
+}
+
+.wrapper {
+  margin: 0 auto;
+  max-width: 1004px;
+  padding: 0 58px;
+  position: relative;
+
+  &.content {
+    padding-bottom: 50px;
+    padding-top: 50px;
+  }
+}
+
+
+
+//
+//  Content
+//
+h1 {
+  display: none;
+}
+
+h2 {
+  color: darken($textcolor, 10%);
+  font-size: 39px;
+  font-weight: 100;
+  letter-spacing: -2px;
+  margin: 0 0 33px;
+  text-align: center;
+}
+
+p {
+  margin: 0;
+}
+
+i {
+  display: inline-block;
+  font-style: normal;
+  position: relative;
+  top: 2px;
+
+  @include icon-font;
+}
+
+.with-a-border {
+  border-bottom: 1px dashed #dadada;
+}
