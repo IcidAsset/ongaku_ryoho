@@ -24,7 +24,7 @@
 
   input[type="text"] {
     background: transparent;
-    border: 1px dotted rgba($less_subtle_blue, .525);
+    border: 1px solid rgba($less_subtle_blue, .15);
     color: $subtle_blue;
     display: inline-block;
     margin: 0;
@@ -40,7 +40,7 @@
   }
 
   .actions {
-    color: rgba($subtle_blue, .825);
+    color: rgba($less_subtle_blue, .825);
     margin-left: 8px;
     text-align: center;
 
@@ -49,7 +49,7 @@
     @include sansserif-font;
 
     div {
-      border: 1px dotted rgba($less_subtle_blue, .325);
+      border: 1px solid rgba($less_subtle_blue, .15);
       cursor: pointer;
       float: left;
       font-size: 14px;
@@ -63,7 +63,7 @@
       border-left: 0;
       &.active,
       &:hover {
-        border-left: 1px dotted $blue;
+        border-left: 1px solid $blue;
         margin-left: -1px;
       }
     }
