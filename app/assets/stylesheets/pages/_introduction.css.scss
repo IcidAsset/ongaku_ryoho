@@ -1,10 +1,11 @@
 .introduction {
   color: $textcolor;
-  font-size: 24px;
+  font-size: 30px;
   font-style: italic;
   font-weight: 100;
-  line-height: 38px;
-  padding: 50px 0 45px;
+  letter-spacing: -1px;
+  line-height: 46px;
+  padding: 41px 0 36px;
 
   .colored {
     color: darken($bgcolor, 17.5%);
