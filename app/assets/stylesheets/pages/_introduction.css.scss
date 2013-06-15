@@ -1,21 +1,26 @@
 .introduction {
   color: $textcolor;
   font-size: 30px;
-  font-style: italic;
-  font-weight: 100;
+  font-weight: 300;
   letter-spacing: -1px;
-  line-height: 46px;
-  padding: 41px 0 36px;
+  line-height: 43px;
+  padding: 43px 0 40px;
+
+  -webkit-font-smoothing: antialiased;
 
   .colored {
-    color: darken($bgcolor, 17.5%);
-    font-weight: bold;
+    color: $purple;
   }
 
   .subtext {
     font-size: 13px;
     font-weight: 300;
     letter-spacing: 0;
+  }
+
+  strong {
+    color: darken($textcolor, 10);
+    font-weight: 500;
   }
 
   p { margin: 0 }
