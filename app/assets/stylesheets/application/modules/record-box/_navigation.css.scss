@@ -132,6 +132,7 @@
   }
 
   .extra-search-field {
+    min-width: 70px;
     position: relative;
     z-index: 1;
     -webkit-flex: 1;
@@ -141,6 +142,7 @@
   .add-buttons {
     padding-right: 2px;
     text-align: right;
+    white-space: nowrap;
     -webkit-order: 3;
   }
 

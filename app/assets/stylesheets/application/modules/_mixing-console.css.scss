@@ -18,6 +18,7 @@ $button_height: 52px;
   //  Now Playing
   //
   .now-playing {
+    box-shadow: inset 0 6px 9px 0 rgba(black, .175);
     color: white;
     cursor: pointer;
     border: 1px solid rgba(black, .04);
@@ -26,22 +27,26 @@ $button_height: 52px;
     line-height: 56px;
 
     @include sansserif-font;
-    @include single-box-shadow(rgba(black, .175), 0, 6px, 9px, 0, 'inset');
-    @include single-text-shadow(rgba(black, .525), 0, 0, 2px);
+
+    &, .item {
+      height: 51px;
+      overflow: hidden;
+    }
 
     .time {
       font-size: 18px;
       font-weight: 100;
       left: 19px;
       position: absolute;
+      text-shadow: 0 0 2px rgba(black, .325);
       top: 0;
     }
 
-    &, .item { height: 51px; overflow: hidden }
-       .item {
+    .item {
       margin: 0 19px 0 78px;
       line-height: 60px;
       text-overflow: ellipsis;
+      text-shadow: 0 0 2px rgba(black, .525);
       white-space: nowrap;
     }
   }
