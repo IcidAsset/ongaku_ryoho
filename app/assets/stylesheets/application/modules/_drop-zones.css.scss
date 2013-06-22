@@ -31,12 +31,12 @@
   .queue .icon {
     bottom: 0;
     color: rgba(black, .075);
-    font-size: 420px;
+    font-size: 424px;
     left: 0;
     opacity: 1;
     position: absolute;
     right: 0;
-    top: 8px;
+    top: 0;
     z-index: 0;
 
     @include transition-duration(400ms);
@@ -50,6 +50,8 @@
     line-height: 132px;
     position: relative;
     z-index: 1;
+
+    @include sansserif-font;
   }
 
   // queue - dragging/hover

@@ -9,6 +9,8 @@
 
   -webkit-font-smoothing: antialiased;
 
+  @include sansserif-font;
+
   .message {
     border: 1px dashed rgba(#fff, .17);
     color: rgba(#fff, .6);

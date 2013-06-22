@@ -15,6 +15,7 @@
 
   -webkit-font-smoothing: antialiased;
 
+  @include sansserif-font;
   @include background-image(
     linear-gradient($rbf_outer_color_a, $rbf_outer_color_b)
   );

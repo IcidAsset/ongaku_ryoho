@@ -148,19 +148,19 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
       angle = this.knob_get_angle($knob, e)
       item = _.without($knob.attr("class").split(" "), "knob")[0]
       biquad_filters = ["low", "mid", "hi"]
-      funtion_arguments = []
+      function_arguments = []
 
       # mouse move event function & its arguments
       specific_mouse_move_event = if _.contains(biquad_filters, item)
-        funtion_arguments.push(item, angle)
+        function_arguments.push(item, angle)
         this.knob_mouse_move_events.biquad_filter
       else
-        funtion_arguments.push(angle)
+        function_arguments.push(angle)
         this.knob_mouse_move_events[item]
 
       # continue
       if specific_mouse_move_event
-        specific_mouse_move_event.apply(this, funtion_arguments)
+        specific_mouse_move_event.apply(this, function_arguments)
 
 
     mouse_up = (e) ->

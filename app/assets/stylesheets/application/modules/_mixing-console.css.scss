@@ -25,6 +25,7 @@ $button_height: 52px;
     font-weight: 200;
     line-height: 56px;
 
+    @include sansserif-font;
     @include single-box-shadow(rgba(black, .175), 0, 6px, 9px, 0, 'inset');
     @include single-text-shadow(rgba(black, .525), 0, 0, 2px);
 
@@ -184,6 +185,8 @@ $button_height: 52px;
         font-size: 10px;
         font-weight: 400;
         margin-top: 4px;
+
+        @include sansserif-font;
       }
 
       .icon {
