@@ -9,18 +9,19 @@
   -webkit-font-smoothing: antialiased;
 
   .colored {
-    color: $purple;
+    color: $green_3;
+    font-weight: 400;
   }
 
   .subtext {
     font-size: 13px;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0;
   }
 
   strong {
     color: darken($textcolor, 10);
-    font-weight: 500;
+    font-weight: 400;
   }
 
   p { margin: 0 }
