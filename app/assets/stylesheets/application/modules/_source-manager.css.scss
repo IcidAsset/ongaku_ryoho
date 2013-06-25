@@ -15,26 +15,14 @@
 //  Toolbar
 //
 .mod-source-manager .toolbar {
-  background: #ebebeb;
-  border-bottom: 1px solid #f8f8f8;
-  padding: 10px 11px 8px;
-
-  @include sourcesanspro-font;
-  @include single-box-shadow(#ddd, 0, 1px, 0, 0);
+  background: #fafafa;
+  border-top: 1px solid #f0f0f0;
+  box-shadow: 0 -3px 0 0 #fcfcfc;
+  padding: 17px;
 
   a {
-    background: #222;
-    border-radius: 3px;
-    color: white;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 12px;
-    margin-right: 7px;
-    opacity: 0;
-    padding: 6px 10px 5px;
+    visibility: hidden;
   }
-
-  a.add { background: #31be67 }
 }
 
 
@@ -42,19 +30,16 @@
 //  Source list
 //
 .mod-source-list {
+  display: -webkit-flex;
   width: 100%;
 
-  td {
+  -webkit-flex: 1;
+  -webkit-flex-direction: column;
+
+  .sources {}
+
+  .source {
     border-bottom: 1px solid #eee;
-    padding: 14px 0;
-  }
-
-  td:first-child {
-    text-align: center;
-    width: 74px;
-  }
-
-  input[type="checkbox"] {
-    display: inline-block;
+    padding: 18px 14px 17px;
   }
 }
