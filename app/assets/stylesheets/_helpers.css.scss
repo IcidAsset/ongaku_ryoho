@@ -1,18 +1,18 @@
 // font mixins
 @mixin sansserif-font {
-  font-family: 'Helvetica Neue', sans-serif;
+  font-family: "Helvetica Neue", sans-serif;
 }
 
 @mixin lato-font {
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 @mixin sourcesanspro-font {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
 @mixin icon-font {
-  font-family: 'entypo';
+  font-family: "entypo";
   -webkit-font-smoothing: antialiased;
 }
 
