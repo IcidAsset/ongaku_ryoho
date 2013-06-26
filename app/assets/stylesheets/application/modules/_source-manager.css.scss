@@ -15,13 +15,75 @@
 //  Toolbar
 //
 .mod-source-manager .toolbar {
-  background: #fafafa;
-  border-top: 1px solid #f0f0f0;
+  background: #fdfdfd;
+  border-top: 1px solid #f3f3f3;
   box-shadow: 0 -3px 0 0 #fcfcfc;
-  padding: 17px;
+  position: relative;
 
   a {
-    visibility: hidden;
+    border-right: 1px solid #f3f3f3;
+    color: $rbn_outer_color_a;
+    cursor: pointer;
+    float: left;
+    font-size: 11px;
+    height: 62px;
+    line-height: 92px;
+    padding: 0 26px;
+    position: relative;
+
+    @include transition(background-color 350ms);
+
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a:hover,
+  a:focus {
+    background-color: $rbn_outer_color_a;
+    color: white;
+
+    @include button-gradient;
+  }
+
+  a:after {
+    font-size: 44px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: -25px;
+
+    @include transition(transform 350ms);
+  }
+
+  a:hover:after,
+  a:focus:after {
+    @include rotate(-90deg);
+  }
+
+  // add
+  [rel="add-source"] {
+    color: $less_subtle_green;
+  }
+
+  [rel="add-source"]:hover,
+  [rel="add-source"]:focus {
+    background-color: $less_subtle_green;
+  }
+
+  // close
+  [rel="close-modal"] {
+    border-left: 1px solid #f3f3f3;
+    border-right: 0;
+    color: $less_subtle_red;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  [rel="close-modal"]:hover,
+  [rel="close-modal"]:focus {
+    background-color: $less_subtle_red;
+    border-left: 0;
   }
 }
 

@@ -20,7 +20,7 @@
   font-style: normal;
 }
 
-.icon[data-icon]:after {
+[data-icon]:after {
   font-family: 'entypo';
   font-weight: normal;
   content: attr(data-icon);
@@ -28,7 +28,7 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.icon[data-mc-icon]:after {
+[data-mc-icon]:after {
   font-family: 'mixing-console';
   font-weight: normal;
   content: attr(data-mc-icon);

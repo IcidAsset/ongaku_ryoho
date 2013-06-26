@@ -2,10 +2,7 @@
   .background
 
   .window.main.shown
-    header
-      .box
-        .title Source Manager
-        .close-button &#10060;
+    header: .box: .title Source Manager
 
     section
 
@@ -19,8 +16,10 @@
         <div class="sources"></div>
       </div>
       <div class="toolbar">
-        <a class="add" rel="add-source">Add source</a>
-        <a rel="check-sources">Refresh</a>
+        <a rel="add-source" data-icon="&#10133;">Add source</a>
+        <a rel="refresh-sources" data-icon="&#128260;">Refresh</a>
+
+        <a rel="close-modal" data-icon="&#10006;">Close</a>
       </div>
 
 

@@ -12,7 +12,6 @@
 
   .background {
     background: rgba(black, 0.775);
-    cursor: pointer;
     z-index: 0;
 
     @include stretch;
@@ -50,25 +49,11 @@
     text-align: center;
     text-transform: uppercase;
 
+    -webkit-font-smoothing: antialiased;
+
     @include background-image(
       linear-gradient($rbn_inner_color_a, $rbn_inner_color_b)
     );
-  }
-
-  header .close-button {
-    bottom: 0;
-    cursor: pointer;
-    font-size: 40px;
-    font-weight: normal;
-    height: 16px;
-    line-height: 18px;
-    margin-top: -8px;
-    position: absolute;
-    right: 17px;
-    top: 50%;
-    width: 16px;
-
-    @include icon-font;
   }
 
   // section

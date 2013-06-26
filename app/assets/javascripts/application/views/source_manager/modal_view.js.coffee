@@ -1,7 +1,7 @@
 class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
   events:
-    "click header .close-button" : "hide"
+    "click [rel=\"close-modal\"]" : "hide"
 
 
 
