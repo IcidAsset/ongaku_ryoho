@@ -15,9 +15,9 @@
 //  Toolbar
 //
 .mod-source-manager .toolbar {
-  background: #fdfdfd;
-  border-top: 1px solid #f3f3f3;
-  box-shadow: 0 -3px 0 0 #fcfcfc;
+  background: white;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -3px 0 0 #f8f8f8;
   position: relative;
 
   a {
@@ -32,8 +32,6 @@
     position: relative;
 
     @include transition(background-color 350ms);
-
-    -webkit-font-smoothing: antialiased;
   }
 
   a:hover,
@@ -51,30 +49,23 @@
     right: 0;
     text-align: center;
     top: -25px;
-
-    @include transition(transform 350ms);
-  }
-
-  a:hover:after,
-  a:focus:after {
-    @include rotate(-90deg);
   }
 
   // add
   [rel="add-source"] {
-    color: $less_subtle_green;
+    color: $green_3;
   }
 
   [rel="add-source"]:hover,
   [rel="add-source"]:focus {
-    background-color: $less_subtle_green;
+    background-color: $green_3;
   }
 
   // close
   [rel="close-modal"] {
     border-left: 1px solid #f3f3f3;
     border-right: 0;
-    color: $less_subtle_red;
+    color: $red_2;
     position: absolute;
     right: 0;
     top: 0;
@@ -82,7 +73,7 @@
 
   [rel="close-modal"]:hover,
   [rel="close-modal"]:focus {
-    background-color: $less_subtle_red;
+    background-color: $red_2;
     border-left: 0;
   }
 }
@@ -99,9 +90,63 @@
   -webkit-flex-direction: column;
 
   .sources {}
+}
 
-  .source {
-    border-bottom: 1px solid #eee;
-    padding: 18px 14px 17px;
+.mod-source-list .source {
+  border-bottom: 1px solid #eee;
+  padding: 16px 17px 16px 67px;
+  position: relative;
+
+  // light
+  .light {
+    cursor: pointer;
+    height: 20px;
+    left: 21px;
+    margin-top: -10px + 1;
+    position: absolute;
+    top: 50%;
+    width: 20px;
+
+    > span {
+      background-color: #d7d7d7;
+      border-radius: 50%;
+      display: block;
+      height: 10px;
+      margin: 5px auto;
+      width: 10px;
+    }
+  }
+
+  &.activated .light > span {
+    background-color: $red;
+  }
+
+  &.activated.available .light > span {
+    background-color: $green_3;
+  }
+
+  // type
+  [rel="type"] {
+    color: $rbn_button_text_color;
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 20px;
+    margin-top: -10px + 1;
+    position: absolute;
+    right: 21px;
+    text-transform: uppercase;
+    top: 50%;
+  }
+
+  // label
+  [rel="label"] {
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 22px;
+  }
+
+  // info
+  [rel="info"] {
+    margin-top: 3px;
   }
 }

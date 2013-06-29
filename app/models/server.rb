@@ -90,7 +90,7 @@ class Server < Source
       name
     end
 
-    "#{type} &mdash; #{label}"
+    "#{label}"
   end
 
 

@@ -49,8 +49,6 @@
     text-align: center;
     text-transform: uppercase;
 
-    -webkit-font-smoothing: antialiased;
-
     @include background-image(
       linear-gradient($rbn_inner_color_a, $rbn_inner_color_b)
     );
