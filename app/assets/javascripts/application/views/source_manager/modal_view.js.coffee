@@ -1,7 +1,8 @@
 class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
   events:
-    "click [rel=\"close-modal\"]" : "hide"
+    "click [rel='close-modal']" : "hide"
+    "click .toolbar [rel='refresh-sources']" : "toolbar_refresh_sources"
 
 
 
@@ -11,10 +12,6 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     # this element
     Helpers.set_view_element(this, ".mod-source-manager")
 
-    # menu button
-    this.$menu_button = OngakuRyoho.RecordBox.Navigation.
-                        view.$el.find(".show-source-manager")
-
     # render
     this.render()
 
@@ -23,8 +20,8 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
   #
   #  Show & Hide
   #
-  show: () -> this.$menu_button.addClass("on"); this.$el.show(0)
-  hide: () -> this.$menu_button.removeClass("on"); this.$el.hide(0)
+  show: () -> this.$el.show(0)
+  hide: () -> this.$el.hide(0)
 
 
 
@@ -34,3 +31,12 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
   render: (item="SourceList") ->
     view = new OngakuRyoho.Classes.Views.SourceManager[item]
     view.render().$el.appendTo(this.$el.find("section"))
+
+
+
+  #
+  #  Toolbar event handlers
+  #
+  toolbar_refresh_sources: (e) ->
+    OngakuRyoho.SourceManager.collection.fetch()
+    OngakuRyoho.RecordBox.Tracks.collection.fetch()

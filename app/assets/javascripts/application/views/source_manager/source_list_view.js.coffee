@@ -4,6 +4,11 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
 
 
+  events:
+    "click .light" : "light_click_handler"
+
+
+
   initialize: () ->
     super
 
@@ -35,6 +40,7 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
       source_el.classList.add("source")
       source_el.classList.add("available") if source_attributes.available
       source_el.classList.add("activated") if source_attributes.activated
+      source_el.setAttribute("rel", source_attributes.id)
       source_el.innerHTML = source_template(source_attributes)
       fragment.appendChild(source_el)
     )
@@ -45,3 +51,14 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
     # chain
     return this
+
+
+
+  #
+  #  Event handlers
+  #
+  light_click_handler: (e) =>
+    id = $(e.currentTarget).closest(".source").attr("rel")
+    model = OngakuRyoho.SourceManager.collection.get(id)
+    model.save({ activated: !model.get("activated") })
+    this.render()
