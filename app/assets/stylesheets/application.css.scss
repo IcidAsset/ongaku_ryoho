@@ -14,12 +14,14 @@
 */
 
 @import "compass";
+@import "animation";
 @import "reset";
 @import "fonts";
 @import "fonts-icons";
 @import "variables";
 @import "helpers";
 
+@import "application/animations";
 @import "application/base";
 @import "application/general";
 

@@ -1,6 +1,6 @@
 class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
-  className: "mod-source-list"
+  className: "mod-source-list flexible"
 
 
 
@@ -17,12 +17,7 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
     @source_template = Helpers.get_template("source")
 
     # collection events
-    OngakuRyoho.SourceManager.collection.on("reset", this.render)
-
-
-  destroy: () ->
-    OngakuRyoho.SourceManager.collection.off("reset", this.render)
-    this.remove()
+    this.listenTo(OngakuRyoho.SourceManager.collection, "reset", this.render)
 
 
 
@@ -46,8 +41,16 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
     )
 
     # replace
-    this.el.innerHTML = @template()
+    if this.rendered_before
+      this.el.querySelector(".sources").innerHTML = ""
+    else
+      this.el.innerHTML = @template()
+
+    # append sources
     this.el.querySelector(".sources").appendChild(fragment)
+
+    # state
+    this.rendered_before = true
 
     # chain
     return this

@@ -1,10 +1,57 @@
 .mod-source-manager.modal
   .background
 
-  .window.main.shown
-    header: .box: .title Source Manager
-
+  /
+  /  Main window
+  /
+  .window.main
+    header: .box Source Manager
     section
+
+  /
+  /  Add source menu
+  /
+  .window.add-source-menu
+    header: .box Add source &nbsp;&mdash;&nbsp; Menu
+    section
+      .flexible
+        .mod-add-source-menu.scrollable
+          .menu-item
+            .title Amazon S3
+            p Bucket<br>&nbsp;
+            .select-button.disabled Not available yet
+          .menu-item
+            .title Ongaku Ryoho Server
+            p
+              | Official application
+              br
+              a[href="https://github.com/icidasset/ongaku_ryoho_server" target="blank"] Download
+            .select-button[data-window="add-source-ors"]
+              | Select
+          .menu-item
+            .title Dropbox
+            p &nbsp;<br>&nbsp;
+            .select-button.disabled Not available yet
+        .toolbar
+          a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
+          a[rel="close-modal" data-icon="&#10006;"] Close
+
+  /
+  /  Add source
+  /  -> Ongaku Ryoho Server
+  /
+  .window.add-source-ors
+    header: .box Add source &nbsp;&mdash;&nbsp; Ongaku Ryoho Server
+    section
+      .flexible
+        form.scrollable
+          = label_tag "name"
+          = text_field_tag :name
+          = label_tag "location"
+          = text_field_tag :location
+        .toolbar
+          a[rel="go-back" data-icon="&#59229" data-to="add-source-menu"] Go back
+          a[rel="close-modal" data-icon="&#10006;"] Close
 
 
 

@@ -8,6 +8,13 @@
 .mod-source-manager .window {
   visibility: hidden;
   &.shown { visibility: visible }
+
+  .flexible {
+    display: -webkit-flex;
+
+    -webkit-flex: 1;
+    -webkit-flex-direction: column;
+  }
 }
 
 
@@ -22,7 +29,7 @@
 
   a {
     border-right: 1px solid #f3f3f3;
-    color: $rbn_outer_color_a;
+    color: $rbn_inner_color_a;
     cursor: pointer;
     float: left;
     font-size: 11px;
@@ -37,7 +44,7 @@
 
   a:hover,
   a:focus {
-    background-color: $rbn_outer_color_a;
+    background-color: $rbn_inner_color_a;
     color: white;
 
     @include button-gradient;
@@ -62,6 +69,11 @@
     background-color: $green_3;
   }
 
+  // refresh
+  [rel="refresh-sources"].working:after {
+    @include animation(full-rotation 5s infinite linear);
+  }
+
   // close
   [rel="close-modal"] {
     border-left: 1px solid #f3f3f3;
@@ -83,16 +95,6 @@
 //
 //  Source list
 //
-.mod-source-list {
-  display: -webkit-flex;
-  width: 100%;
-
-  -webkit-flex: 1;
-  -webkit-flex-direction: column;
-
-  .sources {}
-}
-
 .mod-source-list .source {
   border-bottom: 1px solid #eee;
   padding: 16px 17px 16px 67px;
@@ -149,5 +151,78 @@
   // info
   [rel="info"] {
     margin-top: 3px;
+  }
+}
+
+
+
+//
+//  Add source menu
+//
+.mod-add-source-menu {
+  display: -webkit-flex;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+
+  .menu-item {
+    margin: 0 auto;
+    padding: 35px 30px;
+    width: 194px;
+
+    -webkit-flex: 1;
+    -webkit-flex-direction: column;
+    -webkit-flex-wrap: wrap;
+
+    &:nth-child(1n+2) {
+      border-left: 1px solid #eaeaea;
+    }
+  }
+
+  .title {
+    font-size: 19px;
+    font-weight: bold;
+    line-height: 20px;
+  }
+
+  p {
+    color: #999;
+    line-height: 20px;
+    margin: 25px 0;
+  }
+
+  p a {
+    color: darken($textcolor, 10);
+  }
+
+  .select-button {
+    background-color: $blue;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  .select-button.disabled {
+    background-color: #ddd;
+    cursor: default;
+  }
+}
+
+
+
+//
+//  Forms
+//
+.mod-source-manager form {
+  padding: 15px;
+
+  label,
+  input {
+    display: block;
+  }
+
+  input {
+    border: 1px solid #ccc;
   }
 }

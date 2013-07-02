@@ -1,8 +1,11 @@
 class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
   events:
-    "click [rel='close-modal']" : "hide"
-    "click .toolbar [rel='refresh-sources']" : "toolbar_refresh_sources"
+    "click .toolbar [rel='close-modal']" : "hide"
+    "click .toolbar [rel='add-source']" : "toolbar_add_source"
+    "click .toolbar [rel='refresh-sources']:not(.working)" : "toolbar_refresh_sources"
+    "click .toolbar [rel='go-back']" : "toolbar_go_back"
+    "click [data-window]" : "data_window_click_handler"
 
 
 
@@ -12,16 +15,32 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     # this element
     Helpers.set_view_element(this, ".mod-source-manager")
 
-    # render
-    this.render()
-
 
 
   #
   #  Show & Hide
   #
-  show: () -> this.$el.show(0)
-  hide: () -> this.$el.hide(0)
+  show: () ->
+    this.show_window("main")
+    this.render()
+    this.$el.show(0)
+
+
+
+  hide: () ->
+    this.$el.hide(0)
+
+
+
+  #
+  #  Show window
+  #
+  show_window: (window_class) ->
+    this.$el
+      .children(".window")
+      .removeClass("shown")
+      .filter("[class*=\"#{window_class}\"]")
+      .addClass("shown")
 
 
 
@@ -29,14 +48,43 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
   #  Rendering
   #
   render: (item="SourceList") ->
-    view = new OngakuRyoho.Classes.Views.SourceManager[item]
-    view.render().$el.appendTo(this.$el.find("section"))
+    @current_child_view.remove() if @current_child_view
+    @current_child_view = new OngakuRyoho.Classes.Views.SourceManager[item]
+    @current_child_view.render().$el.appendTo(this.$el.find(".window.shown section"))
 
 
 
   #
   #  Toolbar event handlers
   #
+  toolbar_add_source: (e) =>
+    this.show_window("add-source-menu")
+
+
+
   toolbar_refresh_sources: (e) ->
-    OngakuRyoho.SourceManager.collection.fetch()
-    OngakuRyoho.RecordBox.Tracks.collection.fetch()
+    collection = OngakuRyoho.SourceManager.collection
+
+    # check
+    return if collection.is_fetching or collection.is_updating
+
+    # add css class
+    e.currentTarget.classList.add("working")
+
+    # fetch and then remove css class
+    Helpers.promise_fetch(OngakuRyoho.SourceManager.collection)
+      .then -> Helpers.promise_fetch(OngakuRyoho.RecordBox.Tracks.collection)
+      .then -> e.currentTarget.classList.remove("working")
+
+
+
+  toolbar_go_back: (e) =>
+    this.show_window(e.currentTarget.getAttribute("data-to"))
+
+
+
+  #
+  #  Other event handlers
+  #
+  data_window_click_handler: (e) =>
+    this.show_window(e.currentTarget.getAttribute("data-window"))
