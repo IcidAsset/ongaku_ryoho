@@ -1,8 +1,14 @@
 class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
   initialize: () ->
-    this.type_instance = new OngakuRyoho.Classes.SourceTypes[this.attributes.type]()
-    this.type_instance[this.attributes.type.toLowerCase()] = this
+    this.set_type_instance()
+
+
+
+  set_type_instance: () ->
+    if this.attributes.type
+      this.type_instance = new OngakuRyoho.Classes.SourceTypes[this.attributes.type]()
+      this.type_instance[this.attributes.type.toLowerCase()] = this
 
 
 
@@ -56,6 +62,9 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
   #
   update_tracks: () ->
     promise = new RSVP.Promise()
+
+    # check
+    this.set_type_instance() unless this.type_instance
 
     # after
     after = (has_changed) ->

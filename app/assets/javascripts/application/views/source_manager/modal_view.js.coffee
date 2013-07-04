@@ -6,6 +6,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     "click .toolbar [rel='refresh-sources']:not(.working)" : "toolbar_refresh_sources"
     "click .toolbar [rel='go-back']" : "toolbar_go_back"
     "click [data-window]" : "data_window_click_handler"
+    "submit form" : "form_submit_handler"
 
 
 
@@ -73,6 +74,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
     # fetch and then remove css class
     Helpers.promise_fetch(OngakuRyoho.SourceManager.collection)
+      .then -> OngakuRyoho.SourceManager.collection.update_tracks_on_all()
       .then -> Helpers.promise_fetch(OngakuRyoho.RecordBox.Tracks.collection)
       .then -> e.currentTarget.classList.remove("working")
 
@@ -88,3 +90,28 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
   #
   data_window_click_handler: (e) =>
     this.show_window(e.currentTarget.getAttribute("data-window"))
+
+
+  form_submit_handler: (e) ->
+    $form = $(e.currentTarget)
+
+    # prevent default
+    e.preventDefault()
+
+    # serialize
+    attrs = { type: $form.attr("data-type") }
+    attrs_array = $form.serializeArray()
+
+    _.each(attrs_array, (v, k) ->
+      if (index = v.name.indexOf("[")) isnt -1
+        parent_key = v.name.substring(0, index)
+        key = v.name.substring(index + 1, v.name.lastIndexOf("]"))
+        attrs[parent_key] ?= {}
+        attrs[parent_key][key] = v.value
+      else
+        attrs[v.name] = v.value
+    )
+
+    # action
+    if $form.attr("data-action") is "CREATE"
+      OngakuRyoho.SourceManager.collection.create(attrs, { wait: true })

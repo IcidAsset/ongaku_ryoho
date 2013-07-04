@@ -18,6 +18,7 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
     # collection events
     this.listenTo(OngakuRyoho.SourceManager.collection, "reset", this.render)
+    this.listenTo(OngakuRyoho.SourceManager.collection, "add", this.render)
 
 
 

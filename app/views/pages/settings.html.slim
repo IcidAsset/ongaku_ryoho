@@ -1,13 +1,4 @@
-p.a-word-of-advice
-  | Application settings
-
-= form_for current_user, url: settings_path, method: :put do |f|
-  = f.fields_for :settings do |s|
-    = settings_checkbox(s, current_user, :special_playlists)
-    = s.label :special_playlists do
-      | Treat first level of subdirectories as special playlists
-      em This will be moved to the sources configuration in the future
-
-  br
-
-  = f.submit "Save settings", class: "with-margin-top"
+.note
+  i &#59141;
+  strong to do:&nbsp;
+  |  Settings

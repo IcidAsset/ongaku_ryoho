@@ -27,7 +27,7 @@ class Api::SourcesController < ApplicationController
     location = params.delete(:location)
 
     source = type.constantize.new(
-      { location: location }, {},
+      params[:source].merge({ location: location }), {},
       current_user.id
     )
 

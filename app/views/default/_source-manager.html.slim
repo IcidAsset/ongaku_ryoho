@@ -16,22 +16,24 @@
     section
       .flexible
         .mod-add-source-menu.scrollable
+          / Amazon S3
           .menu-item
             .title Amazon S3
             p Bucket<br>&nbsp;
             .select-button.disabled Not available yet
+          / Ongaku Ryoho Server
           .menu-item
             .title Ongaku Ryoho Server
             p
-              | Official application
-              br
+              | Official application<br>
               a[href="https://github.com/icidasset/ongaku_ryoho_server" target="blank"] Download
-            .select-button[data-window="add-source-ors"]
-              | Select
+            .select-button[data-window="add-source-ors"] Select
+          / Dropbox
           .menu-item
             .title Dropbox
             p &nbsp;<br>&nbsp;
             .select-button.disabled Not available yet
+
         .toolbar
           a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
           a[rel="close-modal" data-icon="&#10006;"] Close
@@ -44,11 +46,20 @@
     header: .box Add source &nbsp;&mdash;&nbsp; Ongaku Ryoho Server
     section
       .flexible
-        form.scrollable
-          = label_tag "name"
-          = text_field_tag :name
-          = label_tag "location"
-          = text_field_tag :location
+        form.scrollable[data-type="Server" data-action="CREATE"]
+          .left
+            .title Data
+            = label_tag "name"
+            = text_field_tag :name
+            = label_tag "location"
+            = text_field_tag :location
+          .right
+            .title Settings
+            = label_tag "configuration[special_playlists]", "Enable special playlists"
+            = check_box_tag "configuration[special_playlists]"
+          .clear
+            = submit_tag "Save"
+
         .toolbar
           a[rel="go-back" data-icon="&#59229" data-to="add-source-menu"] Go back
           a[rel="close-modal" data-icon="&#10006;"] Close
@@ -76,3 +87,12 @@
       <div rel="type">{{type}}</div>
       <div rel="label">{{{label}}}</div>
       <div rel="info">{{{source_subtext}}}</div>
+      <div class="menu">
+        <a data-icon="&#9881;"></a>
+        <div class="tooltip-data">
+          <div class="group first">
+            <a rel="edit">Edit</a>
+            <a rel="destroy">Destroy</a>
+          </div>
+        </div>
+      </div>

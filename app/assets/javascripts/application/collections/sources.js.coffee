@@ -28,16 +28,16 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   #  Update tracks
   #
   update_tracks_on_all: () =>
+    promise = new RSVP.Promise()
     available_sources = this.get_available()
 
     # check
-    return if available_sources.length is 0
+    if available_sources.length is 0
+      promise.resolve()
+      return promise
 
     # busy state
     this.is_updating = true
-
-    # make a promise
-    promise = new RSVP.Promise()
 
     # queue
     queue = _.map(available_sources, (source, idx) =>
