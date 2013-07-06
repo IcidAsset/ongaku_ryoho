@@ -34,6 +34,18 @@ class Server < Source
 
 
   #
+  #  Update
+  #
+  def update_with_selected_attributes(attributes_from_client)
+    attrs = attributes_from_client.select do |k, v|
+      %w(name configuration activated).include?(k.to_s)
+    end
+
+    self.update_attributes(attrs)
+  end
+
+
+  #
   #  Utility functions
   #
   def self.add_new_tracks(server, new_tracks)

@@ -64,5 +64,10 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
   light_click_handler: (e) =>
     id = $(e.currentTarget).closest(".source").attr("rel")
     model = OngakuRyoho.SourceManager.collection.get(id)
-    model.save({ activated: !model.get("activated") })
+    model.save(
+      { activated: !model.get("activated") },
+      { success: () -> OngakuRyoho.RecordBox.Tracks.collection.fetch() }
+    )
+
+    # render list
     this.render()

@@ -24,7 +24,8 @@
 
   input[type="text"] {
     background: transparent;
-    border: 1px solid rgba($less_subtle_blue, .15);
+    border: 1px solid rgba($less_subtle_blue, .175);
+    border-radius: 2px;
     color: $subtle_blue;
     display: inline-block;
     margin: 0;
@@ -49,7 +50,7 @@
     @include sansserif-font;
 
     div {
-      border: 1px solid rgba($less_subtle_blue, .15);
+      border: 1px solid rgba($less_subtle_blue, .175);
       cursor: pointer;
       float: left;
       font-size: 14px;
@@ -59,8 +60,15 @@
       width: 28px;
     }
 
+    div:first-child {
+      border-bottom-left-radius: 2px;
+      border-top-left-radius: 2px;
+    }
+
     div:last-child {
       border-left: 0;
+      border-bottom-right-radius: 2px;
+      border-top-right-radius: 2px;
       &.active,
       &:hover {
         border-left: 1px solid $blue;
@@ -79,23 +87,19 @@
   //  Submit
   //
   .submit {
-    background: transparent;
-    border: 2px solid rgba($less_subtle_blue, .2);
-    color: rgba($less_subtle_blue, .75);
+    background: rgba($less_subtle_blue, .625);
+    border-radius: 2px;
+    color: white;
     cursor: pointer;
     display: block;
     font-size: 12px;
     line-height: 20px;
     margin: 7px 0 0;
-    padding: 8px 0 6px;
+    padding: 10px 0 8px;
     text-align: center;
 
     @include lato-font;
-
-    &:hover {
-      border-color: $blue;
-      color: $blue;
-    }
+    @include button-gradient;
   }
 
   //

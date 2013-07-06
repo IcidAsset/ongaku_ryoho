@@ -75,7 +75,6 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     # fetch and then remove css class
     Helpers.promise_fetch(OngakuRyoho.SourceManager.collection)
       .then -> OngakuRyoho.SourceManager.collection.update_tracks_on_all()
-      .then -> Helpers.promise_fetch(OngakuRyoho.RecordBox.Tracks.collection)
       .then -> e.currentTarget.classList.remove("working")
 
 

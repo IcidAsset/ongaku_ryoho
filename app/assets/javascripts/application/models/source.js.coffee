@@ -68,8 +68,7 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
     # after
     after = (has_changed) ->
-      OngakuRyoho.RecordBox.Tracks.collection.fetch() if has_changed
-      promise.resolve()
+      promise.resolve(has_changed)
 
     # update
     this.get_file_list()

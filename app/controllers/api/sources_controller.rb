@@ -40,6 +40,10 @@ class Api::SourcesController < ApplicationController
 
 
   def update
+    source = Source.find(params[:source][:id])
+    source.update_with_selected_attributes(params[:source])
+
+    render json: source
   end
 
 

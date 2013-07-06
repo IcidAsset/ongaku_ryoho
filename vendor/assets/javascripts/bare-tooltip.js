@@ -424,6 +424,23 @@ root.BareTooltip = (function($) {
 
 
   //
+  //  Self destruct
+  //
+  BT.prototype.self_destruct = function() {
+    this.remove_tooltip(this.state.$tooltip_element.get(0));
+
+    // unbind events
+    this.$el.off("mouseover", this.trigger_mouseover_handler);
+    this.$el.off("mouseout", this.trigger_mouseout_handler);
+    this.$el.off("click", this.trigger_click_handler);
+
+    // other
+    this.$el = null;
+  };
+
+
+
+  //
   //  Return
   //
   return BT;

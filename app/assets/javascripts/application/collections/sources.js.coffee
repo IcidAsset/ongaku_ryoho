@@ -5,7 +5,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
 
   get_available: () ->
-    this.where({ available: true })
+    this.where({ available: true, activated: true })
 
 
   get_available_ids: () ->
@@ -53,11 +53,18 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     OngakuRyoho.MessageCenter.collection.add(message)
 
     # exec
-    RSVP.all(queue).then () =>
+    RSVP.all(queue).then (changes) =>
       OngakuRyoho.MessageCenter.collection.remove(message)
+
+      if _.contains(changes, true)
+        OngakuRyoho.RecordBox.Tracks.collection.fetch()
+
       promise.resolve()
+
       this.is_updating = false
       message = null
+
+
 
     # return
     promise

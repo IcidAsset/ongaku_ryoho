@@ -1,5 +1,5 @@
 class Source < ActiveRecord::Base
-  attr_accessible :activated, :processed, :name, :configuration
+  attr_accessible :id, :activated, :processed, :name, :configuration
   attr_accessor :available, :label, :track_amount
   serialize :configuration, ActiveRecord::Coders::Hstore
 
