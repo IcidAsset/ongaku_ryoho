@@ -1,1 +1,0 @@
-class OngakuRyoho.Classes.Machinery.SourceManager

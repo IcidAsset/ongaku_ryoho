@@ -3,18 +3,18 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
   #
   #  Page navigation
   #
-  previous_page_button_click_handler: (e) =>
-    @parent_group.Tracks.collection.go_to_previous_page()
+  previous_page_button_click_handler: (e) ->
+    OngakuRyoho.RecordBox.Tracks.collection.go_to_previous_page()
 
 
 
-  next_page_button_click_handler: (e) =>
-    @parent_group.Tracks.collection.go_to_next_page()
+  next_page_button_click_handler: (e) ->
+    OngakuRyoho.RecordBox.Tracks.collection.go_to_next_page()
 
 
 
   check_page_navigation: () ->
-    page_info = @parent_group.Tracks.collection.page_info()
+    page_info = OngakuRyoho.RecordBox.Tracks.collection.page_info()
     $previous = @group.view.$el.find("footer .page-nav .previous")
     $next = @group.view.$el.find("footer .page-nav .next")
 

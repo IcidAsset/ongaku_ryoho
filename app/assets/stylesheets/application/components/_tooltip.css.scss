@@ -5,6 +5,8 @@
 */
 
 .tooltip {
+  box-shadow: rgba(black, 0.05) 0px 1px 0px 1px,
+              rgba(black, 0.05) 0px 5px 7px -1px;
   color: white;
   font-size: 11px;
   position: absolute;
@@ -14,10 +16,6 @@
   z-index: 99;
 
   @include sourcesanspro-font;
-  @include box-shadow(
-    0px 1px 0px 1px rgba(black, 0.05),
-    0px 5px 7px -1px rgba(black, 0.05)
-  );
 
   &.hidden {
     display: none;
@@ -98,6 +96,28 @@
   a:hover .checkbox {
     border-color: rgba(white, .275);
   }
+}
 
 
+
+//
+//  Alterations
+//
+.tooltip.grey {
+  .arrow {
+    border-bottom-color: $rbn_button_text_color;
+  }
+
+  .group {
+    background-color: $rbn_button_text_color;
+  }
+
+  a {
+    color: darken($rbn_button_text_color, 42.5);
+  }
+
+  a:hover,
+  a.drag-target {
+    color: white;
+  }
 }

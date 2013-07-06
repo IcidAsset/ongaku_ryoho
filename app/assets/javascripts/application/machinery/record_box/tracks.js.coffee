@@ -46,7 +46,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
   fetched: () =>
     OngakuRyoho.Engines.Queue.reset_computed_next()
-    @parent_group.Footer.machine.check_page_navigation()
+    OngakuRyoho.RecordBox.Footer.machine.check_page_navigation()
     @group.view.$el.removeClass("disable-scrolling")
 
     if @group.collection.length > 0 and @group.view.mode isnt "queue"

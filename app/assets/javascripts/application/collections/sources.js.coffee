@@ -59,7 +59,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
       if _.contains(changes, true)
         OngakuRyoho.RecordBox.Tracks.collection.fetch()
 
-      promise.resolve()
+      promise.resolve(changes)
 
       this.is_updating = false
       message = null

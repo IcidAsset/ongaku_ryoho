@@ -4,8 +4,8 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
 
 
-  events:
-    "click .light" : "light_click_handler"
+  events: ->
+    "click .light" : @group.machine.light_click_handler
 
 
 
@@ -28,6 +28,9 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
   render: () =>
     fragment = document.createDocumentFragment()
     source_template = @source_template
+
+    # remove old tooltip instances
+    @group.machine.self_destruct_current_tooltip_instance()
 
     # add sources
     OngakuRyoho.SourceManager.collection.each((source) ->
@@ -53,21 +56,8 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
     # state
     this.rendered_before = true
 
+    # setup new tooltip instance
+    @group.machine.setup_new_tooltip_instance()
+
     # chain
     return this
-
-
-
-  #
-  #  Event handlers
-  #
-  light_click_handler: (e) =>
-    id = $(e.currentTarget).closest(".source").attr("rel")
-    model = OngakuRyoho.SourceManager.collection.get(id)
-    model.save(
-      { activated: !model.get("activated") },
-      { success: () -> OngakuRyoho.RecordBox.Tracks.collection.fetch() }
-    )
-
-    # render list
-    this.render()
