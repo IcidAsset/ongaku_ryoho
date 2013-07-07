@@ -6,13 +6,18 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
   light_click_handler: (e) =>
     id = $(e.currentTarget).closest(".source").attr("rel")
     model = OngakuRyoho.SourceManager.collection.get(id)
+
+    # check
+    return unless model.get("processed")
+
+    # save
     model.save(
       { activated: !model.get("activated") },
       { success: () -> OngakuRyoho.RecordBox.Tracks.collection.fetch() }
     )
 
     # render list
-    @group.view.render()
+    @view.render()
 
 
 
@@ -20,22 +25,25 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
   #  Tooltip
   #
   setup_new_tooltip_instance: () ->
-    $elements = @group.view.$el.find(".source .menu a")
+    machine = this
 
-    @tooltip = new BareTooltip($elements, {
+    @tooltip = new BareTooltip(@view.$el, {
       trigger_type: "click",
       tooltip_klass: "tooltip grey",
       animation_speed: 0,
       timeout_duration: 0,
-      template: '<div class="{{CLASSES}}">' +
-        '<div class="arrow"></div>' +
-        '{{CONTENT}}' +
-      '</div>'
+      delegate_selector: ".source .menu > a",
+      template: """
+        <div class="{{CLASSES}}">
+          <div class="arrow"></div>
+          {{CONTENT}}
+        </div>
+      """
     })
 
     # extend
     @tooltip.show_tooltip = () ->
-      # this.state.$tooltip_element.on("click", "a[rel=\"set-theater-mode\"]", _this.theater_mode_toggle)
+      this.state.$tooltip_element.on("click", "a[rel=\"remove\"]", machine.tooltip_remove_click_handler)
 
       BareTooltip.prototype.show_tooltip.apply(this)
 
@@ -60,8 +68,17 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
 
   self_destruct_current_tooltip_instance: () ->
     @tooltip.self_destruct() if @tooltip
+    @tooltip = null
 
 
 
-  tooltip_remove_click_handler: (e) ->
-    #
+  tooltip_remove_click_handler: (e) =>
+    collection = OngakuRyoho.SourceManager.collection
+    source_id = @tooltip.state.$current_trigger.closest(".source").attr("rel")
+    source_id = parseInt(source_id, 10) if source_id
+
+    if collection.is_fetching or collection.is_updating
+      alert("Sources are currently being updated. Try again later.")
+    else if source_id
+      source = collection.get(source_id)
+      source.destroy() if source

@@ -11,7 +11,8 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
 
   initialize: () ->
-    super
+    @machine = new OngakuRyoho.Classes.Machinery.SourceManager.Modal
+    @machine.view = this
 
     # this element
     Helpers.set_view_element(this, ".mod-source-manager")
@@ -52,6 +53,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     @current_child_view.remove() if @current_child_view
     @current_child_view = new OngakuRyoho.Classes.Views.SourceManager[item]
     @current_child_view.render().$el.appendTo(this.$el.find(".window.shown section"))
+    @current_child_view.after_append() if @current_child_view.after_append
 
 
 
@@ -67,7 +69,8 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     collection = OngakuRyoho.SourceManager.collection
 
     # check
-    return if collection.is_fetching or collection.is_updating
+    if collection.is_fetching or collection.is_updating
+      return
 
     # add css class
     e.currentTarget.classList.add("working")

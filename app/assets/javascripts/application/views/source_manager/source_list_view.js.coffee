@@ -5,12 +5,13 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
 
   events: ->
-    "click .light" : @group.machine.light_click_handler
+    "click .light" : @machine.light_click_handler
 
 
 
   initialize: () ->
-    super
+    @machine = new OngakuRyoho.Classes.Machinery.SourceManager.SourceList
+    @machine.view = this
 
     # templates
     @template = Helpers.get_template("source-list")
@@ -19,6 +20,18 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
     # collection events
     this.listenTo(OngakuRyoho.SourceManager.collection, "reset", this.render)
     this.listenTo(OngakuRyoho.SourceManager.collection, "add", this.render)
+    this.listenTo(OngakuRyoho.SourceManager.collection, "remove", this.render)
+
+
+
+  after_append: () ->
+    @machine.setup_new_tooltip_instance()
+
+
+
+  remove: () ->
+    @machine.self_destruct_current_tooltip_instance()
+    Backbone.View.prototype.remove.apply(this, arguments)
 
 
 
@@ -28,9 +41,6 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
   render: () =>
     fragment = document.createDocumentFragment()
     source_template = @source_template
-
-    # remove old tooltip instances
-    @group.machine.self_destruct_current_tooltip_instance()
 
     # add sources
     OngakuRyoho.SourceManager.collection.each((source) ->
@@ -55,9 +65,6 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
     # state
     this.rendered_before = true
-
-    # setup new tooltip instance
-    @group.machine.setup_new_tooltip_instance()
 
     # chain
     return this

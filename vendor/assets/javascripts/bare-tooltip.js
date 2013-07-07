@@ -27,7 +27,8 @@ root.BareTooltip = (function($) {
     timeout_duration: 0,
     hide_on_document_click: true,
     template: default_template,
-    setup_immediately: false
+    setup_immediately: false,
+    delegateSelector: false
   };
 
 
@@ -90,11 +91,20 @@ root.BareTooltip = (function($) {
     // bind events
     switch (this.settings.trigger_type) {
       case "hover":
-        this.$el.on("mouseover", this.trigger_mouseover_handler);
-        this.$el.on("mouseout", this.trigger_mouseout_handler);
+        if (this.settings.delegate_selector) {
+          this.$el.on("mouseover", this.settings.delegate_selector, this.trigger_mouseover_handler);
+          this.$el.on("mouseout", this.settings.delegate_selector, this.trigger_mouseout_handler);
+        } else {
+          this.$el.on("mouseover", this.trigger_mouseover_handler);
+          this.$el.on("mouseout", this.trigger_mouseout_handler);
+        }
         break;
       case "click":
-        this.$el.on("click", this.trigger_click_handler);
+        if (this.settings.delegate_selector) {
+          this.$el.on("click", this.settings.delegate_selector, this.trigger_click_handler);
+        } else {
+          this.$el.on("click", this.trigger_click_handler);
+        }
         break;
       default:
         console.error("Invalid BareTooltip trigger type");
@@ -427,7 +437,9 @@ root.BareTooltip = (function($) {
   //  Self destruct
   //
   BT.prototype.self_destruct = function() {
-    this.remove_tooltip(this.state.$tooltip_element.get(0));
+    if (this.state.$tooltip_element) {
+      this.remove_tooltip(this.state.$tooltip_element.get(0));
+    }
 
     // unbind events
     this.$el.off("mouseover", this.trigger_mouseover_handler);

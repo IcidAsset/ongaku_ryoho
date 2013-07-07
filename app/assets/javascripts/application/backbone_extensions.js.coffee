@@ -7,9 +7,7 @@ Backbone.View::initialize = () ->
   group = OngakuRyoho[group_name]
 
   _.each(["RecordBox", "SourceManager"], (cat) ->
-    unless group
-      group = OngakuRyoho[cat][group_name]
-      group ?= OngakuRyoho[cat]
+    group ?= OngakuRyoho[cat][group_name]
   )
 
   return unless group
