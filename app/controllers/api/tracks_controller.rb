@@ -78,11 +78,11 @@ private
         nil
       elsif search_query[0] == "!"
         search_query = "!" + search_query[1..-1].gsub("!", "")
-        excludes << search_query
+        excludes << "#{search_query}:*"
         nil
       else
         search_query = search_query.gsub("!", "")
-        search_query
+        "#{search_query}:*"
       end
     end.compact
 
