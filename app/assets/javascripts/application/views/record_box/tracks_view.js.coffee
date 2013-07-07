@@ -10,6 +10,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #
   events: () ->
     "click .track .favourite"   : @group.machine.track_rating_star_click
+
     "dragstart .track"          : @group.machine.track_dragstart
     "dragend .track"            : @group.machine.track_dragend
     "dragenter .track"          : @group.machine.track_dragenter
