@@ -39,5 +39,5 @@ OngakuRyoho::Application.configure do
   Slim::Engine.set_default_options pretty: true
 
   # Redis
-  $redis = Redis.new(host: "localhost", port: 6379)
+  ENV["REDISTOGO_URL"] = 'redis://localhost:6379'
 end

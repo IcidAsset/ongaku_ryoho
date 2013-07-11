@@ -36,5 +36,5 @@ OngakuRyoho::Application.configure do
   config.active_support.deprecation = :stderr
 
   # Redis
-  $redis = Redis.new(host: "localhost", port: 6379)
+  ENV["REDISTOGO_URL"] = 'redis://localhost:6379'
 end
