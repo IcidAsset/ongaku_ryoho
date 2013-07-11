@@ -9,6 +9,7 @@ gem 'pg'
 gem 'redis'
 gem 'sidekiq', '~> 2.12'
 gem 'sorcery', '~> 0.8'
+gem 'newrelic_rpm'
 
 gem 'activerecord-postgres-hstore', '~> 0.7'
 gem 'patron', '~> 0.4'
