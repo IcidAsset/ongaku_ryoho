@@ -5,13 +5,22 @@
 */
 
 .mod-browser-not-supported {
-  background: #222;
+  background: black;
   color: #444;
-  font-size: 19px;
-  line-height: 27px;
+  font-size: 16px;
+  line-height: 26px;
 
   @include stretch_fixed;
   @include lato-font;
+
+  .background {
+    background: transparent image-url("bns-background.jpg") center top;
+    background-size: cover;
+    z-index: 1;
+
+    @include opacity(0.45);
+    @include stretch;
+  }
 
   .content {
     background: white;
@@ -21,28 +30,16 @@
     position: absolute;
     top: 25%;
     width: 460px;
+    z-index: 2;
   }
 
   .content p {
-    font-weight: bolder;
     margin: 0 0 20px;
     width: 90%;
   }
 
-  .content ul {
-    font-size: 16px;
-    list-style: inside circle;
-    margin: 0;
-  }
-
-  .content ul li {
-    margin-bottom: 4px;
-  }
-
-  .content ul li span {
-    display: inline-block;
-    font-size: 19px;
-    margin-left: 4px;
+  .content p.bold {
+    font-weight: bolder;
   }
 
 

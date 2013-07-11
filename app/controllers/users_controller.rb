@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_filter :require_login, only: [:edit, :update]
   layout 'pages'
 
   def new

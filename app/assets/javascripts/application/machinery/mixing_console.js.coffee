@@ -181,12 +181,18 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
     kx = 0
     ky = 0
 
-    # calculate distance (from center of knob to e)
-    distance = Math.sqrt(Math.pow(mx - kx, 2) + Math.pow(my - ky, 2))
-    return if distance < 15
-
     # calculate angle
-    angle = -(Math.atan2(kx - mx, ky - my) * (180 / Math.PI))
+    if OngakuRyohoPreloadedData.user.settings.alternative_knob is "1"
+      downwards = !(my < 0)
+      percentage = Math.abs(my) / 70
+      angle = 135 * percentage
+      angle = -(angle) if downwards
+
+    else
+      distance = Math.sqrt(Math.pow(mx - kx, 2) + Math.pow(my - ky, 2))
+      return if distance < 15
+
+      angle = -(Math.atan2(kx - mx, ky - my) * (180 / Math.PI))
 
     # min and max
     if angle > 135 then angle = 135

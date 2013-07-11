@@ -28,7 +28,6 @@
 #= require "./application/backbone_extensions"
 #= require "./application/ongaku_ryoho"
 #= require "./application/helpers"
-#= require "./application/legacy"
 #= require "./application/bsc"
 
 
@@ -95,9 +94,6 @@ initialize = ->
   App.People.SoundGuy.go_to_work()
   App.People.ViewStateManager.go_to_work()
   App.People.KeyMaster.go_to_work()
-
-  # check for legacy stuff
-  window.Legacy.check()
 
 
 

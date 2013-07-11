@@ -2,9 +2,7 @@ p.a-word-of-advice
   | To sign up, we will need an e-mail address and a password.
 
 
-
 = form_for @user, url: sign_up_path, method: "POST" do |f|
-
   .fields
     .text
       = f.text_field :email, placeholder: "ongaku@ryoho.com"

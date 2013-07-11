@@ -1,4 +1,21 @@
-.note
-  i &#59141;
-  strong to do:&nbsp;
-  |  Settings
+p.a-word-of-advice
+  | Application settings
+
+
+= form_for current_user, url: settings_path, method: :put do |f|
+  = f.fields_for :settings do |s|
+    = settings_checkbox(s, current_user, :alternative_knob)
+    = s.label :alternative_knob do
+      | Use alternative knob-control movement
+
+  br
+  br
+
+  = f.submit "Save settings", class: "with-margin-top"
+
+
+- flash.each do |name, msg|
+  - i_content = (name == :error ? "&#59272;" : "&#10003;")
+  == content_tag :div,
+      content_tag(:i, raw(i_content)) + msg,
+      class: "flash #{name}"

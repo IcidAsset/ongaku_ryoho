@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter :require_login, only: [:settings, :account]
+  before_filter :require_login, only: [:settings, :update_settings, :account]
   helper FormHelpers
 
   def about

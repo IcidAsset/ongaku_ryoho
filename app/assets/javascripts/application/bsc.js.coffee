@@ -7,7 +7,7 @@ window.BSC =
     checks = [
       "boxshadow", "history",
       "localstorage", "postmessage",
-      "webworkers", "svg"
+      "webworkers", "svg", "flexbox"
     ]
 
     checks = _.map(checks, (item) -> Modernizr[item])
@@ -25,21 +25,23 @@ window.BSC =
   show_not_supported_message: ->
     html = """
       <div class="content">
-        <p>
+        <p class="bold">
           This web application requires
           the following browser features:
         </p>
-        <ul>
-          <li><span>Web Audio API</span></li>
-          <li><span>HTML5 Audio</span></li>
-          <li><span>Cross-window Messaging</span></li>
-          <li><span>localStorage</span></li>
-          <li><span>Web Workers</span></li>
-          <li><span>CSS flexbox (latest spec)</span></li>
-          <li><span>CSS box-shadow</span></li>
-          <li><span>SVG</span></li>
-        </ul>
+        <p>
+          Web Audio API,
+          HTML5 Audio,
+          Cross-window Messaging,
+          localStorage,
+          Web Workers,
+          CSS flexbox (latest spec),
+          CSS box-shadow,
+          SVG,
+          etc.
+        </p>
       </div>
+      <div class="background"></div>
     """
 
     div = document.createElement("div")
