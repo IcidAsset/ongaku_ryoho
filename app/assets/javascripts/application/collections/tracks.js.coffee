@@ -23,7 +23,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     this.trigger("fetching")
 
     # get source ids
-    source_ids = OngakuRyoho.SourceManager.collection.get_available_ids()
+    source_ids = OngakuRyoho.SourceManager.collection.get_available_and_activated_ids()
     source_ids = source_ids.join(",")
 
     # check options
