@@ -77,7 +77,7 @@ class Api::SourcesController < ApplicationController
     # process if needed
     if allowed_to_proceed
       source.add_to_redis_queue
-      source.class.worker.perform_async(
+      source.class.worker.new.async.perform(
         current_user.id, source.id, data
       )
     end

@@ -7,7 +7,7 @@ gem 'puma', '~> 2.0'
 
 gem 'pg'
 gem 'redis'
-gem 'sidekiq', '~> 2.12'
+gem 'sucker_punch', '~> 1.0'
 gem 'sorcery', '~> 0.8'
 gem 'newrelic_rpm'
 gem 'closure-compiler'

@@ -2,10 +2,10 @@ class Server < Source
   attr_accessor :location
 
   #
-  #  Worker (sidekiq)
+  #  Worker
   #
   def self.worker
-    ServerWorker
+    ServerJob
   end
 
 
