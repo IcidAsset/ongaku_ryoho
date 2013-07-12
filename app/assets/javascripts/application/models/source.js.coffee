@@ -1,7 +1,14 @@
 class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
+  defaults:
+    available: false
+
+
+
   initialize: () ->
     this.set_type_instance()
+    this.set_available()
+    this.on("change", this.set_available)
 
 
 
@@ -9,6 +16,17 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
     if this.attributes.type
       this.type_instance = new OngakuRyoho.Classes.SourceTypes[this.attributes.type]()
       this.type_instance[this.attributes.type.toLowerCase()] = this
+
+
+
+  is_available: () ->
+    this.type_instance.is_available()
+
+
+
+  set_available: () =>
+    available = this.is_available()
+    this.set("available", available)
 
 
 

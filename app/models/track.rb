@@ -43,10 +43,10 @@ class Track < ActiveRecord::Base
   #
   #  Get unique first level directories
   #
-  def self.get_unique_first_level_directories(user)
+  def self.get_unique_first_level_directories(user, source_ids)
     tracks = self
       .select("DISTINCT ON (left(location, strpos(location, '/'))) tracks.*")
-      .where("source_id IN (?) AND location ~* ?", Source.available_ids_for_user(user), "/+")
+      .where("source_id IN (?) AND location ~* ?", source_ids, "/+")
 
     tracks.map do |track|
       track.location[/([^\/]*)/]

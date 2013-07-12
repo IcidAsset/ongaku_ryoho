@@ -1,6 +1,6 @@
 class Source < ActiveRecord::Base
   attr_accessible :id, :activated, :processed, :name, :configuration
-  attr_accessor :available, :label, :track_amount
+  attr_accessor :label, :track_amount
   serialize :configuration, ActiveRecord::Coders::Hstore
 
   #
@@ -18,28 +18,8 @@ class Source < ActiveRecord::Base
 
 
   #
-  #  Class methods
-  #
-  def self.available_for_user(user)
-    sources = self.where(user_id: user.id, activated: true).all
-    sources.select { |source| source.available? }
-  end
-
-
-  def self.available_ids_for_user(user)
-    sources = self.available_for_user(user)
-    sources.map { |source| source.id }
-  end
-
-
-  #
   #  Instance methods
   #
-  def available
-    self.available?
-  end
-
-
   def track_amount
     self.tracks.count
   end

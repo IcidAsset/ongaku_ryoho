@@ -6,14 +6,17 @@ class Api::TracksController < ApplicationController
     options = get_options_from_params
 
     # available source ids
-    available_source_ids = unless options[:source_ids].empty?
-      options[:source_ids]
-    else
-      Source.available_ids_for_user(current_user)
-    end
+    available_source_ids = options[:source_ids]
 
     # select tracks
-    tracks_box = select_tracks(available_source_ids, options)
+    if available_source_ids
+      tracks_box = select_tracks(available_source_ids, options)
+    else
+      tracks_box = {
+        tracks: [],
+        total: 0
+      }
+    end
 
     # render
     only = %w(artist title album tracknr filename location url id favourite_id source_id)
@@ -195,9 +198,9 @@ private
     # process favourites
     unavailable_track_ids = []
     track_ids = []
-    tracks_placeholder = favourites.map { |f| f.id }
+    tracks_placeholder = favourites.map(&:id)
 
-    source_ids = current_user.sources.all.map { |s| s.id }
+    source_ids = current_user.sources.all.map(&:id)
     unavailable_source_ids = source_ids - available_source_ids
 
     favourites.each_with_index do |f, idx|

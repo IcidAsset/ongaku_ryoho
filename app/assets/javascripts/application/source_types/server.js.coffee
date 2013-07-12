@@ -1,5 +1,19 @@
 class OngakuRyoho.Classes.SourceTypes.Server
 
+  is_available: () ->
+    available = null
+
+    $.ajax({
+      async: false,
+      type: "HEAD",
+      success: (() -> available = true),
+      error: (() -> available = false)
+    })
+
+    available
+
+
+
   update_tracks: (file_list) =>
     this.get_data_from_source(file_list)
 

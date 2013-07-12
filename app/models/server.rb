@@ -105,21 +105,4 @@ class Server < Source
     "#{label}"
   end
 
-
-  #
-  #  Check if the server is available
-  #  and doesn't return any errors
-  #
-  def available?
-    sess = Patron::Session.new
-
-    begin
-      response = sess.head(self.configuration["location"])
-    rescue
-      return false
-    end
-
-    return response.status == 200
-  end
-
 end

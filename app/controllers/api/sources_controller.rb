@@ -7,7 +7,7 @@ class Api::SourcesController < ApplicationController
 
     # render
     render json: sources.to_json(
-      methods: [:available, :track_amount, :label, :type, :busy]
+      methods: [:track_amount, :label, :type, :busy]
     )
   end
 
@@ -17,7 +17,7 @@ class Api::SourcesController < ApplicationController
 
     # render
     render json: source.to_json(
-      methods: [:available, :track_amount, :label, :type, :busy]
+      methods: [:track_amount, :label, :type, :busy]
     )
   end
 
