@@ -12,7 +12,7 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    super
+    super("MessageCenter")
 
     # this element
     Helpers.set_view_element(this, ".mod-message-center")

@@ -29,7 +29,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    super
+    super("Tracks")
 
     # this element
     Helpers.set_view_element(this, ".mod-record-box .tracks-wrapper")

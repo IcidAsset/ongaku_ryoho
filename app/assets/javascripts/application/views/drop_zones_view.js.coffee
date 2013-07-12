@@ -15,7 +15,7 @@ class OngakuRyoho.Classes.Views.DropZones extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    super
+    super("DropZones")
 
     # this element
     Helpers.set_view_element(this, ".mod-drop-zones")

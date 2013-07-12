@@ -2,15 +2,9 @@
 #  Connect group and view,
 #  when super() is called in the initialize method
 #
-Backbone.View::initialize = () ->
-  group_name = this.constructor.toString().match(/^function (\w+)/)[1]
+Backbone.View::initialize = (group_name) ->
   group = OngakuRyoho[group_name]
-
-  _.each(["RecordBox", "SourceManager"], (cat) ->
-    if OngakuRyoho[cat]
-      group ?= OngakuRyoho[cat][group_name]
-  )
-
+  group ?= OngakuRyoho.RecordBox[group_name] if OngakuRyoho.RecordBox
   return unless group
 
   # view
@@ -19,11 +13,7 @@ Backbone.View::initialize = () ->
 
   # machine
   Machine = OngakuRyoho.Classes.Machinery[group_name]
-
-  _.each(["RecordBox", "SourceManager"], (cat) ->
-    if OngakuRyoho.Classes.Machinery[cat]
-      Machine ?= OngakuRyoho.Classes.Machinery[cat][group_name]
-  )
+  Machine ?= OngakuRyoho.Classes.Machinery.RecordBox[group_name] if OngakuRyoho.RecordBox
 
   if Machine
     this.group.machine = new Machine

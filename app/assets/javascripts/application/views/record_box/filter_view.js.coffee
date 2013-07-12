@@ -18,7 +18,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    super
+    super("Filter")
 
     # elements
     menu_btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".filter")[0]

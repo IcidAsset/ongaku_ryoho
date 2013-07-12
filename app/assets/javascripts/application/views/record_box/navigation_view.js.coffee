@@ -12,7 +12,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Navigation extends Backbone.View
   #  Initialize
   #
   initialize: () ->
-    super
+    super("Navigation")
 
     # this element
     Helpers.set_view_element(this, ".mod-record-box .navigation")
