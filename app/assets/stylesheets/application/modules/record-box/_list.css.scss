@@ -78,6 +78,7 @@
 
     -webkit-overflow-scrolling: touch;
     -webkit-flex: 1;
+    -webkit-flex-basis: 100%;
 
     &.disable-scrolling {
       overflow-y: hidden;
