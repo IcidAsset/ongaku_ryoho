@@ -42,6 +42,7 @@ GEM
     celluloid (0.14.1)
       timers (>= 1.0.0)
     chunky_png (1.2.8)
+    closure-compiler (1.1.10)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -163,9 +164,6 @@ GEM
     turn (0.9.6)
       ansi
     tzinfo (0.3.37)
-    uglifier (2.1.0)
-      execjs (>= 0.3.0)
-      multi_json (~> 1.0, >= 1.0.2)
 
 PLATFORMS
   ruby
@@ -173,6 +171,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-postgres-hstore (~> 0.7)
   animation
+  closure-compiler
   coffee-rails (~> 3.2.2)
   compass-rails (~> 1.0.3)
   factory_girl_rails (~> 4.2)
@@ -190,4 +189,3 @@ DEPENDENCIES
   slim (~> 1.3)
   sorcery (~> 0.8)
   turn
-  uglifier (>= 1.3.0)
