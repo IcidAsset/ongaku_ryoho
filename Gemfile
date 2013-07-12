@@ -15,6 +15,7 @@ gem 'closure-compiler'
 gem 'activerecord-postgres-hstore', '~> 0.7'
 gem 'patron', '~> 0.4'
 gem 'oj', '~> 2.0'
+gem 'slim', '~> 1.3'
 
 group :assets do
   gem 'sass-rails', '~> 3.2.6'
@@ -22,8 +23,6 @@ group :assets do
   gem 'compass-rails', '~> 1.0.3'
   gem 'animation'
 end
-
-gem 'slim', '~> 1.3'
 
 group :test, :development do
   gem 'minitest-rails', '~> 0.9'
