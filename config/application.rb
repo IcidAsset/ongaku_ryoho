@@ -12,9 +12,6 @@ end
 
 module OngakuRyoho
   class Application < Rails::Application
-    # Rack middleware
-    config.middleware.use Rack::Deflater
-
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
