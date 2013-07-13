@@ -13,11 +13,11 @@ gem 'newrelic_rpm'
 gem 'closure-compiler'
 
 gem 'activerecord-postgres-hstore', '~> 0.7'
-gem 'patron', '~> 0.4'
-gem 'oj', '~> 2.0'
+gem 'oj', '~> 2.1'
 gem 'slim', '~> 1.3'
 
 group :assets do
+  gem 'sass', '3.2.9'
   gem 'sass-rails', '~> 3.2.6'
   gem 'coffee-rails', '~> 3.2.2'
   gem 'compass-rails', '~> 1.0.3'

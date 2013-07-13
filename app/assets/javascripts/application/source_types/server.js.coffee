@@ -3,12 +3,15 @@ class OngakuRyoho.Classes.SourceTypes.Server
   is_available: () ->
     available = null
 
-    $.ajax({
-      async: false,
-      type: "HEAD",
-      success: (() -> available = true),
-      error: (() -> available = false)
-    })
+    try
+      $.ajax
+        url: this.server.get("configuration")["location"]
+        async: false
+        type: "HEAD"
+        success: () -> available = true
+        error: () -> available = false
+    catch error
+      available = false
 
     available
 
