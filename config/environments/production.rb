@@ -14,7 +14,7 @@ OngakuRyoho::Application.configure do
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
-  config.assets.js_compressor = Closure::Compiler.new(compilation_level: 'ADVANCED_OPTIMIZATIONS')
+  config.assets.js_compressor = Closure::Compiler.new
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false
