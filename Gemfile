@@ -4,6 +4,8 @@ ruby '2.0.0'
 
 gem 'rails', '3.2.13'
 gem 'puma', '~> 2.0'
+gem 'dalli'
+gem 'memcachier'
 
 gem 'pg'
 gem 'redis'
