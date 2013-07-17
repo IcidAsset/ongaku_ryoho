@@ -169,7 +169,7 @@
 
   // add buttons
   .add-button {
-    background: rgba($rbn_inner_color_a, .65);
+    background: rgba($rbn_inner_color_a, .85);
     color: rgba(white, .425);
     cursor: pointer;
     font-size: 23px;
@@ -193,7 +193,7 @@
 
   // items
   .item {
-    background: rgba($rbn_inner_color_a, .325);
+    background: rgba($rbn_inner_color_a, .85);
     color: rgba(white, .7);
     cursor: pointer;
     line-height: 14px;
@@ -241,11 +241,6 @@
     font-size: 26px;
   }
 
-  .add-button.playlist,
-  .item.playlist {
-    background-color: $subtle_green;
-  }
-
   .add-button.playlist:hover,
   .add-button.playlist.active,
   .item.playlist:hover {
@@ -258,22 +253,12 @@
     font-size: 24px;
   }
 
-  .add-button.favourites,
-  .item.favourites {
-    background-color: $subtle_yellow;
-  }
-
   .add-button.favourites:hover,
   .item.favourites:hover {
     background-color: $less_subtle_yellow;
   }
 
   // filter - search
-  .add-button.search,
-  .item.search {
-    background-color: $subtle_blue;
-  }
-
   .add-button.search:hover,
   .add-button.search.active,
   .item.search:hover {
