@@ -28,20 +28,23 @@ class Api::SourcesController < ApplicationController
 
     source = type.constantize.new(
       params[:source].merge({ location: location }), {},
-      current_user.id
+      current_user.id, request.env["REMOTE_ADDR"]
     )
 
     if source and source.save
       render json: source
     else
-      render nothing: true, status: 403
+      render nothing: true, status: 500
     end
   end
 
 
   def update
     source = Source.find(params[:source][:id])
-    source.update_with_selected_attributes(params[:source])
+
+    attrs = params[:source]
+    attrs[:configuration] = source.configuration.merge(attrs[:configuration] || {})
+    source.update_with_selected_attributes(attrs)
 
     render json: source
   end

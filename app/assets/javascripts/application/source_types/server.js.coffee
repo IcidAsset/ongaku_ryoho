@@ -1,30 +1,31 @@
 class OngakuRyoho.Classes.SourceTypes.Server
 
   label: () ->
-    config = this.server.get('configuration')
-
-    if !config
-      this.server.get("name")
-    else if this.server.get("name").length > 0
-      "#{this.server.get('name')} (#{location})"
-    else
-      location
+    this.server.get("name")
 
 
 
   is_available: () ->
     available = null
+    config = this.server.get("configuration")
 
-    try
-      $.ajax
-        url: this.server.get("configuration")["location"]
-        async: false
-        type: "HEAD"
-        success: () -> available = true
-        error: () -> available = false
-    catch error
+    # if the ip addresses don't match
+    if !config or (config.boundary isnt OngakuRyohoPreloadedData.user_ip)
       available = false
 
+    # if they do match
+    else
+      try
+        $.ajax
+          url: this.server.get("configuration")["location"]
+          async: false
+          type: "HEAD"
+          success: () -> available = true
+          error: () -> available = false
+      catch error
+        available = false
+
+    # return
     available
 
 

@@ -4,15 +4,11 @@ ruby '2.0.0'
 
 gem 'rails', '3.2.13'
 gem 'puma', '~> 2.0'
-gem 'dalli'
-gem 'memcachier'
-gem 'heroku-deflater'
 
 gem 'pg'
 gem 'redis'
 gem 'sucker_punch', '~> 1.0'
 gem 'sorcery', '~> 0.8'
-gem 'newrelic_rpm'
 gem 'closure-compiler'
 
 gem 'activerecord-postgres-hstore', '~> 0.7'
@@ -35,4 +31,11 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'factory_girl_rails', '~> 4.2'
   gem 'turn', require: false
+end
+
+group :production do
+  gem 'dalli'
+  gem 'memcachier'
+  gem 'heroku-deflater'
+  gem 'newrelic_rpm'
 end

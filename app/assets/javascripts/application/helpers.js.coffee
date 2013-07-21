@@ -67,7 +67,13 @@ window.Helpers =
       unless @processed
         "<span>Not processed yet</span>"
       else
-        "<span>#{@track_amount} tracks</span>"
+        """
+        <span>
+          #{@configuration.location} &nbsp;&mdash;&nbsp;
+          <span>bound to #{@configuration.boundary}</span> &nbsp;&mdash;&nbsp;
+          #{@track_amount} tracks
+        </span>
+        """
     )
 
 

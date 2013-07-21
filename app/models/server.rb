@@ -1,5 +1,6 @@
 class Server < Source
   attr_accessor :location
+  attr_accessor :boundary
 
   #
   #  Worker
@@ -12,12 +13,13 @@ class Server < Source
   #
   #  Override ActiveRecord::Base.new
   #
-  def self.new(attributes=nil, options={}, user_id)
+  def self.new(attributes=nil, options={}, user_id, ip_address)
     location = attributes.delete(:location)
     location = "http://#{location}" unless location.include?('http://')
     location << (location.end_with?('/') ? '' : '/')
 
-    attributes[:configuration] = { location: location }
+    attributes[:configuration] ||= {}
+    attributes[:configuration].merge!({ location: location, boundary: ip_address })
     attributes[:processed] = false
 
     existing_server = Server.all.select { |s|

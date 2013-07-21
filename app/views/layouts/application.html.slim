@@ -22,5 +22,6 @@ html
     javascript:
       OngakuRyohoPreloadedData = {}
       OngakuRyohoPreloadedData.user = #{raw current_user.to_json}
+      OngakuRyohoPreloadedData.user_ip = "#{request.env["REMOTE_ADDR"]}"
 
     = javascript_include_tag "application"
