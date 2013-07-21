@@ -48,10 +48,8 @@ class Favourite < ActiveRecord::Base
       track_ids[source_id] = source_track_ids.join(",")
       track.favourite_id = self.id
 
-      ActiveRecord::Base.transaction do
-        self.save
-        track.save
-      end
+      self.save
+      track.save
 
       changed = true
     end
