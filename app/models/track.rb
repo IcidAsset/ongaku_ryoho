@@ -56,7 +56,7 @@ class Track < ActiveRecord::Base
 private
 
   def remove_track_id_from_favourite
-    self.favourite.unbind_track(self) if self.favourite
+    # self.favourite.unbind_track(self) if self.favourite
   end
 
 end
