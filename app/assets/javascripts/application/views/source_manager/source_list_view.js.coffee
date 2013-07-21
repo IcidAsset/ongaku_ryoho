@@ -45,6 +45,7 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
     # add sources
     OngakuRyoho.SourceManager.collection.each((source) ->
       source_attributes = source.toJSON()
+      source_attributes.label = source.type_instance.label()
       source_el = document.createElement("div")
       source_el.classList.add("source")
       source_el.classList.add("available") if source_attributes.available

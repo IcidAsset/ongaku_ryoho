@@ -14,6 +14,12 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     @machine = new OngakuRyoho.Classes.Machinery.SourceManager.Modal
     @machine.view = this
 
+    # collection events
+    this.listenTo(
+      OngakuRyoho.SourceManager.collection, "remove",
+      () -> OngakuRyoho.RecordBox.Tracks.collection.fetch()
+    )
+
     # this element
     Helpers.set_view_element(this, ".mod-source-manager")
 
@@ -58,6 +64,18 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
 
   #
+  #  Details
+  #
+  add_working_class_to_refresh_sources_button: () ->
+    this.$el.find(".toolbar [rel='refresh-sources']").addClass("working")
+
+
+  remove_working_class_from_refresh_sources_button: () ->
+    this.$el.find(".toolbar [rel='refresh-sources']").removeClass("working")
+
+
+
+  #
   #  Toolbar event handlers
   #
   toolbar_add_source: (e) =>
@@ -73,7 +91,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
       return
 
     # add css class
-    e.currentTarget.classList.add("working")
+    OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
 
     # fetch and then remove css class
     Helpers.promise_fetch(OngakuRyoho.SourceManager.collection)
@@ -83,7 +101,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
         unless _.contains(changes, true)
           OngakuRyoho.RecordBox.Tracks.collection.fetch()
 
-        e.currentTarget.classList.remove("working")
+        OngakuRyoho.SourceManager.view.remove_working_class_from_refresh_sources_button()
 
 
 
@@ -121,4 +139,18 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
     # action
     if $form.attr("data-action") is "CREATE"
-      OngakuRyoho.SourceManager.collection.create(attrs, { wait: true })
+      OngakuRyoho.SourceManager.collection.create(attrs, {
+        wait: true,
+        success: () ->
+          OngakuRyoho.SourceManager.view.render()
+          OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
+          OngakuRyoho.SourceManager.collection.update_tracks_on_all()
+            .then (changes) ->
+              unless _.contains(changes, true)
+                OngakuRyoho.RecordBox.Tracks.collection.fetch()
+              OngakuRyoho.SourceManager.view.render()
+      })
+
+      OngakuRyoho.SourceManager.view.show_window("main")
+      OngakuRyoho.SourceManager.view.render()
+      OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()

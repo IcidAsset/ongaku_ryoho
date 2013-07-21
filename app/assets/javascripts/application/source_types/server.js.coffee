@@ -1,5 +1,17 @@
 class OngakuRyoho.Classes.SourceTypes.Server
 
+  label: () ->
+    config = this.server.get('configuration')
+
+    if !config
+      this.server.get("name")
+    else if this.server.get("name").length > 0
+      "#{this.server.get('name')} (#{location})"
+    else
+      location
+
+
+
   is_available: () ->
     available = null
 

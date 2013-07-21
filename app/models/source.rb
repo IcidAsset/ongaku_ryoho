@@ -1,6 +1,6 @@
 class Source < ActiveRecord::Base
   attr_accessible :id, :activated, :processed, :name, :configuration
-  attr_accessor :label, :track_amount
+  attr_accessor :track_amount
   serialize :configuration, ActiveRecord::Coders::Hstore
 
   #

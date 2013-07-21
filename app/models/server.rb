@@ -17,7 +17,6 @@ class Server < Source
     location = "http://#{location}" unless location.include?('http://')
     location << (location.end_with?('/') ? '' : '/')
 
-    attributes[:name] = location.gsub('http://', '').gsub('/', '')
     attributes[:configuration] = { location: location }
     attributes[:processed] = false
 
@@ -89,20 +88,6 @@ class Server < Source
 
     # destroy tracks
     tracks.destroy_all
-  end
-
-
-  #
-  #  Label
-  #
-  def label
-    label = if name.blank? and configuration["location"]
-      configuration["location"]
-    else
-      name
-    end
-
-    "#{label}"
   end
 
 end
