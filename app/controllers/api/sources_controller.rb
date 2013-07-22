@@ -28,7 +28,7 @@ class Api::SourcesController < ApplicationController
 
     source = type.constantize.new(
       params[:source].merge({ location: location }), {},
-      current_user.id, request.env["REMOTE_ADDR"]
+      current_user.id, request.remote_ip
     )
 
     if source and source.save
