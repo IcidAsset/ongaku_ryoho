@@ -207,7 +207,7 @@ private
       track_id = nil
 
       unless f.track_ids.keys.empty?
-        track_id = get_track_id_from_track_ids_hash(f.track_ids, source_ids)
+        track_id = get_track_id_from_track_ids_hash(f.track_ids, available_source_ids)
         track_ids << track_id if track_id
 
         unless track_id
