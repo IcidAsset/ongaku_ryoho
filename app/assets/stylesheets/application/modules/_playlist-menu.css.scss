@@ -5,11 +5,22 @@
 */
 
 .mod-playlist-menu {
+  background: white;
+  border-left: 1px solid #eee;
   bottom: 0;
   position: absolute;
-  right: 0;
+  right: -251px;
   top: 0;
+  width: 250px;
   z-index: 99;
+
+  @include transition(
+    right 350ms
+  );
+
+  &.visible {
+    right: 0;
+  }
 
 
 }

@@ -85,6 +85,8 @@ initialize = ->
   App.RecordBox.Favourites.collection = new Collections.Favourites
   App.RecordBox.Playlists = {}
   App.RecordBox.Playlists.collection = new Collections.Playlists
+  App.RecordBox.PlaylistMenu = {}
+  App.RecordBox.PlaylistMenu.view = new Views.RecordBox.PlaylistMenu
 
   App.SourceManager = {}
   App.SourceManager.collection = new Collections.Sources

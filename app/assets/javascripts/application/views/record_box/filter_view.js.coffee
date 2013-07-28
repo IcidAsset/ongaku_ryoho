@@ -4,6 +4,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
   #  Events
   #
   events: () ->
+    "click .add-button.playlist"        : @group.machine.add_button_playlist_click_handler
     "click .add-button.favourites"      : @group.machine.add_button_favourites_click_handler
     "click .item.favourites"            : @group.machine.item_favourites_click_handler
     "click .item.search"                : @group.machine.item_search_click_handler

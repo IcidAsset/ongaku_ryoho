@@ -7,6 +7,8 @@
 .mod-record-box .list {
   background: #e3e3e3;
   display: -webkit-flex;
+  overflow: hidden;
+  position: relative;
 
   -webkit-flex: 1;
   -webkit-flex-direction: column;

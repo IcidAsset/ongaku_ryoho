@@ -1,6 +1,14 @@
 class OngakuRyoho.Classes.Machinery.RecordBox.Filter
 
   #
+  #  Playlists
+  #
+  add_button_playlist_click_handler: () ->
+    OngakuRyoho.RecordBox.PlaylistMenu.view.toggle()
+
+
+
+  #
   #  Favourites
   #
   add_button_favourites_click_handler: () =>
