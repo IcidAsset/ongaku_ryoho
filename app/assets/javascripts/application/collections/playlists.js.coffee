@@ -14,4 +14,16 @@ class OngakuRyoho.Classes.Collections.Playlists extends Backbone.Collection
 
   fetch: (options={}) ->
     options.reset = true
+
+    # get source ids
+    source_ids = OngakuRyoho.SourceManager.collection.get_available_and_activated_ids()
+    source_ids = source_ids.join(",")
+
+    # check options
+    options.data ?= {}
+
+    # source_ids
+    _.extend(options.data, { source_ids: source_ids })
+
+    # super
     Backbone.Collection.prototype.fetch.call(this, options)

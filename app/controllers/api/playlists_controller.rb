@@ -5,9 +5,12 @@ class Api::PlaylistsController < ApplicationController
   def index
     @playlists = current_user.playlists.includes(:tracks)
 
+    # source ids
+    source_ids = params[:source_ids]
+
     # get special playlists if needed
-    if current_user.settings["special_playlists"] == "1"
-      specials = Track.get_unique_first_level_directories(current_user) # TODO pass source_ids
+    unless source_ids.empty?
+      specials = Track.get_unique_first_level_directories(current_user, source_ids)
       specials.map! { |name| Playlist.new(name: name, special: true) }
       @playlists.concat(specials)
     end

@@ -47,8 +47,8 @@ class OngakuRyoho.Classes.People.ViewStateManager
     # load data
     self = this
     this.load_favourites()
-      .then -> self.load_playlists()
       .then -> self.load_sources()
+      .then -> self.load_playlists()
       .then -> self.load_tracks()
       .then -> self.update_sources()
 

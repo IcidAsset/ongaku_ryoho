@@ -21,6 +21,9 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
     # trigger button
     this.trigger_element = OngakuRyoho.RecordBox.Filter.view.el.querySelector(".add-button.playlist")
 
+    # collection events
+    this.listenTo(OngakuRyoho.RecordBox.Playlists.collection, "reset", this.render_playlists)
+
     # render
     this.render_playlists()
 
@@ -46,7 +49,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   #
   #  Rendering
   #
-  render_playlists: () ->
+  render_playlists: () =>
     fragment = document.createDocumentFragment()
 
     console.log(OngakuRyoho.RecordBox.Playlists.collection.models)
