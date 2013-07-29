@@ -1,6 +1,14 @@
 class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
 
   #
+  #  Events
+  #
+  events: () ->
+    "click .playlist" : @group.machine.playlist_click_handler
+
+
+
+  #
   #  Initialize
   #
   initialize: () ->
@@ -39,4 +47,15 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   #  Rendering
   #
   render_playlists: () ->
-    console.log(OngakuRyoho.RecordBox)
+    fragment = document.createDocumentFragment()
+
+    console.log(OngakuRyoho.RecordBox.Playlists.collection.models)
+    OngakuRyoho.RecordBox.Playlists.collection.each((playlist) ->
+      el = document.createElement("div")
+      el.classList.add("playlist")
+      el.setAttribute("data-playlist-id", playlist.get("id"))
+      el.innerHTML = playlist.get("name")
+      fragment.appendChild(el)
+    )
+
+    this.el.querySelector(".playlists").appendChild(fragment)
