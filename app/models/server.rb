@@ -80,13 +80,6 @@ class Server < Source
 
     # collect tracks
     tracks = Track.where(location: missing_files, source_id: server.id)
-    tracks_with_favourites = tracks.where("favourite_id IS NOT NULL").all
-
-    # remove track_id from related favourites
-    tracks_with_favourites.each do |track|
-      track.favourite.track_id = nil
-      track.favourite.save
-    end
 
     # destroy tracks
     tracks.destroy_all

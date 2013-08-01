@@ -10,7 +10,7 @@ class Api::PlaylistsController < ApplicationController
 
     # get special playlists if needed
     unless source_ids.empty?
-      specials = Track.get_unique_first_level_directories(current_user, source_ids)
+      specials = Track.get_unique_first_level_directories(source_ids)
       specials.map! { |name| Playlist.new(name: name, special: true) }
       @playlists.concat(specials)
     end

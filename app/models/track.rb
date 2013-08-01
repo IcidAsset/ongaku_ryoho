@@ -43,7 +43,7 @@ class Track < ActiveRecord::Base
   #
   #  Get unique first level directories
   #
-  def self.get_unique_first_level_directories(user, source_ids)
+  def self.get_unique_first_level_directories(source_ids)
     tracks = self
       .select("DISTINCT ON (left(location, strpos(location, '/'))) tracks.*")
       .where("source_id IN (?) AND location ~* ?", source_ids, "/+")
