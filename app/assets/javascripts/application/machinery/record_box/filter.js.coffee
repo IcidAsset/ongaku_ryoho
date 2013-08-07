@@ -8,6 +8,11 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
 
 
 
+  item_playlist_click_handler: () ->
+    @group.model.disable_playlist()
+
+
+
   #
   #  Favourites
   #

@@ -22,5 +22,22 @@
     right: 0;
   }
 
+  //
+  //  Playlists
+  //
+  .playlists {
+    bottom: 0;
+    left: 0;
+    overflow-y: scroll;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .playlists .playlist {
+    border-bottom: 1px solid #f4f4f4;
+    padding: 6px 9px;
+  }
+
 
 }

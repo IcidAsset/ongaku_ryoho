@@ -27,6 +27,26 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
 
   #
+  #  Playlist
+  #
+  enable_playlist: (model) ->
+    value = if model.get("special")
+      "#{model.get('name')}/"
+    else
+      model.get("id")
+
+    this.search_action_reset()
+    this.set("playlist", value)
+
+
+
+  disable_playlist: () ->
+    this.search_action_reset()
+    this.set("playlist", off)
+
+
+
+  #
   #  Favourites
   #
   toggle_favourites: () ->
