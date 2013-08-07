@@ -2,6 +2,7 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
   defaults:
     playlist: off
+    playlist_cid: no
     searches: []
     favourites: off
     page: 1
@@ -14,6 +15,7 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
   initialize: () ->
     this.on("change", this.change_handler)
+    this.on("change:playlist", this.playlist_change_handler)
     this.on("change:sort_by", this.sort_by_change_handler)
     this.on("change:sort_direction", this.sort_by_change_handler)
 
@@ -36,13 +38,18 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
       model.get("id")
 
     this.search_action_reset()
-    this.set("playlist", value)
+    this.set({ playlist: value, playlist_cid: model.cid })
 
 
 
   disable_playlist: () ->
     this.search_action_reset()
-    this.set("playlist", off)
+    this.set({ playlist: off, playlist_cid: no })
+
+
+
+  playlist_change_handler: () ->
+    OngakuRyoho.RecordBox.PlaylistMenu.machine.add_active_class_to_selected_playlist()
 
 
 

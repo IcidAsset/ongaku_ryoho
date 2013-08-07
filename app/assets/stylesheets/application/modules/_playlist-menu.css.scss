@@ -6,7 +6,8 @@
 
 .mod-playlist-menu {
   background: white;
-  border-left: 1px solid #eee;
+  border-left: 1px solid rgba(black, 0.05);
+  box-shadow: rgba(0, 0, 0, 0.125) -1px 0 20px;
   bottom: 0;
   position: absolute;
   right: -251px;
@@ -14,6 +15,7 @@
   width: 250px;
   z-index: 99;
 
+  @include sourcesanspro-font;
   @include transition(
     right 350ms
   );
@@ -27,7 +29,10 @@
   //
   .playlists {
     bottom: 0;
+    color: $rbn_inner_color_b;
+    font-size: 12px;
     left: 0;
+    line-height: 14px;
     overflow-y: scroll;
     position: absolute;
     right: 0;
@@ -35,8 +40,15 @@
   }
 
   .playlists .playlist {
-    border-bottom: 1px solid #f4f4f4;
-    padding: 6px 9px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    padding: 13px 12px 11px;
+  }
+
+  .playlists .playlist.selected {
+    background-color: $less_subtle_green;
+    border-bottom-color: $less_subtle_green;
+    color: white;
   }
 
 
