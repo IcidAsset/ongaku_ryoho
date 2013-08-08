@@ -9,6 +9,9 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #  Events
   #
   events: () ->
+    "dblclick .track"           : @group.machine.track_dblclick_handler
+    "doubleTap .track"          : @group.machine.track_dblclick_handler
+
     "click .track .favourite"   : @group.machine.track_rating_star_click
 
     "dragstart .track"          : @group.machine.track_dragstart
@@ -50,11 +53,6 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     @group.collection
       .on("fetching", @group.machine.fetching)
       .on("fetched", @group.machine.fetched)
-
-    # tap events
-    double_tap_hammer = Hammer(this.el)
-    double_tap_hammer.on "doubletap", (e) =>
-      @group.machine.activate_track($(e.target).closest(".track")[0])
 
     # scroll/touch events
     scroll_el = this.el

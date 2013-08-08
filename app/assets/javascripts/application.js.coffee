@@ -13,6 +13,7 @@
 ###
 
 #= require "zepto"
+#= require "zepto-touch"
 #= require "underscore"
 #= require "backbone"
 #= require "backbone-rails-sync"
@@ -20,7 +21,6 @@
 #= require "handlebars"
 #= require "rsvp"
 #= require "mousetrap"
-#= require "hammer"
 #= require "spin"
 #= require "browser"
 #= require "bare-tooltip"

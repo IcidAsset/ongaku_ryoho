@@ -7,6 +7,14 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
   #
+  #  Track dblclick/doubleTap handler
+  #
+  track_dblclick_handler: (e) =>
+    this.activate_track($(e.target).closest(".track")[0])
+
+
+
+  #
   #  Show current track
   #
   show_current_track: () ->
