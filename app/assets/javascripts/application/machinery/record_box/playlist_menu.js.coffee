@@ -10,8 +10,22 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
 
 
   add_active_class_to_selected_playlist: () ->
-    cid = OngakuRyoho.RecordBox.Filter.model.get("playlist_cid")
+    filter = OngakuRyoho.RecordBox.Filter.model
     selector = ".playlists .playlist"
+
+    playlist_model = if filter.get("playlist_isspecial")
+      OngakuRyoho.RecordBox.Playlists.collection.findWhere({
+        name: filter.get("playlist_name")
+      })
+    else
+      OngakuRyoho.RecordBox.Playlists.collection.get(
+        filter.get("playlist")
+      )
+
+    cid = if playlist_model
+      playlist_model.cid
+    else
+      false
 
     @group.view.$el.find(selector).removeClass("selected")
     @group.view.$el.find(selector).filter("[data-playlist-cid='#{cid}']").addClass("selected") if cid

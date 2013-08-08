@@ -48,12 +48,11 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
     model = @group.model
     box_element = this.$el.children(".box")[0]
     fragment = document.createDocumentFragment()
-    playlist_cid = model.get("playlist_cid")
+    playlist = model.get("playlist")
 
     # playlist
-    if playlist_cid
-      playlist_model = OngakuRyoho.RecordBox.Playlists.collection.get(playlist_cid)
-      title = if playlist_model then playlist_model.get("name") else "Playlist"
+    if playlist
+      title = model.get("playlist_name")
       new_item = _this.new_item("playlist", title, "&#57349;")
       fragment.appendChild(new_item)
 

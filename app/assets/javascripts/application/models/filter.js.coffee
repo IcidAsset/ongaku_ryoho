@@ -2,7 +2,8 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
   defaults:
     playlist: off
-    playlist_cid: no
+    playlist_name: false
+    playlist_isspecial: false
     searches: []
     favourites: off
     page: 1
@@ -38,13 +39,21 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
       model.get("id")
 
     this.search_action_reset()
-    this.set({ playlist: value, playlist_cid: model.cid })
+    this.set({
+      playlist: value,
+      playlist_name: model.get("name"),
+      playlist_isspecial: model.get("special")
+    })
 
 
 
   disable_playlist: () ->
     this.search_action_reset()
-    this.set({ playlist: off, playlist_cid: no })
+    this.set({
+      playlist: off,
+      playlist_name: false,
+      playlist_isspecial: false
+    })
 
 
 
