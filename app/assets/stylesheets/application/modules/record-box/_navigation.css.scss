@@ -86,7 +86,7 @@
 .filter {
   color: darken($rbn_inner_color_a, 10);
   display: -webkit-flex;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: bold;
   line-height: 28px;
   overflow: hidden;
@@ -199,7 +199,7 @@
     line-height: 14px;
     margin-right: 2px;
     margin-top: 2px;
-    padding: 6px 12px 3px 23px;
+    padding: 5px 12px 4px 24px;
     text-transform: uppercase;
 
     @include button-gradient;
@@ -233,6 +233,14 @@
     color: rgba(white, 0.25);
     display: inline-block;
     margin-right: 3px;
+  }
+
+  .item .text {
+    display: inline-block;
+    max-width: 225px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   // filter - playlist
