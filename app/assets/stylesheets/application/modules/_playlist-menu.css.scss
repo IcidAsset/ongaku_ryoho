@@ -6,13 +6,12 @@
 
 .mod-playlist-menu {
   background: white;
-  border-left: 1px solid rgba(black, 0.05);
   box-shadow: rgba(0, 0, 0, 0.125) -1px 0 20px;
   bottom: 0;
   position: absolute;
-  right: -306px;
+  right: -29%;
   top: 0;
-  width: 305px;
+  width: 29%;
   z-index: 99;
 
   @include sourcesanspro-font;
@@ -49,8 +48,8 @@
   }
 
   .playlists .playlist.selected {
-    background-color: $less_subtle_green;
-    border-bottom-color: $less_subtle_green;
+    background-color: $subtle_green;
+    border-bottom-color: $subtle_green;
     color: white;
   }
 

@@ -136,8 +136,8 @@ private
       condition_arguments << options[:filter]
     end
 
-    if playlist.is_a?(Playlist)
-      conditions.unshift "#{select_favourites ? 'track_id' : 'id'} IN (?)"
+    if playlist.is_a?(Playlist) && !select_favourites
+      conditions.unshift "id IN (?)"
       condition_arguments.unshift playlist.track_ids
     elsif playlist.is_a?(String)
       conditions.push "location LIKE (?)"
