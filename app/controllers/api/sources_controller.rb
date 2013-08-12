@@ -3,7 +3,7 @@ class Api::SourcesController < ApplicationController
   layout false
 
   def index
-    sources = current_user.sources.sort { |a, b| a.label <=> b.label }
+    sources = current_user.sources.sort { |a, b| a.name <=> b.name }
 
     # render
     render json: sources.to_json(

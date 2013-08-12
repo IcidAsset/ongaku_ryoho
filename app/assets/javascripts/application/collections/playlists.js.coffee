@@ -16,7 +16,8 @@ class OngakuRyoho.Classes.Collections.Playlists extends Backbone.Collection
     options.reset = true
 
     # get source ids
-    source_ids = OngakuRyoho.SourceManager.collection.get_available_and_activated_ids()
+    source_ids = OngakuRyoho.SourceManager.collection.where({ available: true, activated: true })
+    source_ids = _.map(source_ids, (s) -> s.id)
     source_ids = source_ids.join(",")
 
     # check options
