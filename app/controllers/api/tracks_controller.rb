@@ -181,6 +181,10 @@ private
   def select_favourited_tracks(conditions, available_source_ids, options)
     order = get_sql_for_order(options[:sort_by], options[:sort_direction])
 
+    # conditions
+    conditions[0] << " AND track_ids ?| ARRAY[?]"
+    conditions << available_source_ids.map(&:to_s).join(",")
+
     # get favourites
     favourites = Favourite.find(:all, {
       offset: options[:offset],
