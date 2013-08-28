@@ -147,6 +147,7 @@ private
     # bundle conditions
     condition_sql = conditions.join(" AND ")
     conditions = [condition_sql] + condition_arguments.compact
+    conditions = Source.send(:sanitize_sql_array, conditions)
 
     # next
     args = [conditions, available_source_ids, options]
@@ -182,8 +183,8 @@ private
     order = get_sql_for_order(options[:sort_by], options[:sort_direction])
 
     # conditions
-    conditions[0] << " AND track_ids ?| ARRAY[?]"
-    conditions << available_source_ids.map(&:to_s).join(",")
+    # asi_string = available_source_ids.map { |s| "'#{s}'" }.join(",")
+    # conditions << " AND track_ids ?| ARRAY[#{asi_string}]"
 
     # get favourites
     favourites = Favourite.find(:all, {
