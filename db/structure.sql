@@ -51,12 +51,6 @@ CREATE TABLE favourites (
     artist character varying(255),
     title character varying(255),
     album character varying(255),
-    genre character varying(255),
-    tracknr integer DEFAULT 0,
-    year integer,
-    filename character varying(255),
-    location character varying(255),
-    url character varying(255),
     user_id integer,
     track_ids hstore,
     search_vector tsvector,
@@ -350,21 +344,21 @@ CREATE INDEX favourites_search_index ON favourites USING gin (search_vector);
 -- Name: favourites_sorting_album_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX favourites_sorting_album_index ON favourites USING btree (lower((album)::text), tracknr, lower((artist)::text), lower((title)::text));
+CREATE INDEX favourites_sorting_album_index ON favourites USING btree (lower((album)::text), lower((artist)::text), lower((title)::text));
 
 
 --
 -- Name: favourites_sorting_default_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX favourites_sorting_default_index ON favourites USING btree (lower((artist)::text), lower((album)::text), tracknr, lower((title)::text));
+CREATE INDEX favourites_sorting_default_index ON favourites USING btree (lower((artist)::text), lower((album)::text), lower((title)::text));
 
 
 --
 -- Name: favourites_sorting_title_index; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX favourites_sorting_title_index ON favourites USING btree (lower((title)::text), tracknr, lower((artist)::text), lower((album)::text));
+CREATE INDEX favourites_sorting_title_index ON favourites USING btree (lower((title)::text), lower((artist)::text), lower((album)::text));
 
 
 --

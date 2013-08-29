@@ -24,7 +24,7 @@ class Api::FavouritesController < ApplicationController
     # copy the track's attributes
     attributes = {}
 
-    %w(artist title album genre tracknr year filename location url).each do |attribute|
+    %w(artist title album).each do |attribute|
       attributes[attribute] = track.send(attribute.to_sym)
     end
 

@@ -136,12 +136,25 @@ private
       condition_arguments << options[:filter]
     end
 
-    if playlist.is_a?(Playlist) && !select_favourites
-      conditions.unshift "id IN (?)"
-      condition_arguments.unshift playlist.track_ids
+    # conditions / playlist
+    if playlist.is_a?(Playlist)
+      if select_favourites
+        # TODO
+        # asi_string = available_source_ids.map { |s| "'#{s}'" }.join(",")
+        # conditions << " AND track_ids ?| ARRAY[#{asi_string}]"
+      else
+        conditions.unshift "id IN (?)"
+        condition_arguments.unshift playlist.track_ids
+      end
+
     elsif playlist.is_a?(String)
-      conditions.push "location LIKE (?)"
-      condition_arguments.push "#{playlist}%"
+      if select_favourites
+        # TODO
+      else
+        conditions.push "location LIKE (?)"
+        condition_arguments.push "#{playlist}%"
+      end
+
     end
 
     # bundle conditions
@@ -180,11 +193,7 @@ private
 
 
   def select_favourited_tracks(conditions, available_source_ids, options)
-    order = get_sql_for_order(options[:sort_by], options[:sort_direction])
-
-    # conditions
-    # asi_string = available_source_ids.map { |s| "'#{s}'" }.join(",")
-    # conditions << " AND track_ids ?| ARRAY[#{asi_string}]"
+    order = get_sql_for_order(options[:sort_by], options[:sort_direction], false)
 
     # get favourites
     favourites = Favourite.find(:all, {
@@ -279,14 +288,16 @@ private
   end
 
 
-  def get_sql_for_order(sort_by, direction="ASC")
+  def get_sql_for_order(sort_by, direction="ASC", include_track_number=true)
+    other_cols = include_track_number ? " tracknr," : ""
+
     order = case sort_by
     when :title
-      "LOWER(title), tracknr, LOWER(artist), LOWER(album)"
+      "LOWER(title),#{other_cols} LOWER(artist), LOWER(album)"
     when :album
-      "LOWER(album), tracknr, LOWER(artist), LOWER(title)"
+      "LOWER(album),#{other_cols} tracknr, LOWER(artist), LOWER(title)"
     else
-      "LOWER(artist), LOWER(album), tracknr, LOWER(title)"
+      "LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
     end
 
     if direction == "DESC"
