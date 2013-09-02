@@ -42,7 +42,8 @@
     border-bottom: 1px solid #f0f0f0;
     cursor: pointer;
     overflow: hidden;
-    padding: 13px 12px 11px;
+    padding: 13px 12px 11px 35px;
+    position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -51,6 +52,17 @@
     background-color: $subtle_green;
     border-bottom-color: $subtle_green;
     color: white;
+  }
+
+  .playlists .playlist .icon {
+    color: #bbb;
+    font-size: 27px;
+    left: 12px;
+    line-height: 20px;
+    position: absolute;
+    top: 11px;
+
+    @include icon-font;
   }
 
 

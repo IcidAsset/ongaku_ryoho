@@ -56,7 +56,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
       el = document.createElement("div")
       el.classList.add("playlist")
       el.setAttribute("data-playlist-cid", playlist.cid)
-      el.innerHTML = playlist.get("name")
+      el.innerHTML = "<span class=\"icon\">&#57349;</span>" + playlist.get("name")
       fragment.appendChild(el)
     )
 
