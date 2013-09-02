@@ -9,7 +9,7 @@ class Api::TracksController < ApplicationController
     available_source_ids = options[:source_ids]
 
     # select tracks
-    if available_source_ids
+    if available_source_ids and available_source_ids.length > 0
       tracks_box = select_tracks(available_source_ids, options)
     else
       tracks_box = {
@@ -123,7 +123,7 @@ private
     # conditions
     conditions, condition_arguments = [], []
 
-    if select_favourites
+    if select_favourites and !playlist
       conditions << "user_id = ?"
       condition_arguments << current_user.id
     else
@@ -137,24 +137,14 @@ private
     end
 
     # conditions / playlist
-    if playlist.is_a?(Playlist)
-      if select_favourites
-        # TODO
-        # asi_string = available_source_ids.map { |s| "'#{s}'" }.join(",")
-        # conditions << " AND track_ids ?| ARRAY[#{asi_string}]"
-      else
+    unless select_favourites
+      if playlist.is_a?(Playlist)
         conditions.unshift "id IN (?)"
         condition_arguments.unshift playlist.track_ids
-      end
-
-    elsif playlist.is_a?(String)
-      if select_favourites
-        # TODO
-      else
+      elsif playlist.is_a?(String)
         conditions.push "location LIKE (?)"
         condition_arguments.push "#{playlist}%"
       end
-
     end
 
     # bundle conditions
@@ -164,8 +154,16 @@ private
 
     # next
     args = [conditions, available_source_ids, options]
-    if select_favourites then select_favourited_tracks(*args)
-    else select_default_tracks(*args)
+
+    if select_favourites
+      if playlist.is_a?(Playlist) or playlist.is_a?(String)
+        args.push(playlist)
+        select_favourites_tracks_for_playlist(*args)
+      else
+        select_favourited_tracks(*args)
+      end
+    else
+      select_default_tracks(*args)
     end
   end
 
@@ -272,6 +270,48 @@ private
 
     # return
     { tracks: tracks_placeholder, total: total }
+  end
+
+
+  def select_favourites_tracks_for_playlist(conditions, available_source_ids, options, playlist)
+    order = get_sql_for_order(options[:sort_by], options[:sort_direction], false)
+    asi_string = available_source_ids.map { |s| "'#{s}'" }.join(",")
+
+    # get favourites
+    favourites = Favourite.find(:all, {
+      conditions: "user_id = #{current_user.id} AND track_ids ?| ARRAY[#{asi_string}]",
+      select: "array_to_string(track_ids -> ARRAY[#{asi_string}], ',') AS selected_track_ids"
+    })
+
+    # track ids from favourites
+    track_ids = favourites.map(&:selected_track_ids)
+
+    # get tracks
+    if playlist.is_a?(Playlist)
+      ids = (playlist.track_ids & track_ids).join(",")
+      conditions << " AND id IN (#{ids})"
+    elsif playlist.is_a?(String)
+      ids = (track_ids).join(",")
+      conditions << " AND id IN (#{ids})"
+      conditions << " AND location LIKE ('#{playlist}%')"
+    end
+
+    # get tracks
+    tracks = Track.find(:all, {
+      offset: options[:offset],
+      limit: options[:per_page],
+      conditions: conditions,
+      order: order
+    })
+
+    total = if options[:offset] == 0 && tracks.length < options[:per_page]
+      tracks.length
+    else
+      Track.count(conditions: conditions)
+    end
+
+    # return
+    { tracks: tracks, total: total }
   end
 
 
