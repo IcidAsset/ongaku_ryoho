@@ -15,6 +15,20 @@
     -webkit-flex: 1;
     -webkit-flex-direction: column;
   }
+
+  .left {
+    float: left;
+    width: 50%;
+  }
+
+  .right {
+    float: right;
+    width: 50%;
+  }
+
+  .clear {
+    clear: both;
+  }
 }
 
 
