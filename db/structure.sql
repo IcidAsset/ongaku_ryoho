@@ -491,6 +491,8 @@ CREATE TRIGGER tracks_vector_update BEFORE INSERT OR UPDATE ON tracks FOR EACH R
 -- PostgreSQL database dump complete
 --
 
+SET search_path TO "$user",public;
+
 INSERT INTO schema_migrations (version) VALUES ('20120712000000');
 
 INSERT INTO schema_migrations (version) VALUES ('20120712202613');
