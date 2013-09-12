@@ -60,5 +60,8 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
       fragment.appendChild(el)
     )
 
-    this.el.querySelector(".playlists").appendChild(fragment)
+    playlists_container = this.el.querySelector(".playlists")
+    playlists_container.innerHTML = ""
+    playlists_container.appendChild(fragment)
+
     this.group.machine.add_active_class_to_selected_playlist()
