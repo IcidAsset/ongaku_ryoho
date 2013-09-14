@@ -10,6 +10,7 @@ gem 'redis'
 gem 'sucker_punch', '~> 1.0'
 gem 'sorcery', '~> 0.8'
 gem 'closure-compiler'
+gem 's3'
 
 gem 'activerecord-postgres-hstore', '~> 0.7'
 gem 'oj', '~> 2.1'

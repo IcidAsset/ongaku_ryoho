@@ -20,7 +20,7 @@
           .menu-item
             .title Amazon S3
             p Bucket<br>&nbsp;
-            .select-button.disabled Not available yet
+            .select-button[data-window="add-source-s3-bucket"] Select
           / Ongaku Ryoho Server
           .menu-item
             .title Ongaku Ryoho Server
@@ -50,9 +50,9 @@
           .left
             .title Data
             = label_tag "name"
-            = text_field_tag :name
-            = label_tag "location"
-            = text_field_tag :location
+            = text_field_tag "name"
+            = label_tag "configuration[location]", "Location"
+            = text_field_tag "configuration[location]"
           .right
             .title Settings
             = label_tag "configuration[special_playlists]", "Enable special playlists"
@@ -63,6 +63,32 @@
         .toolbar
           a[rel="go-back" data-icon="&#59229" data-to="add-source-menu"] Go back
           a[rel="close-modal" data-icon="&#10006;"] Close
+
+  /
+  /  Add source
+  /  -> S3 Bucket
+  /
+  .window.add-source-s3-bucket
+    header: .box Add source &nbsp;&mdash;&nbsp; S3 Bucket
+    section
+      .flexible
+        form.scrollable[data-type="S3Bucket" data-action="CREATE"]
+          .left
+            .title Data
+            = label_tag "name"
+            = text_field_tag "name"
+            = label_tag "configuration[access_key]", "Access key"
+            = text_field_tag "configuration[access_key]"
+            = label_tag "configuration[secret_key]", "Secret key"
+            = text_field_tag "configuration[secret_key]"
+            = label_tag "configuration[bucket]", "Bucket"
+            = text_field_tag "configuration[bucket]"
+          .right
+            .title Settings
+            = label_tag "configuration[special_playlists]", "Enable special playlists"
+            = check_box_tag "configuration[special_playlists]"
+          .clear
+            = submit_tag "Save"
 
 
 

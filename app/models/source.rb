@@ -15,6 +15,7 @@ class Source < ActiveRecord::Base
   #
   validates_presence_of :configuration
   validates_presence_of :name
+  validates_presence_of :user_id
 
 
   #
@@ -42,6 +43,15 @@ class Source < ActiveRecord::Base
 
   def in_queue?
     $redis.sismember(:source_queue, self.id)
+  end
+
+
+  def update_with_selected_attributes(attributes_from_client)
+    attrs = attributes_from_client.select do |k, v|
+      %w(name configuration activated).include?(k.to_s)
+    end
+
+    self.update_attributes(attrs)
   end
 
 

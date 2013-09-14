@@ -99,6 +99,7 @@ GEM
     pg (0.16.0)
     pg-hstore (1.2.0)
     polyglot (0.3.3)
+    proxies (0.2.1)
     puma (2.5.1)
       rack (>= 1.1, < 2.0)
     rack (1.4.5)
@@ -127,6 +128,8 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     redis (3.0.4)
+    s3 (0.3.13)
+      proxies (~> 0.2.0)
     sass (3.2.9)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -179,6 +182,7 @@ DEPENDENCIES
   puma (~> 2.0)
   rails (= 3.2.14)
   redis
+  s3
   sass (= 3.2.9)
   sass-rails (~> 3.2.6)
   shoulda-matchers

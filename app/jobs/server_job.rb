@@ -28,7 +28,7 @@ class ServerJob
 
 
   def self.update_tracks(server, data)
-    parsed_data = Oj.load(data)
+    parsed_data = Oj.load(data || {})
 
     # data might be one of two things
     if parsed_data.kind_of?(Hash)
@@ -46,7 +46,7 @@ class ServerJob
     Server.add_new_tracks(server, new_tracks)
 
     # update some attributes if needed
-    if parsed_data.kind_of?(Array) && (!missing_files.empty? or !new_tracks.empty?)
+    if parsed_data.kind_of?(Array) && (missing_files.present? or new_tracks.present?)
       server.activated = true
       server.processed = true
       server.save
@@ -56,7 +56,7 @@ class ServerJob
     made_bindings = Favourite.bind_favourites_with_tracks(server.user_id)
 
     # if changes -> save
-    if !missing_files.empty? or !new_tracks.empty? or made_bindings
+    if missing_files.present? or new_tracks.present? or made_bindings
       server.updated_at = Time.now
       server.save
     end
