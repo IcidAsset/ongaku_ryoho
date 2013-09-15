@@ -14,23 +14,21 @@ class S3BucketJob
     if s3_bucket
       begin
         S3BucketJob.update_tracks(s3_bucket, data)
-      rescue Exception => e
+      rescue
         s3_bucket.remove_from_redis_queue
         puts "S3BucketJob could not be processed!"
-        raise e.message.inspect
-        # puts e.backtrace.inspect
       end
 
     else
       s3_bucket.remove_from_redis_queue
-      puts "S3Bucket instance not found!"
+      Rails.logger.info "S3Bucket instance not found!"
 
     end
   end
 
 
   def self.update_tracks(s3_bucket, data)
-    parsed_data = Oj.load(data || {})
+    parsed_data = Oj.load(data)
     file_list = s3_bucket.file_list
 
     # connect to s3 and get bucket file list
@@ -39,7 +37,7 @@ class S3BucketJob
 
     bucket = service.buckets.find(s3_bucket.configuration["bucket"])
     bucket_file_list = bucket.objects.map { |o| o.key.to_s }
-    bucket_file_list = bucket_file_list.select { |o| o.end_with?(::OngakuRyoho::SUPPORTED_FILE_FORMATS) }
+    bucket_file_list = bucket_file_list.select { |o| o.end_with?(*OngakuRyoho::SUPPORTED_FILE_FORMATS) }
 
     # new / missing
     missing_files = file_list - bucket_file_list
@@ -53,7 +51,7 @@ class S3BucketJob
       ffprobe_results = Oj.load(ffprobe_results)
       tags = ffprobe_results["format"]["tags"]
 
-      return {
+      {
         title: tags["title"],
         artist: tags["artist"],
         album: tags["album"],

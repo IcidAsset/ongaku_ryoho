@@ -112,12 +112,40 @@
     | <div class="light"><span></span></div>
       <div rel="type">{{type}}</div>
       <div rel="label">{{{label}}}</div>
-      <div rel="info">{{{source_subtext}}}</div>
+
+      {{#if type_server}}
+        <div rel="info">
+          {{#if processed}}
+            <span>
+              {{configuration.location}} &nbsp;&mdash;&nbsp;
+              <span>bound to {{configuration.boundary}}</span> &nbsp;&mdash;&nbsp;
+              {{track_amount}} tracks
+            </span>
+          {{else}}
+            <span>Not processed yet</span>
+          {{/if}}
+        </div>
+      {{/if}}
+
+      {{#if type_s3bucket}}
+        <div rel="info">
+          {{#if processed}}
+            <span>
+              {{configuration.bucket}} &nbsp;&mdash;&nbsp;
+              <small>{{configuration.access_key}}</small> &nbsp;&mdash;&nbsp;
+              {{track_amount}} tracks
+            </span>
+          {{else}}
+            <span>Not processed yet</span>
+          {{/if}}
+        </div>
+      {{/if}}
+
       <div class="menu">
         <a data-icon="&#9881;"></a>
         <div class="tooltip-data">
           <div class="group first">
-            <a rel="bind-to-current-ip">Bind to current ip address</a>
+            {{#if type_server}}<a rel="bind-to-current-ip">Bind to current ip address</a>{{/if}}
             <a rel="remove">Remove</a>
           </div>
         </div>

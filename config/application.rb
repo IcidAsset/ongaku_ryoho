@@ -11,6 +11,8 @@ if defined?(Bundler)
 end
 
 module OngakuRyoho
+  SUPPORTED_FILE_FORMATS = %w{ mp3 mp4 m4a aac ogg oga wav wma webm opus }
+
   class Application < Rails::Application
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"

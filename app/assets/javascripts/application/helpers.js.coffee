@@ -71,20 +71,6 @@ window.Helpers =
       return block(this) if @icon and @icon_type
     )
 
-    # sources
-    Handlebars.registerHelper("source_subtext", () ->
-      unless @processed
-        "<span>Not processed yet</span>"
-      else
-        """
-        <span>
-          #{@configuration.location} &nbsp;&mdash;&nbsp;
-          <span>bound to #{@configuration.boundary}</span> &nbsp;&mdash;&nbsp;
-          #{@track_amount} tracks
-        </span>
-        """
-    )
-
 
 
   #

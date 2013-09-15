@@ -26,6 +26,7 @@ end
 
 group :test, :development do
   gem 'minitest-rails', '~> 0.9'
+  gem 'quiet_assets'
 end
 
 group :test do

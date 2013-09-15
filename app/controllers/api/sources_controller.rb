@@ -70,7 +70,7 @@ class Api::SourcesController < ApplicationController
 
   def update_tracks
     source = current_user.sources.find(params[:id])
-    data = params[:data]
+    data = params[:data] || "{}"
 
     # should i?
     allowed_to_proceed = source && !source.busy && data
@@ -79,7 +79,7 @@ class Api::SourcesController < ApplicationController
     # process if needed
     if allowed_to_proceed
       source.add_to_redis_queue
-      source.class.worker.new.perform(
+      source.class.worker.new.async.perform(
         current_user.id, source.id, data
       )
     end

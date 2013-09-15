@@ -28,7 +28,7 @@ class ServerJob
 
 
   def self.update_tracks(server, data)
-    parsed_data = Oj.load(data || {})
+    parsed_data = Oj.load(data)
 
     # data might be one of two things
     if parsed_data.kind_of?(Hash)
