@@ -10,6 +10,7 @@ OngakuRyoho::Application.routes.draw do
       member do
         get :file_list
         post :update_tracks
+        get :s3_signature
       end
     end
   end

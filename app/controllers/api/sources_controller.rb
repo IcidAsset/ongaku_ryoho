@@ -85,7 +85,27 @@ class Api::SourcesController < ApplicationController
     end
 
     # render
-    render json: { working: allowed_to_proceed }
+    render json: Oj.dump({ "working" => allowed_to_proceed })
+  end
+
+
+  #
+  #  Members / S3 Bucket
+  #
+  def s3_signature
+    source = current_user.sources.find(params[:id])
+    path = URI.unescape(params[:track_location])
+    expire_date = DateTime.now.tomorrow.to_i
+
+    digest = OpenSSL::Digest::Digest.new("sha1")
+    can_string = "GET\n\n\n#{expire_date}\n/#{source.configuration['bucket']}/#{path}"
+    hmac = OpenSSL::HMAC.digest(digest, source.configuration['secret_key'], can_string)
+    signature = URI.escape(Base64.encode64(hmac).strip, "+=?@$&,/:;")
+
+    query_string = "?AWSAccessKeyId=#{source.configuration['access_key']}"
+    query_string << "&Expires=#{expire_date}&Signature=#{signature}"
+
+    render json: Oj.dump({ "query_string" => query_string })
   end
 
 end

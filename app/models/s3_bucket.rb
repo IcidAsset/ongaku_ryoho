@@ -19,6 +19,17 @@ class S3Bucket < Source
 
 
   #
+  #  Override as_json
+  #
+  def as_json(options={})
+    json = super(options)
+    json["configuration"].delete("secret_key")
+
+    json
+  end
+
+
+  #
   #  Utility functions
   #
   def self.add_new_tracks(s3_bucket, new_tracks)

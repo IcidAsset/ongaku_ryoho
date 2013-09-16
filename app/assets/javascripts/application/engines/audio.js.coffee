@@ -212,12 +212,13 @@ class OngakuRyoho.Classes.Engines.Audio
     url_indexof_location = url.indexOf(related_track.get("location"))
 
     src = if url_indexof_location is -1
-      alert("Could not find index of location in model.url")
+      console.warning("Could not find index of location in model.url")
       url
     else
       location = related_track.get("location")
       location = _.map(location.split("/"), (l) -> encodeURIComponent(l))
-      url.substr(0, url_indexof_location) + location.join("/")
+      query = if url.indexOf("?") isnt -1 then url.substr(url.indexOf("?")) else ""
+      url.substr(0, url_indexof_location) + location.join("/") + query
 
     # track
     audio_element.setAttribute("src", src)

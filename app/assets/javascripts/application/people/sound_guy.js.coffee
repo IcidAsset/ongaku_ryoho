@@ -210,7 +210,22 @@ class OngakuRyoho.Classes.People.SoundGuy
   insert_track: (track) ->
     return unless @audio_engine.has_been_setup
 
-    # clear
+    # this
+    _this = this
+
+    # get source model
+    source = OngakuRyoho.SourceManager.collection.get(track.get("source_id"))
+
+    # check if pre-hook
+    hook = source.type_instance.insert_track_hook
+
+    if hook
+      hook(track).then(-> _this.insert_track_step_two(track))
+    else
+      this.insert_track_step_two(track)
+
+
+  insert_track_step_two: (track) ->
     @audio_engine.destroy_all_sources()
 
     # track attributes
