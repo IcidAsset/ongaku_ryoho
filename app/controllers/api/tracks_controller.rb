@@ -328,14 +328,14 @@ private
   end
 
 
-  def get_sql_for_order(sort_by, direction="ASC", include_track_number=true)
+  def get_sql_for_order(sort_by, direction="ASC", include_track_number=false)
     other_cols = include_track_number ? " tracknr," : ""
 
     order = case sort_by
     when :title
       "LOWER(title),#{other_cols} LOWER(artist), LOWER(album)"
     when :album
-      "LOWER(album),#{other_cols} tracknr, LOWER(artist), LOWER(title)"
+      "LOWER(album),#{other_cols} LOWER(artist), LOWER(title)"
     else
       "LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
     end

@@ -88,14 +88,19 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
   #
   track_rating_star_click: (e) =>
     $track = $(e.currentTarget).closest(".track")
-    track_id = parseInt($track.attr("rel"), 10)
 
-    # pass to collection
-    @group.collection.toggle_favourite(track_id)
+    # check
+    if $track.attr("rel")
+      track_id = parseInt($track.attr("rel"), 10)
+      @group.collection.toggle_favourite(track_id)
+
+    else
+      favourite_id = parseInt($track.children(".favourite").attr("data-favourite-id"), 10)
+      OngakuRyoho.RecordBox.Favourites.collection.get(favourite_id).destroy()
 
     # remove dom element if needed
     # and also add 'nothing here' message if the collection is empty
-    if @group.collection.favourites is on
+    if OngakuRyoho.RecordBox.Filter.model.get("favourites") is on
       $track.remove() unless track_id
 
       if @group.collection.length is 0
