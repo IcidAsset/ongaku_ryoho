@@ -105,7 +105,10 @@ class Api::SourcesController < ApplicationController
     query_string = "?AWSAccessKeyId=#{source.configuration['access_key']}"
     query_string << "&Expires=#{expire_date}&Signature=#{signature}"
 
-    render json: Oj.dump({ "query_string" => query_string })
+    render json: Oj.dump({
+      "query_string" => query_string,
+      "expire_date" => expire_date
+    })
   end
 
 end
