@@ -8,21 +8,9 @@
              /____/                          /____/
 
 
-  Pages CSS file
+  Main CSS file
 
 */
 
-@import "hues/blue-silver";
-
-@import "compass";
-@import "reset";
-@import "fonts";
-@import "fonts-icons";
-@import "variables";
-@import "helpers";
-
-@import "pages/base";
-@import "pages/forms";
-@import "pages/header";
-@import "pages/introduction";
-@import "pages/messages";
+@import "hues/earth";
+@import "application/application";

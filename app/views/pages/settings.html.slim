@@ -1,12 +1,17 @@
 p.a-word-of-advice
   | Application settings
 
-
-= form_for current_user, url: settings_path, method: :put do |f|
+- user = current_user
+= form_for user, url: settings_path, method: :put do |f|
   = f.fields_for :settings do |s|
-    = settings_checkbox(s, current_user, :alternative_knob)
+    = settings_checkbox(s, user, :alternative_knob)
     = s.label :alternative_knob do
       | Use alternative knob-control movement
+
+    br
+
+    = s.label :theme, "Theme: "
+    = select_tag "user[settings][theme]", options_for_select(theme_names, user.settings["theme"])
 
   br
   br
