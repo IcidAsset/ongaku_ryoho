@@ -7,6 +7,7 @@ class Api::PlaylistsController < ApplicationController
 
     # source ids
     source_ids = params[:source_ids]
+    source_ids = source_ids.split(",").map(&:to_i)
 
     # get special playlists if needed
     unless source_ids.empty?

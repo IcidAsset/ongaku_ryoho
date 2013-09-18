@@ -65,6 +65,20 @@
           a[rel="close-modal" data-icon="&#10006;"] Close
 
   /
+  /  Edit source
+  /  -> Ongaku Ryoho Server
+  /
+  .window.edit-source-ors
+    header: .box Edit source
+    section
+      .flexible
+        form.scrollable[data-type="Server" data-action="UPDATE"]
+
+        .toolbar
+          a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
+          a[rel="close-modal" data-icon="&#10006;"] Close
+
+  /
   /  Add source
   /  -> S3 Bucket
   /
@@ -94,6 +108,20 @@
           a[rel="go-back" data-icon="&#59229" data-to="add-source-menu"] Go back
           a[rel="close-modal" data-icon="&#10006;"] Close
 
+  /
+  /  Edit source
+  /  -> S3 Bucket
+  /
+  .window.edit-source-s3-bucket
+    header: .box Edit source
+    section
+      .flexible
+        form.scrollable[data-type="S3Bucket" data-action="UPDATE"]
+
+        .toolbar
+          a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
+          a[rel="close-modal" data-icon="&#10006;"] Close
+
 
 
   /
@@ -120,13 +148,13 @@
       {{#if type_server}}
         <div rel="info">
           {{#if processed}}
-            <span>
-              {{configuration.location}} &nbsp;&mdash;&nbsp;
-              <span>bound to {{configuration.boundary}}</span> &nbsp;&mdash;&nbsp;
-              {{track_amount}} tracks
-            </span>
+            {{configuration.location}}
+            <span class="seperator"></span>
+            bound to {{configuration.boundary}}
+            <span class="seperator"></span>
+            {{track_amount}} tracks
           {{else}}
-            <span>Not processed yet</span>
+            <em>Not processed yet</em>
           {{/if}}
         </div>
       {{/if}}
@@ -134,11 +162,11 @@
       {{#if type_s3bucket}}
         <div rel="info">
           {{#if processed}}
-            <span>
-              {{configuration.bucket}} &nbsp;&mdash;&nbsp;
-              <span>{{configuration.access_key}}</span> &nbsp;&mdash;&nbsp;
-              {{track_amount}} tracks
-            </span>
+            {{configuration.bucket}}
+            <span class="seperator"></span>
+            {{configuration.access_key}}
+            <span class="seperator"></span>
+            {{track_amount}} tracks
           {{else}}
             <span>Not processed yet</span>
           {{/if}}
@@ -150,6 +178,7 @@
         <div class="tooltip-data">
           <div class="group first">
             {{#if type_server}}<a rel="bind-to-current-ip">Bind to current ip address</a>{{/if}}
+            <a rel="edit">Edit</a>
             <a rel="remove">Remove</a>
           </div>
         </div>

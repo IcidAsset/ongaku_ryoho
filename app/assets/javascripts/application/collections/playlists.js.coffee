@@ -17,7 +17,7 @@ class OngakuRyoho.Classes.Collections.Playlists extends Backbone.Collection
 
     # get source ids
     sources = OngakuRyoho.SourceManager.collection.where({ available: true, activated: true })
-    sources = _.filter(sources, (s) -> s.get("configuration")["special_playlists"])
+    sources = _.filter(sources, (s) -> s.get("configuration")["special_playlists"] is "1")
     source_ids = _.map(sources, (s) -> s.id)
     source_ids = source_ids.join(",")
 

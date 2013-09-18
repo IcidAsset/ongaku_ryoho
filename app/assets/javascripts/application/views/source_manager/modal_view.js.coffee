@@ -72,3 +72,34 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
   remove_working_class_from_refresh_sources_button: () ->
     this.$el.find(".toolbar [rel='refresh-sources']").removeClass("working")
+
+
+
+  #
+  #  Forms
+  #
+  fill_in_and_show_edit_form: (source) ->
+    type = source.get("type")
+    source_attr = source.toJSON()
+
+    $form_new = this.$el.find(".window form[data-type='#{type}'][data-action='CREATE']")
+    $form_edit = this.$el.find(".window form[data-type='#{type}'][data-action='UPDATE']")
+
+    $form_edit.attr("data-source-id", source.get("id"))
+    $form_edit.html($form_new.html())
+    $form_edit.find("[name]:not([type='submit'])").each(() ->
+      name = this.getAttribute("name")
+      match = name.match(/(\w+)\[(\w+)\]/)
+      value = if match then source_attr[match[1]][match[2]] else source_attr[name]
+
+      if this.getAttribute("type") is "checkbox"
+        if value is "1"
+          this.setAttribute("checked", "checked")
+        else
+          this.removeAttribute("checked")
+      else
+        this.setAttribute("value", value || "")
+    )
+
+    window_klass = $form_edit.closest(".window").attr("class").split(" ")[1]
+    this.show_window(window_klass)

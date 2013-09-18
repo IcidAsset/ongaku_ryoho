@@ -44,6 +44,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
     # extend
     @tooltip.show_tooltip = () ->
       this.state.$tooltip_element.on("click", "a[rel=\"remove\"]", machine.tooltip_remove_click_handler)
+      this.state.$tooltip_element.on("click", "a[rel=\"edit\"]", machine.tooltip_edit_click_handler)
       this.state.$tooltip_element.on("click", "a[rel=\"bind-to-current-ip\"]", machine.tooltip_bind_to_current_ip_click_handler)
 
       BareTooltip.prototype.show_tooltip.apply(this)
@@ -76,24 +77,35 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
   tooltip_remove_click_handler: (e) =>
     collection = OngakuRyoho.SourceManager.collection
     source_id = @tooltip.state.$current_trigger.closest(".source").attr("rel")
-    source_id = parseInt(source_id, 10) if source_id
+    source_id = parseInt(source_id, 10)
 
     if collection.is_fetching or collection.is_updating
       alert("Sources are currently being updated. Try again later.")
-    else if source_id
+    else
       source = collection.get(source_id)
-      source.destroy() if source
+      source.destroy()
+
+
+
+  tooltip_edit_click_handler: (e) =>
+    collection = OngakuRyoho.SourceManager.collection
+    source_id = @tooltip.state.$current_trigger.closest(".source").attr("rel")
+    source_id = parseInt(source_id, 10)
+    source = collection.get(source_id)
+
+    if source
+      OngakuRyoho.SourceManager.view.fill_in_and_show_edit_form(source)
 
 
 
   tooltip_bind_to_current_ip_click_handler: (e) =>
     collection = OngakuRyoho.SourceManager.collection
     source_id = @tooltip.state.$current_trigger.closest(".source").attr("rel")
-    source_id = parseInt(source_id, 10) if source_id
+    source_id = parseInt(source_id, 10)
 
     if collection.is_fetching or collection.is_updating
       alert("Sources are currently being updated. Try again later.")
-    else if source_id
+    else
       OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
       callback = () -> OngakuRyoho.SourceManager.view.render()
 

@@ -62,7 +62,20 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
         attrs[v.name] = v.value
     )
 
-    # action
+    $form.find("input[type=\"checkbox\"]").each(() ->
+      name = this.getAttribute("name")
+      if (index = name.indexOf("[")) isnt -1
+        parent_key = name.substring(0, index)
+        key = name.substring(index + 1, name.lastIndexOf("]"))
+        attrs[parent_key] ?= {}
+        unless attrs[parent_key][key]
+          attrs[parent_key][key] = "0"
+      else
+        unless attrs[name]
+          attrs[name] = "0"
+    )
+
+    # action -> create
     if $form.attr("data-action") is "CREATE"
       OngakuRyoho.SourceManager.collection.create(attrs, {
         wait: true,
@@ -73,7 +86,28 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
             .then (changes) ->
               unless _.contains(changes, true)
                 OngakuRyoho.RecordBox.Tracks.collection.fetch()
-                OngakuRyoho.RecordBox.Playlists.collection.fetch()
+              OngakuRyoho.RecordBox.Playlists.collection.fetch()
+              OngakuRyoho.SourceManager.view.render()
+      })
+
+      OngakuRyoho.SourceManager.view.show_window("main")
+      OngakuRyoho.SourceManager.view.render()
+      OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
+
+    # action -> update
+    else
+      source_id = parseInt($form.attr("data-source-id"), 10)
+      source = OngakuRyoho.SourceManager.collection.get(source_id)
+      attrs.configuration = $.extend({}, source.get("configuration"), attrs.configuration)
+      source.save(attrs, {
+        success: () ->
+          OngakuRyoho.SourceManager.view.render()
+          OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
+          OngakuRyoho.SourceManager.collection.update_tracks_on_all()
+            .then (changes) ->
+              unless _.contains(changes, true)
+                OngakuRyoho.RecordBox.Tracks.collection.fetch()
+              OngakuRyoho.RecordBox.Playlists.collection.fetch()
               OngakuRyoho.SourceManager.view.render()
       })
 

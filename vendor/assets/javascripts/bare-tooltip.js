@@ -1,7 +1,7 @@
 /*
 
     BARE TOOLTIP
-    v0.2.1
+    v0.2.2
 
 */
 
@@ -28,7 +28,7 @@ root.BareTooltip = (function($) {
     hide_on_document_click: true,
     template: default_template,
     setup_immediately: false,
-    delegateSelector: false
+    delegate_selector: false
   };
 
 
@@ -358,7 +358,7 @@ root.BareTooltip = (function($) {
     var $tooltip = this.state.$tooltip_element;
     if (!$tooltip) return;
     var self = this, tooltip = $tooltip.get(0);
-    var callback = function() { self.remove_tooltip(tooltip); };
+    var callback = function() { self.remove_tooltip(tooltip); tooltip = null; };
     self.hide_tooltip(tooltip, callback);
   };
 
@@ -442,9 +442,24 @@ root.BareTooltip = (function($) {
     }
 
     // unbind events
-    this.$el.off("mouseover", this.trigger_mouseover_handler);
-    this.$el.off("mouseout", this.trigger_mouseout_handler);
-    this.$el.off("click", this.trigger_click_handler);
+    switch (this.settings.trigger_type) {
+      case "hover":
+        if (this.settings.delegate_selector) {
+          this.$el.off("mouseover", this.settings.delegate_selector, this.trigger_mouseover_handler);
+          this.$el.off("mouseout", this.settings.delegate_selector, this.trigger_mouseout_handler);
+        } else {
+          this.$el.off("mouseover", this.trigger_mouseover_handler);
+          this.$el.off("mouseout", this.trigger_mouseout_handler);
+        }
+        break;
+      case "click":
+        if (this.settings.delegate_selector) {
+          this.$el.off("click", this.settings.delegate_selector, this.trigger_click_handler);
+        } else {
+          this.$el.off("click", this.trigger_click_handler);
+        }
+        break;
+    }
 
     // other
     this.$el = null;
