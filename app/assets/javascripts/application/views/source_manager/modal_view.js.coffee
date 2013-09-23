@@ -44,11 +44,13 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
   #  Show window
   #
   show_window: (window_class) ->
-    this.$el
+    $wndw = this.$el
       .children(".window")
       .removeClass("shown")
-      .filter("[class*=\"#{window_class}\"]")
-      .addClass("shown")
+      .filter(".#{window_class}")
+
+    $wndw.find(".error").remove()
+    $wndw.addClass("shown")
 
 
 
@@ -72,6 +74,15 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
   remove_working_class_from_refresh_sources_button: () ->
     this.$el.find(".toolbar [rel='refresh-sources']").removeClass("working")
+
+
+  add_error_message_to_shown_window: (error_msg) ->
+    error_msg ?= "Please fill in all fields"
+    error_html = "<div class=\"error\">#{error_msg}</div>"
+
+    $div = this.$el.find(".window.shown section .scrollable div:last-child")
+    $div.find(".error").remove()
+    $div.append(error_html)
 
 
 

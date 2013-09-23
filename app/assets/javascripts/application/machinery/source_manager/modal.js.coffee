@@ -75,6 +75,24 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
           attrs[name] = "0"
     )
 
+    # validate attrs
+    errors = []
+
+    validate_object = (obj) ->
+      _.each(obj, (v, k) ->
+        if typeof(v) is "string"
+          errors.push(k) if v.length is 0
+        else if typeof(v) is "object"
+          validate_object(v)
+      )
+
+    validate_object(attrs)
+
+    # errors
+    if errors.length > 0
+      OngakuRyoho.SourceManager.view.add_error_message_to_shown_window()
+      return
+
     # action -> create
     if $form.attr("data-action") is "CREATE"
       OngakuRyoho.SourceManager.collection.create(attrs, {
