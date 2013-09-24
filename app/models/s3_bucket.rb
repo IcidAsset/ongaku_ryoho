@@ -9,6 +9,23 @@ class S3Bucket < Source
 
 
   #
+  #  Signature
+  #
+  def signature_query_string(path, expire_date)
+    source = self
+    digest = OpenSSL::Digest::Digest.new("sha1")
+    can_string = "GET\n\n\n#{expire_date}\n/#{source.configuration['bucket']}/#{path}"
+    hmac = OpenSSL::HMAC.digest(digest, source.configuration['secret_key'], can_string)
+    signature = URI.escape(Base64.encode64(hmac).strip, "+=?@$&,/:;")
+
+    query_string = "?AWSAccessKeyId=#{source.configuration['access_key']}"
+    query_string << "&Expires=#{expire_date}&Signature=#{signature}"
+
+    query_string
+  end
+
+
+  #
   #  Override ActiveRecord::Base.new
   #
   def self.new(attributes=nil, options={}, user_id, ip_address)

@@ -30,6 +30,7 @@ class S3BucketJob
   def self.update_tracks(s3_bucket, data)
     parsed_data = Oj.load(data)
     file_list = s3_bucket.file_list
+    signature_expire_date = DateTime.now.tomorrow.to_i
 
     # connect to s3 and get bucket file list
     service = S3::Service.new(access_key_id: s3_bucket.configuration["access_key"],
@@ -46,24 +47,27 @@ class S3BucketJob
     # new tracks
     new_tracks = new_files.map do |key|
       obj = bucket.objects.find(key)
+      obj_signed_url = obj.url + s3_bucket.signature_query_string(key, signature_expire_date)
       ffprobe_command = Rails.env.development? ? "ffprobe" : "bin/ffprobe"
-      ffprobe_results = `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format '#{obj.url}'`
+      ffprobe_results = `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format '#{obj_signed_url}'`
       ffprobe_results = Oj.load(ffprobe_results)
-      tags = ffprobe_results["format"]["tags"]
+      tags = ffprobe_results.try(:[], "format").try(:[], "tags")
 
-      {
-        title: tags["title"],
-        artist: tags["artist"],
-        album: tags["album"],
-        year: tags["date"] || tags["year"],
-        tracknr: tags["track"].split("/").first,
-        genre: tags["genre"],
+      if tags
+        {
+          title: tags["title"],
+          artist: tags["artist"],
+          album: tags["album"],
+          year: tags["date"] || tags["year"],
+          tracknr: tags["track"].split("/").first,
+          genre: tags["genre"],
 
-        filename: key.split("/").last,
-        location: key,
-        url: obj.url
-      }
-    end
+          filename: key.split("/").last,
+          location: key,
+          url: obj.url
+        }
+      end
+    end.compact
 
     # remove tracks
     S3Bucket.remove_tracks(s3_bucket, missing_files)
