@@ -41,7 +41,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
 
   #
-  #  Show window
+  #  Windows
   #
   show_window: (window_class) ->
     $wndw = this.$el
@@ -52,12 +52,15 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     $wndw.find(".error").remove()
     $wndw.addClass("shown")
 
+    @current_window = window_class
+
 
 
   #
   #  Rendering
   #
-  render: (item="SourceList") ->
+  render: (item="SourceList", window_check) ->
+    return if window_check and @current_window isnt window_check
     @current_child_view.remove() if @current_child_view
     @current_child_view = new OngakuRyoho.Classes.Views.SourceManager[item]
     @current_child_view.render().$el.appendTo(this.$el.find(".window.shown section"))
@@ -80,7 +83,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     error_msg ?= "Please fill in all fields"
     error_html = "<div class=\"error\">#{error_msg}</div>"
 
-    $div = this.$el.find(".window.shown section .scrollable div:last-child")
+    $div = this.$el.find(".window.shown section .scrollable > .clear")
     $div.find(".error").remove()
     $div.append(error_html)
 

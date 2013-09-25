@@ -17,7 +17,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
     )
 
     # render list
-    @view.render()
+    @view.render("SourceList", "main")
 
 
 
@@ -107,7 +107,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
       alert("Sources are currently being updated. Try again later.")
     else
       OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
-      callback = () -> OngakuRyoho.SourceManager.view.render()
+      callback = () -> OngakuRyoho.SourceManager.view.render("SourceList", "main")
 
       source = collection.get(source_id)
       source.save({ configuration: { boundary: OngakuRyohoPreloadedData.user_ip } }, success: callback)

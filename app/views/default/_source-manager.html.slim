@@ -49,16 +49,16 @@
         form.scrollable[data-type="Server" data-action="CREATE"]
           .left
             .title Data
-            = label_tag "name"
-            = text_field_tag "name"
-            = label_tag "configuration[location]", "Location"
-            = text_field_tag "configuration[location]"
+            .field
+              = label_tag "name"
+              = text_field_tag "name"
+            .field
+              = label_tag "configuration[location]", "Location"
+              = text_field_tag "configuration[location]"
+            .field.clear
+              = submit_tag "Save"
           .right
-            .title Settings
-            = label_tag "configuration[special_playlists]", "Enable special playlists"
-            = check_box_tag "configuration[special_playlists]"
-          .clear
-            = submit_tag "Save"
+            = render partial: "default/parts/source-settings"
 
         .toolbar
           a[rel="go-back" data-icon="&#59229" data-to="add-source-menu"] Go back
@@ -89,20 +89,22 @@
         form.scrollable[data-type="S3Bucket" data-action="CREATE"]
           .left
             .title Data
-            = label_tag "name"
-            = text_field_tag "name"
-            = label_tag "configuration[access_key]", "Access key"
-            = text_field_tag "configuration[access_key]"
-            = label_tag "configuration[secret_key]", "Secret key"
-            = text_field_tag "configuration[secret_key]"
-            = label_tag "configuration[bucket]", "Bucket"
-            = text_field_tag "configuration[bucket]"
+            .field
+              = label_tag "name"
+              = text_field_tag "name"
+            .field
+              = label_tag "configuration[bucket]", "Bucket name"
+              = text_field_tag "configuration[bucket]"
+            .field
+              = label_tag "configuration[access_key]", "Access key"
+              = text_field_tag "configuration[access_key]"
+            .field
+              = label_tag "configuration[secret_key]", "Secret key"
+              = text_field_tag "configuration[secret_key]"
+            .field.clear
+              = submit_tag "Save"
           .right
-            .title Settings
-            = label_tag "configuration[special_playlists]", "Enable special playlists"
-            = check_box_tag "configuration[special_playlists]"
-          .clear
-            = submit_tag "Save"
+            = render partial: "default/parts/source-settings"
 
         .toolbar
           a[rel="go-back" data-icon="&#59229" data-to="add-source-menu"] Go back

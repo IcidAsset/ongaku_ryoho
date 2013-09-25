@@ -98,18 +98,18 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
       OngakuRyoho.SourceManager.collection.create(attrs, {
         wait: true,
         success: () ->
-          OngakuRyoho.SourceManager.view.render()
+          OngakuRyoho.SourceManager.view.render("SourceList", "main")
           OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
           OngakuRyoho.SourceManager.collection.update_tracks_on_all()
             .then (changes) ->
               unless _.contains(changes, true)
                 OngakuRyoho.RecordBox.Tracks.collection.fetch()
               OngakuRyoho.RecordBox.Playlists.collection.fetch()
-              OngakuRyoho.SourceManager.view.render()
+              OngakuRyoho.SourceManager.view.render("SourceList", "main")
       })
 
       OngakuRyoho.SourceManager.view.show_window("main")
-      OngakuRyoho.SourceManager.view.render()
+      OngakuRyoho.SourceManager.view.render("SourceList", "main")
       OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
 
     # action -> update
@@ -119,16 +119,16 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
       attrs.configuration = $.extend({}, source.get("configuration"), attrs.configuration)
       source.save(attrs, {
         success: () ->
-          OngakuRyoho.SourceManager.view.render()
+          OngakuRyoho.SourceManager.view.render("SourceList", "main")
           OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
           OngakuRyoho.SourceManager.collection.update_tracks_on_all()
             .then (changes) ->
               unless _.contains(changes, true)
                 OngakuRyoho.RecordBox.Tracks.collection.fetch()
               OngakuRyoho.RecordBox.Playlists.collection.fetch()
-              OngakuRyoho.SourceManager.view.render()
+              OngakuRyoho.SourceManager.view.render("SourceList", "main")
       })
 
       OngakuRyoho.SourceManager.view.show_window("main")
-      OngakuRyoho.SourceManager.view.render()
+      OngakuRyoho.SourceManager.view.render("SourceList", "main")
       OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
