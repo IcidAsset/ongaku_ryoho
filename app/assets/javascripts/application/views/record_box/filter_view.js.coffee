@@ -25,6 +25,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
     # elements
     menu_btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".filter")[0]
     this.setElement(menu_btn_element)
+    this.$el.find(".extra-search-field input")[0].is_empty = true
 
     # templates
     @filter_item_template = Helpers.get_template("filter-item")

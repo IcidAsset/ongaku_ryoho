@@ -52,13 +52,16 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   render_playlists: () =>
     fragment = document.createDocumentFragment()
 
-    OngakuRyoho.RecordBox.Playlists.collection.each((playlist) ->
-      el = document.createElement("div")
-      el.classList.add("playlist")
-      el.setAttribute("data-playlist-cid", playlist.cid)
-      el.innerHTML = "<span class=\"icon\">&#57349;</span>" + playlist.get("name")
-      fragment.appendChild(el)
-    )
+    if OngakuRyoho.RecordBox.Playlists.collection.models.length is 0
+      # TODO
+    else
+      OngakuRyoho.RecordBox.Playlists.collection.each((playlist) ->
+        el = document.createElement("div")
+        el.classList.add("playlist")
+        el.setAttribute("data-playlist-cid", playlist.cid)
+        el.innerHTML = "<span class=\"icon\">&#57349;</span>" + playlist.get("name")
+        fragment.appendChild(el)
+      )
 
     playlists_container = this.el.querySelector(".playlists")
     playlists_container.innerHTML = ""

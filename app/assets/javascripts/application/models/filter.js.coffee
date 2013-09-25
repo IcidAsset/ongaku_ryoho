@@ -155,6 +155,5 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
       this.remove_search_query(_.last(attr.searches))
     else if attr.favourites
       this.disable_favourites()
-
-    # else if attr.playlist
-      # TODO
+    else if attr.playlist
+      this.disable_playlist()
