@@ -13,8 +13,7 @@ body {
   background: $bgcolor image-url("background.png") 0 0 repeat;
   font-size: 13px;
   line-height: 16px;
-  margin: $body_margin;
-  overflow: hidden;
+  margin: 0;
 
   // @include background(
   //   image-url("background.png") 0 0 repeat,
@@ -33,16 +32,15 @@ body {
 //  Flex
 //
 html, body {
-  min-height: 100%;
+  height: 100%;
 }
 
 html, body, .wrapper {
-  display: -webkit-flex;
-  -webkit-flex-direction: column;
+  @include flex-container;
 }
 
 body, .wrapper {
-  -webkit-flex: 1;
+  @include flex;
 }
 
 
@@ -52,15 +50,17 @@ body, .wrapper {
 .wrapper {
   margin: 0 auto;
   max-width: 1300px;
+  padding: $body_margin;
   position: relative;
-  width: 100%;
   z-index: 0;
+
+  @include flex-stretch-vertically;
 }
 
   .wrapper aside {
     display: block;
-    left: 0;
+    left: $body_margin;
     position: absolute;
-    top: 0;
+    top: $body_margin;
     width: $controller_width;
   }

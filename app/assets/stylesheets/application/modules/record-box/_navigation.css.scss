@@ -12,10 +12,10 @@
   );
 
   & > nav {
-    display: -webkit-flex;
     padding-left: 10px;
     padding-right: 10px;
 
+    @include flex-container;
     @include background-image(
       linear-gradient($rbn_inner_color_a, $rbn_inner_color_b)
     );
@@ -41,8 +41,7 @@
     cursor: pointer;
     margin-left: 5px;
 
-    -webkit-order: 2;
-
+    @include flex-order(2);
     @include background-image(
       linear-gradient($rbn_button_color_a, $rbn_button_color_b)
     );
@@ -85,7 +84,6 @@
 //
 .filter {
   color: darken($rbn_inner_color_a, 10);
-  display: -webkit-flex;
   font-size: 10px;
   font-weight: bold;
   line-height: 28px;
@@ -94,8 +92,9 @@
   text-rendering: optimizeLegibility;
   width: auto;
 
-  -webkit-flex: 1;
-  -webkit-order: 1;
+  @include flex-container;
+  @include flex-order(1);
+  @include flex;
 
   @include lato-font;
   @include background-image(
@@ -129,22 +128,25 @@
 
   .box {
     padding-left: 2px;
-    -webkit-order: 1;
+
+    @include flex-order(1);
   }
 
   .extra-search-field {
     min-width: 70px;
     position: relative;
     z-index: 1;
-    -webkit-flex: 1;
-    -webkit-order: 2;
+
+    @include flex-order(2);
+    @include flex;
   }
 
   .add-buttons {
     padding-right: 2px;
     text-align: right;
     white-space: nowrap;
-    -webkit-order: 3;
+
+    @include flex-order(3);
   }
 
   // extra search box

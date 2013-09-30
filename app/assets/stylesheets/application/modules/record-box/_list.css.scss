@@ -6,12 +6,12 @@
 
 .mod-record-box .list {
   background: #e3e3e3;
-  display: -webkit-flex;
   overflow: hidden;
   position: relative;
 
-  -webkit-flex: 1;
-  -webkit-flex-direction: column;
+  @include flex-container;
+  @include flex-stretch-vertically;
+  @include flex;
 
   header, .track {
     overflow: hidden;
@@ -78,9 +78,11 @@
     overflow-y: scroll;
     position: relative;
 
+    @include flex;
+
     -webkit-overflow-scrolling: touch;
-    -webkit-flex: 1;
     -webkit-flex-basis: 100%;
+    flex-basis: 100%;
 
     &.disable-scrolling {
       overflow-y: hidden;

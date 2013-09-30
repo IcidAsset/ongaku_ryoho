@@ -18,7 +18,6 @@
   }
 
   .window {
-    display: -webkit-flex;
     height: 450px;
     left: 50%;
     margin: -225px 0 0 -400px;
@@ -27,7 +26,8 @@
     width: 800px;
     z-index: 1;
 
-    -webkit-flex-direction: column;
+    @include flex-container;
+    @include flex-stretch-vertically;
   }
 
   // header
@@ -57,10 +57,10 @@
   // section
   section {
     background: white;
-    display: -webkit-flex;
 
-    -webkit-flex: 1;
-    -webkit-flex-direction: column;
+    @include flex-container;
+    @include flex-stretch-vertically;
+    @include flex;
   }
 
   section .scrollable {
@@ -69,7 +69,8 @@
     position: relative;
 
     -webkit-overflow-scrolling: touch;
-    -webkit-flex: 1;
+
+    @include flex;
   }
 
 

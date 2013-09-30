@@ -19,7 +19,7 @@
   //  Row
   //
   .row {
-    display: -webkit-flex;
+    @include flex;
   }
 
   input[type="text"] {
@@ -30,8 +30,8 @@
     display: inline-block;
     margin: 0;
 
-    -webkit-flex: 1;
-    -webkit-order: 1;
+    @include flex-order(1);
+    @include flex;
 
     @include box-sizing(border-box);
     @include input-placeholder {
@@ -45,7 +45,7 @@
     margin-left: 8px;
     text-align: center;
 
-    -webkit-order: 2;
+    @include flex-order(2);
 
     @include sansserif-font;
 

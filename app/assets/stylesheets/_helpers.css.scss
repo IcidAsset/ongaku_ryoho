@@ -16,6 +16,27 @@
   -webkit-font-smoothing: antialiased;
 }
 
+// flex mixins
+@mixin flex-container {
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex-stretch-vertically {
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+@mixin flex-order($number) {
+  -webkit-order: $number;
+  order: $number;
+}
+
+@mixin flex {
+  -webkit-flex: 1;
+  flex: 1;
+}
+
 // other mixins
 @mixin stretch {
   bottom: 0;

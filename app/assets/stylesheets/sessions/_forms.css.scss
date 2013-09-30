@@ -13,6 +13,8 @@ form {
     width: 100%;
 
     -webkit-appearance: none;
+    appearance: none;
+
     @include box-sizing(border-box);
     @include input-placeholder-color(rgba(black, .320));
     @include single-box-shadow(rgba(black, .085), 0, 6px, 9px, 0, true);

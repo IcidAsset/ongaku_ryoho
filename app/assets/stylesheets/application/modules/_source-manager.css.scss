@@ -14,10 +14,9 @@
   }
 
   .flexible {
-    display: -webkit-flex;
-
-    -webkit-flex: 1;
-    -webkit-flex-direction: column;
+    @include flex-container;
+    @include flex-stretch-vertically;
+    @include flex;
   }
 
   .left {
@@ -205,19 +204,22 @@
 //  Add source menu
 //
 .mod-add-source-menu {
-  display: -webkit-flex;
   position: relative;
   text-align: center;
   z-index: 1;
+
+  @include flex-container;
 
   .menu-item {
     margin: 0 auto;
     padding: 35px 30px;
     width: 194px;
 
-    -webkit-flex: 1;
-    -webkit-flex-direction: column;
     -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+    @include flex;
+    @include flex-stretch-vertically;
 
     &:nth-child(1n+2) {
       border-left: 1px solid #eaeaea;

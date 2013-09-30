@@ -7,7 +7,7 @@ window.BSC =
     checks = [
       "boxshadow", "history",
       "localstorage", "postmessage",
-      "webworkers", "svg", "flexbox"
+      "webworkers", "svg"
     ]
 
     checks = _.map(checks, (item) -> Modernizr[item])
