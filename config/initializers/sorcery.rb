@@ -1,10 +1,4 @@
-# The first thing you need to configure is which modules you need in your app.
-# The default is nothing which will include only core features (password encryption, login/logout).
-# Available submodules are: :user_activation, :http_basic_auth, :remember_me,
-# :reset_password, :session_timeout, :brute_force_protection, :activity_logging, :external
 Rails.application.config.sorcery.submodules = [:remember_me]
-
-# Here you can configure each submodule's features.
 Rails.application.config.sorcery.configure do |config|
   # -- core --
   # What controller action to call for non-authenticated users. You can also
@@ -24,14 +18,11 @@ Rails.application.config.sorcery.configure do |config|
   # Set domain option for cookies; Useful for remember_me submodule.
   # Default: `nil`
   #
-  # config.cookie_domain =
-
-
-  # -- session timeout --
-  # How long in seconds to keep the session alive.
-  # Default: `3600`
-  #
-  # config.session_timeout =
+  config.cookie_domain = if Rails.env.development?
+    "localhost"
+  else
+    "ongakuryoho.herokuapp.com"
+  end
 
 
   # Use the last action as the beginning of session timeout.
@@ -218,14 +209,14 @@ Rails.application.config.sorcery.configure do |config|
     # Default: `nil`
     #
     # user.user_activation_mailer =
-    
-    
+
+
     # when true sorcery will not automatically
     # email activation details and allow you to
     # manually handle how and when email is sent.
     # Default: `false`
     #
-    # user.activation_mailer_disabled = 
+    # user.activation_mailer_disabled =
 
 
     # activation needed email method on your mailer class.
@@ -282,17 +273,17 @@ Rails.application.config.sorcery.configure do |config|
     # manually handle how and when email is sent
     # Default: `false`
     #
-    # user.reset_password_mailer_disabled =                                      
+    # user.reset_password_mailer_disabled =
 
-                                                                          
-    # reset password email                                                                                   
+
+    # reset password email
     # method on your mailer
     # class.
     # Default: `:reset_password_email`
     #
-    # user.reset_password_email_method_name =                            
+    # user.reset_password_email_method_name =
 
-                                                                                         
+
     # how many seconds before the reset request expires. nil for never expires.
     # Default: `nil`
     #
@@ -347,7 +338,7 @@ Rails.application.config.sorcery.configure do |config|
 
     # Unlock token mailer class
     # Default: `nil`
-    # 
+    #
     # user.unlock_token_mailer = UserMailer
 
     # -- activity logging --

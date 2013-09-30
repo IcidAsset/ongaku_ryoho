@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     user = login(
       params[:email].try(:downcase),
       params[:password],
-      params[:remember_me]
+      true
     )
 
     if user
