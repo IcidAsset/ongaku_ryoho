@@ -1,4 +1,5 @@
 class DefaultController < ApplicationController
+  before_filter :set_cache_buster
 
   def index
     if logged_in?
