@@ -34,8 +34,10 @@ class OngakuRyoho.Classes.Engines.Audio
   set_audio_context: () ->
     unless typeof AudioContext is "undefined"
       @ac = new AudioContext()
+      @ac_type = "standard"
     else unless typeof webkitAudioContext is "undefined"
       @ac = new webkitAudioContext()
+      @ac_type = "webkit"
     else
       console.error("Web Audio API not supported!")
 
@@ -45,7 +47,11 @@ class OngakuRyoho.Classes.Engines.Audio
   #  Create volume node
   #
   create_volume_node: () ->
-    volume_node = @ac.createGainNode()
+    volume_node = if @ac_type is "webkit"
+      @ac.createGainNode()
+    else
+      @ac.createGain()
+
     volume_node.gain.value = 1
 
     # connect to destination
@@ -60,7 +66,8 @@ class OngakuRyoho.Classes.Engines.Audio
   #  Set volume
   #
   set_volume: (value) ->
-    @nodes.volume.gain.value = value
+    unless _.isNaN(value)
+      @nodes.volume.gain.value = value
 
 
 
@@ -72,9 +79,14 @@ class OngakuRyoho.Classes.Engines.Audio
     mid = @ac.createBiquadFilter()
     hi = @ac.createBiquadFilter()
 
-    low.type = 3
-    mid.type = 5
-    hi.type = 4
+    if @ac_type is "webkit"
+      low.type = 3
+      mid.type = 5
+      hi.type = 4
+    else
+      low.type = "lowshelf"
+      mid.type = "peaking"
+      hi.type = "highshelf"
 
     low.frequency.value = OngakuRyoho.MixingConsole.model.get("low_frequency")
     mid.frequency.value = OngakuRyoho.MixingConsole.model.get("mid_frequency")
@@ -269,6 +281,7 @@ class OngakuRyoho.Classes.Engines.Audio
     # create, connect and play
     setTimeout(() =>
       source = @ac.createMediaElementSource(audio_element)
+      source.mediaElement = audio_element unless source.mediaElement
       source.connect(@nodes.volume)
       source.track = track
 

@@ -83,7 +83,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     error_msg ?= "Please fill in all fields"
     error_html = "<div class=\"error\">#{error_msg}</div>"
 
-    $div = this.$el.find(".window.shown section .scrollable > .clear")
+    $div = this.$el.find(".window.shown section .scrollable .left .clear")
     $div.find(".error").remove()
     $div.append(error_html)
 
