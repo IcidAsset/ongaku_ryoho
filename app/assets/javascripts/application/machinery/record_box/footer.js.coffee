@@ -32,3 +32,17 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
       .find("footer .page-nav")
       .find(".previous, .next")
       .addClass("disabled")
+
+
+
+  intestines_span_dbl_click_handler: (e) ->
+    number = parseInt(prompt("Go to page:"), 10)
+    page_info = OngakuRyoho.RecordBox.Tracks.collection.page_info()
+    return unless number
+
+    if number < 1
+      number = 1
+    else if number > page_info.pages
+      number = page_info.pages
+
+    OngakuRyoho.RecordBox.Filter.model.set("page", number)
