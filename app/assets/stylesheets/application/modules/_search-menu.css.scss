@@ -19,6 +19,7 @@
   //  Row
   //
   .row {
+    @include flex-container;
     @include flex;
   }
 
@@ -46,7 +47,6 @@
     text-align: center;
 
     @include flex-order(2);
-
     @include sansserif-font;
 
     div {
