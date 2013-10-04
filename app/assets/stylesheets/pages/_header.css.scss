@@ -1,5 +1,6 @@
 header {
-  background: $bgcolor image-url("background.png") 0 0 repeat;
+  background: white;
+  border-bottom: 1px solid #ececec;
   display: block;
   overflow: hidden;
   padding: 22px 0;
@@ -35,7 +36,7 @@ header nav {
 
   a {
     border-radius: 3px;
-    color: $rbn_button_text_color;
+    color: darken($rbn_button_text_color, 6.5);
     display: inline-block;
     margin-left: 46px;
     text-decoration: none;
@@ -44,33 +45,26 @@ header nav {
   a:hover,
   a:focus,
   a:active {
-    color: white;
+    color: $bgcolor;
     outline: 0;
   }
 
   a.active,
-  a.sign-in.active {
-    background: rgba(white, .85);
-    color: $bgcolor;
-  }
-
-  a.application {
-    background: darken($bgcolor, 15);
-    @include button-gradient;
+  a.sign-in.active,
+  a.sign-up.active {
+    background: $bgcolor;
+    color: white;
   }
 
   a.sign-in,
   a.sign-out {
-    border: 1px solid rgba(white, .425);
-    color: rgba(white, .825);
-
-    &:hover {
-      color: white;
-    }
+    border: 1px solid rgba($blue, .325);
+    color: $blue;
   }
 
-  a.sign-up {
-    background: $rbn_input_color_a;
+  a.sign-up,
+  a.application {
+    background: $blue;
     color: white;
   }
 
