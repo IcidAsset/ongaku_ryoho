@@ -237,6 +237,7 @@
     color: rgba(white, 0.25);
     display: inline-block;
     margin-right: 3px;
+    vertical-align: top;
   }
 
   .item .text {
@@ -244,6 +245,7 @@
     max-width: 225px;
     overflow: hidden;
     text-overflow: ellipsis;
+    vertical-align: top;
     white-space: nowrap;
   }
 
