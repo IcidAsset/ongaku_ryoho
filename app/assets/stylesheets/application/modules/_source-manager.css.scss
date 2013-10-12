@@ -6,11 +6,12 @@
 */
 
 .mod-source-manager .window {
-  visibility: hidden;
+  display: none;
 
   &.shown {
-    visibility: visible;
     z-index: 2;
+
+    @include flex-container;
   }
 
   .flexible {
@@ -115,7 +116,7 @@
 //
 .mod-source-list .source {
   border-bottom: 1px solid #eee;
-  padding: 16px 17px 16px 67px;
+  padding: 16px 140px 16px 67px;
   position: relative;
 
   // light
@@ -173,7 +174,8 @@
   // info
   [rel="info"] {
     color: #a1a1a1;
-    margin-top: 4px;
+    line-height: 18px;
+    margin-top: 3px;
 
     .seperator {
       display: inline-block;

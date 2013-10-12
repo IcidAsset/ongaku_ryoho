@@ -4,6 +4,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
 // font mixins - font families
 @mixin sansserif-font {
   font-family: "Helvetica Neue", sans-serif;
@@ -27,6 +29,8 @@
   @include font-smoothing;
 }
 
+
+
 // flex mixins
 @mixin flex-container {
   display: -webkit-flex;
@@ -43,10 +47,22 @@
   order: $number;
 }
 
+@mixin flex-align-main-axis($val) {
+  -webkit-justify-content: $val;
+  justify-content: $val;
+}
+
+@mixin flex-align-cross-axis($val) {
+  -webkit-align-items: $val;
+  align-items: $val;
+}
+
 @mixin flex {
   -webkit-flex: 1;
   flex: 1;
 }
+
+
 
 // other mixins
 @mixin stretch {

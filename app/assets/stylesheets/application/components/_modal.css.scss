@@ -9,6 +9,12 @@
   z-index: 10;
 
   @include stretch_fixed;
+  @include flex-align-main-axis(center);
+  @include flex-align-cross-axis(center);
+
+  &.show {
+    @include flex-container;
+  }
 
   .background {
     background: rgba(black, 0.775);
@@ -19,11 +25,9 @@
 
   .window {
     height: 450px;
-    left: 50%;
-    margin: -225px 0 0 -400px;
-    position: absolute;
-    top: 50%;
-    width: 800px;
+    margin: 24px 22px;
+    max-width: 800px;
+    width: 100%;
     z-index: 1;
 
     @include flex-container;
