@@ -24,8 +24,6 @@
   font-family: 'entypo';
   font-weight: normal;
   content: attr(data-icon);
-
-  -webkit-font-smoothing: antialiased;
 }
 
 [data-mc-icon]:after {

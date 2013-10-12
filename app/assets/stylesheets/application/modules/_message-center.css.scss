@@ -7,8 +7,7 @@
 .mod-message-center {
   margin-top: 26px;
 
-  -webkit-font-smoothing: antialiased;
-
+  @include font-smoothing;
   @include sansserif-font;
 
   .message {

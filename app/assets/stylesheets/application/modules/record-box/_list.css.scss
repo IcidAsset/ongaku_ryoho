@@ -156,8 +156,6 @@
       font-size: 26px;
       line-height: 26px;
 
-      -webkit-font-smoothing: antialiased;
-
       @include icon-font;
 
       &[data-favourite="true"] {
@@ -182,8 +180,7 @@
     text-align: center;
     text-transform: uppercase;
 
-    -webkit-font-smoothing: antialiased;
-
+    @include font-smoothing;
     @include sansserif-font;
   }
 
@@ -210,7 +207,7 @@
       line-height: 24px;
       text-transform: uppercase;
 
-      -webkit-font-smoothing: antialiased;
+      @include font-smoothing;
     }
 
     p {

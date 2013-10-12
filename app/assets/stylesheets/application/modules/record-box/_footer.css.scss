@@ -13,8 +13,7 @@
   position: relative;
   text-align: center;
 
-  -webkit-font-smoothing: antialiased;
-
+  @include font-smoothing;
   @include sansserif-font;
   @include background-image(
     linear-gradient($rbf_outer_color_a, $rbf_outer_color_b)

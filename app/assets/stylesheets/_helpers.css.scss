@@ -1,4 +1,10 @@
-// font mixins
+// font mixins - other
+@mixin font-smoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// font mixins - font families
 @mixin sansserif-font {
   font-family: "Helvetica Neue", sans-serif;
 }
@@ -13,7 +19,12 @@
 
 @mixin icon-font {
   font-family: "entypo";
-  -webkit-font-smoothing: antialiased;
+  @include font-smoothing;
+}
+
+[data-icon]:after,
+[data-mc-icon]:after {
+  @include font-smoothing;
 }
 
 // flex mixins

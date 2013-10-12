@@ -9,7 +9,7 @@ $button_height: 52px;
 .mod-mixing-console {
   position: relative;
 
-  -webkit-font-smoothing: antialiased;
+  @include font-smoothing;
 
   & > .audio-container { display: none }
   & > div { position: relative }
@@ -218,8 +218,7 @@ $button_height: 52px;
         font-size: 8px;
         font-style: italic;
 
-        -webkit-font-smoothing: subpixel-antialiased;
-
+        @include font-smoothing;
         @include lato-font;
       }
     }

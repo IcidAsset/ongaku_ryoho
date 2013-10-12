@@ -6,7 +6,7 @@
   line-height: 43px;
   padding: 43px 0 40px;
 
-  -webkit-font-smoothing: antialiased;
+  @include font-smoothing;
 
   .colored {
     color: #222;
