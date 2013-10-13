@@ -14,28 +14,60 @@
   width: 31%;
   z-index: 99;
 
+  @include flex-container;
+  @include flex-stretch-vertically;
   @include sourcesanspro-font;
-  @include transition(
-    right 350ms
-  );
+  @include transition(right 350ms);
 
   &.visible {
     right: 0;
   }
 
   //
+  //  Add
+  //
+  .add-playlist {
+    border-bottom: 3px solid #eee;
+    padding: 9px;
+
+    @include flex-container;
+  }
+
+  .add-playlist input {
+    border: 1px solid #eee;
+    border-radius: 2px;
+    color: $subtle_green;
+    height: 18px;
+
+    @include flex;
+    @include input-placeholder {
+      color: rgba($less_subtle_green, .365);
+    };
+  }
+
+  .add-playlist .add-button {
+    background-color: $subtle_green;
+    border-radius: 2px;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    height: 30px;
+    line-height: 32px;
+    margin-left: 8px;
+    padding: 0 9px;
+    text-transform: lowercase;
+  }
+
+  //
   //  Playlists
   //
   .playlists {
-    bottom: 0;
     color: $rbn_inner_color_b;
     font-size: 12px;
-    left: 0;
     line-height: 14px;
     overflow-y: scroll;
-    position: absolute;
-    right: 0;
-    top: 0;
+
+    @include flex;
   }
 
   .playlists .playlist {

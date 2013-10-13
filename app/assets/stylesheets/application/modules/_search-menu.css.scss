@@ -31,10 +31,9 @@
     display: inline-block;
     margin: 0;
 
+    @include box-sizing(border-box);
     @include flex-order(1);
     @include flex;
-
-    @include box-sizing(border-box);
     @include input-placeholder {
       color: rgba($less_subtle_blue, .365);
       font-size: 12px;
@@ -87,7 +86,7 @@
   //  Submit
   //
   .submit {
-    background: $subtle_blue;
+    background-color: $subtle_blue;
     border-radius: 2px;
     color: white;
     cursor: pointer;
