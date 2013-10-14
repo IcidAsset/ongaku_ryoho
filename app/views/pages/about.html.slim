@@ -14,6 +14,40 @@ h1 Ongaku Ryoho
 
 
 
-/ .with-a-border
-/   .wrapper.content
-/     h2: span Supported sources
+.with-a-border
+  .wrapper.content
+    .left
+      h2: span Supported sources
+      ul
+        li Ongaku Ryoho Server (<a href="http://rubygems.org/gems/ongaku_ryoho_server">rubygem</a>)
+        li Amazon S3 bucket
+
+      p
+        | Suggestions are welcome (<a href="http://twitter.com/icidasset">@icidasset</a>).
+
+    .right
+      h2: span Supported browsers/filetypes
+      p
+        | On the desktop: Chrome, Firefox (v25), Safari (7+) and Opera (17+).
+          Other platforms that I tested: iOS 7 Mobile Safari and Chrome on iOS 6+.
+          The files you can play depend on the browser.
+          Chrome (v30) supports: mp3, m4a, mp4, wav, ogg, webm.
+          For other browsers, see this <a href="http://docs.webplatform.org/wiki/html/elements/audio#Compatibility">compatibility</a> table.
+
+
+
+.with-a-border
+  .wrapper.content
+    img.screenshot[src="/assets/screenshot.png"]
+
+
+
+.with-a-border
+  .wrapper.content
+    .left
+      h2: span Future
+      ul
+        li Group-by support
+        li Sort by added-to-library date
+        li Seperate API
+        li Offline support

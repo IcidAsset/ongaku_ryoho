@@ -24,15 +24,12 @@ private
       [
         { title: "Application", url: "/" },
         { title: "Settings", url: "/settings" },
-        { title: "Tools", url: "/tools" },
         { title: "Account", url: "/account"},
         { title: "Sign out", url: "/sign-out" }
       ]
     else
       [
         { title: "About", url: "/about" },
-        { title: "Tools", url: "/tools" },
-        { title: "FAQ", url:"/faq" },
         { title: "Sign in", url: "/sign-in" },
         { title: "Sign up", url: "/sign-up" }
       ]

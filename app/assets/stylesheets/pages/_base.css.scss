@@ -7,8 +7,8 @@
 body {
   background: white;
   color: $textcolor;
-  font-size: 18px;
-  line-height: 32px;
+  font-size: 15px;
+  line-height: 25px;
   margin: 0;
   min-width: $breakpoint_medium;
 
@@ -22,9 +22,20 @@ body {
   position: relative;
 
   &.content {
+    overflow: hidden;
     padding-bottom: 50px;
     padding-top: 50px;
   }
+}
+
+.wrapper .left {
+  float: left;
+  width: 46%;
+}
+
+.wrapper .right {
+  float: right;
+  width: 46%;
 }
 
 
@@ -37,16 +48,26 @@ h1 {
 }
 
 h2 {
-  color: darken($textcolor, 10%);
-  font-size: 39px;
-  font-weight: 100;
-  letter-spacing: -2px;
-  margin: 0 0 33px;
-  text-align: center;
+  color: black;
+  font-size: 23px;
+  font-weight: 300;
+  letter-spacing: 0;
+  margin: 0 0 27px;
+  text-transform: uppercase;
 }
 
-p {
-  margin: 0;
+p,
+ul {
+  margin: 0 0 18px;
+}
+
+p a,
+ul a {
+  color: $less_subtle_blue;
+}
+
+ul {
+  list-style: inside square;
 }
 
 i {
@@ -56,6 +77,13 @@ i {
   top: 2px;
 
   @include icon-font;
+}
+
+.screenshot {
+  display: block;
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%;
 }
 
 .with-a-border {
