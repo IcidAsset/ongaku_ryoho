@@ -34,14 +34,14 @@
   }
 
   .add-playlist input {
-    border: 1px solid #eee;
+    border: 1px solid rgba($less_subtle_green, .215);
     border-radius: 2px;
     color: $subtle_green;
     height: 18px;
 
     @include flex;
     @include input-placeholder {
-      color: rgba($less_subtle_green, .365);
+      color: rgba($less_subtle_green, .405);
     };
   }
 
@@ -54,8 +54,10 @@
     height: 30px;
     line-height: 32px;
     margin-left: 8px;
-    padding: 0 9px;
+    padding: 0 11px;
     text-transform: lowercase;
+
+    @include button-gradient;
   }
 
   //

@@ -5,6 +5,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   #
   events: () ->
     "click .playlist" : @group.machine.playlist_click_handler
+    "click .add-playlist .add-button" : @group.machine.add_button_click_handler
 
 
 
@@ -15,11 +16,13 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
     super("PlaylistMenu")
 
     # this element
-    module_element = document.querySelector(".mod-playlist-menu")
-    this.setElement(module_element)
+    this.setElement(
+      document.querySelector(".mod-playlist-menu")
+    )
 
-    # trigger button
+    # elements
     this.trigger_element = OngakuRyoho.RecordBox.Filter.view.el.querySelector(".add-button.playlist")
+    this.input_element = this.$el.find(".add-playlist input")
 
     # collection events
     this.listenTo(OngakuRyoho.RecordBox.Playlists.collection, "reset", this.render_playlists)
