@@ -296,6 +296,11 @@ private
       conditions << " AND location LIKE ('#{playlist}%')"
     end
 
+    # check
+    if ids.length == 0
+      return { tracks: [], total: 0 }
+    end
+
     # get tracks
     tracks = Track.find(:all, {
       offset: options[:offset],

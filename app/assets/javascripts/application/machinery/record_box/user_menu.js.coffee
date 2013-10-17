@@ -101,6 +101,3 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
   #
   source_manager_toggle: (e) =>
     OngakuRyoho.SourceManager.view.show()
-
-    @tooltip.hide_and_remove_current_tooltip()
-    e.stopPropagation()

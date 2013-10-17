@@ -12,6 +12,10 @@ class OngakuRyoho.Classes.Models.Playlist extends Backbone.Model
   validate: (attrs, options) ->
     unique_name = true
 
+    # don't validate if playlist already exists
+    if attrs.id
+      return no
+
     # check name length
     unless attrs.name.length > 1
       return "The name for your playlist should be at least two characters long"

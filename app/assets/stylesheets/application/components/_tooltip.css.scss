@@ -121,3 +121,23 @@
     color: white;
   }
 }
+
+.tooltip.subtle-green {
+  .arrow {
+    border-bottom-color: darken($subtle_green, 15);
+  }
+
+  .group {
+    background-color: darken($subtle_green, 15);
+  }
+
+  a {
+    color: white;
+  }
+
+  a:hover,
+  a.drag-target {
+    background-color: darken($subtle_green, 25);
+    color: white;
+  }
+}

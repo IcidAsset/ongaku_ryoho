@@ -4,8 +4,12 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   #  Events
   #
   events: () ->
-    "click .playlist" : @group.machine.playlist_click_handler
-    "click .add-playlist .add-button" : @group.machine.add_button_click_handler
+    "dragenter .playlist"     : @group.machine.playlist_dragenter
+    "dragleave .playlist"     : @group.machine.playlist_dragleave
+    "dragover .playlist"      : @group.machine.playlist_dragover
+    "drop .playlist"          : @group.machine.playlist_drop
+    "click .playlist"         : @group.machine.playlist_click_handler
+    "submit .add-playlist"    : @group.machine.add_playlist_submit_handler
 
 
 
@@ -22,13 +26,16 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
 
     # elements
     this.trigger_element = OngakuRyoho.RecordBox.Filter.view.el.querySelector(".add-button.playlist")
-    this.input_element = this.$el.find(".add-playlist input")
+    this.$input = this.$el.find(".add-playlist input[type=\"text\"]")
 
     # collection events
     this.listenTo(OngakuRyoho.RecordBox.Playlists.collection, "reset", this.render_playlists)
+    this.listenTo(OngakuRyoho.RecordBox.Playlists.collection, "add", this.render_playlists)
+    this.listenTo(OngakuRyoho.RecordBox.Playlists.collection, "remove", this.render_playlists)
 
     # render
     this.render_playlists()
+    this.group.machine.setup_tooltip();
 
 
 
@@ -42,10 +49,13 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   hide: () ->
     this.el.classList.remove("visible")
     this.trigger_element.classList.remove("active")
+    this.group.machine.tooltip.hide_and_remove_current_tooltip()
 
   toggle: () ->
-    this.el.classList.toggle("visible")
-    this.trigger_element.classList.toggle("active")
+    if this.$el.hasClass("visible")
+      this.hide()
+    else
+      this.show()
 
 
 
@@ -62,7 +72,14 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
         el = document.createElement("div")
         el.classList.add("playlist")
         el.setAttribute("data-playlist-cid", playlist.cid)
-        el.innerHTML = "<span class=\"icon\">&#57349;</span>" + playlist.get("name")
+        el.innerHTML = """
+          <span class=\"icon\">&#57349;</span>#{playlist.get('name')}
+          <div class="tooltip-data">
+            <div class="group first">
+              <a rel="remove">Remove</a>
+            </div>
+          </div>
+          """
         fragment.appendChild(el)
       )
 

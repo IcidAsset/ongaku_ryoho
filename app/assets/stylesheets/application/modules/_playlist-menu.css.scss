@@ -33,7 +33,7 @@
     @include flex-container;
   }
 
-  .add-playlist input {
+  .add-playlist input[type="text"] {
     border: 1px solid rgba($less_subtle_green, .215);
     border-radius: 2px;
     color: $subtle_green;
