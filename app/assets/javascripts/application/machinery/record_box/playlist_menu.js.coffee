@@ -62,7 +62,6 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
       playlist.save({}, {
         success: () ->
           OngakuRyoho.RecordBox.Playlists.collection.add(playlist)
-          OngakuRyoho.RecordBox.Filter.model.enable_playlist(playlist)
       })
 
       $input.removeClass("error")
