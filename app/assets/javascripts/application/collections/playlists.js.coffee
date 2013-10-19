@@ -8,8 +8,10 @@ class OngakuRyoho.Classes.Collections.Playlists extends Backbone.Collection
     this.filter (playlist) -> not playlist.get("special")
 
 
+
   get_special_playlists: () ->
     this.filter (playlist) -> playlist.get("special")
+
 
 
   fetch: (options={}) ->

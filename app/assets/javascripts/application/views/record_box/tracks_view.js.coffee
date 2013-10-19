@@ -26,6 +26,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     "dragover .group"           : @group.machine.group_dragover
     "drop .group"               : @group.machine.group_drop
 
+    "pointerdown"               : @group.machine.pointerdown_handler
+
 
 
   #
@@ -45,16 +47,14 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     this.add_loading_message()
 
     # render
-    @group.collection
-      .on("reset", this.render)
-      .on("remove", this.remove_handler)
+    this.listenTo(@group.collection, "reset", this.render)
+    this.listenTo(@group.collection, "remove", this.remove_handler)
 
     # fetch events
-    @group.collection
-      .on("fetching", @group.machine.fetching)
-      .on("fetched", @group.machine.fetched)
+    this.listenTo(@group.collection, "fetching", @group.machine.fetching)
+    this.listenTo(@group.collection, "fetched", @group.machine.fetched)
 
-    # scroll/touch events
+    # {TODO} scroll/touch events
     scroll_el = this.el
     scroll_el.addEventListener("touchstart", (e) ->
         start_y = e.touches[0].pageY
@@ -88,11 +88,11 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     # add background to main elements
     background = document.createElement("div")
-    background.classList.add("background")
+    background.className = "background"
     this.el.appendChild(background)
 
     # check
-    if $(list_element).children("li").length is 0
+    if list_element.childNodes.length is 0
       this.add_nothing_here_message()
       OngakuRyoho.RecordBox.Footer.view.set_contents("")
 
@@ -118,8 +118,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     OngakuRyoho.RecordBox.Footer.view.set_contents(message)
 
-    # return list fragment
-    return list_fragment
+    # return
+    list_fragment
 
 
 
@@ -131,7 +131,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     # group
     group = document.createElement("li")
-    group.classList.add("group")
+    group.className = "group"
     group.innerHTML = "<span>Queue</span>"
     list_fragment.appendChild(group)
 
@@ -148,8 +148,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # set foorter contents
     OngakuRyoho.RecordBox.Footer.view.set_contents(message)
 
-    # return list fragment
-    return list_fragment
+    # return
+    list_fragment
 
 
 

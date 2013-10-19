@@ -47,15 +47,16 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
   #  Fetching and fetched events
   #
   fetching: () =>
-    @group.view.$el.scrollTop(0)
-    @group.view.$el.addClass("disable-scrolling")
+    @group.view.el.scrollTop = 0
+    @group.view.el.classList.add("disable-scrolling")
     @group.view.add_loading_message()
+
 
 
   fetched: () =>
     OngakuRyoho.Engines.Queue.reset_computed_next()
     OngakuRyoho.RecordBox.Footer.machine.check_page_navigation()
-    @group.view.$el.removeClass("disable-scrolling")
+    @group.view.el.classList.remove("disable-scrolling")
 
     if @group.collection.length > 0 and @group.view.mode isnt "queue"
       this.add_playing_class_to_track(OngakuRyoho.People.SoundGuy.get_current_track())
@@ -73,7 +74,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     return if $t.hasClass("unavailable")
 
     # set
-    track = @group.collection.get($t.attr("rel"))
+    track = @group.collection.get(el.getAttribute("rel"))
 
     # insert track
     OngakuRyoho.Engines.Queue.clear_computed_next()
@@ -213,6 +214,17 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     target_index = @group.view.$el.find(".track").index($target)
 
     this.move_elements_in_queue(source_index, target_index)
+
+
+
+  pointerdown_handler: (e) ->
+    $(document).on("pointermove", (e) ->
+      console.log(e)
+    )
+
+    $(document).on("pointerup", (e) ->
+      $(document).off("pointermove")
+    )
 
 
 

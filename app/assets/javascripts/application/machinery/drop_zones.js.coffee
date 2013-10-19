@@ -26,21 +26,6 @@ class OngakuRyoho.Classes.Machinery.DropZones
     # remove hover class
     @group.view.$queue.removeClass("hover")
 
-    # get track
+    # get track and add it to the queue
     track = OngakuRyoho.RecordBox.Tracks.collection.get(id)
-
-    # add message
-    message = new OngakuRyoho.Classes.Models.Message
-      text: "<span class=\"icon\" data-icon=\"&#128340;\"></span>
-            #{track.get('artist')} - #{track.get('title')}"
-
-    OngakuRyoho.MessageCenter.collection.add(message) if track
-
-    # remove message
-    setTimeout(() ->
-      OngakuRyoho.MessageCenter.collection.remove(message)
-      message = null
-    , 1500) if track
-
-    # add to queue
-    OngakuRyoho.Engines.Queue.add_to_next(track)
+    OngakuRyoho.Engines.Queue.add_to_next(track) if track

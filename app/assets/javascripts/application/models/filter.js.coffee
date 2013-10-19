@@ -23,9 +23,9 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
 
   change_handler: () ->
-    return unless OngakuRyoho.People.ViewStateManager.state.ready
-    OngakuRyoho.RecordBox.Tracks.collection.fetch()
-    OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
+    if OngakuRyoho.People.ViewStateManager.state.ready
+      OngakuRyoho.RecordBox.Tracks.collection.fetch()
+      OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
 
 
 

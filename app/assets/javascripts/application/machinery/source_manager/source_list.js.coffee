@@ -93,8 +93,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
     source_id = parseInt(source_id, 10)
     source = collection.get(source_id)
 
-    if source
-      OngakuRyoho.SourceManager.view.fill_in_and_show_edit_form(source)
+    OngakuRyoho.SourceManager.view.fill_in_and_show_edit_form(source)
 
 
 

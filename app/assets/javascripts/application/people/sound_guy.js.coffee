@@ -211,7 +211,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     return unless @audio_engine.has_been_setup
 
     # this
-    _this = this
+    that = this
 
     # get source model
     source = OngakuRyoho.SourceManager.collection.get(track.get("source_id"))
@@ -220,7 +220,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     hook = source.type_instance.insert_track_hook
 
     if hook
-      hook(track).then(-> _this.insert_track_step_two(track))
+      hook(track).then(-> that.insert_track_step_two(track))
     else
       this.insert_track_step_two(track)
 

@@ -139,12 +139,12 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
   setup_knob: ($knob) ->
-    $knob.on("mousedown", (e) ->
-      $(document).on("mousemove", mouse_move)
-                 .on("mouseup", mouse_up)
+    $knob.on("pointerdown", (e) ->
+      $(document).on("pointermove", pointer_move)
+                 .on("pointerup", pointer_up)
     )
 
-    mouse_move = (e) =>
+    pointer_move = (e) =>
       angle = this.knob_get_angle($knob, e)
       item = _.without($knob.attr("class").split(" "), "knob")[0]
       biquad_filters = ["low", "mid", "hi"]
@@ -163,9 +163,9 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
         specific_mouse_move_event.apply(this, function_arguments)
 
 
-    mouse_up = (e) ->
-      $(document).off("mousemove", mouse_move)
-                 .off("mouseup", mouse_up)
+    pointer_up = (e) ->
+      $(document).off("pointermove", pointer_move)
+                 .off("pointerup", pointer_up)
 
 
 

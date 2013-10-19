@@ -1,12 +1,12 @@
 class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
   events: ->
-    "click .toolbar [rel='close-modal']" : "hide"
-    "click .toolbar [rel='add-source']" : @machine.toolbar_add_source
-    "click .toolbar [rel='refresh-sources']:not(.working)" : @machine.toolbar_refresh_sources
-    "click .toolbar [rel='go-back']" : @machine.toolbar_go_back
-    "click [data-window]" : @machine.data_window_click_handler
-    "submit form" : @machine.form_submit_handler
+    "click .toolbar [rel='close-modal']"                    : "hide"
+    "click .toolbar [rel='add-source']"                     : @machine.toolbar_add_source
+    "click .toolbar [rel='refresh-sources']:not(.working)"  : @machine.toolbar_refresh_sources
+    "click .toolbar [rel='go-back']"                        : @machine.toolbar_go_back
+    "click [data-window]"                                   : @machine.data_window_click_handler
+    "submit form"                                           : @machine.form_submit_handler
 
 
 
@@ -49,9 +49,11 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
       .removeClass("shown")
       .filter(".#{window_class}")
 
+    # remove errors from window and then show it
     $wndw.find(".error").remove()
     $wndw.addClass("shown")
 
+    # state
     @current_window = window_class
 
 
@@ -62,6 +64,8 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
   render: (item="SourceList", window_check) ->
     return if window_check and @current_window isnt window_check
     @current_child_view.remove() if @current_child_view
+
+    # make new child view
     @current_child_view = new OngakuRyoho.Classes.Views.SourceManager[item]
     @current_child_view.render().$el.appendTo(this.$el.find(".window.shown section"))
     @current_child_view.after_append() if @current_child_view.after_append
@@ -96,11 +100,15 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     type = source.get("type")
     source_attr = source.toJSON()
 
+    # get form elements
     $form_new = this.$el.find(".window form[data-type='#{type}'][data-action='CREATE']")
     $form_edit = this.$el.find(".window form[data-type='#{type}'][data-action='UPDATE']")
 
+    # set edit form html and attributes
     $form_edit.attr("data-source-id", source.get("id"))
     $form_edit.html($form_new.html())
+
+    # set values
     $form_edit.find("[name]:not([type='submit'])").each(() ->
       name = this.getAttribute("name")
       match = name.match(/(\w+)\[(\w+)\]/)
@@ -115,5 +123,6 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
         this.setAttribute("value", value || "")
     )
 
+    # show window
     window_klass = $form_edit.closest(".window").attr("class").split(" ")[1]
     this.show_window(window_klass)

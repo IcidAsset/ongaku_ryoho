@@ -54,7 +54,7 @@ window.Helpers =
   #
   set_view_element: (view, element) ->
     element = if typeof element is String
-      $(element).get(0)
+      document.querySelector(element)
     else
       element
 
@@ -84,6 +84,7 @@ window.Helpers =
       css["-moz-transform"] = css["-webkit-transform"]
       css["-o-transform"] = css["-webkit-transform"]
       css["-ms-tranform"] = css["-webkit-transform"]
+      css["transform"] = css["-webkit-transform"]
 
       $el.css(css)
 

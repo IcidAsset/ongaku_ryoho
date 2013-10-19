@@ -18,8 +18,8 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
     Helpers.set_view_element(this, ".mod-message-center")
 
     # collection events
-    @group.collection.on("add", this.add_message)
-    @group.collection.on("remove", this.remove_message)
+    this.listenTo(@group.collection, "add", this.add_message)
+    this.listenTo(@group.collection, "remove", this.remove_message)
 
 
 
@@ -29,11 +29,9 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   add_message: (message) =>
     message.view = new OngakuRyoho.Classes.Views.Message({ model: message })
 
-    # $message
+    # render message and add to dom
     $message = message.view.render().$el
-
-    # append html
-    this.$el.append($message)
+    $message.appendTo(this.$el)
 
     # fade in message
     $message.css({ display: "block", opacity: 0 })

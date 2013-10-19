@@ -25,4 +25,4 @@ class OngakuRyoho.Classes.Views.RecordBox.Footer extends Backbone.View
   #  Set contents
   #
   set_contents: (html) ->
-    this.$el.find(".intestines > span").html(html)
+    this.el.querySelector(".intestines > span").innerHTML = html

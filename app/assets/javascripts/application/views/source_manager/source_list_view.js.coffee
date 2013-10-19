@@ -15,7 +15,6 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
     # templates
     @template = Helpers.get_template("source-list")
-    @source_template = Helpers.get_template("source")
 
     # collection events
     this.listenTo(OngakuRyoho.SourceManager.collection, "reset", this.render)
@@ -40,7 +39,7 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
   #
   render: () =>
     fragment = document.createDocumentFragment()
-    source_template = @source_template
+    source_template = Helpers.get_template("source")
 
     # add sources
     OngakuRyoho.SourceManager.collection.each((source) ->
@@ -48,26 +47,28 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
       source_attributes.label = source.type_instance.label()
       source_attributes.type_server = (source_attributes.type is "Server")
       source_attributes.type_s3bucket = (source_attributes.type is "S3Bucket")
+
       source_el = document.createElement("div")
       source_el.classList.add("source")
       source_el.classList.add("available") if source_attributes.available
       source_el.classList.add("activated") if source_attributes.activated
       source_el.setAttribute("rel", source_attributes.id)
       source_el.innerHTML = source_template(source_attributes)
+
       fragment.appendChild(source_el)
     )
 
     # replace
-    if this.rendered_before
-      this.el.querySelector(".sources").innerHTML = ""
-    else
+    unless this.rendered_before
       this.el.innerHTML = @template()
 
     # append sources
-    this.el.querySelector(".sources").appendChild(fragment)
+    s = this.el.querySelector(".sources")
+    s.innerHTML = ""
+    s.appendChild(fragment)
 
     # state
     this.rendered_before = true
 
     # chain
-    return this
+    this

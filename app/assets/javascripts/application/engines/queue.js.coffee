@@ -18,7 +18,22 @@ class OngakuRyoho.Classes.Engines.Queue
 
   add_to_next: (track) ->
     @data.user_next.push({ track: track, user: true })
+
+    # reset computed array
     this.reset_computed_next()
+
+    # add message
+    message = new OngakuRyoho.Classes.Models.Message
+      text: "<span class=\"icon\" data-icon=\"&#128340;\"></span>
+            #{track.get('artist')} - #{track.get('title')}"
+
+    OngakuRyoho.MessageCenter.collection.add(message)
+
+    # remove message
+    _.delay(() ->
+      OngakuRyoho.MessageCenter.collection.remove(message)
+      message = null
+    , 1500)
 
 
 

@@ -24,6 +24,7 @@
 #= require "spin"
 #= require "browser"
 #= require "bare-tooltip"
+#= require "pointerevents"
 
 #= require "./application/backbone_extensions"
 #= require "./application/ongaku_ryoho"

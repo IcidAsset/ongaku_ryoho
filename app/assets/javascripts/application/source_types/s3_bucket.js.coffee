@@ -20,9 +20,11 @@ class OngakuRyoho.Classes.SourceTypes.S3Bucket
     data = { track_location: encodeURIComponent(track.get("location")) }
     signature_expire_date = track.get("signature_expire_date")
 
+    # do nothing if the signature is still valid
     if signature_expire_date and (new Date(signature_expire_date * 1000) > (new Date))
       promise.resolve()
 
+    # otherwise request a new signature
     else
       $.get("/api/sources/#{this.s3bucket.id}/s3_signature", data, (response) ->
         response = JSON.parse(response)

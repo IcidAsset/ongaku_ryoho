@@ -18,7 +18,9 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
     # add css class
     OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
 
-    # fetch and then remove css class
+    # fetch sources, update tracks and
+    # fetch tracks if necessary
+    # -> then remove css class
     Helpers.promise_fetch(OngakuRyoho.SourceManager.collection)
       .then () ->
         OngakuRyoho.SourceManager.collection.update_tracks_on_all()

@@ -42,6 +42,8 @@ class OngakuRyoho.Classes.SourceTypes.Server
     promise = new RSVP.Promise()
     url = this.server.get("configuration")["location"]
 
+    # if there are no files yet,
+    # request the whole file list from server
     if file_list.length is 0
       $.ajax(
         type: "GET"
@@ -51,6 +53,8 @@ class OngakuRyoho.Classes.SourceTypes.Server
         error: () -> promise.resolve(false)
       )
 
+    # if there are files, compare our and their file lists.
+    # returns list of 'new' and 'missing' files
     else
       $.ajax(
         type: "POST"

@@ -12,6 +12,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     _.shuffle(filtered_tracks)[0]
 
 
+
   #
   #  Fetch
   #
@@ -44,6 +45,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     Backbone.Collection.prototype.fetch.call(this, options)
 
 
+
   #
   #  Parse
   #
@@ -55,6 +57,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     }, { silent: true })
 
     response.models
+
 
 
   #
@@ -92,6 +95,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     info
 
 
+
   go_to_previous_page: () ->
     return no unless this.page_info().prev
 
@@ -99,11 +103,13 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     OngakuRyoho.RecordBox.Filter.model.set("page", previous_page_number)
 
 
+
   go_to_next_page: () ->
     return no unless this.page_info().next
 
     next_page_number = OngakuRyoho.RecordBox.Filter.model.get("page") + 1
     OngakuRyoho.RecordBox.Filter.model.set("page", next_page_number)
+
 
 
   #
@@ -116,6 +122,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
       this.toggle_favourite_if_available(track)
     else
       this.toggle_favourite_if_unavailable(track)
+
 
 
   toggle_favourite_if_available: (track) ->
@@ -164,6 +171,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
 
         t.set("favourite_id", true)
       )
+
 
 
   toggle_favourite_if_unavailable: (track) ->

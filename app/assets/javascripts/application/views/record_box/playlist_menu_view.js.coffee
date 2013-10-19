@@ -26,7 +26,6 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
 
     # elements
     this.trigger_element = OngakuRyoho.RecordBox.Filter.view.el.querySelector(".add-button.playlist")
-    this.$input = this.$el.find(".add-playlist input[type=\"text\"]")
 
     # collection events
     this.listenTo(OngakuRyoho.RecordBox.Playlists.collection, "reset", this.render_playlists)
@@ -46,10 +45,14 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
     this.el.classList.add("visible")
     this.trigger_element.classList.add("active")
 
+
+
   hide: () ->
     this.el.classList.remove("visible")
     this.trigger_element.classList.remove("active")
     this.group.machine.tooltip.hide_and_remove_current_tooltip()
+
+
 
   toggle: () ->
     if this.$el.hasClass("visible")
@@ -65,12 +68,17 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   render_playlists: () =>
     fragment = document.createDocumentFragment()
 
+    # if there are no playlists
     if OngakuRyoho.RecordBox.Playlists.collection.models.length is 0
-      # TODO
+      ###
+        TODO
+      ###
+
+    # and if there are
     else
       OngakuRyoho.RecordBox.Playlists.collection.each((playlist) ->
         el = document.createElement("div")
-        el.classList.add("playlist")
+        el.className = "playlist"
         el.setAttribute("data-playlist-cid", playlist.cid)
         el.innerHTML = """
           <span class=\"icon\">&#57349;</span>#{playlist.get('name')}
@@ -83,8 +91,10 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
         fragment.appendChild(el)
       )
 
+    # add fragment to container
     playlists_container = this.el.querySelector(".playlists")
     playlists_container.innerHTML = ""
     playlists_container.appendChild(fragment)
 
+    # mark selected playlist
     this.group.machine.add_active_class_to_selected_playlist()

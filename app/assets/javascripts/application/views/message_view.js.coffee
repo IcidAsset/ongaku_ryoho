@@ -16,17 +16,18 @@ class OngakuRyoho.Classes.Views.Message extends Backbone.View
   #  Render
   #
   render: () ->
-    this.$el.html(@template(this.model.toJSON()))
+    this.el.innerHTML = @template(this.model.toJSON())
 
     # add cid
-    this.$el.attr("rel", @model.cid)
+    this.el.setAttribute("rel", @model.cid)
 
     # loading or error?
     if @model.get("loading")
-      this.$el.addClass("loading").append("<div></div>")
+      this.el.classList.add("loading")
+      this.el.appendChild(document.createElement("div"))
 
     else if @model.get("error")
-      this.$el.addClass("error")
+      this.el.classList.add("error")
 
     # chain
-    return this
+    this

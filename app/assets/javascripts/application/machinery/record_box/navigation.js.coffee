@@ -17,6 +17,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
     return if OngakuRyoho.RecordBox.Tracks.view.is_in_queue_mode()
     filter = OngakuRyoho.RecordBox.Filter.model
 
+    # sort by
     current_sort_direction = filter.get("sort_direction")
     current_sort_key = filter.get("sort_by")
     selected_sort_key = e.currentTarget.getAttribute("data-sort-key")
@@ -26,10 +27,13 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
       sort_direction: "asc"
     }
 
+    # inverse sort
     if selected_sort_key is current_sort_key and current_sort_direction is "asc"
       attributes.sort_direction = "desc"
 
+    # -> filter
     filter.set(attributes)
+
 
 
   add_active_class_to_selected_sort_by_column: () ->

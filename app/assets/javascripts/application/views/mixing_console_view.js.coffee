@@ -36,10 +36,10 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     Helpers.set_view_element(this, ".mod-mixing-console")
 
     # render on events
-    @group.model.on("change:now_playing", this.render_now_playing)
+    this.listenTo(@group.model, "change:now_playing", this.render_now_playing)
 
     # cache dom elements
-    this.$now_playing  = this.$el.find(".now-playing")
+    this.$now_playing = this.$el.find(".now-playing")
     this.$progress_bar = this.$el.find(".progress-bar")
     this.$controls = this.$el.find(".controls")
 
@@ -79,9 +79,9 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     seconds = "0#{seconds}" if seconds.toString().length is 1
 
     # time
-    this.$now_playing.children(".time").html(
-      @time_template({ time: "#{minutes}:#{seconds}" })
-    )
+    this.$now_playing
+      .children(".time")[0]
+      .innerHTML = "#{minutes}:#{seconds}"
 
     # progress bar
     this.$progress_bar

@@ -46,24 +46,32 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
   #  Add-playlist form
   #
   add_playlist_submit_handler: (e) =>
-    $input = @group.view.$input
+    $input = @group.view.$el.find(".add-playlist input[type=\"text\"]")
 
+    # do not actually submit form
     e.preventDefault()
 
+    # new model
     playlist = new OngakuRyoho.Classes.Models.Playlist({
       name: $input.val()
     })
 
+    # if the new model is valid,
+    # save it and add success class to $input
     if playlist.isValid()
       playlist.save({}, {
         success: () ->
           OngakuRyoho.RecordBox.Playlists.collection.add(playlist)
+          OngakuRyoho.RecordBox.Filter.model.enable_playlist(playlist)
       })
 
       $input.removeClass("error")
       $input.val("")
       $input.addClass("success")
       _.delay((() -> $input.removeClass("success")), 1000)
+
+    # if it isn't valid,
+    # add error class to $input
     else
       $input.addClass("error")
 
@@ -162,4 +170,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     else
       playlist.save({ track_ids: playlist.get("track_ids").concat([parseInt(id, 10)]) })
 
-    # TODO : check if track_id is unique in array
+    ###
+      {TODO}
+      -> check if track_id is unique in array
+    ###

@@ -8,8 +8,10 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
     this.where({ available: true, activated: true })
 
 
+
   get_available_and_activated_ids: () ->
     _.map(this.get_available_and_activated(), (s) -> s.id)
+
 
 
   fetch: (options={}) ->
@@ -22,6 +24,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
       this.is_fetching = false
 
     Backbone.Collection.prototype.fetch.call(this, options)
+
 
 
   #
@@ -63,8 +66,6 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
       this.is_updating = false
       message = null
-
-
 
     # return
     promise

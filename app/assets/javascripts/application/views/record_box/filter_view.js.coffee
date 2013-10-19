@@ -23,21 +23,21 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
     super("Filter")
 
     # elements
-    menu_btn_element = OngakuRyoho.RecordBox.Navigation.view.$el.find(".filter")[0]
-    this.setElement(menu_btn_element)
-    this.$el.find(".extra-search-field input")[0].is_empty = true
+    el = OngakuRyoho.RecordBox.Navigation.view.el.querySelector(".filter")
+    this.setElement(el)
+
+    esf_input = this.el.querySelector(".extra-search-field input")
+    esf_input.is_empty = true
 
     # templates
     @filter_item_template = Helpers.get_template("filter-item")
 
     # model events
-    @group.model.on("change", this.render)
+    this.listenTo(@group.model, "change", this.render)
 
-    # machinery
-    @group.machine.setup_search_tooltip()
-
-    # render
+    # etc
     this.render()
+    this.group.machine.setup_search_tooltip()
 
 
 
@@ -45,25 +45,21 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
   #  Render
   #
   render: () =>
-    _this = this
-    model = @group.model
-    box_element = this.$el.children(".box")[0]
     fragment = document.createDocumentFragment()
-    playlist = model.get("playlist")
 
     # playlist
-    if playlist
-      title = model.get("playlist_name")
-      new_item = _this.new_item("playlist", title, "&#57349;")
+    if @group.model.get("playlist")
+      title = @group.model.get("playlist_name")
+      new_item = this.new_item("playlist", title, "&#57349;")
       fragment.appendChild(new_item)
 
     # favourites
-    if model.get("favourites")
-      new_item = _this.new_item("favourites", "favourites", "&#9733;")
+    if @group.model.get("favourites")
+      new_item = this.new_item("favourites", "favourites", "&#9733;")
       fragment.appendChild(new_item)
 
     # search
-    _.each(model.get("searches"), (query, idx) ->
+    _.each(@group.model.get("searches"), (query, idx) =>
       text = query
 
       if query.charAt(0) is "!"
@@ -72,11 +68,12 @@ class OngakuRyoho.Classes.Views.RecordBox.Filter extends Backbone.View
       else if idx > 0
         keyword = "AND"
 
-      new_item = _this.new_item("search", text, "&#128269;", keyword, query)
+      new_item = this.new_item("search", text, "&#128269;", keyword, query)
       fragment.appendChild(new_item)
     )
 
     # reset
+    box_element = this.el.querySelector(".box")
     box_element.innerHTML = ""
 
     # add fragment to box

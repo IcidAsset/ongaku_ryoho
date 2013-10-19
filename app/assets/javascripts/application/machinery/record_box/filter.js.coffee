@@ -156,8 +156,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
     OngakuRyoho.People.KeyMaster.filter_extra_search_field_unbind(e.currentTarget)
 
     # clean input
-    $t = $(e.currentTarget)
-    $t.val("")
+    $(e.currentTarget).val("")
 
 
 
