@@ -87,11 +87,21 @@
     color: white;
   }
 
+  .playlists .playlist.drag-target {
+    background-color: darken($subtle_green, 15);
+    border-bottom-color: darken($subtle_green, 15);
+
+    &, .icon {
+      color: white;
+    }
+  }
+
   .playlists .playlist .icon {
     color: #bbb;
     font-size: 27px;
     left: 12px;
     line-height: 20px;
+    pointer-events: none;
     position: absolute;
     top: 11px;
 
