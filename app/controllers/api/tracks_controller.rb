@@ -115,6 +115,17 @@ private
     select_favourites = options[:select_favourites]
     playlist = get_playlist(options[:playlist])
 
+    # table
+    if playlist.is_a?(Playlist) or playlist.is_a?(String)
+      options[:table] = "tracks"
+    elsif select_favourites
+      options[:table] = "favourites"
+    else
+      options[:table] = "tracks"
+    end
+
+    table = options[:table]
+
     # check
     if available_source_ids.empty? and !select_favourites
       return { tracks: [], total: 0 }
@@ -124,25 +135,25 @@ private
     conditions, condition_arguments = [], []
 
     if select_favourites and !playlist
-      conditions << "user_id = ?"
+      conditions << "#{table}.user_id = ?"
       condition_arguments << current_user.id
     else
-      conditions << "source_id IN (?)"
+      conditions << "#{table}.source_id IN (?)"
       condition_arguments << available_source_ids
     end
 
     if filter
-      conditions << "search_vector @@ to_tsquery('english', ?)"
+      conditions << "#{table}.search_vector @@ to_tsquery('english', ?)"
       condition_arguments << options[:filter]
     end
 
     # conditions / playlist
     unless select_favourites
       if playlist.is_a?(Playlist)
-        conditions.unshift "id IN (?)"
+        conditions.unshift "#{table}.id IN (?)"
         condition_arguments.unshift playlist.track_ids
       elsif playlist.is_a?(String)
-        conditions.push "location LIKE (?)"
+        conditions.push "#{table}.location LIKE (?)"
         condition_arguments.push "#{playlist}%"
       end
     end
@@ -163,21 +174,30 @@ private
         select_favourited_tracks(*args)
       end
     else
+      args.push(playlist)
       select_default_tracks(*args)
     end
   end
 
 
-  def select_default_tracks(conditions, available_source_ids, options)
-    order = get_sql_for_order(options[:sort_by], options[:sort_direction])
+  def select_default_tracks(conditions, available_source_ids, options, playlist)
+    order = get_sql_for_order(options, true, playlist)
 
-    # get tracks
-    tracks = Track.find(:all, {
+    # find args
+    find_args = {
       offset: options[:offset],
       limit: options[:per_page],
       conditions: conditions,
       order: order
-    })
+    }
+
+    # find args / playlist position
+    if playlist.is_a?(Playlist) && options[:sort_by] == :position
+      find_args[:joins] = :playlists_tracks
+    end
+
+    # get tracks
+    tracks = Track.find(:all, find_args)
 
     total = if options[:offset] == 0 && tracks.length < options[:per_page]
       tracks.length
@@ -191,7 +211,7 @@ private
 
 
   def select_favourited_tracks(conditions, available_source_ids, options)
-    order = get_sql_for_order(options[:sort_by], options[:sort_direction], false)
+    order = get_sql_for_order(options, false)
 
     # get favourites
     favourites = Favourite.find(:all, {
@@ -274,7 +294,7 @@ private
 
 
   def select_favourites_tracks_for_playlist(conditions, available_source_ids, options, playlist)
-    order = get_sql_for_order(options[:sort_by], options[:sort_direction], false)
+    order = get_sql_for_order(options, false)
     asi_string = available_source_ids.map { |s| "'#{s}'" }.join(",")
 
     # get favourites
@@ -288,7 +308,8 @@ private
 
     # get tracks
     if playlist.is_a?(Playlist)
-      ids = (playlist.track_ids & track_ids).join(",")
+      track_ids = track_ids.map { |t| t.split(",") }.flatten
+      ids = (playlist.track_ids.map(&:to_s) & track_ids).join(",")
       conditions << " AND id IN (#{ids})"
     elsif playlist.is_a?(String)
       ids = (track_ids).join(",")
@@ -333,10 +354,21 @@ private
   end
 
 
-  def get_sql_for_order(sort_by, direction="ASC", include_track_number=false)
-    other_cols = include_track_number ? " tracknr," : ""
+  def get_sql_for_order(options, include_track_number=false, playlist=nil)
+    sort_by = options[:sort_by]
+    direction = options[:sort_direction]
+    table = options[:table]
+    other_cols = include_track_number ? " #{table}.tracknr," : ""
 
+    # don't sort on position when it's not available
+    if !playlist.is_a?(Playlist) && sort_by == :position
+      sort_by = :artist
+    end
+
+    # order
     order = case sort_by
+    when :position
+      "playlists_tracks.position, LOWER(#{table}.artist), LOWER(#{table}.album),#{other_cols} LOWER(#{table}.title)"
     when :title
       "LOWER(title),#{other_cols} LOWER(artist), LOWER(album)"
     when :album
@@ -345,6 +377,7 @@ private
       "LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
     end
 
+    # order direction
     if direction == "DESC"
       order.split(", ").map { |o| "#{o} DESC" }.join(", ")
     else

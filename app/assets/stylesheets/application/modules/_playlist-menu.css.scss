@@ -28,7 +28,7 @@
   //
   .add-playlist {
     border-bottom: 3px solid #eee;
-    padding: 9px;
+    padding: 11px 9px 9px;
 
     @include flex-container;
   }
@@ -55,7 +55,6 @@
     line-height: 32px;
     margin-left: 8px;
     padding: 0 11px;
-    text-transform: lowercase;
 
     @include button-gradient;
   }
@@ -76,7 +75,7 @@
     border-bottom: 1px solid #f0f0f0;
     cursor: pointer;
     overflow: hidden;
-    padding: 13px 12px 11px 35px;
+    padding: 13px 12px 11px 36px;
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;

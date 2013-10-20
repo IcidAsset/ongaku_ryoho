@@ -51,6 +51,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
       this.state.$tooltip_element.on("click", ".group", _this.cancel_default_click)
       this.state.$tooltip_element.on("click", ".submit", _this.search_form_submit_click_handler)
       this.state.$tooltip_element.on("click", "[data-action]", _this.search_form_action_click_handler)
+      this.state.$tooltip_element.find("input").focus()
       this.$el.addClass("active")
 
       BareTooltip.prototype.show_tooltip.apply(this)

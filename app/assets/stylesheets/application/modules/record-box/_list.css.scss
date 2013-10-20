@@ -13,18 +13,29 @@
   @include flex-stretch-vertically;
   @include flex;
 
+  // columns
   header, .track {
     overflow: hidden;
 
-    .favourite, .title, .artist, .album { float: left }
-    .favourite { width: 10px + 7 + 12 }
-    .title  { width: 38% }
-    .artist { width: 28% }
-    .album  { width: 28% }
+    .favourite, .position, .title, .artist, .album { float: left }
+    .favourite { width: 29px }
+    .position { display: none; width: 47px }
+    .title  { width: calc(40% - 29px * 0.4) }
+    .artist { width: calc(30% - 29px * 0.3) }
+    .album  { width: calc(30% - 29px * 0.3) }
 
     span { display: block; padding: 0 7px }
     .favourite span { padding-left: 10px }
     .album span { padding-right: 10px }
+  }
+
+  // playlist -> position
+  &.with-position-column header,
+  &.with-position-column .track {
+    .position { display: block }
+    .title  { width: calc(40% - (47px + 29px) * 0.4) }
+    .artist { width: calc(30% - (47px + 29px) * 0.3) }
+    .album  { width: calc(30% - (47px + 29px) * 0.3) }
   }
 
   //

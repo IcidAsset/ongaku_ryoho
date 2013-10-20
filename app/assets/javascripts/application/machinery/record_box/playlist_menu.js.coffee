@@ -38,7 +38,8 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     OngakuRyoho.RecordBox.Filter.model.enable_playlist(playlist)
 
     # hide menu
-    @group.view.hide()
+    if OngakuRyohoPreloadedData.user.settings.hide_playlist_menu is "1"
+      @group.view.hide()
 
 
 
@@ -113,7 +114,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
 
       $t.css({
         left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2),
-        top: $trigger.offset().top + $trigger.height() / 2 + 12
+        top: $trigger.offset().top + $trigger.height() / 2 + 14
       })
 
     # setup
@@ -157,6 +158,9 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
   playlist_drop: (e) ->
     id = parseInt(e.dataTransfer.getData("text/plain"), 10)
 
+    # get track
+    track = OngakuRyoho.RecordBox.Tracks.collection.get(id)
+
     # remove class
     e.currentTarget.classList.remove("drag-target")
 
@@ -165,11 +169,19 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     playlist = OngakuRyoho.RecordBox.Playlists.collection.get(playlist_cid)
 
     if playlist.get("special")
-      alert("You can't add tracks to a special playlist!")
+      return alert("You can't add tracks to a special playlist!")
     else
       playlist.save({ track_ids: playlist.get("track_ids").concat([parseInt(id, 10)]) })
 
-    ###
-      {TODO}
-      -> check if track_id is unique in array
-    ###
+    # add message
+    message = new OngakuRyoho.Classes.Models.Message
+      text: "<span class=\"icon\" data-icon=\"&#57349;\"></span>
+            #{track.get('artist')} - #{track.get('title')}"
+
+    OngakuRyoho.MessageCenter.collection.add(message)
+
+    # remove message
+    _.delay(() ->
+      OngakuRyoho.MessageCenter.collection.remove(message)
+      message = null
+    , 1500)

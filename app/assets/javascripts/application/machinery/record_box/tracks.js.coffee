@@ -176,14 +176,18 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
   track_dragenter: (e) =>
     setTimeout(() =>
-      $(e.currentTarget).addClass("drag-target") if @group.view.mode is "queue"
+      cond_a = (@group.view.mode is "queue")
+      cond_b = (OngakuRyoho.RecordBox.Filter.model.is_in_playlist_mode())
+
+      if cond_a or cond_b
+        e.currentTarget.classList.add("drag-target")
     , 0)
 
 
 
   track_dragleave: (e) =>
     setTimeout(() =>
-      $(e.currentTarget).removeClass("drag-target")
+      e.currentTarget.classList.remove("drag-target")
     , 0)
 
 
@@ -195,9 +199,14 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
   track_drop: (e) =>
-    unless @group.view.mode is "queue" then return
+    if @group.view.mode is "queue"
+      this.track_drop_queue(e)
+    else if OngakuRyoho.RecordBox.Filter.model.is_in_playlist_mode()
+      this.track_drop_playlist(e)
 
-    # stop them bubbles
+
+
+  track_drop_queue: (e) ->
     e.stopPropagation()
     e.preventDefault()
 
@@ -217,14 +226,57 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
 
-  pointerdown_handler: (e) ->
-    $(document).on("pointermove", (e) ->
-      console.log(e)
+  track_drop_playlist: (e) ->
+    e.stopPropagation()
+    e.preventDefault()
+
+    # elements
+    $source = $(@group.view.dragged_track_element)
+    $target = $(e.currentTarget)
+    $target.removeClass("drag-target")
+
+    # check
+    return if $source.length is 0
+
+    # move
+    $source.insertBefore($target)
+
+    # get playlist
+    playlist = OngakuRyoho.RecordBox.Playlists.collection.get(
+      OngakuRyoho.RecordBox.Filter.model.get("playlist")
     )
 
-    $(document).on("pointerup", (e) ->
-      $(document).off("pointermove")
+    # update track positions
+    sorted_track_ids = _.sortBy(playlist.get("tracks_with_position"), (v, k) -> v.position)
+    sorted_track_ids = _.map(sorted_track_ids, (v) -> v.id)
+
+    source_id = parseInt($source.attr("rel"), 10)
+    target_id = parseInt($target.attr("rel"), 10)
+
+    sorted_track_ids.splice(sorted_track_ids.indexOf(source_id), 1)
+    sorted_track_ids.splice(sorted_track_ids.indexOf(target_id), 0, source_id)
+
+    # save
+    playlist.save({ track_ids: sorted_track_ids })
+
+    # update positions in dom
+    track_elements = OngakuRyoho.RecordBox.Tracks.view.el.querySelectorAll(".tracks .track")
+    _.each(track_elements, (track_element) ->
+      track_id = parseInt(track_element.getAttribute("rel"), 10)
+      new_position = sorted_track_ids.indexOf(track_id) + 1
+      track_element.querySelector(".position span").innerHTML = new_position
     )
+
+
+
+  pointerdown_handler: (e) ->
+    # $(document).on("pointermove", (e) ->
+    #   console.log(e)
+    # )
+
+    # $(document).on("pointerup", (e) ->
+    #   $(document).off("pointermove")
+    # )
 
 
 

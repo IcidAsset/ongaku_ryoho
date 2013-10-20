@@ -14,6 +14,8 @@
     header
       .favourite
         span &nbsp;
+      .position[data-sort-key="position"]
+        span Nr.
       .title[data-sort-key="title"]
         span Title
       .artist[data-sort-key="artist"]
@@ -39,6 +41,7 @@
   /
   script type="text/x-handlebars-template" data-template-name="track"
     | <div class="favourite"><span>&#9733;</span></div>
+      {{#if position}}<div class="position"><span>{{position}}</span></div>{{/if}}
       <div class="title"><span>{{title}}</span></div>
       <div class="artist"><span>{{artist}}</span></div>
       <div class="album"><span>{{album}}</span></div>

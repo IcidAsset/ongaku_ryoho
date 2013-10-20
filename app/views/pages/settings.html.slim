@@ -10,7 +10,14 @@ p.a-word-of-advice
 
     br
 
-    = s.label :theme, "Theme: "
+    = settings_checkbox(s, user, :hide_playlist_menu)
+    = s.label :hide_playlist_menu do
+      | Hide playlist menu when playlist is chosen/clicked
+
+    br
+    br
+
+    = s.label :theme, "Color theme: "
     = select_tag "user[settings][theme]", options_for_select(theme_names, user.settings["theme"])
 
   br

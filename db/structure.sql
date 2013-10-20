@@ -117,8 +117,28 @@ ALTER SEQUENCE playlists_id_seq OWNED BY playlists.id;
 CREATE TABLE playlists_tracks (
     playlist_id integer,
     track_id integer,
-    "position" integer DEFAULT 0
+    "position" integer DEFAULT 0,
+    id integer NOT NULL
 );
+
+
+--
+-- Name: playlists_tracks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE playlists_tracks_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: playlists_tracks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE playlists_tracks_id_seq OWNED BY playlists_tracks.id;
 
 
 --
@@ -262,6 +282,13 @@ ALTER TABLE ONLY playlists ALTER COLUMN id SET DEFAULT nextval('playlists_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY playlists_tracks ALTER COLUMN id SET DEFAULT nextval('playlists_tracks_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY sources ALTER COLUMN id SET DEFAULT nextval('sources_id_seq'::regclass);
 
 
@@ -293,6 +320,14 @@ ALTER TABLE ONLY favourites
 
 ALTER TABLE ONLY playlists
     ADD CONSTRAINT playlists_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: playlists_tracks_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY playlists_tracks
+    ADD CONSTRAINT playlists_tracks_pkey PRIMARY KEY (id);
 
 
 --
@@ -516,3 +551,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130210122335');
 INSERT INTO schema_migrations (version) VALUES ('20130415192126');
 
 INSERT INTO schema_migrations (version) VALUES ('20130509125536');
+
+INSERT INTO schema_migrations (version) VALUES ('20131019180939');

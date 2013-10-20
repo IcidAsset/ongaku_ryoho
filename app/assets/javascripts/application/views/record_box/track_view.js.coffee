@@ -8,8 +8,9 @@ class OngakuRyoho.Classes.Views.RecordBox.Track extends Backbone.View
   #
   #  Render
   #
-  render: (template) ->
+  render: (template, position) ->
     model_attr = @model.toJSON()
+    model_attr = _.extend(model_attr, { position: position }) if position
 
     # content
     this.el.innerHTML = template(model_attr)

@@ -19,7 +19,7 @@ class Api::PlaylistsController < ApplicationController
     # render
     render json: @playlists.to_json(
       only: [:id, :name],
-      methods: [:track_ids, :special]
+      methods: [:tracks_with_position, :track_ids, :special]
     )
   end
 
@@ -34,37 +34,66 @@ class Api::PlaylistsController < ApplicationController
     playlist.save
 
     # render json
-    render json: playlist
+    render json: playlist.to_json(
+      only: [:id, :name],
+      methods: [:tracks_with_position, :track_ids, :special]
+    )
   end
 
 
   def update
-    playlist = Playlist.find(params[:id])
-    return unless playlist
+    playlist = current_user.playlists.find(params[:id])
 
+    # collect
     user_id = current_user.id
+    playlists_tracks = playlist.playlists_tracks.all
+    current_track_ids = playlists_tracks.map(&:track_id)
+    updated_track_ids = params[:track_ids]
 
-    new_track_ids = params[:track_ids] - playlist.tracks.map(&:id)
-    new_track_ids.each do |track_id|
-      track = Track.where(id: track_id).first
-      playlist.tracks << track if track
+    # delete tracks
+    deleted_track_ids = current_track_ids - updated_track_ids
+    existing_track_ids = current_track_ids - deleted_track_ids
+    new_track_ids = updated_track_ids - current_track_ids
+
+    playlists_tracks.clone.each do |pt|
+      if deleted_track_ids.include?(pt.track_id)
+        playlists_tracks.delete_at(playlists_tracks.index(pt))
+        pt.delete
+      end
     end
 
-    # TODO: security
-    # TODO: old_track_ids
+    playlists_tracks.each do |pt|
+      pt.position = updated_track_ids.index(pt.track_id) + 1
+      pt.save
+    end
 
-    playlist.save
+    # add new tracks
+    new_track_ids.each_with_index do |track_id, idx|
+      pt = PlaylistsTrack.new(
+        track_id: track_id,
+        playlist_id: playlist.id,
+        position: updated_track_ids.index(track_id) + 1
+      )
+
+      playlist.playlists_tracks << pt
+    end
 
     # render json
-    render json: playlist
+    render json: playlist.to_json(
+      only: [:id, :name],
+      methods: [:tracks_with_position, :track_ids, :special]
+    )
   end
 
 
   def destroy
-    playlist = Playlist.find(params[:id])
-    playlist.destroy()
+    playlist = current_user.playlists.find(params[:id])
+    playlist.destroy() if playlist
 
-    render json: playlist
+    render json: playlist.to_json(
+      only: [:id, :name],
+      methods: [:tracks_with_position, :track_ids, :special]
+    )
   end
 
 end

@@ -81,7 +81,8 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
         el.className = "playlist"
         el.setAttribute("data-playlist-cid", playlist.cid)
         el.innerHTML = """
-          <span class=\"icon\">&#57349;</span>#{playlist.get('name')}
+          <span class=\"icon\">#{if playlist.get("special") then "&#128193;" else "&#57349;"}</span>
+          #{playlist.get("name")}
           <div class="tooltip-data">
             <div class="group first">
               <a rel="remove">Remove</a>

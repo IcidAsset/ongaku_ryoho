@@ -79,6 +79,15 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     list_fragment = this["render_#{this.mode}"](list_element)
     list_element.appendChild(list_fragment)
 
+    # position column
+    a = (typeof OngakuRyoho.RecordBox.Filter.model.get("playlist") is "number")
+    b = (this.mode is "default")
+
+    if a and b
+      this.el.parentNode.classList.add("with-position-column")
+    else
+      this.el.parentNode.classList.remove("with-position-column")
+
     # scroll to top
     this.el.scrollTop = 0
 
@@ -106,10 +115,30 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     list_fragment = document.createDocumentFragment()
     track_template = @track_template
 
+    # playlist
+    filter_playlist = OngakuRyoho.RecordBox.Filter.model.get("playlist")
+    filter_desc = (OngakuRyoho.RecordBox.Filter.model.get("sort_direction") is "desc")
+
+    if (typeof filter_playlist) is "number"
+      playlist = OngakuRyoho.RecordBox.Playlists.collection.get(filter_playlist)
+      position_map = {}
+
+      _.each(playlist.get("tracks_with_position"), (v) ->
+        position_map[v.id] ?= []
+        position_map[v.id].push(v.position)
+      )
+
     # tracks
     @group.collection.each((track) ->
       track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
-      list_fragment.appendChild(track_view.render(track_template).el)
+
+      if playlist
+        if filter_desc
+          position = position_map[track.id].pop()
+        else
+          position = position_map[track.id].shift()
+
+      list_fragment.appendChild(track_view.render(track_template, position).el)
     )
 
     # set footer contents

@@ -38,21 +38,33 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
     else
       model.get("id")
 
+    sort_by = unless model.get("special")
+      "position"
+    else
+      this.get("sort_by")
+
     this.search_action_reset()
     this.set({
       playlist: value,
       playlist_name: model.get("name"),
-      playlist_isspecial: model.get("special")
+      playlist_isspecial: model.get("special"),
+      sort_by: sort_by
     })
 
 
 
   disable_playlist: () ->
+    sort_by = if this.get("sort_by") is "position"
+      "artist"
+    else
+      this.get("sort_by")
+
     this.search_action_reset()
     this.set({
       playlist: off,
       playlist_name: false,
-      playlist_isspecial: false
+      playlist_isspecial: false,
+      sort_by: sort_by
     })
 
 
@@ -157,3 +169,16 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
       this.disable_favourites()
     else if attr.playlist
       this.disable_playlist()
+
+
+
+  is_in_playlist_mode: () ->
+    a = (typeof this.get("playlist") is "number")
+    b = (this.get("searches").length is 0)
+    c = (this.get("favourites") is off)
+    d = (this.get("sort_by") is "position")
+
+    if a and b and c and d
+      return true
+    else
+      return false
