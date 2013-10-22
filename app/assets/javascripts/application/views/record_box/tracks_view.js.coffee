@@ -121,11 +121,11 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     if (typeof filter_playlist) is "number"
       playlist = OngakuRyoho.RecordBox.Playlists.collection.get(filter_playlist)
-      position_map = {}
+      playlist_tracks_map = {}
 
       _.each(playlist.get("tracks_with_position"), (v) ->
-        position_map[v.id] ?= []
-        position_map[v.id].push(v.position)
+        playlist_tracks_map[v.track_id] ?= []
+        playlist_tracks_map[v.track_id].push({ id: v.id, position: v.position })
       )
 
     # tracks
@@ -134,11 +134,11 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
       if playlist
         if filter_desc
-          position = position_map[track.id].pop()
+          playlist_track = playlist_tracks_map[track.id].pop()
         else
-          position = position_map[track.id].shift()
+          playlist_track = playlist_tracks_map[track.id].shift()
 
-      list_fragment.appendChild(track_view.render(track_template, position).el)
+      list_fragment.appendChild(track_view.render(track_template, playlist_track).el)
     )
 
     # set footer contents

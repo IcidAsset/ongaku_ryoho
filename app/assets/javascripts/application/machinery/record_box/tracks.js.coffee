@@ -231,33 +231,36 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     e.preventDefault()
 
     # elements
-    $source = $(@group.view.dragged_track_element)
-    $target = $(e.currentTarget)
-    $target.removeClass("drag-target")
+    source_el = @group.view.dragged_track_element
+    target_el = e.currentTarget
+    target_el.classList.remove("drag-target")
 
     # check
-    return if $source.length is 0
+    return unless source_el
 
     # move
-    $source.insertBefore($target)
+    source_el.insertBefore(target_el)
 
     # get playlist
     playlist = OngakuRyoho.RecordBox.Playlists.collection.get(
       OngakuRyoho.RecordBox.Filter.model.get("playlist")
     )
 
-    # update track positions
-    sorted_track_ids = _.sortBy(playlist.get("tracks_with_position"), (v, k) -> v.position)
-    sorted_track_ids = _.map(sorted_track_ids, (v) -> v.id)
+    twp = _.sortBy(playlist.get("tracks_with_position"), (pt) -> pt.position)
+    map = _.map(twp, (pt) -> pt.id)
 
-    source_id = parseInt($source.attr("rel"), 10)
-    target_id = parseInt($target.attr("rel"), 10)
+    source_pt_id = source_el.getAttribute("data-playlist-track-id")
+    target_pt_id = target_el.getAttribute("data-playlist-track-id")
 
-    sorted_track_ids.splice(sorted_track_ids.indexOf(source_id), 1)
-    sorted_track_ids.splice(sorted_track_ids.indexOf(target_id), 0, source_id)
+    source_index = map.indexOf(source_pt_id)
+    target_index = map.indexOf(target_pt_id)
+
+    source_pt = twp.splice(source_index, 1)
+    twp.splice(target_index, 0, source_pt)
 
     # save
-    playlist.save({ track_ids: sorted_track_ids })
+    console.log(twp)
+    # playlist.save({ tracks_with_position: twp })
 
     # update positions in dom
     track_elements = OngakuRyoho.RecordBox.Tracks.view.el.querySelectorAll(".tracks .track")

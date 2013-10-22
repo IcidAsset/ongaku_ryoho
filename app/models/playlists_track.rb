@@ -10,7 +10,7 @@ class PlaylistsTrack < ActiveRecord::Base
   #  JSON
   #
   def as_json(options={})
-    { id: self.track.id, position: position }
+    { id: id, track_id: track_id, position: position }
   end
 
 end

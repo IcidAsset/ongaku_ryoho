@@ -171,7 +171,14 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     if playlist.get("special")
       return alert("You can't add tracks to a special playlist!")
     else
-      playlist.save({ track_ids: playlist.get("track_ids").concat([parseInt(id, 10)]) })
+      tracks_with_position = playlist.get("tracks_with_position")
+      position = _.keys(tracks_with_position).length + 1
+      new_track_ids = tracks_with_position.slice(0)
+      new_track_ids.push({ track_id: parseInt(id, 10), position: position })
+
+      playlist.save({
+        track_ids: new_track_ids
+      })
 
     # add message
     message = new OngakuRyoho.Classes.Models.Message

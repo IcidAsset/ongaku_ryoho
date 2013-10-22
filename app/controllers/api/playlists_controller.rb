@@ -46,36 +46,32 @@ class Api::PlaylistsController < ApplicationController
 
     # collect
     user_id = current_user.id
-    playlists_tracks = playlist.playlists_tracks.all
-    current_track_ids = playlists_tracks.map(&:track_id)
-    updated_track_ids = params[:track_ids]
+    old_playlists_tracks = playlist.playlists_tracks.all
+    new_playlists_tracks = params[:track_ids]
 
-    # delete tracks
-    deleted_track_ids = current_track_ids - updated_track_ids
-    existing_track_ids = current_track_ids - deleted_track_ids
-    new_track_ids = updated_track_ids - current_track_ids
+    # (1) remove
+    old_playlists_tracks.each do |old_pt|
+      obj = old_pt.attributes.slice("id", "track_id", "position")
+      old_pt.delete unless new_playlists_tracks.include?(obj)
+    end
 
-    playlists_tracks.clone.each do |pt|
-      if deleted_track_ids.include?(pt.track_id)
-        playlists_tracks.delete_at(playlists_tracks.index(pt))
-        pt.delete
+    # (2 + 3) update old
+    new_playlists_tracks.each_with_index do |new_pt, idx|
+      pt = if new_pt["id"]
+        playlist.playlists_tracks.find(new_pt["id"])
       end
-    end
 
-    playlists_tracks.each do |pt|
-      pt.position = updated_track_ids.index(pt.track_id) + 1
+      if pt
+        pt.position = idx + 1
+      else
+        pt = PlaylistsTrack.new(
+          track_id: new_pt["track_id"],
+          playlist_id: playlist.id,
+          position: idx + 1
+        )
+      end
+
       pt.save
-    end
-
-    # add new tracks
-    new_track_ids.each_with_index do |track_id, idx|
-      pt = PlaylistsTrack.new(
-        track_id: track_id,
-        playlist_id: playlist.id,
-        position: updated_track_ids.index(track_id) + 1
-      )
-
-      playlist.playlists_tracks << pt
     end
 
     # render json
