@@ -173,11 +173,11 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     else
       tracks_with_position = playlist.get("tracks_with_position")
       position = _.keys(tracks_with_position).length + 1
-      new_track_ids = tracks_with_position.slice(0)
-      new_track_ids.push({ track_id: parseInt(id, 10), position: position })
+      new_tracks_with_position = tracks_with_position.slice(0)
+      new_tracks_with_position.push({ track_id: parseInt(id, 10), position: position })
 
       playlist.save({
-        track_ids: new_track_ids
+        tracks_with_position: new_tracks_with_position
       })
 
     # add message

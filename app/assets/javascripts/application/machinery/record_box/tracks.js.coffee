@@ -239,34 +239,38 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     return unless source_el
 
     # move
-    source_el.insertBefore(target_el)
+    source_el.parentNode.insertBefore(source_el, target_el)
 
     # get playlist
     playlist = OngakuRyoho.RecordBox.Playlists.collection.get(
       OngakuRyoho.RecordBox.Filter.model.get("playlist")
     )
 
+    # move around
     twp = _.sortBy(playlist.get("tracks_with_position"), (pt) -> pt.position)
     map = _.map(twp, (pt) -> pt.id)
 
     source_pt_id = source_el.getAttribute("data-playlist-track-id")
     target_pt_id = target_el.getAttribute("data-playlist-track-id")
 
-    source_index = map.indexOf(source_pt_id)
-    target_index = map.indexOf(target_pt_id)
+    source_index = map.indexOf(parseInt(source_pt_id, 10))
+    target_index = map.indexOf(parseInt(target_pt_id, 10))
+    target_index = target_index - 1 if source_index < target_index
 
     source_pt = twp.splice(source_index, 1)
-    twp.splice(target_index, 0, source_pt)
+    twp.splice(target_index, 0, source_pt[0])
+
+    source_pt_id = map.splice(source_index, 1)
+    map.splice(target_index, 0, source_pt_id[0])
 
     # save
-    console.log(twp)
-    # playlist.save({ tracks_with_position: twp })
+    playlist.save({ tracks_with_position: twp })
 
     # update positions in dom
     track_elements = OngakuRyoho.RecordBox.Tracks.view.el.querySelectorAll(".tracks .track")
     _.each(track_elements, (track_element) ->
-      track_id = parseInt(track_element.getAttribute("rel"), 10)
-      new_position = sorted_track_ids.indexOf(track_id) + 1
+      pt_id = parseInt(track_element.getAttribute("data-playlist-track-id"), 10)
+      new_position = map.indexOf(pt_id) + 1
       track_element.querySelector(".position span").innerHTML = new_position
     )
 

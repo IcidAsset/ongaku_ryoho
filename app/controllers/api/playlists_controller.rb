@@ -47,7 +47,7 @@ class Api::PlaylistsController < ApplicationController
     # collect
     user_id = current_user.id
     old_playlists_tracks = playlist.playlists_tracks.all
-    new_playlists_tracks = params[:track_ids]
+    new_playlists_tracks = params[:tracks_with_position]
 
     # (1) remove
     old_playlists_tracks.each do |old_pt|

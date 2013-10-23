@@ -76,7 +76,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     list_element.classList.add("tracks")
 
     # render
-    list_fragment = this["render_#{this.mode}"](list_element)
+    list_fragment = this["render_#{this.mode}_mode"]()
     list_element.appendChild(list_fragment)
 
     # position column
@@ -110,35 +110,23 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
 
 
-  render_default: (list_element) =>
+  render_default_mode: () ->
+    if (typeof OngakuRyoho.RecordBox.Filter.model.get("playlist")) is "number"
+      this.render_playlist_layout()
+    else
+      this.render_default_layout()
+
+
+
+  render_default_layout: () ->
     page_info = @group.collection.page_info()
     list_fragment = document.createDocumentFragment()
     track_template = @track_template
 
-    # playlist
-    filter_playlist = OngakuRyoho.RecordBox.Filter.model.get("playlist")
-    filter_desc = (OngakuRyoho.RecordBox.Filter.model.get("sort_direction") is "desc")
-
-    if (typeof filter_playlist) is "number"
-      playlist = OngakuRyoho.RecordBox.Playlists.collection.get(filter_playlist)
-      playlist_tracks_map = {}
-
-      _.each(playlist.get("tracks_with_position"), (v) ->
-        playlist_tracks_map[v.track_id] ?= []
-        playlist_tracks_map[v.track_id].push({ id: v.id, position: v.position })
-      )
-
-    # tracks
+    # render tracks
     @group.collection.each((track) ->
       track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
-
-      if playlist
-        if filter_desc
-          playlist_track = playlist_tracks_map[track.id].pop()
-        else
-          playlist_track = playlist_tracks_map[track.id].shift()
-
-      list_fragment.appendChild(track_view.render(track_template, playlist_track).el)
+      list_fragment.appendChild(track_view.render(track_template).el)
     )
 
     # set footer contents
@@ -152,7 +140,36 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
 
 
-  render_queue: (list_element) =>
+  render_playlist_layout: (list_fragment) ->
+    page_info = @group.collection.page_info()
+    list_fragment = document.createDocumentFragment()
+    track_template = @track_template
+
+    # collect
+    filter_playlist = OngakuRyoho.RecordBox.Filter.model.get("playlist")
+    filter_desc = (OngakuRyoho.RecordBox.Filter.model.get("sort_direction") is "desc")
+    playlist = OngakuRyoho.RecordBox.Playlists.collection.get(filter_playlist)
+    tracks_with_position = playlist.get("tracks_with_position")
+
+    # tracks
+    _.each(tracks_with_position, (pt) ->
+      track = OngakuRyoho.RecordBox.Tracks.collection.get(pt.track_id)
+      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
+      list_fragment.appendChild(track_view.render(track_template, pt).el)
+    )
+
+    # set footer contents
+    word_tracks = (if tracks_with_position.length is 1 then "track" else "tracks")
+    message = "#{tracks_with_position.length} #{word_tracks} found &mdash; page #{page_info.page} / #{page_info.pages}"
+
+    OngakuRyoho.RecordBox.Footer.view.set_contents(message)
+
+    # return
+    list_fragment
+
+
+
+  render_queue_mode: (list_element) ->
     queue = OngakuRyoho.Engines.Queue
     message = "Queue &mdash; The next #{queue.data.combined_next.length} items"
     list_fragment = document.createDocumentFragment()
