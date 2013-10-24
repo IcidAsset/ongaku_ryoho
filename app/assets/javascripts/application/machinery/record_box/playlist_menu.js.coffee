@@ -30,6 +30,9 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
   #  Playlist left-click
   #
   playlist_click_handler: (e) =>
+    if e.currentTarget.querySelector(".name").hasAttribute("contenteditable")
+      return
+
     playlist = OngakuRyoho.RecordBox.Playlists.collection.get(
       e.currentTarget.getAttribute("data-playlist-cid")
     )
@@ -40,6 +43,19 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     # hide menu
     if OngakuRyohoPreloadedData.user.settings.hide_playlist_menu is "1"
       @group.view.hide()
+
+
+
+  #
+  #  Playlist name event handlers
+  #
+  playlist_name_input_handler: (e) =>
+    console.log(e.currentTarget)
+
+
+
+  playlist_name_blur_handler: (e) ->
+    e.currentTarget.removeAttribute("contenteditable")
 
 
 
@@ -94,11 +110,18 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
           <div class="arrow"></div>
           {{CONTENT}}
         </div>
+      """,
+      tooltip_data: """
+        <div class="group first">
+          <a rel="rename">Rename</a>
+          <a rel="remove">Remove</a>
+        </div>
       """
     })
 
     # extend
     @tooltip.show_tooltip = () ->
+      this.state.$tooltip_element.on("click", "a[rel=\"rename\"]", machine.tooltip_rename_click_handler)
       this.state.$tooltip_element.on("click", "a[rel=\"remove\"]", machine.tooltip_remove_click_handler)
 
       BareTooltip.prototype.show_tooltip.apply(this)
@@ -114,11 +137,18 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
 
       $t.css({
         left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2),
-        top: $trigger.offset().top + $trigger.height() / 2 + 14
+        top: $trigger.offset().top + $trigger.height() / 2 + 15
       })
 
     # setup
     @tooltip.setup()
+
+
+
+  tooltip_rename_click_handler: (e) =>
+    $name = @tooltip.state.$current_trigger.children(".name")
+    $name.attr("contenteditable", "true").focus()
+    # todo: $name.text($name.text())
 
 
 

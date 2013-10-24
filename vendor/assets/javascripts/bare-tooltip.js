@@ -28,7 +28,8 @@ root.BareTooltip = (function($) {
     hide_on_document_click: true,
     template: default_template,
     setup_immediately: false,
-    delegate_selector: false
+    delegate_selector: false,
+    tooltip_data: false
   };
 
 
@@ -149,7 +150,10 @@ root.BareTooltip = (function($) {
         $next = $trigger.next(".tooltip-data");
 
     // find content
-    if ($trigger.children(".tooltip-data").length) {
+    if (this.settings.tooltip_data) {
+      return this.settings.tooltip_data;
+
+    } else if ($trigger.children(".tooltip-data").length) {
       return $trigger.children(".tooltip-data").html();
 
     } else if ($next.length && $next.hasClass("tooltip-data")) {

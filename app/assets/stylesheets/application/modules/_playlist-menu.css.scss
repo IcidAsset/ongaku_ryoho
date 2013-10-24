@@ -37,7 +37,7 @@
     border: 1px solid rgba($less_subtle_green, .215);
     border-radius: 2px;
     color: $subtle_green;
-    height: 18px;
+    height: 20px;
 
     @include flex;
     @include input-placeholder {
@@ -51,8 +51,8 @@
     color: white;
     cursor: pointer;
     font-size: 12px;
-    height: 30px;
-    line-height: 32px;
+    height: 32px;
+    line-height: 34px;
     margin-left: 8px;
     padding: 0 11px;
 
@@ -75,7 +75,7 @@
     border-bottom: 1px solid #f0f0f0;
     cursor: pointer;
     overflow: hidden;
-    padding: 13px 12px 11px 36px;
+    padding: 0 12px 0 36px;
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -106,6 +106,15 @@
     top: 11px;
 
     @include icon-font;
+  }
+
+  .playlists .playlist .name {
+    display: block;
+    padding: 13px 0 11px;
+  }
+
+  .playlists .playlist .name:focus {
+    outline: none;
   }
 
 

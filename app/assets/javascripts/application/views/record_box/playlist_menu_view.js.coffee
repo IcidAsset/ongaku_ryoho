@@ -9,6 +9,8 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
     "dragover .playlist"      : @group.machine.playlist_dragover
     "drop .playlist"          : @group.machine.playlist_drop
     "click .playlist"         : @group.machine.playlist_click_handler
+    "input .playlist .name"   : @group.machine.playlist_name_input_handler
+    "blur .playlist .name"    : @group.machine.playlist_name_blur_handler
     "submit .add-playlist"    : @group.machine.add_playlist_submit_handler
 
 
@@ -82,12 +84,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
         el.setAttribute("data-playlist-cid", playlist.cid)
         el.innerHTML = """
           <span class=\"icon\">#{if playlist.get("special") then "&#128193;" else "&#57349;"}</span>
-          #{playlist.get("name")}
-          <div class="tooltip-data">
-            <div class="group first">
-              <a rel="remove">Remove</a>
-            </div>
-          </div>
+          <span class=\"name\">#{playlist.get("name")}</span>
           """
         fragment.appendChild(el)
       )
