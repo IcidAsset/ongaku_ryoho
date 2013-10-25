@@ -328,3 +328,11 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
     this.move_elements_in_queue(source_index, target_index)
 
+
+
+  #
+  #  Other
+  #
+  add_source_click_handler: () ->
+    OngakuRyoho.SourceManager.view.show()
+    OngakuRyoho.SourceManager.view.show_window("add-source-menu")

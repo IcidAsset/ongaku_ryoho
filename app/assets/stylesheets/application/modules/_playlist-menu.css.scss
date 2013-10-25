@@ -28,8 +28,7 @@
   //
   .add-playlist {
     background-color: $less_subtle_green;
-    border-bottom: 2px solid rgba(black, .15);
-    padding: 11px 9px 9px;
+    padding: 10px 9px;
 
     @include flex-container;
   }

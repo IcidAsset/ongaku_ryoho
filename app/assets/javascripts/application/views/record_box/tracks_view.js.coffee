@@ -9,24 +9,26 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #  Events
   #
   events: () ->
-    "dblclick .track"           : @group.machine.track_dblclick_handler
-    "doubleTap .track"          : @group.machine.track_dblclick_handler
+    "dblclick .track"               : @group.machine.track_dblclick_handler
+    "doubleTap .track"              : @group.machine.track_dblclick_handler
 
-    "click .track .favourite"   : @group.machine.track_rating_star_click
+    "click .track .favourite"       : @group.machine.track_rating_star_click
 
-    "dragstart .track"          : @group.machine.track_dragstart
-    "dragend .track"            : @group.machine.track_dragend
-    "dragenter .track"          : @group.machine.track_dragenter
-    "dragleave .track"          : @group.machine.track_dragleave
-    "dragover .track"           : @group.machine.track_dragover
-    "drop .track"               : @group.machine.track_drop
+    "dragstart .track"              : @group.machine.track_dragstart
+    "dragend .track"                : @group.machine.track_dragend
+    "dragenter .track"              : @group.machine.track_dragenter
+    "dragleave .track"              : @group.machine.track_dragleave
+    "dragover .track"               : @group.machine.track_dragover
+    "drop .track"                   : @group.machine.track_drop
 
-    "dragenter .group"          : @group.machine.group_dragenter
-    "dragleave .group"          : @group.machine.group_dragleave
-    "dragover .group"           : @group.machine.group_dragover
-    "drop .group"               : @group.machine.group_drop
+    "dragenter .group"              : @group.machine.group_dragenter
+    "dragleave .group"              : @group.machine.group_dragleave
+    "dragover .group"               : @group.machine.group_dragover
+    "drop .group"                   : @group.machine.group_drop
 
-    "pointerdown"               : @group.machine.pointerdown_handler
+    "pointerdown"                   : @group.machine.pointerdown_handler
+
+    "click [rel=\"add-source\"]"    : @group.machine.add_source_click_handler
 
 
 
@@ -154,8 +156,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # tracks
     _.each(tracks_with_position, (pt) ->
       track = OngakuRyoho.RecordBox.Tracks.collection.get(pt.track_id)
-      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
-      list_fragment.appendChild(track_view.render(track_template, pt).el)
+      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track }) if track
+      list_fragment.appendChild(track_view.render(track_template, pt).el) if track
     )
 
     # set footer contents
@@ -220,9 +222,13 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
       "Empty collection."
 
     message_html = @message_template(
-      title: "NOTHING FOUND"
-      message: message
-      extra_html: ""
+      title: "NOTHING FOUND",
+      message: message,
+      extra_html: """
+        <div class="message-button" rel="add-source">
+          Add source
+        </div>
+      """,
       extra_classes: "nothing-here"
     )
 

@@ -202,7 +202,7 @@
     color: #838383;
     font-size: 12px;
     left: 30px;
-    margin-top: -(56px / 2);
+    margin-top: -(72px / 2);
     position: absolute;
     right: 30px;
     text-align: center;
@@ -262,6 +262,11 @@
       top: 50%;
       width: 16px;
     }
+  }
+
+  .message .message-button {
+    color: $blue;
+    cursor: pointer;
   }
 
   //
