@@ -49,13 +49,24 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
   #
   #  Playlist name event handlers
   #
-  playlist_name_input_handler: (e) =>
-    console.log(e.currentTarget)
+  playlist_name_keydown_handler: (e) ->
+    if e.which is 13
+      e.preventDefault()
+      $(e.currentTarget).blur()
 
 
 
   playlist_name_blur_handler: (e) ->
     e.currentTarget.removeAttribute("contenteditable")
+
+    # save playlist
+    playlist_cid = e.currentTarget.parentNode.getAttribute("data-playlist-cid")
+    playlist = OngakuRyoho.RecordBox.Playlists.collection.get(playlist_cid)
+    result = playlist.save({ name: e.currentTarget.innerText })
+
+    # fallback if not valid
+    if result is false
+      e.currentTarget.innerText = playlist.get("name")
 
 
 
@@ -148,7 +159,13 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
   tooltip_rename_click_handler: (e) =>
     $name = @tooltip.state.$current_trigger.children(".name")
     $name.attr("contenteditable", "true").focus()
-    # todo: $name.text($name.text())
+
+    # select name
+    selection = window.getSelection()
+    range = document.createRange()
+    range.selectNodeContents($name.get(0))
+    selection.removeAllRanges()
+    selection.addRange(range)
 
 
 
@@ -205,10 +222,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
       position = _.keys(tracks_with_position).length + 1
       new_tracks_with_position = tracks_with_position.slice(0)
       new_tracks_with_position.push({ track_id: parseInt(id, 10), position: position })
-
-      playlist.save({
-        tracks_with_position: new_tracks_with_position
-      })
+      playlist.save({ tracks_with_position: new_tracks_with_position }, { validate: false })
 
     # add message
     message = new OngakuRyoho.Classes.Models.Message

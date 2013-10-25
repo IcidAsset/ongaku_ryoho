@@ -264,7 +264,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     map.splice(target_index, 0, source_pt_id[0])
 
     # save
-    playlist.save({ tracks_with_position: twp })
+    playlist.save({ tracks_with_position: twp }, { validate: false })
 
     # update positions in dom
     track_elements = OngakuRyoho.RecordBox.Tracks.view.el.querySelectorAll(".tracks .track")

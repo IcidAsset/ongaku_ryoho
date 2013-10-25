@@ -11,6 +11,7 @@
   font-size: 11px;
   position: absolute;
   right: -13px;
+  text-rendering: optimizeLegibility;
   top: 49px;
   width: 166px;
   z-index: 99;
@@ -122,13 +123,14 @@
   }
 }
 
+
 .tooltip.subtle-green {
   .arrow {
-    border-bottom-color: darken($subtle_green, 15);
+    border-bottom-color: desaturate(darken($less_subtle_green, 10), 12.5);
   }
 
   .group {
-    background-color: darken($subtle_green, 15);
+    background-color: desaturate(darken($less_subtle_green, 10), 12.5);
   }
 
   a {
@@ -137,7 +139,7 @@
 
   a:hover,
   a.drag-target {
-    background-color: darken($subtle_green, 25);
+    background-color: desaturate(darken($less_subtle_green, 25), 12.5);
     color: white;
   }
 }

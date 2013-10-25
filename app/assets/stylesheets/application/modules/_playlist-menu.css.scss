@@ -6,7 +6,7 @@
 
 .mod-playlist-menu {
   background: white;
-  box-shadow: rgba(0, 0, 0, 0.125) -1px 0 20px;
+  box-shadow: rgba($less_subtle_green, 0.3) -1px 0 20px;
   bottom: 0;
   position: absolute;
   right: -31%;
@@ -27,32 +27,34 @@
   //  Add
   //
   .add-playlist {
-    border-bottom: 3px solid #eee;
+    background-color: $less_subtle_green;
+    border-bottom: 2px solid rgba(black, .15);
     padding: 11px 9px 9px;
 
     @include flex-container;
   }
 
   .add-playlist input[type="text"] {
-    border: 1px solid rgba($less_subtle_green, .215);
+    background-color: rgba(black, 0.1);
+    border: 1px solid rgba(black, 0);
     border-radius: 2px;
-    color: $subtle_green;
+    color: white;
     height: 20px;
 
     @include flex;
     @include input-placeholder {
-      color: rgba($less_subtle_green, .405);
+      color: darken($less_subtle_green, 23);
     };
   }
 
   .add-playlist .add-button {
-    background-color: $subtle_green;
+    background-color: rgba(black, .275);
     border-radius: 2px;
     color: white;
     cursor: pointer;
     font-size: 12px;
     height: 32px;
-    line-height: 34px;
+    line-height: 32px;
     margin-left: 8px;
     padding: 0 11px;
 
@@ -72,7 +74,7 @@
   }
 
   .playlists .playlist {
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba($less_subtle_green, .1);
     cursor: pointer;
     overflow: hidden;
     padding: 0 12px 0 36px;
@@ -82,8 +84,8 @@
   }
 
   .playlists .playlist.selected {
-    background-color: $subtle_green;
-    border-bottom-color: $subtle_green;
+    background-color: desaturate(darken($less_subtle_green, 22.5), 12.5);
+    border-bottom-color: desaturate(darken($less_subtle_green, 22.5), 12.5);
     color: white;
   }
 
@@ -111,10 +113,15 @@
   .playlists .playlist .name {
     display: block;
     padding: 13px 0 11px;
+    pointer-events: none;
   }
 
   .playlists .playlist .name:focus {
     outline: none;
+  }
+
+  .playlists .playlist .name[contenteditable="true"] {
+    pointer-events: auto;
   }
 
 

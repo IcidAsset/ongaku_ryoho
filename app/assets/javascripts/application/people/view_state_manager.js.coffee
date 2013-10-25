@@ -50,7 +50,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
       .then -> self.load_sources()
       .then -> self.load_playlists()
       .then -> self.load_tracks()
-      .then -> self.update_sources()
+      .then -> if location.hostname isnt "localhost" then self.update_sources()
 
 
 
