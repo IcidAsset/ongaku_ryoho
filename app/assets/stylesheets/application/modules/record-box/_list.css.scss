@@ -202,7 +202,7 @@
     color: #838383;
     font-size: 12px;
     left: 30px;
-    margin-top: -(72px / 2);
+    margin-top: -(88px / 2);
     position: absolute;
     right: 30px;
     text-align: center;
@@ -265,8 +265,19 @@
   }
 
   .message .message-button {
-    color: $blue;
+    background-color: $rbn_button_text_color;
+    border-radius: 3px;
+    color: rgba(white, .8);
     cursor: pointer;
+    display: inline-block;
+    margin-top: 3px;
+    padding: 7px 9px 6px;
+
+    @include button-gradient;
+  }
+
+  .message .message-button:hover {
+    background-color: $rbn_outer_color_a;
   }
 
   //

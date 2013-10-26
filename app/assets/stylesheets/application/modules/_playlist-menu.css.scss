@@ -38,8 +38,9 @@
     border: 1px solid rgba(black, 0);
     border-radius: 2px;
     color: white;
+    font-size: 11px;
     font-weight: bold;
-    height: 20px;
+    height: 18px;
 
     @include flex;
     @include input-placeholder {
@@ -52,8 +53,8 @@
     border-radius: 2px;
     color: white;
     cursor: pointer;
-    font-size: 12px;
-    height: 32px;
+    font-size: 11px;
+    height: 30px;
     line-height: 32px;
     margin-left: 8px;
     padding: 0 11px;
@@ -112,7 +113,7 @@
 
   .playlists .playlist .name {
     display: block;
-    padding: 13px 0 11px;
+    padding: 14px 0 12px;
     pointer-events: none;
   }
 
