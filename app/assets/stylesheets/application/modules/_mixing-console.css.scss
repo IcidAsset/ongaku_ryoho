@@ -62,7 +62,7 @@ $button_height: 52px;
   }
 
   .progress-bar {
-    background: rgba(#000, .1);
+    background-color: rgba(black, .1);
     height: 4px;
     overflow: hidden;
     position: relative;
@@ -70,7 +70,7 @@ $button_height: 52px;
     &, .progress { height: 4px }
 
     .progress {
-      background: #fff;
+      background-color: white;
       left: 0;
       position: absolute;
       top: 0;
@@ -82,7 +82,7 @@ $button_height: 52px;
     }
 
     .progress.loader {
-      background: #000;
+      background-color: #000;
       opacity: .09;
       z-index: 1;
     }
@@ -108,7 +108,13 @@ $button_height: 52px;
       margin-right: 6px;
       padding: 1px;
 
-      @include background-image(linear-gradient(rgba(#000, .11), rgba(#000, .19)));
+      @include background-image(
+        linear-gradient(rgba(#000, .11), rgba(#000, .19))
+      );
+
+      @include transition(
+        border-bottom-color 350ms
+      );
 
       &.no-margin,
       &:last-child { margin-right: 0 }
@@ -119,7 +125,7 @@ $button_height: 52px;
     }
 
     .subtitle {
-      background: rgba(black, .17);
+      background-color: rgba(black, .17);
       border-radius: 2px;
       color: rgba(white, .65);
       float: left;
@@ -147,7 +153,11 @@ $button_height: 52px;
       float: left;
       width: 11px;
 
-      .hr { background: rgba(#000, .19); height: 1px; margin-top: $button_height / 2 + 1 }
+      .hr {
+        background-color: rgba(black, .19);
+        height: 1px;
+        margin-top: $button_height / 2 + 1;
+      }
     }
 
     .switch, .button, .button-column, .knob {
@@ -164,16 +174,20 @@ $button_height: 52px;
       width: $button_height;
 
       .light {
-        background: #dadada;
+        background-color: #dadada;
         border-radius: 4px;
         height: 5px;
         margin: 8px auto 0;
         width: 20px;
 
-        &.on {
-          background: $green;
+        @include transition(
+          background-color 350ms,
+          box-shadow 350ms
+        );
 
-          @include single-box-shadow($green, 0, 0, 25px, 2px);
+        &.on {
+          background-color: $green;
+          box-shadow: 0 0 25px 2px $green;
         }
 
         .overlay {
@@ -246,16 +260,20 @@ $button_height: 52px;
       width: 16px;
 
       .light {
-        background: #dadada;
+        background-color: #dadada;
         border-radius: 6px;
         height: 6px;
         margin: 8px auto 0;
         width: 6px;
 
-        &.on {
-          background: $blue;
+        @include transition(
+          background-color 350ms,
+          box-shadow 350ms
+        );
 
-          @include single-box-shadow($blue, 0, 0, 25px, 2px);
+        &.on {
+          background-color: $blue;
+          box-shadow: 0 0 25px 2px $blue;
         }
       }
 
@@ -281,7 +299,7 @@ $button_height: 52px;
     }
 
     .knob .it {
-      background: rgba(black, 0.13);
+      background-color: rgba(black, 0.13);
       box-shadow: 0 2px 8px 0 #d8d8d8;
       border-radius: 50%;
       height: 36px;
@@ -297,7 +315,7 @@ $button_height: 52px;
       }
 
       .layer-a {
-        background: white;
+        background-color: white;
         bottom: 3px;
         left: 3px;
         right: 3px;
@@ -313,7 +331,7 @@ $button_height: 52px;
         z-index: 2;
 
         .rectangle {
-          background: #e0e0e0;
+          background-color: #e0e0e0;
           height: 8px;
           left: 0;
           margin-top: -4px;
@@ -343,7 +361,7 @@ $button_height: 52px;
       }
 
       .layer-c:after {
-        background: #5c5c5c;
+        background-color: #5c5c5c;
         content: "";
         height: 9px;
         left: 50%;
@@ -399,10 +417,11 @@ $button_height: 52px;
 
   //// <knob>
   .controls.alt .knob {
-    background: rgba(white, .04);
+    background-color: rgba(white, .04);
+    background-image: none;
 
     .it {
-      background: rgba(white, .15);
+      background-color: rgba(white, .15);
       box-shadow: 0 2px 8px 0 rgba(lighten(#d1d1d1, 2%), .1);
       opacity: .9;
     }
