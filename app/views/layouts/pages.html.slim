@@ -19,6 +19,9 @@ html
     /
     header
       .wrapper
+        a.logo[href="/"]
+          span.name Ongaku Ryoho
+          span.alpha Alpha
         nav
           - @pages.each do |page|
             - klass = page[:title].parameterize

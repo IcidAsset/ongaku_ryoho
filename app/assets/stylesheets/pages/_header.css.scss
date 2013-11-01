@@ -13,6 +13,40 @@ header {
 
 
 //
+//  Logo
+//
+header .logo {
+  background: transparent image-url("logo.svg") left center no-repeat;
+  background-size: auto 44%;
+  bottom: -22px;
+  left: 58px;
+  position: absolute;
+  top: -19px;
+  width: 500px;
+
+  .name {
+    display: none;
+  }
+
+  .alpha {
+    background-color: $red_3;
+    border-radius: 3px;
+    color: white;
+    display: inline-block;
+    font-size: 8px;
+    letter-spacing: 1px;
+    line-height: 16px;
+    margin-left: 196px;
+    margin-top: 25px;
+    padding: 1px 5px 0;
+    text-transform: uppercase;
+    vertical-align: top;
+  }
+}
+
+
+
+//
 //  Navigation
 //
 header nav {
