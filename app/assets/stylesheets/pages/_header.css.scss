@@ -17,12 +17,12 @@ header {
 //
 header .logo {
   background: transparent image-url("logo.svg") left center no-repeat;
-  background-size: auto 44%;
+  background-size: auto 42%;
   bottom: -22px;
   left: 58px;
   position: absolute;
   top: -19px;
-  width: 500px;
+  width: 240px;
 
   .name {
     display: none;
@@ -36,7 +36,7 @@ header .logo {
     font-size: 8px;
     letter-spacing: 1px;
     line-height: 16px;
-    margin-left: 196px;
+    margin-left: 197px;
     margin-top: 25px;
     padding: 1px 5px 0;
     text-transform: uppercase;
