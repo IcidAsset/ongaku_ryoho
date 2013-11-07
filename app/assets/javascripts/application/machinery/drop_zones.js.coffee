@@ -3,25 +3,20 @@ class OngakuRyoho.Classes.Machinery.DropZones
   #
   #  Queue
   #
-  queue_dragenter: (e) =>
+  queue_pointerdragenter: (e) =>
     @group.view.$queue.addClass("hover")
 
 
 
-  queue_dragleave: (e) =>
+  queue_pointerdragleave: (e) =>
     return if e.toElement is @group.view.$queue[0]
     @group.view.$queue.removeClass("hover")
 
 
 
-  queue_dragover: (e) ->
-    e.preventDefault()
-    e.dataTransfer.dropEffect = "move"
-
-
-
-  queue_drop: (e) =>
-    id = parseInt(e.dataTransfer.getData("text/plain"), 10)
+  queue_pointerdrop: (e) =>
+    id = OngakuRyoho.RecordBox.Tracks.view.dragged_track_element.getAttribute("rel")
+    id = parseInt(id, 10)
 
     # remove hover class
     @group.view.$queue.removeClass("hover")

@@ -4,10 +4,9 @@ class OngakuRyoho.Classes.Views.DropZones extends Backbone.View
   #  Events
   #
   events: () ->
-    "dragenter .queue"    : @group.machine.queue_dragenter
-    "dragleave .queue"    : @group.machine.queue_dragleave
-    "dragover .queue"     : @group.machine.queue_dragover
-    "drop .queue"         : @group.machine.queue_drop
+    "pointerdragenter .queue" : @group.machine.queue_pointerdragenter
+    "pointerdragleave .queue" : @group.machine.queue_pointerdragleave
+    "pointerdrop .queue"      : @group.machine.queue_pointerdrop
 
 
 

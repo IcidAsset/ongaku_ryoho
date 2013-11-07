@@ -22,6 +22,13 @@ window.Helpers =
       window.mozCancelRequestAnimationFrame
     )
 
+    # pointerevents drag & drop
+    this.pedd = new PointerEventsDragnDrop(
+      document.body, {
+        delegate_selector: "[draggable]"
+      }
+    );
+
     # disable ios background scroll
     $(document).on("touchmove", (e) ->
         target = e.target

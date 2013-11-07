@@ -1,11 +1,5 @@
 class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
-  constructor: () ->
-    @drag_icon = document.createElement("img")
-    @drag_icon.src = "/assets/music-icon.svg"
-
-
-
   #
   #  Track dblclick/doubleTap handler
   #
@@ -158,23 +152,17 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
   #
   #  Drag & Drop / Track
   #
-  track_dragstart: (e) =>
-    if e.dataTransfer
-      e.dataTransfer.effectAllowed = "move"
-      e.dataTransfer.dropEffect = "move"
-      e.dataTransfer.setData("text/plain", $(e.currentTarget).attr("rel"))
-      e.dataTransfer.setDragImage(@drag_icon, 17, 17)
-
-      @group.view.dragged_track_element = e.currentTarget
+  track_pointerdragstart: (e) =>
+    @group.view.dragged_track_element = e.currentTarget
 
 
 
-  track_dragend: (e) ->
-    e.dataTransfer.clearData() if e.dataTransfer
+  track_pointerdragend: (e) =>
+    @group.view.dragged_track_element = false
 
 
 
-  track_dragenter: (e) =>
+  track_pointerdragenter: (e) =>
     setTimeout(() =>
       cond_a = (@group.view.mode is "queue")
       cond_b = (OngakuRyoho.RecordBox.Filter.model.is_in_playlist_mode())
@@ -185,20 +173,14 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
 
-  track_dragleave: (e) =>
+  track_pointerdragleave: (e) =>
     setTimeout(() =>
       e.currentTarget.classList.remove("drag-target")
     , 0)
 
 
 
-  track_dragover: (e) =>
-    e.preventDefault()
-    e.dataTransfer.dropEffect = "move"
-
-
-
-  track_drop: (e) =>
+  track_pointerdrop: (e) =>
     if @group.view.mode is "queue"
       this.track_drop_queue(e)
     else if OngakuRyoho.RecordBox.Filter.model.is_in_playlist_mode()
@@ -276,21 +258,10 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
 
-  pointerdown_handler: (e) ->
-    # $(document).on("pointermove", (e) ->
-    #   console.log(e)
-    # )
-
-    # $(document).on("pointerup", (e) ->
-    #   $(document).off("pointermove")
-    # )
-
-
-
   #
   #  Drag & Drop / Group
   #
-  group_dragenter: (e) =>
+  group_pointerdragenter: (e) =>
     setTimeout(() =>
       if @group.view.mode is "queue"
         @group.view.$el.find(".track").first().addClass("drag-target")
@@ -298,18 +269,12 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
 
-  group_dragleave: (e) =>
+  group_pointerdragleave: (e) =>
     @group.view.$el.find(".track").first().removeClass("drag-target")
 
 
 
-  group_dragover: (e) ->
-    e.preventDefault()
-    e.dataTransfer.dropEffect = "move"
-
-
-
-  group_drop: (e) =>
+  group_pointerdrop: (e) =>
     unless @group.view.mode is "queue" then return
 
     # stop them bubbles

@@ -41,3 +41,10 @@ input, textarea, select {
 .tooltip-data {
   display: none;
 }
+
+.drag-icon {
+  background: transparent image-url("music-icon.svg") center no-repeat;
+  height: 28px;
+  pointer-events: none;
+  width: 28px;
+}

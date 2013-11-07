@@ -186,24 +186,19 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
   #
   #  Drag & drop
   #
-  playlist_dragenter: (e) ->
+  playlist_pointerdragenter: (e) ->
     e.currentTarget.classList.add("drag-target")
 
 
 
-  playlist_dragleave: (e) ->
+  playlist_pointerdragleave: (e) ->
     e.currentTarget.classList.remove("drag-target")
 
 
 
-  playlist_dragover: (e) ->
-    e.preventDefault()
-    e.dataTransfer.dropEffect = "move"
-
-
-
-  playlist_drop: (e) ->
-    id = parseInt(e.dataTransfer.getData("text/plain"), 10)
+  playlist_pointerdrop: (e) ->
+    id = OngakuRyoho.RecordBox.Tracks.view.dragged_track_element.getAttribute("rel")
+    id = parseInt(id, 10)
 
     # get track
     track = OngakuRyoho.RecordBox.Tracks.collection.get(id)

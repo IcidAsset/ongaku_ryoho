@@ -14,19 +14,15 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     "click .track .favourite"       : @group.machine.track_rating_star_click
 
-    "dragstart .track"              : @group.machine.track_dragstart
-    "dragend .track"                : @group.machine.track_dragend
-    "dragenter .track"              : @group.machine.track_dragenter
-    "dragleave .track"              : @group.machine.track_dragleave
-    "dragover .track"               : @group.machine.track_dragover
-    "drop .track"                   : @group.machine.track_drop
+    "pointerdragstart .track"       : @group.machine.track_pointerdragstart
+    "pointerdragend .track"         : @group.machine.track_pointerdragend
+    "pointerdragenter .track"       : @group.machine.track_pointerdragenter
+    "pointerdragleave .track"       : @group.machine.track_pointerdragleave
+    "pointerdrop .track"            : @group.machine.track_pointerdrop
 
-    "dragenter .group"              : @group.machine.group_dragenter
-    "dragleave .group"              : @group.machine.group_dragleave
-    "dragover .group"               : @group.machine.group_dragover
-    "drop .group"                   : @group.machine.group_drop
-
-    "pointerdown"                   : @group.machine.pointerdown_handler
+    "pointerdragenter .group"       : @group.machine.group_pointerdragenter
+    "pointerdragleave .group"       : @group.machine.group_pointerdragleave
+    "pointerdrop .group"            : @group.machine.group_pointerdrop
 
     "click [rel=\"add-source\"]"    : @group.machine.add_source_click_handler
 

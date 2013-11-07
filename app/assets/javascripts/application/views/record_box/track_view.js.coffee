@@ -23,7 +23,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Track extends Backbone.View
     this.el.classList.add("unavailable") unless model_attr.available
 
     # draggable
-    this.el.setAttribute("draggable", "true")
+    this.el.setAttribute("draggable", "1")
+    this.el.setAttribute("touch-action", "none")
 
     # chain
     return this

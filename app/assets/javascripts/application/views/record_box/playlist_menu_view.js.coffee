@@ -4,14 +4,14 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   #  Events
   #
   events: () ->
-    "dragenter .playlist"     : @group.machine.playlist_dragenter
-    "dragleave .playlist"     : @group.machine.playlist_dragleave
-    "dragover .playlist"      : @group.machine.playlist_dragover
-    "drop .playlist"          : @group.machine.playlist_drop
-    "click .playlist"         : @group.machine.playlist_click_handler
-    "keydown .playlist .name" : @group.machine.playlist_name_keydown_handler
-    "blur .playlist .name"    : @group.machine.playlist_name_blur_handler
-    "submit .add-playlist"    : @group.machine.add_playlist_submit_handler
+    "pointerdragenter .playlist"      : @group.machine.playlist_pointerdragenter
+    "pointerdragleave .playlist"      : @group.machine.playlist_pointerdragleave
+    "pointerdrop .playlist"           : @group.machine.playlist_pointerdrop
+
+    "click .playlist"                 : @group.machine.playlist_click_handler
+    "keydown .playlist .name"         : @group.machine.playlist_name_keydown_handler
+    "blur .playlist .name"            : @group.machine.playlist_name_blur_handler
+    "submit .add-playlist"            : @group.machine.add_playlist_submit_handler
 
 
 
