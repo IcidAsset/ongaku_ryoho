@@ -1,7 +1,7 @@
 /*
 
   Pointerevents - Drag n' Drop
-  v0.1.0
+  v0.1.1
 
 */
 
@@ -48,6 +48,7 @@
       "pointer_down_handler",
       "pointer_move_handler",
       "pointer_up_handler",
+      "touch_start_handler",
       "prevent_default",
       "document_pointerout_handler"
     ]);
@@ -67,55 +68,51 @@
       dragging: false,
       dragging_origin: false,
       start_coordinates: false,
-      last_toElement: false
+      last_toElement: false,
+      pointers: {},
+      amount_of_touches: 0
     };
   };
 
 
+  DD.prototype.reset_state = function() {
+    this.state.dragging = false;
+    this.state.dragging_origin = false;
+    this.state.last_toElement = false;
+    this.state.amount_of_touches = 0;
+  };
+
 
   DD.prototype.start_drag = function(pointer_event) {
     this.state.dragging = true;
-
-    // show drag icon
     this.show_drag_icon(pointer_event.pageX, pointer_event.pageY);
 
-    // trigger + add class to body
     $(this.state.dragging_origin).trigger("pointerdragstart");
-
-    // body class
     $("body").addClass("dragging");
   };
 
 
-
   DD.prototype.stop_drag = function(pointer_event) {
-    $(document).off("pointermove", this.pointer_move_handler);
-    $(document).off("pointerup", this.pointer_up_handler);
+    this.unbind_move_and_up_handler();
 
-    // body class
     $("body").removeClass("dragging");
-
-    // trigger
     $(this.state.dragging_origin).trigger("pointerdragend");
 
-    // hide drag icon
     this.hide_drag_icon();
-
-    // reset state
-    this.state.dragging = false;
-    this.state.dragging_origin = false;
-    this.state.last_toElement = false;
+    this.reset_state();
   };
 
 
 
   //
-  //  Events
+  //  Events / General
   //
   DD.prototype.bind_events = function() {
     var events = [], i, j;
 
     events.push(["pointerdown", this.pointer_down_handler]);
+    events.push(["touchstart", this.touch_start_handler]);
+
     events.push(["dragstart", this.prevent_default]);
     events.push(["drop", this.prevent_default]);
     events.push(["mousedown", this.prevent_default]);
@@ -140,19 +137,42 @@
   };
 
 
+  DD.prototype.unbind_move_and_up_handler = function() {
+    var $doc = $(document);
+    $doc.off("pointermove", this.pointer_move_handler);
+    $doc.off("pointerup", this.pointer_up_handler);
+  };
+
+
+
+  //
+  //  Events / Pointer events
+  //
   DD.prototype.pointer_down_handler = function(e) {
+    var $doc = $(document);
+
+    // where it all started
     this.state.dragging_origin = e.currentTarget;
 
     e.preventDefault();
     e = e.originalEvent || e;
 
-    this.state.start_coordinates = { x: e.pageX, y: e.pageY };
+    // state
+    this.state.start_coordinates = {
+      x: e.pageX,
+      y: e.pageY
+    };
+
+    this.state.pointers[e.pointerId.toString()] = {
+      pointerType: e.pointerType,
+      pointerId: e.pointerId
+    };
 
     // document -> pointermove
-    $(document).on("pointermove", this.pointer_move_handler);
+    $doc.on("pointermove", this.pointer_move_handler);
 
-    // remove pointermove on pointerup
-    $(document).one("pointerup", this.pointer_up_handler);
+    // stop everything on pointerup
+    $doc.one("pointerup", this.pointer_up_handler);
   };
 
 
@@ -175,7 +195,7 @@
         Math.pow(now.y - start.y, 2)
       );
 
-      if (diff >= 15) {
+      if (diff >= 15 && this.state.amount_of_touches < 2) {
         this.start_drag(e);
       }
 
@@ -187,14 +207,38 @@
     e.preventDefault();
     e = e.originalEvent || e;
 
-    // trigger drop event
-    $(e.target).trigger("pointerdrop");
+    delete this.state.pointers[e.pointerId.toString()];
 
-    // stop
-    this.stop_drag(e);
+    // trigger drop event
+    // and stop dragging if needed
+    if (this.state.dragging) {
+      $(e.target).trigger("pointerdrop");
+      this.stop_drag(e);
+
+    // otherwise,
+    // do a reset
+    } else {
+      this.unbind_move_and_up_handler();
+      this.reset_state();
+
+    }
   };
 
 
+
+  //
+  //  Events / Touch events
+  //
+  DD.prototype.touch_start_handler = function(e) {
+    e = e.originalEvent || e;
+    this.state.amount_of_touches = e.touches.length;
+  };
+
+
+
+  //
+  //  Events / Other
+  //
   DD.prototype.prevent_default = function(e) {
     e.preventDefault();
   };
@@ -272,15 +316,6 @@
   DD.prototype.bind_to_self = function(methods) {
     for (var i=0,j=methods.length; i<j; ++i) {
       this[methods[i]] = __bind(this[methods[i]], this);
-    }
-  };
-
-
-  DD.prototype.cancel_selection = function() {
-    if (window.getSelection) {
-      window.getSelection().removeAllRanges();
-    } else if (document.selection) {
-      document.selection.empty();
     }
   };
 

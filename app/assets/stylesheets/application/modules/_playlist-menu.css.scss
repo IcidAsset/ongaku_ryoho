@@ -44,7 +44,7 @@
 
     @include flex;
     @include input-placeholder {
-      color: darken($less_subtle_green, 23);
+      color: rgba(black, .35);
     };
   }
 
@@ -70,6 +70,7 @@
     font-size: 12px;
     line-height: 14px;
     overflow-y: scroll;
+    position: relative;
 
     @include flex;
   }
@@ -123,6 +124,22 @@
 
   .playlists .playlist .name[contenteditable="true"] {
     pointer-events: auto;
+  }
+
+  //
+  //  Is empty
+  //
+  .is-empty {
+    @include flex-container;
+    @include flex-align-cross-axis(center);
+    @include stretch;
+  }
+
+  .is-empty span {
+    @include flex;
+
+    color: $rbn_button_text_color;
+    text-align: center;
   }
 
 

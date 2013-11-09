@@ -38,6 +38,11 @@ input, textarea, select {
   }
 }
 
+input[type="text"], input[type="submit"], textarea {
+  border-radius: 0;
+  @include appearance(none);
+}
+
 .tooltip-data {
   display: none;
 }

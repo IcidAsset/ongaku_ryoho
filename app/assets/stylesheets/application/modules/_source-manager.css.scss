@@ -61,7 +61,7 @@
     @include transition(background-color 350ms);
   }
 
-  a:hover,
+  .no-touch & a:hover,
   a:focus {
     background-color: $rbn_inner_color_a;
     color: white;
@@ -83,7 +83,7 @@
     color: $green_3;
   }
 
-  [rel="add-source"]:hover,
+  .no-touch & [rel="add-source"]:hover,
   [rel="add-source"]:focus {
     background-color: $green_3;
   }
@@ -103,7 +103,7 @@
     top: 0;
   }
 
-  [rel="close-modal"]:hover,
+  .no-touch & [rel="close-modal"]:hover,
   [rel="close-modal"]:focus {
     background-color: $red_2;
     border-left: 0;

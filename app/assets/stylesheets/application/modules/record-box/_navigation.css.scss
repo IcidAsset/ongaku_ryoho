@@ -187,7 +187,7 @@
     @include button-gradient;
   }
 
-  .add-button:hover,
+  .no-touch & .add-button:hover,
   .add-button.active {
     background-color: saturate($bgcolor, 5);
     color: rgba(white, .725);
@@ -222,12 +222,12 @@
     display: none;
   }
 
-  .item:hover {
+  .no-touch & .item:hover {
     background-color: saturate($bgcolor, 5);
     color: white;
   }
 
-  .item:hover .icon {
+  .no-touch & .item:hover .icon {
     color: rgba(white, .8);
     display: none;
     &.close { display: block }
@@ -255,9 +255,9 @@
     font-size: 26px;
   }
 
-  .add-button.playlist:hover,
-  .add-button.playlist.active,
-  .item.playlist:hover {
+  .no-touch & .add-button.playlist:hover,
+  .no-touch & .item.playlist:hover,
+  .add-button.playlist.active {
     background-color: $less_subtle_green;
   }
 
@@ -267,15 +267,15 @@
     font-size: 24px;
   }
 
-  .add-button.favourites:hover,
-  .item.favourites:hover {
+  .no-touch & .add-button.favourites:hover,
+  .no-touch & .item.favourites:hover {
     background-color: $less_subtle_yellow;
   }
 
   // filter - search
-  .add-button.search:hover,
-  .add-button.search.active,
-  .item.search:hover {
+  .no-touch & .add-button.search:hover,
+  .no-touch & .item.search:hover,
+  .add-button.search.active, {
     background-color: $less_subtle_blue;
   }
 

@@ -24,6 +24,8 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     "dblclick .controls a .knob.mid"                    : @group.machine.knob_mid_doubleclick_handler
     "dblclick .controls a .knob.hi"                     : @group.machine.knob_hi_doubleclick_handler
 
+    "doubleTap .controls a .knob"                       : @group.machine.knob_double_tap_handler
+
 
 
   #

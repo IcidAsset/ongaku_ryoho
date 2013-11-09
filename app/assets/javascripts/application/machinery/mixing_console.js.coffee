@@ -129,6 +129,14 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
 
+  knob_double_tap_handler: (e) ->
+    e.preventDefault()
+    e.stopPropagation()
+
+    $(e.currentTarget).trigger("dblclick")
+
+
+
   #
   #  Controller knobs
   #

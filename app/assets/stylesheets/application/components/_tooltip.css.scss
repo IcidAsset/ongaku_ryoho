@@ -61,7 +61,7 @@
     text-decoration: none;
   }
 
-  a:hover,
+  .no-touch & a:hover,
   a.drag-target {
     background: $rbn_outer_color_b;
     color: white;
@@ -93,7 +93,7 @@
     @include icon-font;
   }
 
-  a:hover .checkbox {
+  .no-touch & a:hover .checkbox {
     border-color: rgba(white, .275);
   }
 }
@@ -116,7 +116,7 @@
     color: darken($rbn_button_text_color, 42.5);
   }
 
-  a:hover,
+  .no-touch & a:hover,
   a.drag-target {
     color: white;
   }
@@ -136,7 +136,7 @@
     color: white;
   }
 
-  a:hover,
+  .no-touch & a:hover,
   a.drag-target {
     background-color: desaturate(darken($less_subtle_green, 25), 12.5);
     color: white;

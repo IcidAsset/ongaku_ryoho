@@ -235,7 +235,6 @@ class OngakuRyoho.Classes.Engines.Audio
     # track
     audio_element.setAttribute("src", src)
     audio_element.setAttribute("rel", related_track.id)
-    audio_element.load()
 
     # events, in order of the w3c spec
     audio_element.addEventListener("progress", this.events.progress)
@@ -243,6 +242,9 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element.addEventListener("timeupdate", this.events.time_update)
     audio_element.addEventListener("ended", this.events.ended)
     audio_element.addEventListener("durationchange", this.events.duration_change)
+
+    # load
+    audio_element.load()
 
     # play
     if browser.isiOS

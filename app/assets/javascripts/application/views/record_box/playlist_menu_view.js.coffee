@@ -72,9 +72,10 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
 
     # if there are no playlists
     if OngakuRyoho.RecordBox.Playlists.collection.models.length is 0
-      ###
-        TODO
-      ###
+      el = document.createElement("div")
+      el.className = "is-empty"
+      el.innerHTML = "<span>No playlists found</span>"
+      fragment.appendChild(el)
 
     # and if there are
     else

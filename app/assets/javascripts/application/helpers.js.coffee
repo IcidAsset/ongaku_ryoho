@@ -6,6 +6,10 @@ window.Helpers =
   initialize_before: () ->
     this.original_document_title = document.title
 
+    # touch
+    unless Modernizr.touch
+      $("html").addClass("no-touch")
+
     # handlebars
     this.setup_handlebars_helpers()
 
@@ -28,13 +32,6 @@ window.Helpers =
         delegate_selector: "[draggable]"
       }
     );
-
-    # disable ios background scroll
-    $(document).on("touchmove", (e) ->
-        target = e.target
-        parent = $(target).closest(".tracks-wrapper")
-        e.preventDefault() if parent.length is 0
-    )
 
     # send csrf-token when doing ajax request
     OngakuRyoho.csrf_token = $("meta[name=\"csrf-token\"]").attr("content")

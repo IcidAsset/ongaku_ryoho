@@ -24,7 +24,6 @@ class OngakuRyoho.Classes.Views.RecordBox.Track extends Backbone.View
 
     # draggable
     this.el.setAttribute("draggable", "1")
-    this.el.setAttribute("touch-action", "none")
 
     # chain
     return this
