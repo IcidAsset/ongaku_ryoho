@@ -6,12 +6,12 @@
 
 .mod-playlist-menu {
   background: white;
-  box-shadow: rgba($less_subtle_green, 0.3) -1px 0 20px;
+  box-shadow: rgba(160, 160, 160, 0.3) -1px 0 20px;
   bottom: 0;
   position: absolute;
-  right: -31%;
+  right: -50%;
   top: 0;
-  width: 31%;
+  width: 50%;
   z-index: 99;
 
   @include flex-container;
@@ -76,24 +76,25 @@
   }
 
   .playlists .playlist {
-    border-bottom: 1px solid rgba($less_subtle_green, .1);
     cursor: pointer;
     overflow: hidden;
     padding: 0 12px 0 36px;
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    &:nth-child(2n) {
+      background-color: #fbfbfb;
+    }
   }
 
   .playlists .playlist.selected {
     background-color: desaturate(darken($less_subtle_green, 22.5), 12.5);
-    border-bottom-color: desaturate(darken($less_subtle_green, 22.5), 12.5);
     color: white;
   }
 
   .playlists .playlist.drag-target {
     background-color: darken($subtle_green, 15);
-    border-bottom-color: darken($subtle_green, 15);
 
     &, .icon {
       color: white;
