@@ -1,6 +1,13 @@
 class SessionsController < ApplicationController
   layout 'pages'
 
+  def new
+    if current_user
+      redirect_to "/"
+    end
+  end
+
+
   def create
     user = login(
       params[:email].try(:downcase),
