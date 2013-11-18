@@ -49,7 +49,7 @@ class S3BucketJob
       obj = bucket.objects.find(key)
       obj_signed_url = obj.url + s3_bucket.signature_query_string(key, signature_expire_date)
       ffprobe_command = Rails.env.development? ? "ffprobe" : "bin/ffprobe"
-      ffprobe_results = `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format '#{obj_signed_url}'`
+      ffprobe_results = `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format "#{obj_signed_url}"`
       ffprobe_results = Oj.load(ffprobe_results)
       tags = ffprobe_results.try(:[], "format").try(:[], "tags")
 
