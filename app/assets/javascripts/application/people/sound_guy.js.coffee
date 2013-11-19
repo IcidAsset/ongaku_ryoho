@@ -235,7 +235,7 @@ class OngakuRyoho.Classes.People.SoundGuy
     audio = @audio_engine.create_new_source(track, true)
 
     # check audio support for filetype
-    this.audio_not_supported_callback() unless audio
+    return this.audio_not_supported_callback() unless audio
 
     # controller attributes
     controller_attributes =
@@ -366,4 +366,23 @@ class OngakuRyoho.Classes.People.SoundGuy
   audio_not_supported_callback: () ->
     text = "Audio type not supported by your browser"
     OngakuRyoho.MessageCenter.collection.add({ text: text, error: true })
+
+    # mixing console reset
+    @mixing_console.model.set(
+      time:        0
+      duration:    0
+
+      artist:      null
+      title:       null
+      album:       null
+
+      now_playing: @mixing_console.model.defaults.now_playing
+    )
+
+    # turn the play button light off
+    $playpause_button_light = @mixing_console.view.$control("button", "play-pause", ".light")
+    $playpause_button_light.removeClass("on")
+
+    # reset document title
+    Helpers.set_document_title(Helpers.original_document_title)
 

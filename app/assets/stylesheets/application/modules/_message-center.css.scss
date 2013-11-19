@@ -23,6 +23,10 @@
     & > div { display: none }
   }
 
+  .message:not(.loading) {
+    cursor: pointer;
+  }
+
   i {
     background-position: center bottom;
     background-repeat: no-repeat;

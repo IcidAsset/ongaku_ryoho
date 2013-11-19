@@ -215,9 +215,9 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element = new window.Audio()
 
     # check audio support
-    filetype_match = related_track.get("filename").match(/\.(\w+)$/)
-    filetype = if filetype_match then filetype_match[1] else false
-    return false if !filetype or audio_element.canPlayType("audio/#{filetype}") is ""
+    mimetype = MimeType.lookup(related_track.get("filename"))
+    console.log(mimetype)
+    return false if !mimetype or audio_element.canPlayType(mimetype) is ""
 
     # encode uri
     url = related_track.get("url")

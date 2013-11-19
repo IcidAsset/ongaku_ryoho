@@ -26,6 +26,7 @@
 #= require "bare-tooltip"
 #= require "pointerevents"
 #= require "pointerevents-dragndrop"
+#= require "mimetype"
 
 #= require "./application/backbone_extensions"
 #= require "./application/ongaku_ryoho"
