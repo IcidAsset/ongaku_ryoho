@@ -216,7 +216,6 @@ class OngakuRyoho.Classes.Engines.Audio
 
     # check audio support
     mimetype = MimeType.lookup(related_track.get("filename"))
-    console.log(mimetype)
     return false if !mimetype or audio_element.canPlayType(mimetype) is ""
 
     # encode uri
