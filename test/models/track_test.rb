@@ -17,7 +17,6 @@ describe Track do
   it { must allow_mass_assignment_of(:year) }
   it { must allow_mass_assignment_of(:filename) }
   it { must allow_mass_assignment_of(:location) }
-  it { must allow_mass_assignment_of(:url) }
 
   # validations
   it { must validate_presence_of(:artist) }
@@ -26,5 +25,4 @@ describe Track do
   it { must validate_presence_of(:tracknr) }
   it { must validate_presence_of(:filename) }
   it { must validate_presence_of(:location) }
-  it { must validate_presence_of(:url) }
 end
