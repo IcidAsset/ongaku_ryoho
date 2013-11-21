@@ -33,10 +33,7 @@ class S3BucketJob
     signature_expire_date = DateTime.now.tomorrow.to_i
 
     # connect to s3 and get bucket file list
-    service = S3::Service.new(access_key_id: s3_bucket.configuration["access_key"],
-                              secret_access_key: s3_bucket.configuration["secret_key"])
-
-    bucket = service.buckets.find(s3_bucket.configuration["bucket"])
+    bucket = s3_bucket.fetch_bucket_object
     bucket_file_list = bucket.objects.map { |o| o.key.to_s }
     bucket_file_list = bucket_file_list.select { |o| o.end_with?(*OngakuRyoho::SUPPORTED_FILE_FORMATS) }
 
@@ -46,7 +43,7 @@ class S3BucketJob
 
     # new tracks
     new_tracks = new_files.map do |key|
-      obj_signed_url = s3_bucket.signed_url(key, signature_expire_date)
+      obj_signed_url = s3_bucket.signed_url(key, signature_expire_date, bucket.host)
       ffprobe_command = Rails.env.development? ? "ffprobe" : "bin/ffprobe"
       ffprobe_results = `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format "#{obj_signed_url}"`
       ffprobe_results = Oj.load(ffprobe_results)

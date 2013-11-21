@@ -17,7 +17,8 @@ class OngakuRyoho.Classes.SourceTypes.S3Bucket
 
   insert_track_hook: (track) =>
     promise = new RSVP.Promise()
-    data = { track_location: encodeURIComponent(track.get("location")) }
+    source = OngakuRyoho.SourceManager.collection.get(track.get("source_id"))
+    data = { track_location: encodeURIComponent(track.get("location")), host: source.get("s3_host") }
     signature_expire_date = track.get("signature_expire_date")
 
     # do nothing if the signature is still valid

@@ -11,7 +11,7 @@ class S3Bucket < Source
   #
   #  Signature
   #
-  def signed_url(key, expire_date)
+  def signed_url(key, expire_date, host)
     source = self
     bucket = source.configuration['bucket']
     path = URI.escape(key.strip)
@@ -24,7 +24,7 @@ class S3Bucket < Source
     query_string = "?AWSAccessKeyId=#{source.configuration['access_key']}"
     query_string << "&Expires=#{expire_date}&Signature=#{signature}"
 
-    url = "http://#{bucket}.s3.amazonaws.com/#{path}"
+    url = "http://#{host}/#{path}"
     signed_url = url + query_string
 
     signed_url
@@ -46,6 +46,7 @@ class S3Bucket < Source
   #
   def as_json(options={})
     json = super(options)
+    json["s3_host"] = self.fetch_bucket_object.try(:host)
     json["configuration"].delete("secret_key")
 
     json
@@ -55,6 +56,14 @@ class S3Bucket < Source
   #
   #  Utility functions
   #
+  def fetch_bucket_object
+    service = S3::Service.new(access_key_id: self.configuration["access_key"],
+                              secret_access_key: self.configuration["secret_key"])
+
+    return service.buckets.find(self.configuration["bucket"])
+  end
+
+
   def self.add_new_tracks(s3_bucket, new_tracks)
     return unless new_tracks.present?
 

@@ -96,7 +96,7 @@ class Api::SourcesController < ApplicationController
     source = current_user.sources.find(params[:id])
     path = URI.unescape(params[:track_location])
     expire_date = DateTime.now.tomorrow.to_i
-    signed_url = source.signed_url(path, expire_date)
+    signed_url = source.signed_url(path, expire_date, params[:host])
 
     render json: Oj.dump({
       "signed_url" => signed_url,
