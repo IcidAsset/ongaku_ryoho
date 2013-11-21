@@ -92,14 +92,14 @@ class Api::SourcesController < ApplicationController
   #
   #  Members / S3 Bucket
   #
-  def s3_signature
+  def s3_signed_url
     source = current_user.sources.find(params[:id])
     path = URI.unescape(params[:track_location])
     expire_date = DateTime.now.tomorrow.to_i
-    query_string = source.signature_query_string(path, expire_date)
+    signed_url = source.signed_url(path, expire_date)
 
     render json: Oj.dump({
-      "query_string" => query_string,
+      "signed_url" => signed_url,
       "expire_date" => expire_date
     })
   end

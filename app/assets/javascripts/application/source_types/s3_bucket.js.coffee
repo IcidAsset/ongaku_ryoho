@@ -26,16 +26,11 @@ class OngakuRyoho.Classes.SourceTypes.S3Bucket
 
     # otherwise request a new signature
     else
-      $.get("/api/sources/#{this.s3bucket.id}/s3_signature", data, (response) ->
+      $.get("/api/sources/#{this.s3bucket.id}/s3_signed_url", data, (response) ->
         response = JSON.parse(response)
-        original_url = track.get("original_url")
-
-        unless original_url
-          original_url = track.get("url")
-          track.set("original_url", original_url)
 
         track.set({
-          url: original_url + response.query_string,
+          url: response.signed_url,
           signature_expire_date: response.expire_date
         })
 
@@ -44,3 +39,8 @@ class OngakuRyoho.Classes.SourceTypes.S3Bucket
 
     # return
     promise
+
+
+
+  track_url_to_src: (url, location) ->
+    url

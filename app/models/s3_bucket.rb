@@ -11,17 +11,23 @@ class S3Bucket < Source
   #
   #  Signature
   #
-  def signature_query_string(path, expire_date)
+  def signed_url(key, expire_date)
     source = self
+    bucket = source.configuration['bucket']
+    path = URI.escape(key.strip)
+
     digest = OpenSSL::Digest::Digest.new("sha1")
-    can_string = "GET\n\n\n#{expire_date}\n/#{source.configuration['bucket']}/#{path}"
+    can_string = "GET\n\n\n#{expire_date}\n/#{bucket}/#{path}"
     hmac = OpenSSL::HMAC.digest(digest, source.configuration['secret_key'], can_string)
     signature = URI.escape(Base64.encode64(hmac).strip, "+=?@$&,/:;")
 
     query_string = "?AWSAccessKeyId=#{source.configuration['access_key']}"
     query_string << "&Expires=#{expire_date}&Signature=#{signature}"
 
-    query_string
+    url = "http://#{bucket}.s3.amazonaws.com/#{path}"
+    signed_url = url + query_string
+
+    signed_url
   end
 
 

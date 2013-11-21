@@ -35,6 +35,21 @@ class OngakuRyoho.Classes.SourceTypes.Server
 
 
 
+  track_url_to_src: (url, location) ->
+    url_indexof_location = url.indexOf(location)
+
+    src = if url_indexof_location is -1
+      console.warning("Could not find index of location in model.url")
+      url
+    else
+      location = _.map(location.split("/"), (l) -> encodeURIComponent(l))
+      query = if url.indexOf("?") isnt -1 then url.substr(url.indexOf("?")) else ""
+      url.substr(0, url_indexof_location) + location.join("/") + query
+
+    src
+
+
+
   #
   #  Data from source
   #

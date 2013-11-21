@@ -220,16 +220,8 @@ class OngakuRyoho.Classes.Engines.Audio
 
     # encode uri
     url = related_track.get("url")
-    url_indexof_location = url.indexOf(related_track.get("location"))
-
-    src = if url_indexof_location is -1
-      console.warning("Could not find index of location in model.url")
-      url
-    else
-      location = related_track.get("location")
-      location = _.map(location.split("/"), (l) -> encodeURIComponent(l))
-      query = if url.indexOf("?") isnt -1 then url.substr(url.indexOf("?")) else ""
-      url.substr(0, url_indexof_location) + location.join("/") + query
+    source = OngakuRyoho.SourceManager.collection.get(related_track.get("source_id"))
+    src = source.type_instance.track_url_to_src(url, related_track.get("location"))
 
     # track
     audio_element.setAttribute("src", src)

@@ -29,7 +29,6 @@ class Track < ActiveRecord::Base
   validates_presence_of :tracknr
   validates_presence_of :filename
   validates_presence_of :location
-  validates_presence_of :url
 
 
   #

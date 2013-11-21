@@ -46,8 +46,7 @@ class S3BucketJob
 
     # new tracks
     new_tracks = new_files.map do |key|
-      obj = bucket.objects.find(key)
-      obj_signed_url = obj.url + s3_bucket.signature_query_string(key, signature_expire_date)
+      obj_signed_url = s3_bucket.signed_url(key, signature_expire_date)
       ffprobe_command = Rails.env.development? ? "ffprobe" : "bin/ffprobe"
       ffprobe_results = `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format "#{obj_signed_url}"`
       ffprobe_results = Oj.load(ffprobe_results)
@@ -63,8 +62,7 @@ class S3BucketJob
           genre: tags["genre"],
 
           filename: key.split("/").last,
-          location: key,
-          url: obj.url
+          location: key
         }
       end
     end.compact
