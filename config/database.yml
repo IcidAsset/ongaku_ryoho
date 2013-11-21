@@ -15,12 +15,3 @@ test:
   pool: 5
   username: purplesynth
   password: hello
-
-# production:
-#   adapter: postgresql
-#   encoding: unicode
-#   host: localhost
-#   database: ongaku_ryoho_production
-#   pool: 5
-#   username: ongaku_ryoho
-#   password: secret
