@@ -314,7 +314,7 @@ private
     elsif playlist.is_a?(String)
       ids = (track_ids).join(",")
       conditions << " AND id IN (#{ids})"
-      conditions << " AND location LIKE ('#{playlist}%')"
+      conditions << " AND location LIKE ('#{playlist.gsub("'", "''")}%')"
     end
 
     # check
