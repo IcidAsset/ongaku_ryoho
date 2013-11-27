@@ -27,8 +27,8 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
       .then (changes) ->
         unless _.contains(changes, true)
           OngakuRyoho.RecordBox.Tracks.collection.fetch()
-          OngakuRyoho.RecordBox.Playlists.collection.fetch()
 
+        OngakuRyoho.RecordBox.Playlists.collection.fetch()
         OngakuRyoho.SourceManager.view.remove_working_class_from_refresh_sources_button()
 
 
