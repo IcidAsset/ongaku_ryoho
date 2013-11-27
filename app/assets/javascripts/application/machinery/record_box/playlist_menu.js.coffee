@@ -37,8 +37,11 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
       e.currentTarget.getAttribute("data-playlist-cid")
     )
 
-    # enable playlist
-    OngakuRyoho.RecordBox.Filter.model.enable_playlist(playlist)
+    # enable/disable playlist
+    if e.currentTarget.classList.contains("selected")
+      OngakuRyoho.RecordBox.Filter.model.disable_playlist()
+    else
+      OngakuRyoho.RecordBox.Filter.model.enable_playlist(playlist)
 
     # hide menu
     if OngakuRyohoPreloadedData.user.settings.hide_playlist_menu is "1"

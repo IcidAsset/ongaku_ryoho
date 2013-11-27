@@ -296,6 +296,73 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
   #
+  #  Tooltip
+  #
+  setup_tooltip: () ->
+    machine = this
+
+    @tooltip = new BareTooltip(@group.view.$el, {
+      trigger_type: "contextmenu",
+      tooltip_klass: "tooltip grey",
+      delegate_selector: ".track",
+      animation_speed: 0,
+      timeout_duration: 0,
+      template: """
+        <div class="{{CLASSES}}">
+          <div class="arrow"></div>
+          {{CONTENT}}
+        </div>
+      """
+    })
+
+    # extend
+    @tooltip.get_tooltip_content = () ->
+      if machine.group.view.requires_playlist_layout()
+        """
+          <div class="group first">
+            <a rel="playlist-remove">Remove</a>
+          </div>
+        """
+
+      else
+        ""
+
+    @tooltip.trigger_click_handler = (e) ->
+      if machine.group.view.requires_playlist_layout()
+        BareTooltip.prototype.trigger_click_handler.call(this, e)
+
+      return false
+
+    @tooltip.show_tooltip = () ->
+      this.state.$tooltip_element.on("click", "a[rel=\"playlist-remove\"]", machine.tooltip_playlist_remove_click_handler)
+
+      BareTooltip.prototype.show_tooltip.apply(this)
+
+    @tooltip.hide_tooltip = () ->
+      this.state.$tooltip_element.off("click")
+
+      BareTooltip.prototype.hide_tooltip.apply(this, arguments)
+
+    @tooltip.move_tooltip = (e) ->
+      $t = this.state.$tooltip_element
+      $trigger = $(e.currentTarget)
+
+      $t.css({
+        left: e.pageX - ($t.width() / 2),
+        top: e.pageY + 18
+      });
+
+    # setup
+    @tooltip.setup()
+
+
+
+  tooltip_playlist_remove_click_handler: () ->
+    # TODO
+
+
+
+  #
   #  Other
   #
   add_source_click_handler: () ->

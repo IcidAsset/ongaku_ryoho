@@ -52,17 +52,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     this.listenTo(@group.collection, "fetching", @group.machine.fetching)
     this.listenTo(@group.collection, "fetched", @group.machine.fetched)
 
-    # {TODO} scroll/touch events
-    scroll_el = this.el
-    scroll_el.addEventListener("touchstart", (e) ->
-        start_y = e.touches[0].pageY
-        start_top_scroll = e.scrollTop
-
-        scroll_el.scrollTop = 1 if start_top_scroll <= 0
-
-        if start_top_scroll + scroll_el.offsetHeight >= scroll_el.scrollHeight
-          scroll_el.scrollTop = scroll_el.scrollHeight - scroll_el.offsetHeight - 1
-    , false)
+    # tooltip
+    @group.machine.setup_tooltip()
 
 
 
@@ -109,7 +100,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
 
   render_default_mode: () ->
-    if (typeof OngakuRyoho.RecordBox.Filter.model.get("playlist")) is "number"
+    if this.requires_playlist_layout()
       this.render_playlist_layout()
     else
       this.render_default_layout()
@@ -250,3 +241,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #
   is_in_queue_mode: () ->
     @mode is "queue"
+
+
+  requires_playlist_layout: () ->
+    (typeof OngakuRyoho.RecordBox.Filter.model.get("playlist")) is "number"

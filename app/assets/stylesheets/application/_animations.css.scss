@@ -6,5 +6,5 @@
 
 @include keyframes(full-rotation) {
   0% { @include rotate(0deg); }
-  100% { @include rotate(360deg); }
+  100% { @include rotate(-360deg); }
 }
