@@ -14,7 +14,9 @@ class S3BucketJob
     if s3_bucket
       begin
         S3BucketJob.update_tracks(s3_bucket, data)
-      rescue
+      rescue Exception => e
+        puts e.message
+        puts e.backtrace.inspect
         s3_bucket.remove_from_redis_queue
         puts "S3BucketJob could not be processed!"
       end
@@ -55,7 +57,7 @@ class S3BucketJob
           artist: tags["artist"],
           album: tags["album"],
           year: tags["date"] || tags["year"],
-          tracknr: tags["track"].split("/").first,
+          tracknr: tags["track"].try(:split, "/").try(:first) || 0,
           genre: tags["genre"],
 
           filename: key.split("/").last,
