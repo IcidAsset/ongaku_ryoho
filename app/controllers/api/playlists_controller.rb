@@ -47,7 +47,7 @@ class Api::PlaylistsController < ApplicationController
     # collect
     user_id = current_user.id
     old_playlists_tracks = playlist.playlists_tracks.all
-    new_playlists_tracks = params[:tracks_with_position]
+    new_playlists_tracks = params[:tracks_with_position] || []
 
     # other attributes
     if params.try(:[], :playlist).try(:[], :name)
@@ -56,15 +56,13 @@ class Api::PlaylistsController < ApplicationController
     end
 
     # (1) remove
-    if new_playlists_tracks
-      old_playlists_tracks.each do |old_pt|
-        obj = old_pt.attributes.slice("id", "track_id", "position")
-        old_pt.delete unless new_playlists_tracks.include?(obj)
-      end
+    old_playlists_tracks.each do |old_pt|
+      obj = old_pt.attributes.slice("id", "track_id", "position")
+      old_pt.delete unless new_playlists_tracks.include?(obj)
     end
 
     # (2 + 3) update old
-    (new_playlists_tracks || []).each_with_index do |new_pt, idx|
+    new_playlists_tracks.each_with_index do |new_pt, idx|
       pt = if new_pt["id"]
         playlist.playlists_tracks.find(new_pt["id"])
       end

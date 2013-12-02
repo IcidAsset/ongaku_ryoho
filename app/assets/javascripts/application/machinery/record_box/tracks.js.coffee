@@ -357,8 +357,42 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
 
 
-  tooltip_playlist_remove_click_handler: () ->
-    # TODO
+  tooltip_playlist_remove_click_handler: (e) =>
+    e.stopPropagation()
+    e.preventDefault()
+
+    # remove element
+    $el = @tooltip.state.$current_trigger
+    $el.remove()
+
+    # get playlist
+    playlist = OngakuRyoho.RecordBox.Playlists.collection.get(
+      OngakuRyoho.RecordBox.Filter.model.get("playlist")
+    )
+
+    # pt_id
+    id = parseInt($el.attr("data-playlist-track-id"), 10)
+
+    # delete
+    twp = _.sortBy(playlist.get("tracks_with_position"), (pt) -> pt.position)
+    twp = _.map(twp, (pt) -> if pt.id is id then null else pt)
+    twp = _.compact(twp)
+
+    map = _.map(twp, (pt) -> pt.id)
+
+    # save
+    playlist.save({ tracks_with_position: twp }, { validate: false })
+
+    # update positions in dom
+    track_elements = OngakuRyoho.RecordBox.Tracks.view.el.querySelectorAll(".tracks .track")
+    _.each(track_elements, (track_element) ->
+      pt_id = parseInt(track_element.getAttribute("data-playlist-track-id"), 10)
+      new_position = map.indexOf(pt_id) + 1
+      track_element.querySelector(".position span").innerHTML = new_position
+    )
+
+    # remove tooltip
+    @tooltip.hide_and_remove_current_tooltip()
 
 
 
