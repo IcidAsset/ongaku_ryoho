@@ -6,12 +6,12 @@
 
 .mod-playlist-menu {
   background: white;
-  box-shadow: rgba(160, 160, 160, 0.3) -1px 0 20px;
+  box-shadow: rgba(black, 0.05) -1px 0px 0px 1px, rgba(black, 0.05) -5px 0px 7px -1px;
   bottom: 0;
   position: absolute;
-  right: -50%;
+  right: -45%;
   top: 0;
-  width: 50%;
+  width: 45%;
   z-index: 99;
 
   @include flex-container;
@@ -39,13 +39,9 @@
     border-radius: 2px;
     color: white;
     font-size: 11px;
-    font-weight: bold;
-    height: 18px;
+    height: 16px;
 
     @include flex;
-    @include input-placeholder {
-      color: rgba(black, .35);
-    };
   }
 
   .add-playlist .add-button {
@@ -54,8 +50,8 @@
     color: white;
     cursor: pointer;
     font-size: 11px;
-    height: 30px;
-    line-height: 32px;
+    height: 28px;
+    line-height: 30px;
     margin-left: 8px;
     padding: 0 11px;
 
@@ -78,7 +74,7 @@
   .playlists .playlist {
     cursor: pointer;
     overflow: hidden;
-    padding: 0 12px 0 36px;
+    padding: 0 12px 0 37px;
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -91,6 +87,10 @@
   .playlists .playlist.selected {
     background-color: desaturate(darken($less_subtle_green, 22.5), 12.5);
     color: white;
+
+    .icon {
+      color: rgba(white, .35);
+    }
   }
 
   .playlists .playlist.drag-target {
@@ -102,8 +102,8 @@
   }
 
   .playlists .playlist .icon {
-    color: #bbb;
-    font-size: 27px;
+    color: desaturate(lighten($less_subtle_green, 20), 7.5);
+    font-size: 24px;
     left: 12px;
     line-height: 20px;
     pointer-events: none;

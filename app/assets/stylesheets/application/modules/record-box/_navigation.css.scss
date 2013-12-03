@@ -90,6 +90,7 @@
   overflow: hidden;
   position: relative;
   text-rendering: optimizeLegibility;
+  white-space: nowrap;
   width: auto;
 
   @include flex-container;
@@ -127,6 +128,10 @@
   }
 
   .box {
+    height: 200%;
+    max-width: 60%;
+    overflow-x: scroll;
+    overflow-y: hidden;
     padding-left: 2px;
 
     @include flex-order(1);
@@ -144,7 +149,7 @@
   .add-buttons {
     padding-right: 2px;
     text-align: right;
-    white-space: nowrap;
+    width: 112px;
 
     @include flex-order(3);
   }
