@@ -203,3 +203,19 @@ class OngakuRyoho.Classes.Engines.Queue
 
     # return
     return track
+
+
+
+  remove_user_track: (id) ->
+    id = parseInt(id, 10)
+    idx = false
+    i = 0
+
+    for q in @data.user_next
+      if q.track.id is id
+        idx = i
+        break
+      ++i
+
+    this.data.user_next.splice(idx, 1) if idx isnt false
+    this.set_next()

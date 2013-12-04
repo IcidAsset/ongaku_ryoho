@@ -317,7 +317,14 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
     # extend
     @tooltip.get_tooltip_content = () ->
-      if machine.group.view.requires_playlist_layout()
+      if machine.group.view.is_in_queue_mode()
+        """
+          <div class="group first">
+            <a rel="queue-remove">Remove</a>
+          </div>
+        """
+
+      else if machine.group.view.requires_playlist_layout()
         """
           <div class="group first">
             <a rel="playlist-remove">Remove</a>
@@ -328,12 +335,20 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
         ""
 
     @tooltip.trigger_click_handler = (e) ->
-      if machine.group.view.requires_playlist_layout()
+      condition_a = machine.group.view.is_in_queue_mode()
+      condition_b = machine.group.view.requires_playlist_layout()
+
+      if condition_a
+        if e.currentTarget.classList.contains("user-selected")
+          BareTooltip.prototype.trigger_click_handler.call(this, e)
+
+      else if condition_b
         BareTooltip.prototype.trigger_click_handler.call(this, e)
 
       return false
 
     @tooltip.show_tooltip = () ->
+      this.state.$tooltip_element.on("click", "a[rel=\"queue-remove\"]", machine.tooltip_queue_remove_click_handler)
       this.state.$tooltip_element.on("click", "a[rel=\"playlist-remove\"]", machine.tooltip_playlist_remove_click_handler)
 
       BareTooltip.prototype.show_tooltip.apply(this)
@@ -354,6 +369,19 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
     # setup
     @tooltip.setup()
+
+
+
+  tooltip_queue_remove_click_handler: (e) =>
+    e.stopPropagation()
+    e.preventDefault()
+
+    # remove track from queue
+    track_id = @tooltip.state.$current_trigger.attr("rel")
+    OngakuRyoho.Engines.Queue.remove_user_track(track_id)
+
+    # remove tooltip
+    @tooltip.hide_and_remove_current_tooltip()
 
 
 
