@@ -5,16 +5,10 @@
     options = options || {};
 
     if (!options.noCSRF) {
-      _.extend(options, {
-        beforeSend: function(xhr) {
-          if (!options.noCSRF) {
-            var token = $('meta[name="csrf-token"]').attr('content');
-            if (token) xhr.setRequestHeader('X-CSRF-Token', token);
-          }
-        }
-      });
+      var token = $('meta[name="csrf-token"]').attr('content');
+      if (token) options.headers = { 'X-CSRF-Token' : token };
     }
 
-    Backbone.original_sync(method, model, options)
+    Backbone.original_sync(method, model, options);
   };
 })(Zepto);

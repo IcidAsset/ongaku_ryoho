@@ -238,7 +238,7 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element.load()
 
     # play
-    if browser.isiOS
+    if $.os.tablet or $.os.phone
       if autoplay
         audio_element.play()
     else
@@ -355,7 +355,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   play: (source) ->
     source.mediaElement.play()
-    this.start_analysing() unless browser.isiOS
+    this.start_analysing() unless $.os.tablet or $.os.phone
 
 
 
@@ -364,7 +364,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   pause: (source) ->
     source.mediaElement.pause()
-    this.stop_analysing() unless browser.isiOS
+    this.stop_analysing() unless $.os.tablet or $.os.phone
 
 
 

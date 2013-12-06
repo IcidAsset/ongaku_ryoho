@@ -13,7 +13,6 @@
 ###
 
 #= require "zepto"
-#= require "zepto-touch"
 #= require "underscore"
 #= require "backbone"
 #= require "backbone-rails-sync"
