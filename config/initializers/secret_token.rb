@@ -1,7 +1,2 @@
-# Be sure to restart your server when you modify this file.
-
-# Your secret key for verifying the integrity of signed cookies.
-# If you change this key, all old signed cookies will become invalid!
-# Make sure the secret is at least 30 characters and all random,
-# no regular words or you'll be exposed to dictionary attacks.
-OngakuRyoho::Application.config.secret_token = '899144915aaaed45711fa99357eb88a977571e0262ac51658a4f0df899150628ef403652a1034a97dafc176ec42fe314d46c8b06ddfb81c19c5287e966acf20b'
+OngakuRyoho::Application.config.secret_token = ENV["SESSION_KEY"] || "9fc57e164ebe2a22339d4f1955ca14bce680089dae1e8b981f675300ebbd59df3c0e67fc858bd5cab5a6c1c13c3119c76de86f3802e810fb174fdfe671363f75"
+OngakuRyoho::Application.config.cookie_secret = OngakuRyoho::Application.config.secret_token
