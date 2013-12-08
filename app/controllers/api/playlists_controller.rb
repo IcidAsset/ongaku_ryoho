@@ -90,7 +90,7 @@ class Api::PlaylistsController < ApplicationController
 
   def destroy
     playlist = current_user.playlists.find(params[:id])
-    playlist.destroy() if playlist
+    playlist.destroy if playlist
 
     render json: playlist.to_json(
       only: [:id, :name],

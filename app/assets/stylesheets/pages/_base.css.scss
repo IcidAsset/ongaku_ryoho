@@ -89,3 +89,22 @@ i {
 .with-a-border {
   border-bottom: 1px dashed #dadada;
 }
+
+.remove-account {
+  margin-top: 19px;
+}
+
+.remove-account a {
+  color: $red;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.remove-account a > [data-icon] {
+  display: inline-block;
+  font-size: 24px;
+  margin-right: 5px;
+  position: relative;
+  top: 1px;
+}

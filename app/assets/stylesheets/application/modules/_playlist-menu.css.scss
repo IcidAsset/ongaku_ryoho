@@ -6,12 +6,12 @@
 
 .mod-playlist-menu {
   background: white;
-  box-shadow: rgba(black, 0.05) -1px 0px 0px 1px, rgba(black, 0.05) -5px 0px 7px -1px;
+  box-shadow: rgba($less_subtle_green, 0.05) -1px 0px 0px 1px, rgba($subtle_green, 0.05) -5px 0px 7px -1px;
   bottom: 0;
   position: absolute;
-  right: -45%;
+  right: -60%;
   top: 0;
-  width: 45%;
+  width: 60%;
   z-index: 99;
 
   @include flex-container;
@@ -42,6 +42,10 @@
     height: 16px;
 
     @include flex;
+
+    &.error {
+      color: $red;
+    }
   }
 
   .add-playlist .add-button {
@@ -56,6 +60,12 @@
     padding: 0 11px;
 
     @include button-gradient;
+
+    &:focus,
+    &:hover {
+      background-color: white;
+      color: $less_subtle_green;
+    }
   }
 
   //

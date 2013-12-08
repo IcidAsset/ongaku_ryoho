@@ -232,7 +232,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
     _.delay(=>
       this.$el.find(".message.loading").addClass("visible")
-    , 100)
+    , 250)
 
 
 

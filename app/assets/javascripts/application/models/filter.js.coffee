@@ -41,7 +41,10 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
     sort_by = unless model.get("special")
       "position"
     else
-      this.get("sort_by")
+      if this.get("sort_by") is "position"
+        "artist"
+      else
+        this.get("sort_by")
 
     this.search_action_reset()
     this.set({

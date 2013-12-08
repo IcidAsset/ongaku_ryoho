@@ -12,6 +12,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
     "keydown .playlist .name"         : @group.machine.playlist_name_keydown_handler
     "blur .playlist .name"            : @group.machine.playlist_name_blur_handler
     "submit .add-playlist"            : @group.machine.add_playlist_submit_handler
+    "keydown .add-playlist input"     : @group.machine.add_playlist_input_keydown_handler
 
 
 
@@ -44,6 +45,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   #  Visibility
   #
   show: () ->
+    this.$el.find("input").removeAttr("disabled")
     this.el.classList.add("visible")
     this.trigger_element.classList.add("active")
 
@@ -53,6 +55,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
     this.el.classList.remove("visible")
     this.trigger_element.classList.remove("active")
     this.group.machine.tooltip.hide_and_remove_current_tooltip()
+    this.$el.find("input").attr("disabled", "disabled")
 
 
 
@@ -69,9 +72,10 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
   #
   render_playlists: () =>
     fragment = document.createDocumentFragment()
+    playlists = OngakuRyoho.RecordBox.Playlists.collection.models
 
     # if there are no playlists
-    if OngakuRyoho.RecordBox.Playlists.collection.models.length is 0
+    if playlists.length is 0
       el = document.createElement("div")
       el.className = "is-empty"
       el.innerHTML = "<span>No playlists found</span>"
@@ -79,7 +83,21 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
 
     # and if there are
     else
-      OngakuRyoho.RecordBox.Playlists.collection.each((playlist) ->
+      p1 = []
+      p2 = []
+
+      playlists = _.each(playlists, (p) ->
+        if p.get("special")
+          p2.push(p)
+        else
+          p1.push(p)
+      )
+
+      p1 = _.sortBy(p1, (p) -> p.get("name").toLowerCase())
+      p2 = _.sortBy(p2, (p) -> p.get("name").toLowerCase())
+      playlists = [].concat(p1, p2)
+
+      _.each(playlists, (playlist) ->
         el = document.createElement("div")
         el.className = "playlist"
         el.setAttribute("data-playlist-cid", playlist.cid)

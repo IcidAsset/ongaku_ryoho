@@ -51,7 +51,7 @@ class Api::SourcesController < ApplicationController
 
   def destroy
     source = Source.find(params[:id])
-    source.destroy()
+    source.destroy
 
     render json: source
   end

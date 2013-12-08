@@ -21,3 +21,8 @@ p.a-word-of-advice
   .flash.error
     i &#59272;
     = @user.errors.full_messages.first
+
+- elsif @user_capacity_error
+  .flash.error
+    i &#128101;
+    = @user_capacity_error

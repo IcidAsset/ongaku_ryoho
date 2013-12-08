@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :require_login, only: [:edit, :update]
+  before_filter :require_login, only: [:edit, :update, :destroy]
   layout 'pages'
 
   def new
@@ -10,11 +10,18 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
 
-    if @user.save
-      auto_login(@user)
-      redirect_to root_url
+    if User.count < 1
+      if @user.save
+        auto_login(@user)
+        redirect_to root_url
+      else
+        render :new
+      end
+
     else
+      @user_capacity_error = "The user capacity for the alpha version has been reached"
       render :new
+
     end
   end
 
@@ -68,6 +75,12 @@ class UsersController < ApplicationController
 
     # render page
     render :edit
+  end
+
+
+  def destroy
+    current_user.try(:destroy)
+    logout
   end
 
 end

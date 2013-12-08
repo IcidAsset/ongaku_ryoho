@@ -40,7 +40,8 @@ window.Helpers =
       return if (settings.crossDomain)
       return if (settings.type == "GET")
       if (OngakuRyoho.csrf_token)
-        xhr.setRequestHeader("X-CSRF-Token", OngakuRyoho.csrf_token)
+        settings.headers ?= {};
+        settings.headers["X-CSRF-Token"] =  OngakuRyoho.csrf_token
 
 
 

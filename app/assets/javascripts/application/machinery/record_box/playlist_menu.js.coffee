@@ -107,6 +107,11 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
 
 
 
+  add_playlist_input_keydown_handler: (e) ->
+    e.currentTarget.classList.remove("error")
+
+
+
   #
   #  Tooltip
   #
@@ -134,6 +139,15 @@ class OngakuRyoho.Classes.Machinery.RecordBox.PlaylistMenu
     })
 
     # extend
+    @tooltip.trigger_click_handler = (e) ->
+      playlist_cid = e.currentTarget.getAttribute("data-playlist-cid")
+      playlist = OngakuRyoho.RecordBox.Playlists.collection.get(playlist_cid)
+
+      if playlist and !playlist.get("special")
+        BareTooltip.prototype.trigger_click_handler.call(this, e)
+
+      return false
+
     @tooltip.show_tooltip = () ->
       this.state.$tooltip_element.on("click", "a[rel=\"rename\"]", machine.tooltip_rename_click_handler)
       this.state.$tooltip_element.on("click", "a[rel=\"remove\"]", machine.tooltip_remove_click_handler)
