@@ -5,7 +5,7 @@ p.a-word-of-advice
 = form_for @user, url: sign_up_path, method: "POST" do |f|
   .fields
     .text
-      = f.text_field :email, placeholder: "ongaku@ryoho.com"
+      = f.email_field :email, placeholder: "ongaku@ryoho.com"
 
     .text
       = f.password_field :password, placeholder: "password"

@@ -132,6 +132,10 @@ class OngakuRyoho.Classes.People.SoundGuy
   set_volume: () =>
     volume = @mixing_console.model.get("volume")
 
+    # does not work on iOS
+    if $.os.tablet or $.os.phone
+      return
+
     # needed elements
     $knob_layer_b = @mixing_console.view.$control("knob", "volume", ".it .layer-b")
     $knob_layer_c = @mixing_console.view.$control("knob", "volume", ".it .layer-c")

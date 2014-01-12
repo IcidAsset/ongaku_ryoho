@@ -5,7 +5,7 @@ p.a-word-of-advice
 = form_tag sign_in_path, method: "POST" do
   .fields
     .text
-      = text_field_tag :email, params[:email], placeholder: "ongaku@ryoho.com"
+      = email_field_tag :email, params[:email], placeholder: "ongaku@ryoho.com"
 
     .text
       = password_field_tag :password, "", placeholder: "password"

@@ -141,8 +141,11 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
   #  Controller knobs
   #
   setup_knobs: ($knobs) ->
-    that = this
-    $knobs.each(() -> that.setup_knob($(this)))
+    if $.os.tablet or $.os.phone
+      # does not work on iOS
+    else
+      that = this
+      $knobs.each(() -> that.setup_knob($(this)))
 
 
 

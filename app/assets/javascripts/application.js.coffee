@@ -104,5 +104,6 @@ Zepto ->
 
   if supported
     initialize()
+    BSC.perform_other_checks()
   else
     BSC.show_not_supported_message()

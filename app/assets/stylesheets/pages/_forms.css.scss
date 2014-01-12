@@ -1,5 +1,6 @@
 form {
   input[type="text"],
+  input[type="email"],
   input[type="password"] {
     background: none;
     border: 2px solid #ececec;
@@ -22,6 +23,7 @@ form {
   }
 
   input[type="text"]:focus,
+  input[type="email"]:focus,
   input[type="password"]:focus,
   input[type="submit"]:active {
     border-color: #cacaca;

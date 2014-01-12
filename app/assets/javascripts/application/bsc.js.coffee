@@ -50,3 +50,10 @@ window.BSC =
 
     body = document.getElementsByTagName("body")[0]
     body.appendChild(div)
+
+
+  perform_other_checks: ->
+    # tablet / phone
+    if $.os.tablet or $.os.phone
+      $(".knob.volume").parent().css("opacity", "0.25");
+      $(".controls.alt").find("a, .subtitle").css("opacity", "0.25");

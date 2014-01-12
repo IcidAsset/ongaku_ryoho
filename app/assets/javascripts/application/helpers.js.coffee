@@ -33,6 +33,7 @@ window.Helpers =
       }
     );
 
+    # ajax before send
     $.ajaxSettings.beforeSend = (xhr, settings) ->
       return if (settings.crossDomain)
       return if (settings.type == "GET")
