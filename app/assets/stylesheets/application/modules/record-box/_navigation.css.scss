@@ -63,7 +63,7 @@
     color: $rbn_button_text_color;
     font-size: 30px;
     height: 27px;
-    line-height: 21px;
+    line-height: 20px;
     overflow: hidden;
     text-align: center;
 
@@ -72,7 +72,7 @@
   }
 
   .button.toggle-queue {
-    .icon { font-size: 24px }
+    .icon { font-size: 24px; line-height: 22px; }
   }
 
 

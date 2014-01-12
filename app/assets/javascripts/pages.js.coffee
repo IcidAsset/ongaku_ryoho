@@ -41,24 +41,22 @@ redirect = () ->
 
 setup_mobile_safari = () ->
   # prevents links from apps from opening in mobile safari
-  standalone = "standalone"
-
-  if (standalone in navigator) and navigator[standalone]
+  if navigator["standalone"]
     curnode = no
     location = document.location
     stop = /^(a|html)$/i
 
     document.addEventListener("click", (e) ->
-      chref = curnode.href
       curnode = e.target
+      chref = curnode.href
 
       while !(stop).test(curnode.nodeName)
         curnode = curnode.parentNode
 
-      cond_a = "href" in curnode
+      cond_a = curnode["href"]
       cond_b = chref.replace(location.href, "").indexOf("#")
       cond_c = !(/^[a-z\+\.\-]+:/i).test(chref)
-      cond_d = chref.indexOf(location.protocol + "//" + location.host) isnt 0
+      cond_d = chref.indexOf(location.protocol + "//" + location.host) is 0
 
       if cond_a and cond_b and (cond_c or cond_d)
         e.preventDefault()
