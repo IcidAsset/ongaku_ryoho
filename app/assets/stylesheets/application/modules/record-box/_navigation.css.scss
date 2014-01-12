@@ -72,7 +72,7 @@
   }
 
   .button.toggle-queue {
-    .icon { font-size: 24px; line-height: 22px; }
+    .icon { font-size: 23px; line-height: 22px; }
   }
 
 
@@ -267,11 +267,6 @@
   }
 
   // filter - favourites
-  .add-button.favourites,
-  .item.favourites .icon {
-    font-size: 24px;
-  }
-
   .no-touch & .add-button.favourites:hover,
   .no-touch & .item.favourites:hover {
     background-color: $less_subtle_yellow;

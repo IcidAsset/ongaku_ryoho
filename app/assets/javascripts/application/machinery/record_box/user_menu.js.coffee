@@ -26,6 +26,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
     @tooltip.show_tooltip = () ->
       this.state.$tooltip_element.on("click", "a[rel=\"set-theater-mode\"]", _this.theater_mode_toggle)
       this.state.$tooltip_element.on("click", "a[rel=\"source-manager\"]", _this.source_manager_toggle)
+      this.state.$tooltip_element.on("click", "a[href]", _this.a_href_click_handler)
       _this.group.view.$el.addClass("on")
 
       BareTooltip.prototype.show_tooltip.apply(this)
@@ -47,6 +48,11 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
 
     # setup
     @tooltip.setup()
+
+
+  a_href_click_handler: (e) =>
+    e.preventDefault()
+    window.location = e.currentTarget.getAttribute("href")
 
 
 
