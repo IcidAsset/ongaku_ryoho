@@ -2,8 +2,8 @@ source 'http://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '3.2.14'
-gem 'puma', '~> 2.0'
+gem 'rails', '3.2.16'
+gem 'puma', '~> 2.7'
 
 gem 'pg'
 gem 'redis'
@@ -13,14 +13,14 @@ gem 'closure-compiler'
 gem 's3'
 
 gem 'activerecord-postgres-hstore', '~> 0.7'
-gem 'oj', '~> 2.1'
+gem 'oj', '~> 2.5'
 gem 'slim', '~> 1.3'
 
 group :assets do
-  gem 'sass', '3.2.9'
-  gem 'sass-rails', '~> 3.2.6'
-  gem 'coffee-rails', '~> 3.2.2'
-  gem 'compass-rails', '~> 1.0.3'
+  gem 'sass', '3.2.13'
+  gem 'sass-rails', '3.2.6'
+  gem 'coffee-rails', '3.2.2'
+  gem 'compass-rails', '1.1.3'
   gem 'animation'
 end
 
@@ -31,7 +31,7 @@ end
 
 group :test do
   gem 'shoulda-matchers', require: false
-  gem 'factory_girl_rails', '~> 4.2'
+  gem 'factory_girl_rails', '~> 4.3'
   gem 'turn', require: false
 end
 
