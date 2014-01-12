@@ -27,21 +27,25 @@
   //  Add
   //
   .add-playlist {
-    background-color: $less_subtle_green;
-    padding: 10px 9px;
+    border-bottom: 1px dashed rgba($less_subtle_green, .175);
+    padding: 10px 9px 9px;
 
     @include flex-container;
   }
 
   .add-playlist input[type="text"] {
-    background-color: rgba(black, 0.1);
-    border: 1px solid rgba(black, 0);
+    background: transparent;
+    border: 1px solid rgba($less_subtle_green, .175);
     border-radius: 2px;
-    color: white;
+    color: $subtle_green;
     font-size: 11px;
-    height: 16px;
+    height: 20px;
 
     @include flex;
+    @include input-placeholder {
+      color: rgba($less_subtle_green, .365);
+      font-size: 12px;
+    };
 
     &.error {
       color: $red;
@@ -49,30 +53,24 @@
   }
 
   .add-playlist .add-button {
-    background-color: rgba(black, .275);
+    background-color: $less_subtle_green;
     border-radius: 2px;
     color: white;
     cursor: pointer;
-    font-size: 11px;
-    height: 28px;
-    line-height: 30px;
+    font-size: 12px;
+    height: 32px;
+    line-height: 34px;
     margin-left: 8px;
-    padding: 0 11px;
+    padding: 0 16px;
 
     @include button-gradient;
-
-    &:focus,
-    &:hover {
-      background-color: white;
-      color: $less_subtle_green;
-    }
   }
 
   //
   //  Playlists
   //
   .playlists {
-    color: $rbn_inner_color_b;
+    color: lighten(#4a4a4a, 10%);
     font-size: 12px;
     line-height: 14px;
     overflow-y: scroll;
