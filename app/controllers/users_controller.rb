@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
 
-    if User.count < 1
+    if User.count < 100
       if @user.save
         auto_login(@user, true)
         redirect_to root_url
