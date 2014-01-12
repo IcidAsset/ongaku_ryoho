@@ -33,15 +33,12 @@ window.Helpers =
       }
     );
 
-    # send csrf-token when doing ajax request
-    OngakuRyoho.csrf_token = $("meta[name=\"csrf-token\"]").attr("content")
-
     $.ajaxSettings.beforeSend = (xhr, settings) ->
       return if (settings.crossDomain)
       return if (settings.type == "GET")
-      if (OngakuRyoho.csrf_token)
-        settings.headers ?= {};
-        settings.headers["X-CSRF-Token"] =  OngakuRyoho.csrf_token
+
+      token = $('meta[name="csrf-token"]').attr('content')
+      if (token) then xhr.setRequestHeader('X-CSRF-Token', token)
 
 
 

@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
     if User.count < 1
       if @user.save
-        auto_login(@user)
+        auto_login(@user, true)
         redirect_to root_url
       else
         render :new

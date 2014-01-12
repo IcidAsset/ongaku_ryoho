@@ -1,4 +1,10 @@
+# The first thing you need to configure is which modules you need in your app.
+# The default is nothing which will include only core features (password encryption, login/logout).
+# Available submodules are: :user_activation, :http_basic_auth, :remember_me,
+# :reset_password, :session_timeout, :brute_force_protection, :activity_logging, :external
 Rails.application.config.sorcery.submodules = [:remember_me]
+
+# Here you can configure each submodule's features.
 Rails.application.config.sorcery.configure do |config|
   # -- core --
   # What controller action to call for non-authenticated users. You can also
@@ -23,6 +29,13 @@ Rails.application.config.sorcery.configure do |config|
   else
     "ongakuryoho.herokuapp.com"
   end
+
+
+  # -- session timeout --
+  # How long in seconds to keep the session alive.
+  # Default: `3600`
+  #
+  # config.session_timeout =
 
 
   # Use the last action as the beginning of session timeout.
@@ -58,7 +71,7 @@ Rails.application.config.sorcery.configure do |config|
 
 
   # -- external --
-  # What providers are supported by this app, i.e. [:twitter, :facebook, :github, :google, :liveid] .
+  # What providers are supported by this app, i.e. [:twitter, :facebook, :github, :linkedin, :xing, :google, :liveid] .
   # Default: `[]`
   #
   # config.external_providers =
@@ -71,6 +84,27 @@ Rails.application.config.sorcery.configure do |config|
   # config.ca_file =
 
 
+  # For information about LinkedIn API:
+  # - user info fields go to https://developer.linkedin.com/documents/profile-fields
+  # - access permissions go to https://developer.linkedin.com/documents/authentication#granting
+  #
+  # config.linkedin.key = ""
+  # config.linkedin.secret = ""
+  # config.linkedin.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=linkedin"
+  # config.linkedin.user_info_fields = ['first-name', 'last-name']
+  # config.linkedin.user_info_mapping = {first_name: "firstName", last_name: "lastName"}
+  # config.linkedin.access_permissions = ['r_basicprofile']
+  #
+  #
+  # For information about XING API:
+  # - user info fields go to https://dev.xing.com/docs/get/users/me
+  #
+  # config.xing.key = ""
+  # config.xing.secret = ""
+  # config.xing.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=xing"
+  # config.xing.user_info_mapping = {first_name: "first_name", last_name: "last_name"}
+  #
+  #
   # Twitter wil not accept any requests nor redirect uri containing localhost,
   # make sure you use 0.0.0.0:3000 to access your app in development
   #
@@ -83,6 +117,7 @@ Rails.application.config.sorcery.configure do |config|
   # config.facebook.secret = ""
   # config.facebook.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=facebook"
   # config.facebook.user_info_mapping = {:email => "name"}
+  # config.facebook.access_permissions = ["email", "publish_stream"]
   #
   # config.github.key = ""
   # config.github.secret = ""
@@ -93,6 +128,11 @@ Rails.application.config.sorcery.configure do |config|
   # config.google.secret = ""
   # config.google.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=google"
   # config.google.user_info_mapping = {:email => "email", :username => "name"}
+  #
+  # config.vk.key = ""
+  # config.vk.secret = ""
+  # config.vk.callback_url = "http://0.0.0.0:3000/oauth/callback?provider=vk"
+  # config.vk.user_info_mapping = {:login => "domain", :name => "full_name"}
   #
   # To use liveid in development mode you have to replace mydomain.com with
   # a valid domain even in development. To use a valid domain in development
@@ -108,7 +148,7 @@ Rails.application.config.sorcery.configure do |config|
   config.user_config do |user|
     # -- core --
     # specify username attributes, for example: [:username, :email].
-    # Default: `[:username]`
+    # Default: `[:email]`
     #
     user.username_attribute_names = [:email]
 
@@ -178,6 +218,18 @@ Rails.application.config.sorcery.configure do |config|
     # Default: `false`
     #
     # user.subclasses_inherit_config =
+
+
+    # -- remember_me --
+    # allow the remember_me cookie to settable through AJAX
+    # Default: `true`
+    #
+    # user.remember_me_httponly = true
+
+    # How long in seconds the session length will be
+    # Default: `604800`
+    #
+    user.remember_me_for = (60 * 60 * 24) * 365
 
 
     # -- user_activation --
@@ -274,14 +326,6 @@ Rails.application.config.sorcery.configure do |config|
     # Default: `false`
     #
     # user.reset_password_mailer_disabled =
-
-
-    # reset password email
-    # method on your mailer
-    # class.
-    # Default: `:reset_password_email`
-    #
-    # user.reset_password_email_method_name =
 
 
     # how many seconds before the reset request expires. nil for never expires.
