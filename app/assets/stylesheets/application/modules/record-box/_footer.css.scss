@@ -70,7 +70,20 @@
   //
   //  Track list settings
   //
-  .track-list-settings {}
+  .track-list-settings {
+    bottom: 1px;
+    font-size: 27px;
+    line-height: 16px;
+    position: absolute;
+    right: 9px;
+    text-align: right;
+    top: 1px;
+    width: 25%;
+
+    a {
+      cursor: pointer;
+    }
+  }
 
 
 }
