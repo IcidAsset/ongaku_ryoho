@@ -204,15 +204,13 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
   get_correct_track_template: () ->
     d = OngakuRyoho.RecordBox.TLS.model.attributes.data
-    d = d.replace("data--", "")
-
     this["track_#{d}_template"]
 
 
 
   set_list_data_attr: () ->
     tls = OngakuRyoho.RecordBox.TLS.model
-    attr = tls.attributes.data.replace("data--", "")
+    attr = tls.attributes.data
 
     this.$el.parent().attr("data-cols", attr)
 

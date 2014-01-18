@@ -46,19 +46,25 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
       else
         this.get("sort_by")
 
+    sort_direction = unless model.get("special")
+      "asc"
+    else
+      this.get("sort_direction")
+
     this.search_action_reset()
     this.set({
       playlist: value,
       playlist_name: model.get("name"),
       playlist_isspecial: model.get("special"),
-      sort_by: sort_by
+      sort_by: sort_by,
+      sort_direction: sort_direction
     })
 
 
 
   disable_playlist: () ->
     sort_by = if this.get("sort_by") is "position"
-      "artist"
+      OngakuRyoho.RecordBox.TLS.model.get_current_default_sortby_column()
     else
       this.get("sort_by")
 

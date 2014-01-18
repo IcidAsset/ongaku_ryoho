@@ -20,7 +20,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Footer extends Backbone.View
     Helpers.set_view_element(this, ".mod-record-box footer")
 
     # machine
-    @group.machine.setup_track_list_settings_menu()
+    @group.machine.setup_tls_menu()
 
 
 

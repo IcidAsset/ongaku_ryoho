@@ -14,7 +14,10 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Navigation
   #  Track list header
   #
   sort_key_column_click_handler: (e) ->
-    return if OngakuRyoho.RecordBox.Tracks.view.is_in_queue_mode()
+    if OngakuRyoho.RecordBox.Tracks.view.is_in_queue_mode() or
+       OngakuRyoho.RecordBox.Tracks.view.requires_playlist_layout()
+       then return
+
     filter = OngakuRyoho.RecordBox.Filter.model
 
     # sort by

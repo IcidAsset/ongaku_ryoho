@@ -38,7 +38,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
   #
   #  Track list settings
   #
-  setup_track_list_settings_menu: () ->
+  setup_tls_menu: () ->
     machine = this
     el = @group.view.$el.find(".track-list-settings .menu")
 
@@ -47,22 +47,13 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
       tooltip_klass: "mod-track-list-settings-menu tooltip inverse grey",
       animation_speed: 0,
       timeout_duration: 0,
-      tooltip_data: """
-        <div class="group first">
-          <div class="group-label">Data</div>
-          <a rel="data--default">Artist/title/album</a>
-          <a rel="data--location">File location</a>
-          <div class="group-label">Group by</div>
-          <a rel="group--default">None <small>(default)</small></a>
-          <a rel="group--directory">Directory</a>
-          <a rel="group--date">Added-to-collection date</a>
-        </div>
-      """
+      tooltip_data: this.tls_tooltip_data_html
     })
 
     # extend
     @tooltip.show_tooltip = () ->
-      this.state.$tooltip_element.on("click", "a[rel^=\"data--\"]", machine.data_click_handler)
+      this.state.$tooltip_element.on("click", "a[rel^=\"data--\"]", machine.tls_tooltip_data_click_handler)
+      # this.state.$tooltip_element.find("[rel^=\"data--\"]")
 
       BareTooltip.prototype.show_tooltip.apply(this)
 
@@ -84,8 +75,25 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
     @tooltip.setup()
 
 
-  data_click_handler: (e) =>
-    OngakuRyoho.RecordBox.TLS.model.set("data", e.currentTarget.getAttribute("rel"))
+
+  tls_tooltip_data_html: () =>
+    template = """
+      <div class="group first">
+        <div class="group-label">Data</div>
+        <a rel="data--default"><div class="checkbox"></div>Artist/title/album</a>
+        <a rel="data--location"><div class="checkbox"></div>Location</a>
+        <div class="group-label">Group by</div>
+        <a rel="group--default">None <small>(default)</small></a>
+        <a rel="group--directory">Directory</a>
+        <a rel="group--date">Added-to-collection date</a>
+      </div>
+    """
+
+
+
+  tls_tooltip_data_click_handler: (e) =>
+    d = e.currentTarget.getAttribute("rel").replace("data--", "")
+    OngakuRyoho.RecordBox.TLS.model.set("data", d)
 
 
 
