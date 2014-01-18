@@ -44,19 +44,18 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
 
     @tooltip = new BareTooltip(el, {
       trigger_type: "click",
-      tooltip_klass: "tooltip",
+      tooltip_klass: "mod-track-list-settings-menu tooltip inverse grey",
       animation_speed: 0,
       timeout_duration: 0,
-      template: """
-        <div class="{{CLASSES}}">
-          <div class="arrow"></div>
-          {{CONTENT}}
-        </div>
-      """,
       tooltip_data: """
         <div class="group first">
+          <div class="group-label">Data</div>
           <a rel="col_default">Artist/title/album</a>
           <a rel="col_file_location">File location</a>
+          <div class="group-label">Group by</div>
+          <a rel="grp_none">None <small>(default)</small></a>
+          <a rel="grp_directory">Directory</a>
+          <a rel="grp_date">Added-to-collection date</a>
         </div>
       """
     })
@@ -78,8 +77,8 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
       $trigger = $(e.currentTarget)
 
       $t.css({
-        left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2),
-        top: $trigger.offset().top + $trigger.height() / 2 + 15
+        left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2) - 41,
+        top: $trigger.offset().top - $t.height()
       })
 
     # setup
