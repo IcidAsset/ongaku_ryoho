@@ -157,13 +157,14 @@
   // extra search box
   .extra-search-field input {
     background: none;
+    box-sizing: border-box;
     bottom: 4px;
     color: rgba(white, .7);
     left: 0;
     padding: 0 5px;
     position: absolute;
-    right: 0;
     top: 5px;
+    width: 100%;
   }
 
   // general - content

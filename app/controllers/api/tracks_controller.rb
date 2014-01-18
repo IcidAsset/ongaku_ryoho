@@ -367,6 +367,8 @@ private
 
     # order
     order = case sort_by
+    when :location
+      "LOWER(#{table}.location)"
     when :position
       "playlists_tracks.position, LOWER(#{table}.artist), LOWER(#{table}.album),#{other_cols} LOWER(#{table}.title)"
     when :title

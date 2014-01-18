@@ -22,6 +22,8 @@
         span Artist
       .album[data-sort-key="album"]
         span Album
+      .location[data-sort-key="location"]
+        span File location
 
     .tracks-wrapper[touch-action="pan-y"]
       .background
@@ -52,6 +54,7 @@
 
   script type="text/x-handlebars-template" data-template-name="track-location"
     | <div class="favourite"><span>&#9733;</span></div>
+      {{#if position}}<div class="position"><span>{{position}}</span></div>{{/if}}
       <div class="location"><span>{{location}}</span></div>
 
 

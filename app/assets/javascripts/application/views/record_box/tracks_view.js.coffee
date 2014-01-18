@@ -45,11 +45,14 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # add loading message
     this.add_loading_message()
 
+    # prerequisites
+    this.set_list_data_attr()
+
     # render
     this.listenTo(@group.collection, "reset", this.render)
     this.listenTo(@group.collection, "remove", this.remove_handler)
 
-    OngakuRyoho.RecordBox.TLS.model.on("change", this.render)
+    OngakuRyoho.RecordBox.TLS.model.on("change", this.tls_change_handler)
 
     # fetch events
     this.listenTo(@group.collection, "fetching", @group.machine.fetching)
@@ -204,6 +207,20 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     d = d.replace("data--", "")
 
     this["track_#{d}_template"]
+
+
+
+  set_list_data_attr: () ->
+    tls = OngakuRyoho.RecordBox.TLS.model
+    attr = tls.attributes.data.replace("data--", "")
+
+    this.$el.parent().attr("data-cols", attr)
+
+
+
+  tls_change_handler: (e) =>
+    this.set_list_data_attr()
+    this.render() if OngakuRyoho.People.ViewStateManager.state.ready
 
 
 
