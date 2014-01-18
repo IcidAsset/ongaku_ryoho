@@ -77,6 +77,8 @@ initialize = ->
   App.RecordBox.Filter = {}
   App.RecordBox.Filter.model = new Models.Filter
   App.RecordBox.Filter.view = new Views.RecordBox.Filter
+  App.RecordBox.TLS = {}
+  App.RecordBox.TLS.model = new Models.TLS
 
   App.RecordBox.Tracks = {}
   App.RecordBox.Tracks.collection = new Collections.Tracks

@@ -50,20 +50,19 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
       tooltip_data: """
         <div class="group first">
           <div class="group-label">Data</div>
-          <a rel="col_default">Artist/title/album</a>
-          <a rel="col_file_location">File location</a>
+          <a rel="data--default">Artist/title/album</a>
+          <a rel="data--location">File location</a>
           <div class="group-label">Group by</div>
-          <a rel="grp_none">None <small>(default)</small></a>
-          <a rel="grp_directory">Directory</a>
-          <a rel="grp_date">Added-to-collection date</a>
+          <a rel="group--default">None <small>(default)</small></a>
+          <a rel="group--directory">Directory</a>
+          <a rel="group--date">Added-to-collection date</a>
         </div>
       """
     })
 
     # extend
     @tooltip.show_tooltip = () ->
-      this.state.$tooltip_element.on("click", "a[rel=\"col_default\"]", machine.col_default)
-      this.state.$tooltip_element.on("click", "a[rel=\"col_file_location\"]", machine.col_file_location)
+      this.state.$tooltip_element.on("click", "a[rel^=\"data--\"]", machine.data_click_handler)
 
       BareTooltip.prototype.show_tooltip.apply(this)
 
@@ -85,12 +84,8 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
     @tooltip.setup()
 
 
-  col_default: (e) =>
-    #
-
-
-  col_file_location: (e) =>
-    #
+  data_click_handler: (e) =>
+    OngakuRyoho.RecordBox.TLS.model.set("data", e.currentTarget.getAttribute("rel"))
 
 
 

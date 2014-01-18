@@ -38,7 +38,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     Helpers.set_view_element(this, ".mod-record-box .tracks-wrapper")
 
     # templates
-    @track_template = Helpers.get_template("track")
+    @track_default_template = Helpers.get_template("track-default")
+    @track_location_template = Helpers.get_template("track-location")
     @message_template = Helpers.get_template("list-message")
 
     # add loading message
@@ -47,6 +48,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # render
     this.listenTo(@group.collection, "reset", this.render)
     this.listenTo(@group.collection, "remove", this.remove_handler)
+
+    OngakuRyoho.RecordBox.TLS.model.on("change", this.render)
 
     # fetch events
     this.listenTo(@group.collection, "fetching", @group.machine.fetching)
@@ -110,7 +113,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   render_default_layout: () ->
     page_info = @group.collection.page_info()
     list_fragment = document.createDocumentFragment()
-    track_template = @track_template
+    track_template = this.get_correct_track_template()
 
     # render tracks
     @group.collection.each((track) ->
@@ -132,7 +135,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   render_playlist_layout: (list_fragment) ->
     page_info = @group.collection.page_info()
     list_fragment = document.createDocumentFragment()
-    track_template = @track_template
+    track_template = this.get_correct_track_template()
 
     # collect
     filter_playlist = OngakuRyoho.RecordBox.Filter.model.get("playlist")
@@ -162,7 +165,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     queue = OngakuRyoho.Engines.Queue
     message = "Queue &mdash; The next #{queue.data.combined_next.length} items"
     list_fragment = document.createDocumentFragment()
-    track_template = @track_template
+    track_template = this.get_correct_track_template()
 
     # group
     group = document.createElement("li")
@@ -188,8 +191,19 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
 
 
+  #
+  #  Other
+  #
   remove_handler: (track) =>
     this.$el.find(".track[rel=\"#{track.id}\"]").remove()
+
+
+
+  get_correct_track_template: () ->
+    d = OngakuRyoho.RecordBox.TLS.model.attributes.data
+    d = d.replace("data--", "")
+
+    this["track_#{d}_template"]
 
 
 

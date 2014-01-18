@@ -20,6 +20,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
     state = {
       filter_attributes: OngakuRyoho.RecordBox.Filter.model.attributes
       queue_status: this.get_queue_status()
+      tls_attributes: OngakuRyoho.RecordBox.TLS.model.attributes
     }
 
     # store
@@ -36,6 +37,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
     if state
       state = JSON.parse(state)
       OngakuRyoho.RecordBox.Filter.model.set(state.filter_attributes)
+      OngakuRyoho.RecordBox.TLS.model.set(state.tls_attributes)
       this.set_queue_status(state.queue_status)
 
     # just to make sure
@@ -100,3 +102,11 @@ class OngakuRyoho.Classes.People.ViewStateManager
       current_track = OngakuRyoho.People.SoundGuy.get_current_track()
       RB.Tracks.machine.add_playing_class_to_track(current_track)
       RB.Tracks.machine.show_current_track()
+
+
+
+  #
+  #  Track list settings
+  #
+  get_track_list_settings: () ->
+    #
