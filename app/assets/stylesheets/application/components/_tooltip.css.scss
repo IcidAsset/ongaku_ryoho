@@ -51,9 +51,10 @@
 
   // group label
   .group-label {
-    background: $rbn_outer_color_b;
+    background: $rbn_inner_color_b;
     color: lighten($rbn_button_text_color, 24);
     font-size: 10px;
+    letter-spacing: 0.082em;
     line-height: 12px;
     margin-top: -1px;
     padding: 6px 11px 4px;
@@ -84,6 +85,13 @@
     color: white;
   }
 
+  a em {
+    display: inline-block;
+    font-style: normal;
+    margin-left: 1px;
+    opacity: .7;
+  }
+
   // checkbox
   .checkbox {
     border: 1px solid rgba(black, .125);
@@ -97,7 +105,7 @@
   }
 
   a.on .checkbox:after {
-    color: $orange;
+    color: $rbn_outer_color_b;
     content: "\02713";
     font-size: 33px;
     left: -1px;
@@ -110,8 +118,14 @@
     @include icon-font;
   }
 
-  .no-touch & a:hover .checkbox {
+  .no-touch & a:hover .checkbox,
+  a.drag-target .checkbox {
     border-color: rgba(white, .275);
+  }
+
+  .no-touch & a:hover .checkbox:after,
+  a.drag-target .checkbox:after {
+    color: $orange;
   }
 }
 

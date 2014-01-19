@@ -52,8 +52,6 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     this.listenTo(@group.collection, "reset", this.render)
     this.listenTo(@group.collection, "remove", this.remove_handler)
 
-    OngakuRyoho.RecordBox.TLS.model.on("change", this.tls_change_handler)
-
     # fetch events
     this.listenTo(@group.collection, "fetching", @group.machine.fetching)
     this.listenTo(@group.collection, "fetched", @group.machine.fetched)
@@ -213,12 +211,6 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     attr = tls.attributes.data
 
     this.$el.parent().attr("data-cols", attr)
-
-
-
-  tls_change_handler: (e) =>
-    this.set_list_data_attr()
-    this.render() if OngakuRyoho.People.ViewStateManager.state.ready
 
 
 

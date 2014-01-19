@@ -52,9 +52,24 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
 
     # extend
     @tooltip.show_tooltip = () ->
-      this.state.$tooltip_element.on("click", "a[rel^=\"data--\"]", machine.tls_tooltip_data_click_handler)
-      # this.state.$tooltip_element.find("[rel^=\"data--\"]")
+      tls = OngakuRyoho.RecordBox.TLS.model
 
+      this.state.$tooltip_element.on("click", "a[rel^=\"data--\"]", machine.tls_tooltip_data_click_handler)
+      this.state.$tooltip_element.on("click", "a[rel^=\"group--\"]", machine.tls_tooltip_group_click_handler)
+
+      # data
+      this.state.$tooltip_element
+        .find("[rel^=\"data--\"]").removeClass("on")
+        .filter("[rel=\"data--#{tls.attributes.data}\"]")
+        .addClass("on")
+
+      # group
+      this.state.$tooltip_element
+        .find("[rel^=\"group--\"]").removeClass("on")
+        .filter("[rel=\"group--#{tls.attributes.group}\"]")
+        .addClass("on")
+
+      # super
       BareTooltip.prototype.show_tooltip.apply(this)
 
     @tooltip.hide_tooltip = () ->
@@ -79,13 +94,13 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
   tls_tooltip_data_html: () =>
     template = """
       <div class="group first">
-        <div class="group-label">Data</div>
+        <div class="group-label">Track data</div>
         <a rel="data--default"><div class="checkbox"></div>Artist/title/album</a>
         <a rel="data--location"><div class="checkbox"></div>Location</a>
-        <div class="group-label">Group by</div>
-        <a rel="group--default">None <small>(default)</small></a>
-        <a rel="group--directory">Directory</a>
-        <a rel="group--date">Added-to-collection date</a>
+        <div class="group-label">Group &amp; sort by</div>
+        <a rel="group--default"><div class="checkbox"></div>None</a>
+        <a rel="group--directory"><div class="checkbox"></div>Directory</a>
+        <a rel="group--date"><div class="checkbox"></div>Added-to-collection date</a>
       </div>
     """
 
@@ -94,6 +109,12 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Footer
   tls_tooltip_data_click_handler: (e) =>
     d = e.currentTarget.getAttribute("rel").replace("data--", "")
     OngakuRyoho.RecordBox.TLS.model.set("data", d)
+
+
+
+  tls_tooltip_group_click_handler: (e) =>
+    g = e.currentTarget.getAttribute("rel").replace("group--", "")
+    OngakuRyoho.RecordBox.TLS.model.set("group", g)
 
 
 

@@ -53,7 +53,8 @@ private
       sort_by: params[:sort_by].try(:to_sym),
       sort_direction: params[:sort_direction].try(:upcase),
       select_favourites: (params[:favourites] == "true"),
-      playlist: params[:playlist]
+      playlist: params[:playlist],
+      group_by: params[:group_by]
     }
 
     # add options that depend on other options

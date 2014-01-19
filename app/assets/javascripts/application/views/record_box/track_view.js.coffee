@@ -12,6 +12,10 @@ class OngakuRyoho.Classes.Views.RecordBox.Track extends Backbone.View
     model_attr = @model.toJSON()
     model_attr = _.extend(model_attr, { position: playlist_track.position }) if playlist_track
 
+    # location
+    if OngakuRyoho.RecordBox.Filter.model.get("playlist_isspecial")
+      model_attr.location = model_attr.location.replace(/^([^\/]+\/)/, "")
+
     # content
     this.el.innerHTML = template(model_attr)
     this.el.setAttribute("rel", @model.id) if @model.id
