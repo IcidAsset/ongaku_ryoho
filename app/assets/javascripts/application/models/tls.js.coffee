@@ -7,7 +7,8 @@ class OngakuRyoho.Classes.Models.TLS extends Backbone.Model
 
 
   initialize: () ->
-    this.on("change", this.change_handler)
+    this.on("change:data", this.data_change_handler)
+    this.on("change:group", this.group_change_handler)
 
 
 
@@ -29,7 +30,7 @@ class OngakuRyoho.Classes.Models.TLS extends Backbone.Model
 
 
 
-  change_handler: (e) =>
+  data_change_handler: (e) =>
     sort_by = OngakuRyoho.RecordBox.Filter.model.get("sort_by")
     columns = this.get_current_column_names()
 
@@ -50,3 +51,8 @@ class OngakuRyoho.Classes.Models.TLS extends Backbone.Model
 
     # save state
     OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
+
+
+
+  group_change_handler: (e) =>
+    OngakuRyoho.RecordBox.Filter.model.set("group_by", this.get("group"))

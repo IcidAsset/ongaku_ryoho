@@ -102,11 +102,3 @@ class OngakuRyoho.Classes.People.ViewStateManager
       current_track = OngakuRyoho.People.SoundGuy.get_current_track()
       RB.Tracks.machine.add_playing_class_to_track(current_track)
       RB.Tracks.machine.show_current_track()
-
-
-
-  #
-  #  Track list settings
-  #
-  get_track_list_settings: () ->
-    #
