@@ -222,6 +222,10 @@ private
       order: order
     })
 
+    # TODO:
+    # to use the location field:
+    # INNER JOIN ON tracks.id = (favourites.track_ids->...)
+
     total = if options[:offset] == 0 && favourites.length < options[:per_page]
       favourites.length
     else
