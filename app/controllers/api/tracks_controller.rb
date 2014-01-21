@@ -215,16 +215,18 @@ private
     order = get_sql_for_order(options, false)
 
     # get favourites
-    favourites = Favourite.find(:all, {
-      offset: options[:offset],
-      limit: options[:per_page],
-      conditions: conditions,
-      order: order
-    })
-
-    # TODO:
-    # to use the location field:
-    # INNER JOIN ON tracks.id = (favourites.track_ids->...)
+    if order.is_a?(String)
+      favourites = Favourite.find(:all, {
+        offset: options[:offset],
+        limit: options[:per_page],
+        conditions: conditions,
+        order: order
+      })
+    else
+      favourites = Favourite.find(:all, {
+        conditions: conditions
+      })
+    end
 
     total = if options[:offset] == 0 && favourites.length < options[:per_page]
       favourites.length
@@ -259,7 +261,8 @@ private
           artist: f.artist,
           album: f.album,
           tracknr: 0,
-          genre: ""
+          genre: "",
+          location: ""
         })
 
         imaginary_track.favourite_id = f.id
@@ -292,6 +295,17 @@ private
     tracks_placeholder = tracks_placeholder.map do |t|
       t.is_a?(Fixnum) ? nil : t
     end.compact
+
+    # sort in ruby if needed
+    if order.is_a?(Array)
+      tracks_placeholder = tracks_placeholder.sort do |a, b|
+        a.send(order.first) <=> b.send(order.first)
+      end
+
+      if order[1] == :desc
+        tracks_placeholder = tracks_placeholder.reverse
+      end
+    end
 
     # return
     { tracks: tracks_placeholder, total: total }
@@ -371,9 +385,15 @@ private
     end
 
     # order
+    is_not_a_playlist = (options[:playlist] === "false")
+
     order = case sort_by
     when :location
-      "LOWER(#{table}.location)"
+      if options[:select_favourites] && is_not_a_playlist
+        [:location, direction.downcase.to_sym]
+      else
+        "LOWER(location)"
+      end
     when :position
       "playlists_tracks.position, LOWER(#{table}.artist), LOWER(#{table}.album),#{other_cols} LOWER(#{table}.title)"
     when :title
@@ -385,7 +405,7 @@ private
     end
 
     # order direction
-    if direction == "DESC"
+    if order.is_a?(String) && direction == "DESC"
       order.split(", ").map { |o| "#{o} DESC" }.join(", ")
     else
       order
