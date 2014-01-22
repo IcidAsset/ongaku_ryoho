@@ -9,14 +9,7 @@ class Api::TracksController < ApplicationController
     available_source_ids = options[:source_ids]
 
     # select tracks
-    if available_source_ids and available_source_ids.length > 0
-      tracks_box = select_tracks(available_source_ids, options)
-    else
-      tracks_box = {
-        tracks: [],
-        total: 0
-      }
-    end
+    tracks_box = select_tracks(available_source_ids, options)
 
     # render
     only = %w(artist title album tracknr filename location url id favourite_id source_id)
@@ -128,19 +121,21 @@ private
     table = options[:table]
 
     # check
-    if available_source_ids.empty? and !select_favourites
+    unless available_source_ids
       return { tracks: [], total: 0 }
     end
 
     # conditions
     conditions, condition_arguments = [], []
 
-    if select_favourites and !playlist
-      conditions << "#{table}.user_id = ?"
-      condition_arguments << current_user.id
-    else
-      conditions << "#{table}.source_id IN (?)"
-      condition_arguments << available_source_ids
+    unless playlist.is_a?(Playlist)
+      if select_favourites
+        conditions << "#{table}.user_id = ?"
+        condition_arguments << current_user.id
+      else
+        conditions << "#{table}.source_id IN (?)"
+        condition_arguments << available_source_ids
+      end
     end
 
     if filter
@@ -204,6 +199,17 @@ private
       tracks.length
     else
       Track.count(conditions: conditions)
+    end
+
+    # playlist unavailable tracks
+    if playlist.is_a?(Playlist)
+      tracks = tracks.each do |t|
+        unless available_source_ids.include?(t.source_id)
+          t.available = false
+        end
+
+        t
+      end
     end
 
     # return
