@@ -33,7 +33,7 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
   poll_for_busy_state: () ->
     promise = new RSVP.Promise()
     tries = 0
-    max_tries = 60 # 5 minutes
+    max_tries = (60 * 12) * 2 # 5 minutes * 12 = 60 minutes * 2 = 2 hours
 
     # success
     success = () =>
