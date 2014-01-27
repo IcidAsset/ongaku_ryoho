@@ -15,12 +15,6 @@ class Track < ActiveRecord::Base
 
 
   #
-  #  Callbacks
-  #
-  before_destroy :remove_track_id_from_favourite
-
-
-  #
   #  Validations
   #
   validates_presence_of :artist

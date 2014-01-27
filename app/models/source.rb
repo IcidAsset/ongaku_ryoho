@@ -7,7 +7,13 @@ class Source < ActiveRecord::Base
   #  Associations
   #
   belongs_to :user
-  has_many :tracks, dependent: :destroy
+  has_many :tracks
+
+
+  #
+  #  Callbacks
+  #
+  before_destroy :remove_related_items
 
 
   #
@@ -52,6 +58,12 @@ class Source < ActiveRecord::Base
     end
 
     self.update_attributes(attrs)
+  end
+
+
+  def remove_related_items
+    Tracks.where(source_id: self.id).delete_all
+    Favourite.clean_up_user_favourites(self.user_id)
   end
 
 

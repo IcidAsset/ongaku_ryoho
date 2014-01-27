@@ -121,4 +121,27 @@ class Favourite < ActiveRecord::Base
     changes
   end
 
+  #
+  #  Clean up user's favourites
+  #
+  def self.clean_up_user_favourites(user_id)
+    favourites = self.where(user_id: user_id)
+    source_ids = Source.where(user_id: user_id).pluck(:id).map(&:to_s)
+
+    # loop
+    favourites.each do |favourite|
+      o = favourite.track_ids
+      t = o.clone
+
+      (t.keys - source_ids).each do |old_source_id|
+        t.delete(old_source_id)
+      end
+
+      if o.keys.length != t.keys.length
+        favorite.track_ids = t
+        favorite.save
+      end
+    end
+  end
+
 end
