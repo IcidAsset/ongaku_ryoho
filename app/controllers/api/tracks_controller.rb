@@ -321,6 +321,7 @@ private
   def select_favourites_tracks_for_playlist(conditions, available_source_ids, options, playlist)
     order = get_sql_for_order(options, false)
     asi_string = available_source_ids.map { |s| "'#{s}'" }.join(",")
+    more_conditions = []
 
     # get favourites
     favourites = Favourite.find(:all, {
@@ -335,11 +336,11 @@ private
     if playlist.is_a?(Playlist)
       track_ids = track_ids.map { |t| t.split(",") }.flatten
       ids = (playlist.track_ids.map(&:to_s) & track_ids).join(",")
-      conditions << " AND id IN (#{ids})"
+      more_conditions << "id IN (#{ids})"
     elsif playlist.is_a?(String)
       ids = (track_ids).join(",")
-      conditions << " AND id IN (#{ids})"
-      conditions << " AND location LIKE ('#{playlist.gsub("'", "''")}%')"
+      more_conditions << "id IN (#{ids})"
+      more_conditions << "location LIKE ('#{playlist.gsub("'", "''")}%')"
     end
 
     # check
@@ -348,6 +349,9 @@ private
     end
 
     # get tracks
+    conditions = conditions + " AND " unless conditions.blank?
+    conditions = conditions + more_conditions.join(" AND ")
+
     tracks = Track.find(:all, {
       offset: options[:offset],
       limit: options[:per_page],
