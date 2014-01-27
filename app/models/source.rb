@@ -62,7 +62,7 @@ class Source < ActiveRecord::Base
 
 
   def remove_related_items
-    Tracks.where(source_id: self.id).delete_all
+    Track.where(source_id: self.id).delete_all
     Favourite.clean_up_user_favourites(self.user_id)
   end
 
