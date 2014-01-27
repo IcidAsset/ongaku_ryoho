@@ -138,8 +138,8 @@ class Favourite < ActiveRecord::Base
       end
 
       if o.keys.length != t.keys.length
-        favorite.track_ids = t
-        favorite.save
+        favourite.track_ids = t
+        favourite.save
       end
     end
   end
