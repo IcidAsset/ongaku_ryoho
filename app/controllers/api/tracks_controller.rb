@@ -128,7 +128,7 @@ private
     # conditions
     conditions, condition_arguments = [], []
 
-    unless playlist.is_a?(Playlist)
+    unless playlist.is_a?(Playlist) or playlist.is_a?(String)
       if select_favourites
         conditions << "#{table}.user_id = ?"
         condition_arguments << current_user.id
