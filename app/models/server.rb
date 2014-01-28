@@ -38,8 +38,19 @@ class Server < Source
       tags["url"] = server.configuration["location"] + tags["location"]
 
       tags.each do |tag, value|
-        condition = value.is_a?(String) and value.length > 255
-        tags[tag] = value[0...255] if condition
+        new_value = if !value
+          "Unknown"
+        elsif value.is_a?(String) and value.length > 255
+          value[0...255]
+        else
+          value
+        end
+
+        new_value = new_value.encode("UTF-8", "binary",
+          invalid: :replace, undef: :replace, replace: ""
+        )
+
+        tags[tag] = new_value
       end
 
       new_track_model = Track.new(tags)

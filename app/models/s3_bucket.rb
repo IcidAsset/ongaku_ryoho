@@ -70,11 +70,19 @@ class S3Bucket < Source
     # attributes -> models
     new_track_models = new_tracks.map do |tags|
       tags.each do |tag, value|
-        if !value
-          tags[tag] = "Unknown"
+        new_value = if !value
+          "Unknown"
         elsif value.is_a?(String) and value.length > 255
-          tags[tag] = value[0...255]
+          value[0...255]
+        else
+          value
         end
+
+        new_value = new_value.encode("UTF-8", "binary",
+          invalid: :replace, undef: :replace, replace: ""
+        )
+
+        tags[tag] = new_value
       end
 
       new_track_model = Track.new(tags)
