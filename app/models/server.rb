@@ -48,7 +48,7 @@ class Server < Source
 
         new_value = new_value.encode("UTF-8", "binary",
           invalid: :replace, undef: :replace, replace: ""
-        )
+        ) if new_value.is_a?(String)
 
         tags[tag] = new_value
       end
