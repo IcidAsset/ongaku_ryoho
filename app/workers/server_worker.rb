@@ -1,9 +1,9 @@
-class ServerJob
-  include SuckerPunch::Job
+class ServerWorker
+  include Sidekiq::Worker
 
   def perform(user_id, server_id, data)
     ActiveRecord::Base.connection_pool.with_connection do
-      ServerJob.perform_step_two(user_id, server_id, data)
+      ServerWorker.perform_step_two(user_id, server_id, data)
     end
   end
 
@@ -13,10 +13,10 @@ class ServerJob
 
     if server
       begin
-        ServerJob.update_tracks(server, data)
+        ServerWorker.update_tracks(server, data)
       rescue
         server.remove_from_redis_queue
-        puts "ServerJob could not be processed!"
+        puts "ServerWorker could not be processed!"
       end
 
     else

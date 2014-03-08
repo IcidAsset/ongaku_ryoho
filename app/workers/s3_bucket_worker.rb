@@ -1,9 +1,9 @@
-class S3BucketJob
-  include SuckerPunch::Job
+class S3BucketWorker
+  include Sidekiq::Worker
 
   def perform(user_id, s3_bucket_id, data)
     ActiveRecord::Base.connection_pool.with_connection do
-      S3BucketJob.perform_step_two(user_id, s3_bucket_id, data)
+      S3BucketWorker.perform_step_two(user_id, s3_bucket_id, data)
     end
   end
 
@@ -13,12 +13,12 @@ class S3BucketJob
 
     if s3_bucket
       begin
-        S3BucketJob.update_tracks(s3_bucket, data)
+        S3BucketWorker.update_tracks(s3_bucket, data)
       rescue Exception => e
         puts e.message
         puts e.backtrace.inspect
         s3_bucket.remove_from_redis_queue
-        puts "S3BucketJob could not be processed!"
+        puts "S3BucketWorker could not be processed!"
       end
 
     else

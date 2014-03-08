@@ -4,7 +4,7 @@ class Server < Source
   #  Worker
   #
   def self.worker
-    ServerJob
+    ServerWorker
   end
 
 

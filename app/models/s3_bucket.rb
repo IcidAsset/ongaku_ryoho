@@ -4,7 +4,7 @@ class S3Bucket < Source
   #  Worker
   #
   def self.worker
-    S3BucketJob
+    S3BucketWorker
   end
 
 

@@ -7,7 +7,7 @@ gem 'puma', '~> 2.7'
 
 gem 'pg'
 gem 'redis'
-gem 'sucker_punch', '~> 1.0'
+gem 'sidekiq'
 gem 'sorcery', '~> 0.8'
 gem 'closure-compiler'
 gem 's3'
@@ -27,6 +27,7 @@ end
 group :test, :development do
   gem 'minitest-rails', '~> 0.9'
   gem 'quiet_assets'
+  gem 'foreman'
 end
 
 group :test do
