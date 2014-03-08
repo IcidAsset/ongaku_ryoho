@@ -3,31 +3,34 @@ class ServerWorker
 
   def perform(user_id, server_id, data)
     ActiveRecord::Base.connection_pool.with_connection do
-      ServerWorker.perform_step_two(user_id, server_id, data)
+      perform_step_two(user_id, server_id, data)
     end
   end
 
 
-  def self.perform_step_two(user_id, server_id, data)
+  def perform_step_two(user_id, server_id, data)
     server = Server.find(server_id, conditions: { user_id: user_id })
+    @log_prefix = "[u#{user_id}/s#{server.try(:id) || '?'}]"
 
     if server
       begin
-        ServerWorker.update_tracks(server, data)
-      rescue
+        update_tracks(server, data, user_id)
+      rescue Exception => e
+        logger.info { e.message }
+        logger.info { e.backtrace.inspect }
         server.remove_from_redis_queue
-        puts "ServerWorker could not be processed!"
+        logger.info { "ServerWorker could not be processed!" }
       end
 
     else
       server.remove_from_redis_queue
-      puts "Server instance not found!"
+      logger.info { "Server instance not found!" }
 
     end
   end
 
 
-  def self.update_tracks(server, data)
+  def update_tracks(server, data, user_id)
     parsed_data = Oj.load(data)
 
     # data might be one of two things
@@ -38,6 +41,9 @@ class ServerWorker
       missing_files = []
       new_tracks = parsed_data
     end
+
+    logger.info { "#{@log_prefix} removed: #{missing_files.size}" }
+    logger.info { "#{@log_prefix} added: #{new_tracks.size}" }
 
     # remove tracks if needed
     Server.remove_tracks(server, missing_files)

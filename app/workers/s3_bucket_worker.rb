@@ -3,36 +3,39 @@ class S3BucketWorker
 
   def perform(user_id, s3_bucket_id, data)
     ActiveRecord::Base.connection_pool.with_connection do
-      S3BucketWorker.perform_step_two(user_id, s3_bucket_id, data)
+      perform_step_two(user_id, s3_bucket_id, data)
     end
   end
 
 
-  def self.perform_step_two(user_id, s3_bucket_id, data)
+  def perform_step_two(user_id, s3_bucket_id, data)
     s3_bucket = S3Bucket.find(s3_bucket_id, conditions: { user_id: user_id })
+    @log_prefix = "[u#{user_id}/s#{s3_bucket.try(:id) || '?'}]"
 
     if s3_bucket
       begin
-        S3BucketWorker.update_tracks(s3_bucket, data)
+        update_tracks(s3_bucket, data, user_id)
       rescue Exception => e
-        puts e.message
-        puts e.backtrace.inspect
+        logger.info { e.message }
+        logger.info { e.backtrace.inspect }
         s3_bucket.remove_from_redis_queue
-        puts "S3BucketWorker could not be processed!"
+        logger.info { "#{@log_prefix} S3BucketWorker could not be processed!" }
       end
 
     else
       s3_bucket.remove_from_redis_queue
-      Rails.logger.info "S3Bucket instance not found!"
+      logger.info { "#{@log_prefix} S3Bucket instance not found!" }
 
     end
   end
 
 
-  def self.update_tracks(s3_bucket, data)
+  def update_tracks(s3_bucket, data, user_id)
     parsed_data = Oj.load(data)
     file_list = s3_bucket.file_list
     signature_expire_date = DateTime.now.tomorrow.to_i
+    new_tracks_counter = 0
+    batch_counter = 0
 
     # connect to s3 and get bucket file list
     bucket = s3_bucket.fetch_bucket_object
@@ -43,13 +46,53 @@ class S3BucketWorker
     missing_files = file_list - bucket_file_list
     new_files = bucket_file_list - file_list
 
-    # new tracks
-    new_tracks = new_files.map do |key|
+    logger.info { "#{@log_prefix} removed: #{missing_files.size}" }
+    logger.info { "#{@log_prefix} added: #{new_files.size}" }
+
+    # remove tracks
+    S3Bucket.remove_tracks(s3_bucket, missing_files)
+
+    # add new tracks
+    new_files.each_slice(100) do |batch|
+      new_tracks = process_keys_array(s3_bucket, bucket, signature_expire_date, batch)
+      new_tracks_counter = new_tracks_counter + new_tracks.size
+      batch_counter++
+
+      S3Bucket.add_new_tracks(s3_bucket, new_tracks)
+
+      logger.info { "#{@log_prefix} batch *#{batch_counter}* added: #{batch.size} tracks" }
+    end
+
+    # update some attributes if needed
+    if file_list.empty? && (missing_files.size > 0 or new_tracks_counter > 0)
+      s3_bucket.activated = true
+      s3_bucket.processed = true
+      s3_bucket.save
+    end
+
+    # bind favourites to tracks
+    made_bindings = Favourite.bind_favourites_with_tracks(s3_bucket.user_id)
+
+    # if changes -> save
+    if missing_files.size > 0 or new_tracks_counter > 0 or made_bindings
+      s3_bucket.updated_at = Time.now
+      s3_bucket.save
+    end
+
+    # remove from redis queue
+    s3_bucket.remove_from_redis_queue()
+  end
+
+
+  def process_keys_array(s3_bucket, bucket, signature_expire_date, array)
+    array.map do |key|
       obj_signed_url = s3_bucket.signed_url(key, signature_expire_date, bucket.host)
       ffprobe_command = Rails.env.development? ? "ffprobe" : "bin/ffprobe"
       ffprobe_results = `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format "#{obj_signed_url}"`
       ffprobe_results = Oj.load(ffprobe_results)
       tags = ffprobe_results.try(:[], "format").try(:[], "tags")
+
+      logger.info { "#{@log_prefix} processed: #{key}" }
 
       if tags
         {
@@ -65,31 +108,6 @@ class S3BucketWorker
         }
       end
     end.compact
-
-    # remove tracks
-    S3Bucket.remove_tracks(s3_bucket, missing_files)
-
-    # add new tracks
-    S3Bucket.add_new_tracks(s3_bucket, new_tracks)
-
-    # update some attributes if needed
-    if file_list.empty? && (missing_files.present? or new_tracks.present?)
-      s3_bucket.activated = true
-      s3_bucket.processed = true
-      s3_bucket.save
-    end
-
-    # bind favourites to tracks
-    made_bindings = Favourite.bind_favourites_with_tracks(s3_bucket.user_id)
-
-    # if changes -> save
-    if !missing_files.empty? or !new_tracks.empty? or made_bindings
-      s3_bucket.updated_at = Time.now
-      s3_bucket.save
-    end
-
-    # remove from redis queue
-    s3_bucket.remove_from_redis_queue()
   end
 
 end

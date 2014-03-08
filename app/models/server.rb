@@ -40,15 +40,11 @@ class Server < Source
       tags.each do |tag, value|
         new_value = if !value
           "Unknown"
-        elsif value.is_a?(String) and value.length > 255
-          value[0...255]
+        elsif value.is_a?(String)
+          (value.length > 255 ? value[0...255] : value).scrub
         else
           value
         end
-
-        new_value = new_value.encode("UTF-8", "binary",
-          invalid: :replace, undef: :replace, replace: ""
-        ) if new_value.is_a?(String)
 
         tags[tag] = new_value
       end

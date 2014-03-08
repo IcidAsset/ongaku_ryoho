@@ -1,23 +1,23 @@
 source 'http://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.1.1'
 
-gem 'rails', '3.2.16'
-gem 'puma', '~> 2.7'
+gem 'rails', '3.2.17'
+gem 'puma', '~> 2.8'
 
-gem 'pg'
-gem 'redis'
-gem 'sidekiq'
+gem 'pg', '~> 0.17'
+gem 'redis', '~> 3.0'
+gem 'sidekiq', '~> 2.17'
 gem 'sorcery', '~> 0.8'
-gem 'closure-compiler'
-gem 's3'
+gem 'closure-compiler', '~> 1.1'
+gem 's3', '~> 0.3'
 
 gem 'activerecord-postgres-hstore', '~> 0.7'
 gem 'oj', '~> 2.5'
 gem 'slim', '~> 1.3'
 
 group :assets do
-  gem 'sass', '3.2.13'
+  gem 'sass', '3.2.15'
   gem 'sass-rails', '3.2.6'
   gem 'coffee-rails', '3.2.2'
   gem 'compass-rails', '1.1.3'
