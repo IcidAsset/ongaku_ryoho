@@ -56,7 +56,7 @@ class S3BucketWorker
     new_files.each_slice(100) do |batch|
       new_tracks = process_keys_array(s3_bucket, bucket, signature_expire_date, batch)
       new_tracks_counter = new_tracks_counter + new_tracks.size
-      batch_counter++
+      batch_counter = batch_counter + 1
 
       S3Bucket.add_new_tracks(s3_bucket, new_tracks)
 
