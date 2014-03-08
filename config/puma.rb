@@ -12,7 +12,7 @@ on_worker_boot do
 
   ActiveSupport.on_load(:active_record) do
     threads_workers_size = Integer(ENV['MAX_THREADS'] || 1) * Integer(ENV['PUMA_WORKERS'] || 2)
-    config = ActiveRecord::Base.configurations[Rails.env]
+    config = Rails.application.config.database_configuration[Rails.env] || {}
     config['pool'] = ENV['DB_POOL'] || (threads_workers_size * 3) # max = 20
     ActiveRecord::Base.establish_connection(config)
   end
