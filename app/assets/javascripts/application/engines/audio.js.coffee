@@ -136,6 +136,7 @@ class OngakuRyoho.Classes.Engines.Audio
     @req_anim_frame_id = requestAnimationFrame(this.analyse)
 
     # set
+    canvas_width = parseInt(OngakuRyoho.Visualizations.view.peak_data_context.canvas.width, 10)
     points_left = @nodes.analyser_left.frequencyBinCount
     points_right = @nodes.analyser_right.frequencyBinCount
     points = [points_left, points_right]
@@ -160,7 +161,7 @@ class OngakuRyoho.Classes.Engines.Audio
       average = sum / points[idx]
 
       # calculate width
-      width = (average / 256) * OngakuRyoho.Visualizations.view.peak_data_context.canvas.width
+      width = (average / 256) * canvas_width
 
       # add to array
       dimensions.push(width)
