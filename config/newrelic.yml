@@ -17,6 +17,9 @@ common: &default_settings
   # New Relic service.
   license_key: '82b153ddd2be2d687b9b99d61a1b56889ddea480'
 
+  # Server
+  dispatcher: puma
+
   # Agent Enabled (Ruby/Rails Only)
   # Use this setting to force the agent to run or not run.
   # Default is 'auto' which means the agent will install and run only
