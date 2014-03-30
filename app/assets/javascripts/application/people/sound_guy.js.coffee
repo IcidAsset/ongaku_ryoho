@@ -241,6 +241,9 @@ class OngakuRyoho.Classes.People.SoundGuy
     # check audio support for filetype
     return this.audio_not_supported_callback() unless audio
 
+    # fill up queue
+    OngakuRyoho.Engines.Queue.set_next()
+
     # controller attributes
     controller_attributes =
       time:        0

@@ -1,5 +1,5 @@
-workers Integer(ENV['PUMA_WORKERS'])
-threads Integer(ENV['MIN_THREADS']), Integer(ENV['MAX_THREADS'])
+workers Integer(ENV['PUMA_WORKERS'] || 1)
+threads Integer(ENV['MIN_THREADS'] || 1), Integer(ENV['MAX_THREADS'] || 1)
 
 preload_app!
 

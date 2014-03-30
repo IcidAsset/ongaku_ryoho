@@ -16,11 +16,16 @@ class OngakuRyoho.Classes.Engines.Queue
 
 
 
-  add_to_next: (track) ->
-    @data.user_next.push({ track: track, user: true })
+  add_to_next: (track, in_front=false) ->
+    obj = { track: track, user: true }
 
-    # reset computed array
-    this.reset_computed_next()
+    if in_front
+      @data.user_next.unshift(obj)
+    else
+      @data.user_next.push(obj)
+
+    # set next
+    this.set_next()
 
     # add message
     message = new OngakuRyoho.Classes.Models.Message
