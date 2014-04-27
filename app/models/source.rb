@@ -64,7 +64,7 @@ class Source < ActiveRecord::Base
   def remove_related_items
     Track.where(source_id: self.id).delete_all
     Favourite.clean_up_user_favourites(self.user_id)
-    PlaylistTrack.where(track_id: self.id).delete_all
+    PlaylistsTrack.where(track_id: self.id).delete_all
   end
 
 
