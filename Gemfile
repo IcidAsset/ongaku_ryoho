@@ -40,5 +40,4 @@ group :production do
   gem 'dalli'
   gem 'memcachier'
   gem 'heroku-deflater'
-  gem 'newrelic_rpm'
 end

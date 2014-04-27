@@ -94,7 +94,6 @@ GEM
     multi_json (1.9.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    newrelic_rpm (3.8.0.218)
     oauth (0.4.7)
     oauth2 (0.9.3)
       faraday (>= 0.8, < 0.10)
@@ -193,7 +192,6 @@ DEPENDENCIES
   heroku-deflater
   memcachier
   minitest-rails (~> 0.9)
-  newrelic_rpm
   oj (~> 2.5)
   pg (~> 0.17)
   puma (~> 2.8)
