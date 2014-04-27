@@ -49,7 +49,11 @@ class ServerWorker
     Server.remove_tracks(server, missing_files)
 
     # put them tracks in them database
-    Server.add_new_tracks(server, new_tracks)
+    new_tracks.each_slice(25) do |batch|
+      Server.add_new_tracks(server, batch)
+
+      logger.info { "#{@log_prefix} batch *#{batch_counter}* added: #{batch.size} tracks" }
+    end
 
     # update some attributes if needed
     if parsed_data.kind_of?(Array) && (missing_files.present? or new_tracks.present?)

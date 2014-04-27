@@ -53,7 +53,7 @@ class S3BucketWorker
     S3Bucket.remove_tracks(s3_bucket, missing_files)
 
     # add new tracks
-    new_files.each_slice(100) do |batch|
+    new_files.each_slice(25) do |batch|
       new_tracks = process_keys_array(s3_bucket, bucket, signature_expire_date, batch)
       new_tracks_counter = new_tracks_counter + new_tracks.size
       batch_counter = batch_counter + 1
