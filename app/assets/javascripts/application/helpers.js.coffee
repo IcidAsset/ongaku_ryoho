@@ -31,7 +31,7 @@ window.Helpers =
       document.body, {
         delegate_selector: "[draggable]"
       }
-    );
+    )
 
     # ajax before send
     $.ajaxSettings.beforeSend = (xhr, settings) ->

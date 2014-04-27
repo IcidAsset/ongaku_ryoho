@@ -11,59 +11,50 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
   #
   #  Now playing marquee
   #
-  setup_now_playing_marquee: ($now_playing) ->
-    $item = $now_playing.children(".item")
-    $span = $item.children("span")
+  setup_now_playing_marquee: (now_playing) ->
+    item = now_playing.querySelector(".item")
+    span = item.querySelector("span")
 
     # widths
-    item_width = $item.width()
-    text_width = $span.width()
+    item_width = item.offsetWidth
+    text_width = span.offsetWidth
 
     # check
     return if text_width < item_width
 
     # item css
-    $item
-      .css({ position: "relative" })
+    item.style.position = "relative"
 
     # item span css
-    $span
-      .wrap("<div class=\"marquee-wrapper\"></div>")
-      .css({ float: "left", paddingRight: "65px" })
-      .parent()
-      .css({
-        overflow: "hidden",
-        position: "absolute",
-        width: "5000px"
-      })
+    item.innerHTML = """
+      <div class="marquee-wrapper">
+        <span style="float:left;padding-right:65px;">#{span.innerHTML}</span>
+        <span style="float:left;padding-right:65px;">#{span.innerHTML}</span>
+      </div>
+    """
 
-    # clone span
-    $span.after($span.clone())
+    spans = item.querySelectorAll("span")
+    marquee_wrapper = spans[0].parentNode
+    marquee_wrapper.style.cssText = "overflow:hidden;position:absolute;width:5000px;"
 
     # animate with marquee-wrapper
-    this.now_playing_marquee_animation($span.parent())
+    this.now_playing_marquee_animation()
 
 
 
-  now_playing_marquee_animation: ($marquee_wrapper) ->
-    text_width = $marquee_wrapper.children("span").first().width()
-    anim_speed = text_width * 39.5
+  now_playing_marquee_animation: () ->
+    animation = () =>
+      marquee_wrapper = this.view.el_now_playing.querySelector(".marquee-wrapper")
+      text_width = marquee_wrapper.querySelector("span").offsetWidth
+      anim_speed = text_width * 39.5
 
-    # this machine
-    _this = this
-
-    # animation
-    animation = () ->
-      $marquee_wrapper.animate(
+      $(marquee_wrapper).animate(
         { left: -text_width }, anim_speed, "linear",
         (e) ->
-          $t = $(this)
-          $t.css("left", 0)
-
-          _this.now_playing_marquee_animation($t)
+          this.style.left = 0
+          _this.now_playing_marquee_animation()
       )
 
-    # animate
     _.delay(animation, 3000)
 
 

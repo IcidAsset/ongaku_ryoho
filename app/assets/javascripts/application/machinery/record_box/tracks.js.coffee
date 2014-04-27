@@ -363,7 +363,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
       $t.css({
         left: e.pageX - ($t.width() / 2),
         top: e.pageY + 18
-      });
+      })
 
     # setup
     @tooltip.setup()

@@ -37,7 +37,7 @@ class OngakuRyoho.Classes.Views.RecordBox.PlaylistMenu extends Backbone.View
 
     # render
     this.render_playlists()
-    this.group.machine.setup_tooltip();
+    this.group.machine.setup_tooltip()
 
 
 

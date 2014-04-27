@@ -41,9 +41,9 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     this.listenTo(@group.model, "change:now_playing", this.render_now_playing)
 
     # cache dom elements
-    this.$now_playing = this.$el.find(".now-playing")
-    this.$progress_bar = this.$el.find(".progress-bar")
-    this.$controls = this.$el.find(".controls")
+    this.el_now_playing = this.el.querySelector(".now-playing")
+    this.el_progress_bar = this.el.querySelector(".progress-bar")
+    this.el_controls = this.el.querySelector(".controls")
 
     # render
     this.render_time(0)
@@ -51,7 +51,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
 
     # knobs
     @group.machine.setup_knobs(
-      this.$controls.find("a .knob")
+      $(this.el_controls).find("a .knob")
     )
 
 
@@ -60,7 +60,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
   #  Grab $control
   #
   $control: (type, klass, extra="") ->
-    return this.$controls.find("a .#{type}.#{klass} #{extra}")
+    return $(this.el_controls).find("a .#{type}.#{klass} #{extra}")
 
 
 
@@ -72,7 +72,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
 
     # set
     minutes = Math.floor(time / 60)
-    seconds = Math.floor(time - (minutes * 60) )
+    seconds = Math.floor(time - (minutes * 60))
 
     progress = (time / duration) * 100
 
@@ -81,21 +81,20 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     seconds = "0#{seconds}" if seconds.toString().length is 1
 
     # time
-    this.$now_playing
-      .children(".time")[0]
+    this.el_now_playing
+      .querySelector(".time")
       .innerHTML = "#{minutes}:#{seconds}"
 
     # progress bar
-    this.$progress_bar
-      .children(".progress.track")
-      .css("width", "#{progress}%")
+    this.el_progress_bar
+      .querySelector(".progress.track")
+      .style.width = "#{progress}%"
 
 
 
   render_now_playing: () =>
-    this.$now_playing.children(".item").html(
+    this.el_now_playing.querySelector(".item").innerHTML =
       @now_playing_template({ now_playing: @group.model.get("now_playing") })
-    )
 
     # activate animation
-    @group.machine.setup_now_playing_marquee(this.$now_playing)
+    @group.machine.setup_now_playing_marquee(this.el_now_playing)

@@ -169,6 +169,12 @@ class OngakuRyoho.Classes.Engines.Audio
     # visualize
     OngakuRyoho.Visualizations.view.visualize("peak_data", dimensions)
 
+    # nullify
+    points = null
+    data_left = null
+    data_right = null
+    dimensions = null
+
 
 
   #
@@ -327,9 +333,6 @@ class OngakuRyoho.Classes.Engines.Audio
     # remove audio element from DOM
     $(source.mediaElement).remove()
 
-    # remove from sources array
-    @sources.splice(@sources.indexOf(source), 1)
-
     # nullify (ensure gc)
     source.track = null
     source = null
@@ -341,7 +344,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   destroy_all_sources: () ->
     # make a copy of the sources array
-    sources = @sources.slice(0)
+    sources = @sources.splice(0, @sources.length)
 
     # destroy each
     _.each(sources, (source) => this.destroy_source(source))
@@ -393,9 +396,9 @@ class OngakuRyoho.Classes.Engines.Audio
 
       percent_loaded = ((buffered.end(0) / e.target.duration) * 100) + "%"
 
-      OngakuRyoho.MixingConsole.view.$progress_bar
-        .children(".progress.loader")
-        .css("width", percent_loaded)
+      OngakuRyoho.MixingConsole.view.el_progress_bar
+        .querySelector(".progress.loader")
+        .style.width = percent_loaded
 
 
 

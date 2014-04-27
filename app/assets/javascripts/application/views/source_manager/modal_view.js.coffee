@@ -31,12 +31,12 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
   show: () ->
     this.show_window("main")
     this.render()
-    this.el.classList.add("show");
+    this.el.classList.add("show")
 
 
 
   hide: () ->
-    this.el.classList.remove("show");
+    this.el.classList.remove("show")
 
 
 
