@@ -43,7 +43,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     # cache dom elements
     this.el_now_playing = this.el.querySelector(".now-playing")
     this.el_progress_bar = this.el.querySelector(".progress-bar")
-    this.el_controls = this.el.querySelector(".controls")
+    this.$controls = this.$el.find(".controls")
 
     # render
     this.render_time(0)
@@ -51,7 +51,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
 
     # knobs
     @group.machine.setup_knobs(
-      $(this.el_controls).find("a .knob")
+      this.$controls.find("a .knob")
     )
 
 
@@ -60,7 +60,7 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
   #  Grab $control
   #
   $control: (type, klass, extra="") ->
-    return $(this.el_controls).find("a .#{type}.#{klass} #{extra}")
+    return this.$controls.find("a .#{type}.#{klass} #{extra}")
 
 
 
