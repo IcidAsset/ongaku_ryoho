@@ -15,7 +15,6 @@ gem 's3', '~> 0.3'
 gem 'activerecord-postgres-hstore', '~> 0.7'
 gem 'oj', '~> 2.5'
 gem 'slim', '~> 1.3'
-gem 'skylight'
 
 group :assets do
   gem 'sass', '3.2.15'
