@@ -18,6 +18,7 @@ class OngakuRyoho.Classes.Engines.Queue
 
   add_to_next: (track, in_front=false) ->
     obj = { track: track, user: true }
+    shuffle = OngakuRyoho.MixingConsole.model.get("shuffle")
 
     if in_front
       @data.user_next.unshift(obj)
@@ -25,6 +26,7 @@ class OngakuRyoho.Classes.Engines.Queue
       @data.user_next.push(obj)
 
     # set next
+    this.clear_computed_next() unless shuffle
     this.set_next()
 
     # add message
@@ -101,11 +103,23 @@ class OngakuRyoho.Classes.Engines.Queue
 
   set_next_shuffle: (x) ->
     for n in [0...x]
-      already_selected = @data.user_next.concat(@data.computed_next)
-      already_selected = _.map(already_selected, (queue_item) -> queue_item.track.id)
+      already_selected = this.set_already_selected_for_shuffle()
+
+      if already_selected.length >= @tracks.length
+        already_selected = this.set_already_selected_for_shuffle(true)
+
       track = @tracks.get_random_track(already_selected)
       @data.computed_next.push({ track: track, user: false }) if track and track.get("available")
       break unless track
+
+
+
+  set_already_selected_for_shuffle: (without_history=false) =>
+    s = if without_history then [] else @data.history
+    s = s.concat(@data.user_next.concat, @data.computed_next)
+    s = _.map(s, (queue_item) -> queue_item.track.id)
+    s = _.unique(s)
+    s
 
 
 
