@@ -114,9 +114,9 @@ class OngakuRyoho.Classes.Engines.Queue
 
 
 
-  set_already_selected_for_shuffle: (without_history=false) =>
+  set_already_selected_for_shuffle: (without_history=false) ->
     s = if without_history then [] else @data.history
-    s = s.concat(@data.user_next.concat, @data.computed_next)
+    s = s.concat(@data.user_next, @data.computed_next)
     s = _.map(s, (queue_item) -> queue_item.track.id)
     s = _.unique(s)
     s
