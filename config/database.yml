@@ -19,4 +19,8 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
+  host: 172.17.42.1
+  database: db
   pool: 5
+  username: root
+  password: BRYpkGnFhEpM0Ljd
