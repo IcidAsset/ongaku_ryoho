@@ -35,7 +35,7 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
     spans = item.querySelectorAll("span")
     marquee_wrapper = spans[0].parentNode
-    marquee_wrapper.style.cssText = "overflow:hidden;position:absolute;width:5000px;"
+    marquee_wrapper.style.cssText = "left:0px;overflow:hidden;position:absolute;width:5000px;"
 
     # animate with marquee-wrapper
     _.delay(this.now_playing_marquee_animation, 3000)
@@ -43,14 +43,14 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
 
   now_playing_marquee_animation: () =>
-    marquee_wrapper = this.view.el_now_playing.querySelector(".marquee-wrapper")
+    marquee_wrapper = @group.view.el_now_playing.querySelector(".marquee-wrapper")
     text_width = marquee_wrapper.querySelector("span").offsetWidth
     anim_speed = text_width * 39.5
 
     $(marquee_wrapper).animate(
       { left: -text_width }, anim_speed, "linear",
-      (e) =>
-        e.currentTarget.style.left = 0
+      () =>
+        marquee_wrapper.style.left = 0
         _.delay(this.now_playing_marquee_animation, 3000)
     )
 
