@@ -1,1 +1,1 @@
-$redis = Redis.new(host: "172.17.0.4", port: 49159)
+$redis = Redis.connect(url: ENV['REDIS_URL'])

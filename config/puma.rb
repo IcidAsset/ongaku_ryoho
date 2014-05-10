@@ -8,7 +8,7 @@ port        ENV['PORT']     || 3000
 environment ENV['RACK_ENV'] || 'production'
 
 on_worker_boot do
-  redis_url = "redis://172.17.0.4:49159"
+  redis_url = ENV['REDIS_URL']
 
   Sidekiq.configure_client do |config|
     config.redis = { :url => redis_url, :namespace => "ongakuryoho_sidekiq", :size => 2 }
