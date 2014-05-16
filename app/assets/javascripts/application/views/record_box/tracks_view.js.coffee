@@ -66,7 +66,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #
   render: () =>
     list_element = document.createElement("ol")
-    list_element.classList.add("tracks")
+    list_element.className = "tracks"
 
     # render
     list_fragment = this["render_#{this.mode}_mode"]()
