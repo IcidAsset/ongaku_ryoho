@@ -1,5 +1,10 @@
 class OngakuRyoho.Classes.Machinery.MixingConsole
 
+  constructor: () ->
+    @npm_timeout_ids = []
+
+
+
   #
   #  Set track info in document title
   #
@@ -38,7 +43,7 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
     marquee_wrapper.style.cssText = "left:0px;overflow:hidden;position:absolute;width:5000px;"
 
     # animate with marquee-wrapper
-    _.delay(this.now_playing_marquee_animation, 3000)
+    @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation, 3000)
 
 
 
@@ -51,7 +56,16 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
       { left: -text_width }, anim_speed, "linear",
       () =>
         marquee_wrapper.style.left = 0
-        _.delay(this.now_playing_marquee_animation, 3000)
+        @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation, 3000)
+    )
+
+
+
+  clear_now_playing_marquee_timeouts: () ->
+    array_clone = @npm_timeout_ids.splice(0, @npm_timeout_ids.length)
+
+    _.each(array_clone, (timeout_id) ->
+      clearTimeout(timeout_id)
     )
 
 

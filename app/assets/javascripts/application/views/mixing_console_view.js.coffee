@@ -97,4 +97,5 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
       @now_playing_template({ now_playing: @group.model.get("now_playing") })
 
     # activate animation
+    @group.machine.clear_now_playing_marquee_timeouts();
     @group.machine.setup_now_playing_marquee(this.el_now_playing)
