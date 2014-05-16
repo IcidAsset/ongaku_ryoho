@@ -210,7 +210,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     tls = OngakuRyoho.RecordBox.TLS.model
     attr = tls.attributes.data
 
-    this.$el.parent().attr("data-cols", attr)
+    this.el.parentNode.setAttribute("data-cols", attr)
 
 
 
