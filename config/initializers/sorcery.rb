@@ -27,7 +27,7 @@ Rails.application.config.sorcery.configure do |config|
   config.cookie_domain = if Rails.env.development?
     "localhost"
   else
-    "ongakuryoho.herokuapp.com"
+    "ongakuryoho.com"
   end
 
 
