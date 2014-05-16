@@ -32,6 +32,7 @@ class ServerWorker
 
   def update_tracks(server, data, user_id)
     parsed_data = Oj.load(data)
+    batch_counter = 0
 
     # data might be one of two things
     if parsed_data.kind_of?(Hash)
@@ -51,6 +52,7 @@ class ServerWorker
     # put them tracks in them database
     new_tracks.each_slice(25) do |batch|
       Server.add_new_tracks(server, batch)
+      batch_counter = batch_counter + 1
 
       logger.info { "#{@log_prefix} batch *#{batch_counter}* added: #{batch.size} tracks" }
     end
