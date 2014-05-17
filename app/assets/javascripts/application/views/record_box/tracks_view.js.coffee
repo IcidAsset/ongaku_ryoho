@@ -65,38 +65,40 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
   #  Render
   #
   render: () =>
-    list_element = document.createElement("ol")
-    list_element.className = "tracks"
-
-    # render
-    list_fragment = this["render_#{this.mode}_mode"]()
-    list_element.appendChild(list_fragment)
-
     # position column
     a = (typeof OngakuRyoho.RecordBox.Filter.model.get("playlist") is "number")
     b = (this.mode is "default")
 
-    if a and b
-      this.el.parentNode.classList.add("with-position-column")
-    else
-      this.el.parentNode.classList.remove("with-position-column")
+    # list element
+    list_element = document.createElement("ol")
+    list_element.className = "tracks"
 
-    # scroll to top
-    this.el.scrollTop = 0
-
-    # add list to main elements
-    this.el.innerHTML = ""
-    this.el.appendChild(list_element)
-
-    # add background to main elements
+    # background element
     background = document.createElement("div")
     background.className = "background"
-    this.el.appendChild(background)
 
-    # check
-    if list_element.childNodes.length is 0
+    # list fragment
+    list_fragment = this["render_#{@mode}_mode"]()
+
+    # if there are no tracks
+    if list_fragment.childNodes.length is 0
+      this.el.innerHTML = ""
+      this.el.scrollTop = 0
+      this.el.appendChild(background)
       this.add_nothing_here_message()
+
       OngakuRyoho.RecordBox.Footer.view.set_contents("")
+
+    # and if there are
+    else
+      list_element.appendChild(list_fragment)
+      this.el.innerHTML = ""
+      this.el.scrollTop = 0
+      this.el.appendChild(background)
+      this.el.appendChild(list_element)
+
+      if a and b then this.el.parentNode.classList.add("with-position-column")
+      else this.el.parentNode.classList.remove("with-position-column")
 
     # chain
     return this
