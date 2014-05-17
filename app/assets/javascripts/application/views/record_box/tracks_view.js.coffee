@@ -78,7 +78,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     background.className = "background"
 
     # list fragment
-    list_fragment = this["render_#{@mode}_mode"]()
+    [list_fragment, footer_contents] = this["render_#{@mode}_mode"]()
 
     # if there are no tracks
     if list_fragment.childNodes.length is 0
@@ -99,6 +99,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
       if a and b then this.el.parentNode.classList.add("with-position-column")
       else this.el.parentNode.classList.remove("with-position-column")
+
+      OngakuRyoho.RecordBox.Footer.view.set_contents(footer_contents)
 
     # chain
     return this
@@ -128,10 +130,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     word_tracks = (if page_info.total is 1 then "track" else "tracks")
     message = "#{page_info.total} #{word_tracks} found &mdash; page #{page_info.page} / #{page_info.pages}"
 
-    OngakuRyoho.RecordBox.Footer.view.set_contents(message)
-
     # return
-    list_fragment
+    [list_fragment, message]
 
 
 
@@ -157,10 +157,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     word_tracks = (if tracks_with_position.length is 1 then "track" else "tracks")
     message = "#{tracks_with_position.length} #{word_tracks} found &mdash; page #{page_info.page} / #{page_info.pages}"
 
-    OngakuRyoho.RecordBox.Footer.view.set_contents(message)
-
     # return
-    list_fragment
+    [list_fragment, message]
 
 
 
@@ -186,11 +184,8 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
       list_fragment.appendChild(track_view.render(track_template).el)
     )
 
-    # set foorter contents
-    OngakuRyoho.RecordBox.Footer.view.set_contents(message)
-
     # return
-    list_fragment
+    [list_fragment, message]
 
 
 
