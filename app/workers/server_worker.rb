@@ -15,7 +15,7 @@ class ServerWorker
     if server
       begin
         update_tracks(server, data, user_id)
-      rescue Exception => e
+      rescue => e
         logger.info { e.message }
         logger.info { e.backtrace.inspect }
         server.remove_from_redis_queue
