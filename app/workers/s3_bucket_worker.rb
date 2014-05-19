@@ -15,7 +15,7 @@ class S3BucketWorker
     if s3_bucket
       begin
         update_tracks(s3_bucket, data, user_id)
-      rescue Exception => e
+      rescue => e
         logger.info { e.message }
         logger.info { e.backtrace.inspect }
         s3_bucket.remove_from_redis_queue
