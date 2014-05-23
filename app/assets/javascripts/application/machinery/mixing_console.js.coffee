@@ -20,6 +20,9 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
     item = now_playing.querySelector(".item")
     span = item.querySelector("span")
 
+    # clear existing timeouts
+    this.clear_now_playing_marquee_timeouts()
+
     # widths
     item_width = item.offsetWidth
     text_width = span.offsetWidth
@@ -54,10 +57,16 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
     $(marquee_wrapper).animate(
       { left: -text_width }, anim_speed, "linear",
-      () =>
-        marquee_wrapper.style.left = 0
-        @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation, 3000)
+      this.now_playing_marquee_animation_callback
     )
+
+
+
+  now_playing_marquee_animation_callback: () =>
+    marquee_wrapper = @group.view.el_now_playing.querySelector(".marquee-wrapper")
+    marquee_wrapper.style.left = 0
+
+    @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation, 3000)
 
 
 
