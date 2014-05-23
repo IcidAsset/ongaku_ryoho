@@ -4,6 +4,37 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
   url: "/api/sources/",
 
 
+  initialize: () ->
+    @state =
+      is_fetching: false
+      is_updating: false
+
+
+
+  fetch: (options={}) ->
+    @state.is_fetching = true
+    success = options.success
+
+    options.reset = true
+    options.success = () =>
+      success() if success
+      @state.is_fetching = false
+
+    Backbone.Collection.prototype.fetch.call(this, options)
+
+
+
+  #
+  #  Busy state
+  #
+  is_busy: () ->
+    @state.is_fetching or @state.is_updating
+
+
+
+  #
+  #  Filters
+  #
   get_available_and_activated: () ->
     this.where({ available: true, activated: true })
 
@@ -11,19 +42,6 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
   get_available_and_activated_ids: () ->
     _.map(this.get_available_and_activated(), (s) -> s.id)
-
-
-
-  fetch: (options={}) ->
-    this.is_fetching = true
-    success = options.success
-
-    options.reset = true
-    options.success = () =>
-      success() if success
-      this.is_fetching = false
-
-    Backbone.Collection.prototype.fetch.call(this, options)
 
 
 
@@ -40,7 +58,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
       return promise
 
     # busy state
-    this.is_updating = true
+    @state.is_updating = true
 
     # queue
     queue = _.map(available_sources, (source, idx) =>
@@ -64,7 +82,7 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
 
       promise.resolve(changes)
 
-      this.is_updating = false
+      @state.is_updating = false
       message = null
 
     # return

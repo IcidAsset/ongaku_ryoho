@@ -79,7 +79,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
     source_id = @tooltip.state.$current_trigger.closest(".source").attr("rel")
     source_id = parseInt(source_id, 10)
 
-    if collection.is_fetching or collection.is_updating
+    if collection.is_busy()
       alert("Sources are currently being updated. Try again later.")
     else
       source = collection.get(source_id)
@@ -102,7 +102,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.SourceList
     source_id = @tooltip.state.$current_trigger.closest(".source").attr("rel")
     source_id = parseInt(source_id, 10)
 
-    if collection.is_fetching or collection.is_updating
+    if collection.is_busy()
       alert("Sources are currently being updated. Try again later.")
     else
       OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()

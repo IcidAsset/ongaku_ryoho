@@ -1,10 +1,5 @@
 class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
 
-  constructor: () ->
-    @timeout_ids = []
-
-
-
   #
   #  Tooltip
   #

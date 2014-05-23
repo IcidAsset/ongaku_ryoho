@@ -42,6 +42,9 @@ class OngakuRyoho.Classes.Collections.Favourites extends Backbone.Collection
 
 
   remove_matching_favourites_by_track_id: (track_id) ->
-    ###
-      TODO
-    ###
+    favourites = this.where({
+      track_id: track_id
+    })
+
+    _.each favourites, (f) ->
+      f.destroy()

@@ -12,7 +12,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
     collection = OngakuRyoho.SourceManager.collection
 
     # check
-    if collection.is_fetching or collection.is_updating
+    if collection.is_busy()
       return
 
     # add css class
