@@ -1,12 +1,15 @@
 .introduction {
+  @include font-smoothing;
   color: $textcolor;
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 300;
   letter-spacing: -1px;
-  line-height: 43px;
-  padding: 43px 0 40px;
+  line-height: 1.45em;
+  padding: 1.425em 0 1.325em;
 
-  @include font-smoothing;
+  @media screen and (min-width: $breakpoint_medium) {
+    font-size: 30px;
+  }
 
   .colored {
     color: #222;
@@ -14,9 +17,10 @@
   }
 
   .subtext {
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 400;
     letter-spacing: 0;
+    line-height: 1.75em;
   }
 
   strong {
@@ -24,8 +28,13 @@
     font-weight: 400;
   }
 
-  p { margin: 0 }
-  p:last-child { margin: 14px 0 0 }
+  p { margin: 0; }
+  p:last-child { margin: 21px 0 8px; }
+
+  @media screen and (min-width: $breakpoint_medium) {
+    .subtext { font-size: 13px; }
+    p:last-child { margin: 25px 0 10px; }
+  }
 
 
 }

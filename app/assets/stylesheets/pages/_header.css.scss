@@ -1,11 +1,14 @@
 header {
+  @include lato-font;
   background: white;
   border-bottom: 1px solid #ececec;
   display: block;
   overflow: hidden;
-  padding: 22px 0;
+  padding: 16px 0;
 
-  @include lato-font;
+  @media screen and (min-width: $breakpoint_medium) {
+    padding: 22px 0;
+  }
 
 
 }
@@ -16,13 +19,23 @@ header {
 //  Logo
 //
 header .logo {
-  background: transparent image-url("logo.svg") left center no-repeat;
-  background-size: auto 42%;
-  bottom: -22px;
-  left: 58px;
-  position: absolute;
-  top: -19px;
-  width: 240px;
+  background: transparent image-url("logo.svg") center no-repeat;
+  background-size: contain;
+  display: block;
+  height: 28px;
+  margin: 0 0 20px;
+
+  @media screen and (min-width: $breakpoint_medium) {
+    background-position: left center;
+    background-size: auto 42%;
+    bottom: -22px;
+    height: auto;
+    left: 58px;
+    margin: 0;
+    position: absolute;
+    top: -19px;
+    width: 240px;
+  }
 
   .name {
     display: none;
@@ -34,13 +47,21 @@ header .logo {
     color: white;
     display: inline-block;
     font-size: 8px;
+    left: 50%;
     letter-spacing: 1px;
     line-height: 16px;
-    margin-left: 197px;
-    margin-top: 25px;
+    margin-left: 100px;
     padding: 1px 5px 0;
+    position: absolute;
     text-transform: uppercase;
+    top: 5px;
     vertical-align: top;
+
+    @media screen and (min-width: $breakpoint_medium) {
+      margin-left: 197px;
+      margin-top: 25px;
+      position: static;
+    }
   }
 }
 
@@ -50,13 +71,18 @@ header .logo {
 //  Navigation
 //
 header nav {
+  display: block;
   font-size: 10px;
   font-weight: bold;
   letter-spacing: 1px;
   line-height: 14px;
-  text-align: right;
+  text-align: center;
   text-transform: uppercase;
   white-space: nowrap;
+
+  @media screen and (min-width: $breakpoint_medium) {
+    text-align: right;
+  }
 
   a, a.sign-in.active {
     border: 0;
@@ -72,8 +98,12 @@ header nav {
     border-radius: 3px;
     color: darken($rbn_button_text_color, 6.5);
     display: inline-block;
-    margin-left: 46px;
+    margin-left: 14px;
     text-decoration: none;
+
+    @media screen and (min-width: $breakpoint_medium) {
+      margin-left: 46px;
+    }
   }
 
   a:hover,
