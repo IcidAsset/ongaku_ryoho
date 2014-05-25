@@ -11,8 +11,8 @@ $button_height: 52px;
 
   @include font-smoothing;
 
-  & > .audio-container { display: none }
-  & > div { position: relative }
+  & > .audio-container { display: none; }
+  & > div { position: relative; }
 
   //
   //  Now Playing
@@ -413,6 +413,10 @@ $button_height: 52px;
 
     & > a:last-of-type,
     .subtitle:last-of-type { margin-right: 0 }
+
+    @media screen and (max-width: $breakpoint_medium - 1px) {
+      display: none;
+    }
   }
 
   //// <knob>

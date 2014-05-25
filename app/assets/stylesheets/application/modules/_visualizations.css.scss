@@ -5,6 +5,11 @@
 */
 
 .mod-visualizations {
+  @media screen and (max-width: $breakpoint_medium - 1px) {
+    display: none;
+  }
+
+
   & > div {
     margin-top: 12px;
   }
