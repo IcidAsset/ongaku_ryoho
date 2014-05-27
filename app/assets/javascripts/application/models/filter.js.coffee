@@ -11,7 +11,6 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
     total: 0
     sort_by: "artist"
     sort_direction: "asc"
-    group_by: false
 
 
 

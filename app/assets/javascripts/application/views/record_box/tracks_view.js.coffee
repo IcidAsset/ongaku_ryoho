@@ -119,9 +119,35 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     page_info = @group.collection.page_info()
     list_fragment = document.createDocumentFragment()
     track_template = this.get_correct_track_template()
+    last_group_by_value = null
+    group = OngakuRyoho.RecordBox.TLS.model.get("group")
+    should_group = OngakuRyoho.RecordBox.TLS.model.should_group()
 
     # render tracks
-    @group.collection.each((track) ->
+    @group.collection.each((track) =>
+      if should_group
+        group_by_value = switch group
+          when "directory"
+            split = track.get("location").split("/")
+            split[split.length - 2] || "Root"
+          when "date"
+            date = new Date(track.get("created_at"))
+            date_month = [
+              "January", "February", "March", "April", "May",
+              "June", "July", "August", "September", "October",
+              "November", "December"
+            ][date.getMonth()]
+            "#{date.getDate()} #{date_month} #{date.getFullYear()}"
+          else
+            ""
+
+        if group_by_value isnt last_group_by_value
+          list_fragment.appendChild(
+            this.make_group_element(group_by_value)
+          )
+
+          last_group_by_value = group_by_value
+
       track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
       list_fragment.appendChild(track_view.render(track_template).el)
     )
@@ -169,10 +195,9 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     track_template = this.get_correct_track_template()
 
     # group
-    group = document.createElement("li")
-    group.className = "group"
-    group.innerHTML = "<span>Queue</span>"
-    list_fragment.appendChild(group)
+    list_fragment.appendChild(
+      this.make_group_element("Queue")
+    )
 
     # tracks
     _.each(queue.data.combined_next, (map) ->
@@ -211,6 +236,14 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
 
 
+  make_group_element: (content) ->
+    group = document.createElement("li")
+    group.className = "group"
+    group.innerHTML = "<span>#{content}</span>"
+    group
+
+
+
   #
   #  Messages, info, etc.
   #
@@ -226,11 +259,16 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     else
       "Empty collection."
 
+    color = if sources_collection.get_available_and_activated().length is 0
+      "bright"
+    else
+      "default"
+
     message_html = @message_template(
       title: "NOTHING FOUND",
       message: message,
       extra_html: """
-        <div class="message-button" rel="add-source">
+        <div class="message-button" rel="add-source" color="#{color}">
           Add source
         </div>
       """,

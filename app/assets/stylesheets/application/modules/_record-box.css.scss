@@ -16,6 +16,7 @@
     height: auto;
     margin-left: $controller_width + $body_margin;
     margin-top: 0;
+    min-height: 100%;
     min-width: 493px;
 
     @include flex;

@@ -145,6 +145,7 @@
     &.playing:not(.queue-item) {
       background-color: $now_playing_track_color;
       margin: 0 -1px;
+      padding: 0 1px;
 
       & > div {
         color: darken($now_playing_track_color, 37.5);
@@ -156,9 +157,6 @@
           color: darken($now_playing_track_color, 30) !important;
         }
       }
-
-      .favourite span { padding-left: 11px }
-      & > div:not(.favourite) span { padding: 0 8px }
     }
 
     // unavailable & queue-item
@@ -286,10 +284,19 @@
     padding: 7px 9px 6px;
 
     @include button-gradient;
+
+    &:hover {
+      background-color: $rbn_outer_color_a;
+    }
   }
 
-  .message .message-button:hover {
-    background-color: $rbn_outer_color_a;
+  .message .message-button[color="bright"] {
+    background-color: $blue;
+    color: white;
+
+    &:hover {
+      background-color: darken($blue, 10);
+    }
   }
 
   //

@@ -65,10 +65,26 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
     # append sources
     s = this.el.querySelector(".sources")
     s.innerHTML = ""
-    s.appendChild(fragment)
+
+    if fragment.childNodes.length is 0
+      this.add_nothing_here_message(s.parentNode)
+    else
+      s.appendChild(fragment)
 
     # state
     this.rendered_before = true
 
     # chain
     this
+
+
+
+  #
+  #  Messages, info, etc.
+  #
+  add_nothing_here_message: (el) ->
+    el.innerHTML = """
+      <div class="message">
+        No sources added yet
+      </div>
+    """

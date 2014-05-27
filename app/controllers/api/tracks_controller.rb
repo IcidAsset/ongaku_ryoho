@@ -12,7 +12,7 @@ class Api::TracksController < ApplicationController
     tracks_box = select_tracks(available_source_ids, options)
 
     # render
-    only = %w(artist title album tracknr filename location url id favourite_id source_id)
+    only = %w(artist title album tracknr filename location url id favourite_id source_id created_at)
 
     tracks = tracks_box[:tracks].map do |track|
       attrs = track.attributes.select do |k, v|
@@ -46,8 +46,7 @@ private
       sort_by: params[:sort_by].try(:to_sym),
       sort_direction: params[:sort_direction].try(:upcase),
       select_favourites: (params[:favourites] == "true"),
-      playlist: params[:playlist],
-      group_by: params[:group_by]
+      playlist: params[:playlist]
     }
 
     # add options that depend on other options
@@ -398,6 +397,10 @@ private
     is_not_a_playlist = (options[:playlist] === "false")
 
     order = case sort_by
+    when :date
+      "created_at::timestamp::date, LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
+    when :directory
+      "split_part(location, '/', array_length(regexp_split_to_array(location, E'\/'), 1) - 1)"
     when :location
       if options[:select_favourites] && is_not_a_playlist
         [:location, direction.downcase.to_sym]

@@ -110,6 +110,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
   #
   move_elements_in_queue: (source_index, target_index) ->
     queue = OngakuRyoho.Engines.Queue
+    shuffle = OngakuRyoho.MixingConsole.model.get("shuffle")
 
     # source
     source_origin_name = if source_index < queue.data.user_next.length
@@ -143,6 +144,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
 
     # shift queue
     queue.data["#{target_origin_name}_next"].splice(target_index, 0, source_queue_item)
+    queue.clear_computed_next() unless shuffle
     queue.set_next()
 
 

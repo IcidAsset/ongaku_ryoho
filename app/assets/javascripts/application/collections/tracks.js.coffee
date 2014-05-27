@@ -162,7 +162,9 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
         artist: artist,
         album: album,
         track_id: track.id
-      }, { wait: true })
+      }, {
+        wait: true
+      })
 
       _.each(tracks, (t) ->
         OngakuRyoho.RecordBox.Tracks.view.$el

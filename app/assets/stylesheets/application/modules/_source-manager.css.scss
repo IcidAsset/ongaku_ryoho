@@ -200,6 +200,16 @@
   }
 }
 
+.mod-source-list .message {
+  @include translateY(-50%);
+  color: $rbn_button_text_color;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 50%;
+}
+
 
 
 //

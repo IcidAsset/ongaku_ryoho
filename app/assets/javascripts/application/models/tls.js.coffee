@@ -12,6 +12,14 @@ class OngakuRyoho.Classes.Models.TLS extends Backbone.Model
 
 
 
+  should_group: () ->
+    if this.get("group") is this.defaults.group
+      no
+    else
+      yes
+
+
+
   get_current_column_names: () ->
     switch this.get("data")
       when "default" then columns = ["title", "artist", "album"]
@@ -55,4 +63,13 @@ class OngakuRyoho.Classes.Models.TLS extends Backbone.Model
 
 
   group_change_handler: (e) =>
-    OngakuRyoho.RecordBox.Filter.model.set("group_by", this.get("group"))
+    group = this.get("group")
+
+    if group is "default"
+      def = this.get_current_default_sortby_column()
+      OngakuRyoho.RecordBox.Filter.model.set("sort_by", def)
+    else
+      OngakuRyoho.RecordBox.Filter.model.set("sort_by", group)
+
+    # save state
+    OngakuRyoho.People.ViewStateManager.save_state_in_local_storage()
