@@ -304,13 +304,13 @@ private
     # sort in ruby if needed
     if order.is_a?(Array)
       order_with_lambda = !order[3].nil?
-      
+
       if order_with_lambda
         the_lambda = order[3]
-        
+
         tracks_placeholder = tracks_placeholder.sort do |a, b|
           the_lambda.call(a.send(order.first)) <=> the_lambda(b.send(order.first))
-        end  
+        end
       else
         tracks_placeholder = tracks_placeholder.sort do |a, b|
           a.send(order.first) <=> b.send(order.first)
@@ -411,7 +411,7 @@ private
       "created_at::timestamp::date, LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
     when :directory
       if options[:select_favourites] && is_not_a_playlist
-        [:location, direction.downcase.to_sym, lambda { |location| location.split("/").last }]
+        [:location, direction.downcase.to_sym, lambda { |location| location.split("/")[-2] }]
       else
         "split_part(location, '/', array_length(regexp_split_to_array(location, E'\/'), 1) - 1)"
       end
