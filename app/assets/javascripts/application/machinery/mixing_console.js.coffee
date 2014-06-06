@@ -64,7 +64,7 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
   now_playing_marquee_animation_callback: () =>
     marquee_wrapper = @group.view.el_now_playing.querySelector(".marquee-wrapper")
-    marquee_wrapper.style.left = 0
+    marquee_wrapper.style.left = 0 if marquee_wrapper
 
     @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation, 3000)
 
