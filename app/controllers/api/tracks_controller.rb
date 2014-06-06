@@ -303,8 +303,18 @@ private
 
     # sort in ruby if needed
     if order.is_a?(Array)
-      tracks_placeholder = tracks_placeholder.sort do |a, b|
-        a.send(order.first) <=> b.send(order.first)
+      order_with_lambda = !order[3].nil?
+      
+      if order_with_lambda
+        the_lambda = order[3]
+        
+        tracks_placeholder = tracks_placeholder.sort do |a, b|
+          the_lambda.call(a.send(order.first)) <=> the_lambda(b.send(order.first))
+        end  
+      else
+        tracks_placeholder = tracks_placeholder.sort do |a, b|
+          a.send(order.first) <=> b.send(order.first)
+        end
       end
 
       if order[1] == :desc
@@ -400,10 +410,14 @@ private
     when :date
       "created_at::timestamp::date, LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
     when :directory
-      "split_part(location, '/', array_length(regexp_split_to_array(location, E'\/'), 1) - 1)"
+      if options[:select_favourites] && is_not_a_playlist
+        [:location, direction.downcase.to_sym, lambda { |location| location.split("/").last }]
+      else
+        "split_part(location, '/', array_length(regexp_split_to_array(location, E'\/'), 1) - 1)"
+      end
     when :location
       if options[:select_favourites] && is_not_a_playlist
-        [:location, direction.downcase.to_sym]
+        [:location, direction.downcase.to_sym, lambda { |location| location.downcase }]
       else
         "LOWER(location)"
       end
