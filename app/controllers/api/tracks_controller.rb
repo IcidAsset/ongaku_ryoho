@@ -132,8 +132,13 @@ private
 
     # conditions / basic track selection
     if select_favourites
-      conditions << "#{table}.user_id = ?"
-      condition_arguments << current_user.id
+      if playlist
+        # tracks will be selected in the
+        # 'select_favourites_tracks_for_playlist' method
+      else
+        conditions << "#{table}.user_id = ?"
+        condition_arguments << current_user.id
+      end
     else
       conditions << "#{table}.source_id IN (?)"
       condition_arguments << available_source_ids
