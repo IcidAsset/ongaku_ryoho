@@ -274,7 +274,8 @@ private
           album: f.album,
           tracknr: 0,
           genre: "",
-          location: "NOT AVAILABLE"
+          location: "NOT AVAILABLE",
+          created_at: DateTime.new(0, 1, 1).to_s
         })
 
         imaginary_track.favourite_id = f.id
@@ -316,9 +317,8 @@ private
         the_lambda = order[2]
         tracks_placeholder = tracks_placeholder.sort_by(&the_lambda)
       else
-        tracks_placeholder = tracks_placeholder.sort do |a, b|
-          a.send(order.first) <=> b.send(order.first)
-        end
+        sort_by = order.first
+        tracks_placeholder = tracks_placeholder.sort_by(&sort_by)
       end
 
       if order[1] == :desc
@@ -432,7 +432,7 @@ private
       end
     when :directory
       if options[:select_favourites] && is_not_a_playlist
-        [:location, direction.downcase.to_sym, lambda { |t| t.location.split("/")[-2] }]
+        [:location, direction.downcase.to_sym, lambda { |t| t.location.split("/")[-2] || "" }]
       else
         "split_part(location, '/', array_length(regexp_split_to_array(location, E'\/'), 1) - 1)"
       end
