@@ -314,10 +314,7 @@ private
 
       if order_with_lambda
         the_lambda = order[2]
-
-        tracks_placeholder = tracks_placeholder.sort do |a, b|
-          the_lambda.call(a.send(order.first)) <=> the_lambda.call(b.send(order.first))
-        end
+        tracks_placeholder = tracks_placeholder.sort_by(&the_lambda)
       else
         tracks_placeholder = tracks_placeholder.sort do |a, b|
           a.send(order.first) <=> b.send(order.first)
@@ -435,13 +432,13 @@ private
       end
     when :directory
       if options[:select_favourites] && is_not_a_playlist
-        [:location, direction.downcase.to_sym, lambda { |location| location.split("/")[-2] }]
+        [:location, direction.downcase.to_sym, lambda { |t| t.location.split("/")[-2] }]
       else
         "split_part(location, '/', array_length(regexp_split_to_array(location, E'\/'), 1) - 1)"
       end
     when :location
       if options[:select_favourites] && is_not_a_playlist
-        [:location, direction.downcase.to_sym, lambda { |location| location.downcase }]
+        [:location, direction.downcase.to_sym, lambda { |t| t.location.downcase }]
       else
         "LOWER(location)"
       end
