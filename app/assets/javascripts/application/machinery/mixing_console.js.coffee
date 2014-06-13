@@ -20,6 +20,9 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
     item = now_playing.querySelector(".item")
     span = item.querySelector("span")
 
+    # check
+    return unless item
+
     # clear existing timeouts
     this.clear_now_playing_marquee_timeouts()
 
@@ -43,10 +46,11 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
     spans = item.querySelectorAll("span")
     marquee_wrapper = spans[0].parentNode
-    marquee_wrapper.style.cssText = "left:0px;overflow:hidden;position:absolute;width:5000px;"
 
-    # animate with marquee-wrapper
-    @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation, 3000)
+    # continue
+    if marquee_wrapper
+      marquee_wrapper.style.cssText = "left:0px;overflow:hidden;position:absolute;width:5000px;"
+      @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation, 3000)
 
 
 
