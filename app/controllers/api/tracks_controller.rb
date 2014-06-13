@@ -316,7 +316,7 @@ private
         the_lambda = order[2]
 
         tracks_placeholder = tracks_placeholder.sort do |a, b|
-          the_lambda.call(a.send(order.first)) <=> the_lambda(b.send(order.first))
+          the_lambda.call(a.send(order.first)) <=> the_lambda.call(b.send(order.first))
         end
       else
         tracks_placeholder = tracks_placeholder.sort do |a, b|
