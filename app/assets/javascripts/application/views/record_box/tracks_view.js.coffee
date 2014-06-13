@@ -131,13 +131,17 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
             split = track.get("location").split("/")
             split[split.length - 2] || "Root"
           when "date"
-            date = new Date(track.get("created_at"))
-            date_month = [
-              "January", "February", "March", "April", "May",
-              "June", "July", "August", "September", "October",
-              "November", "December"
-            ][date.getMonth()]
-            "#{date.getDate()} #{date_month} #{date.getFullYear()}"
+            date = track.get("created_at")
+            if date
+              date = new Date(track.get("created_at"))
+              date_month = [
+                "January", "February", "March", "April", "May",
+                "June", "July", "August", "September", "October",
+                "November", "December"
+              ][date.getMonth()]
+              "#{date.getDate()} #{date_month} #{date.getFullYear()}"
+            else
+              ""
           else
             ""
 

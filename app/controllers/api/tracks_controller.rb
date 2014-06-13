@@ -425,7 +425,7 @@ private
     order = case sort_by
     when :date
       if options[:select_favourites] && is_not_a_playlist
-        [:created_at, direction.downcase.to_sym, lambda { |t| t.created_at || ActiveSupport::TimeZone["UTC"].parse(Date.new(0, 1, 1).to_s) }]
+        [:created_at, direction.downcase.to_sym, lambda { |t| t.created_at || Date.new(0, 1, 1).to_s }]
       else
         "created_at::timestamp::date, LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
       end
