@@ -11,8 +11,10 @@ class Api::TracksController < ApplicationController
     # select tracks
     tracks_box = select_tracks(available_source_ids, options)
 
-    # render
-    only = %w(artist title album tracknr filename location url id favourite_id source_id created_at)
+    only = %w(
+      artist title album tracknr filename
+      location url id favourite_id source_id created_at
+    )
 
     tracks = tracks_box[:tracks].map do |track|
       attrs = track.attributes.select do |k, v|
@@ -22,6 +24,7 @@ class Api::TracksController < ApplicationController
       attrs
     end
 
+    # json
     render json: Oj.dump({
       page: options[:page],
       per_page: options[:per_page],
@@ -127,23 +130,14 @@ private
     # conditions
     conditions, condition_arguments = [], []
 
-    unless playlist.is_a?(Playlist) or playlist.is_a?(String)
-      if select_favourites
-        conditions << "#{table}.user_id = ?"
-        condition_arguments << current_user.id
-      else
-        conditions << "#{table}.source_id IN (?)"
-        condition_arguments << available_source_ids
-      end
-    end
+    # conditions / basic track selection
+    if select_favourites
+      conditions << "#{table}.user_id = ?"
+      condition_arguments << current_user.id
+    else
+      conditions << "#{table}.source_id IN (?)"
+      condition_arguments << available_source_ids
 
-    if filter
-      conditions << "#{table}.search_vector @@ to_tsquery('english', ?)"
-      condition_arguments << options[:filter]
-    end
-
-    # conditions / playlist
-    unless select_favourites
       if playlist.is_a?(Playlist)
         conditions.unshift "#{table}.id IN (?)"
         condition_arguments.unshift playlist.track_ids
@@ -151,6 +145,12 @@ private
         conditions.push "#{table}.location LIKE (?)"
         condition_arguments.push "#{playlist}%"
       end
+    end
+
+    # conditions / full text search
+    if filter
+      conditions << "#{table}.search_vector @@ to_tsquery('english', ?)"
+      condition_arguments << options[:filter]
     end
 
     # bundle conditions
@@ -200,7 +200,7 @@ private
       Track.count(conditions: conditions)
     end
 
-    # playlist unavailable tracks
+    # playlist / mark unavailable tracks
     if playlist.is_a?(Playlist)
       tracks = tracks.each do |t|
         unless available_source_ids.include?(t.source_id)
@@ -372,6 +372,15 @@ private
       tracks.length
     else
       Track.count(conditions: conditions)
+    end
+
+    # unavailable tracks
+    tracks = tracks.each do |t|
+      unless available_source_ids.include?(t.source_id)
+        t.available = false
+      end
+
+      t
     end
 
     # return
