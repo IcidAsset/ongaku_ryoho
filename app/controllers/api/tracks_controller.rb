@@ -274,8 +274,7 @@ private
           album: f.album,
           tracknr: 0,
           genre: "",
-          location: "NOT AVAILABLE",
-          created_at: DateTime.new(0, 1, 1).to_s
+          location: "NOT AVAILABLE"
         })
 
         imaginary_track.favourite_id = f.id
@@ -426,7 +425,7 @@ private
     order = case sort_by
     when :date
       if options[:select_favourites] && is_not_a_playlist
-        [:created_at, direction.downcase.to_sym]
+        [:created_at, direction.downcase.to_sym, lambda { |t| t.created_at || DateTime.new(0, 1, 1).to_s }]
       else
         "created_at::timestamp::date, LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
       end
