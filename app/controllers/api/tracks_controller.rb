@@ -140,8 +140,10 @@ private
         condition_arguments << current_user.id
       end
     else
-      conditions << "#{table}.source_id IN (?)"
-      condition_arguments << available_source_ids
+      unless playlist.is_a?(Playlist)
+        conditions << "#{table}.source_id IN (?)"
+        condition_arguments << available_source_ids
+      end
 
       if playlist.is_a?(Playlist)
         conditions.unshift "#{table}.id IN (?)"
