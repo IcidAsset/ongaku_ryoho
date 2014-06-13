@@ -39,6 +39,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     # success
     options.success = (collection, response, request_options) =>
       success(collection, response, request_options) if success
+      OngakuRyoho.RecordBox.Playlists.collection.fetch()
       this.trigger("fetched")
 
     # call super

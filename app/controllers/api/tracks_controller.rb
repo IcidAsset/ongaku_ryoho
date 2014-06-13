@@ -338,10 +338,14 @@ private
     more_conditions = []
 
     # get favourites
-    favourites = Favourite.find(:all, {
-      conditions: "user_id = #{current_user.id} AND track_ids ?| ARRAY[#{asi_string}]",
-      select: "array_to_string(track_ids -> ARRAY[#{asi_string}], ',') AS selected_track_ids"
-    })
+    favourites = if available_source_ids.length === 0
+      []
+    else
+      Favourite.find(:all, {
+        conditions: "user_id = #{current_user.id} AND track_ids ?| ARRAY[#{asi_string}]",
+        select: "array_to_string(track_ids -> ARRAY[#{asi_string}], ',') AS selected_track_ids"
+      })
+    end
 
     # track ids from favourites
     track_ids = favourites.map(&:selected_track_ids)
