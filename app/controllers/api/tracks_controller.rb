@@ -254,7 +254,7 @@ private
     source_ids = current_user.sources.all.map(&:id)
     unavailable_source_ids = source_ids - available_source_ids
 
-    favourites.each_with_index do |f, idx|
+    favourites.each do |f|
       track_id = nil
 
       unless f.track_ids.keys.empty?
@@ -274,7 +274,7 @@ private
           album: f.album,
           tracknr: 0,
           genre: "",
-          location: ""
+          location: "NOT AVAILABLE"
         })
 
         imaginary_track.favourite_id = f.id
@@ -310,10 +310,10 @@ private
 
     # sort in ruby if needed
     if order.is_a?(Array)
-      order_with_lambda = !order[3].nil?
+      order_with_lambda = !order[2].nil?
 
       if order_with_lambda
-        the_lambda = order[3]
+        the_lambda = order[2]
 
         tracks_placeholder = tracks_placeholder.sort do |a, b|
           the_lambda.call(a.send(order.first)) <=> the_lambda(b.send(order.first))
@@ -428,7 +428,11 @@ private
 
     order = case sort_by
     when :date
-      "created_at::timestamp::date, LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
+      if options[:select_favourites] && is_not_a_playlist
+        [:created_at, direction.downcase.to_sym]
+      else
+        "created_at::timestamp::date, LOWER(artist), LOWER(album),#{other_cols} LOWER(title)"
+      end
     when :directory
       if options[:select_favourites] && is_not_a_playlist
         [:location, direction.downcase.to_sym, lambda { |location| location.split("/")[-2] }]
