@@ -84,10 +84,10 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
 
   add_error_message_to_shown_window: (error_msg) ->
-    error_msg ?= "Please fill in all fields"
+    error_msg ?= "Please fill in all necessary fields"
     error_html = "<div class=\"error\">#{error_msg}</div>"
 
-    $div = this.$el.find(".window.shown section .scrollable .left .clear")
+    $div = this.$el.find(".window.shown section .scrollable .left .clear input[name=commit]").parent()
     $div.find(".error").remove()
     $div.append(error_html)
 
@@ -107,6 +107,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     # set edit form html and attributes
     $form_edit.attr("data-source-id", source.get("id"))
     $form_edit.html($form_new.html())
+    $form_edit.find(".do-not-edit").remove()
 
     # set values
     $form_edit.find("[name]:not([type='submit'])").each(() ->

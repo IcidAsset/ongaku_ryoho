@@ -44,9 +44,13 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
     # add sources
     OngakuRyoho.SourceManager.collection.each((source) ->
       source_attributes = source.toJSON()
+      source_attributes.type_text = source.type_instance.type_text()
       source_attributes.label = source.type_instance.label()
       source_attributes.type_server = (source_attributes.type is "Server")
       source_attributes.type_s3bucket = (source_attributes.type is "S3Bucket")
+      source_attributes.type_dropbox = (source_attributes.type is "DropboxAccount")
+
+      console.log(source.attributes)
 
       source_el = document.createElement("div")
       source_el.classList.add("source")
@@ -64,7 +68,12 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
 
     # append sources
     s = this.el.querySelector(".sources")
-    s.innerHTML = ""
+
+    if s
+      s.innerHTML = ""
+    else
+      this.el.innerHTML = @template()
+      s = this.el.querySelector(".sources")
 
     if fragment.childNodes.length is 0
       this.add_nothing_here_message(s.parentNode)

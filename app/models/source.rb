@@ -80,4 +80,53 @@ class Source < ActiveRecord::Base
     $redis.srem(:source_queue, self.id)
   end
 
+
+  #
+  #  Utility functions
+  #
+  def self.parse_track_tag_value(value)
+    new_value = if !value
+      "Unknown"
+    elsif value.is_a?(String)
+      (value.length > 255 ? value[0...255] : value).scrub
+    else
+      value
+    end
+
+    new_value
+  end
+
+
+  def self.probe_audio_file(options={})
+    ffprobe_command = Rails.env.development? ? "ffprobe" : "bin/ffprobe"
+    ffprobe_results = if options[:url]
+      url = options[:url].sub("https://", "http://")
+      `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format "#{url}"`
+    else
+      {} # fallback
+    end
+
+    ffprobe_results = Oj.load(ffprobe_results)
+    tags = ffprobe_results.try(:[], "format").try(:[], "tags")
+
+    if tags
+      {
+        title: tags["title"],
+        artist: tags["artist"],
+        album: tags["album"],
+        year: tags["date"] || tags["year"],
+        tracknr: tags["track"].try(:split, "/").try(:first) || 0,
+        genre: tags["genre"],
+
+        filename: options[:file_path].split("/").last,
+        location: options[:file_path]
+      }
+    end
+  end
+
+
+  def self.probe_audio_file_via_url(url, file_path)
+    Source.probe_audio_file(url: url, file_path: file_path)
+  end
+
 end

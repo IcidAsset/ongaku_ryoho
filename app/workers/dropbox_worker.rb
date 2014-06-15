@@ -1,0 +1,121 @@
+class DropboxWorker
+  include Sidekiq::Worker
+
+  def perform(user_id, dropbox_id, data)
+    ActiveRecord::Base.connection_pool.with_connection do
+      perform_step_two(user_id, dropbox_id, data)
+    end
+  end
+
+
+  def perform_step_two(user_id, dropbox_id, data)
+    dropbox = DropboxAccount.find(dropbox_id, conditions: { user_id: user_id })
+    @log_prefix = "[u#{user_id}/s#{dropbox.try(:id) || '?'}]"
+
+    if dropbox
+      begin
+        update_tracks(dropbox, data, user_id)
+      rescue => e
+        logger.info { e.message }
+        logger.info { e.backtrace.inspect }
+        dropbox.remove_from_redis_queue
+        logger.info { "#{@log_prefix} DropboxWorker could not be processed!" }
+      end
+
+    else
+      dropbox.remove_from_redis_queue
+      logger.info { "#{@log_prefix} Dropbox instance not found!" }
+
+    end
+  end
+
+
+  def update_tracks(dropbox, data, user_id)
+    directory = dropbox.configuration["directory"]
+    access_token = dropbox.configuration["access_token"]
+    dropbox_client = DropboxClient.new(access_token)
+    current_file_list = dropbox.file_list
+    new_tracks_counter = 0
+    batch_counter = 0
+
+    # directory
+    directory = directory.strip.chomp("/")
+    directory = directory.sub(/^\/+/, "")
+
+    # dropbox file list
+    dropbox_directory_metadata = dropbox_client.metadata("/#{directory}")
+    dropbox_file_list = make_dropbox_file_list(dropbox_client, dropbox_directory_metadata)
+
+    # new / missing
+    missing_files = current_file_list - dropbox_file_list
+    new_files = dropbox_file_list - current_file_list
+
+    logger.info { "#{@log_prefix} removed: #{missing_files.size}" }
+    logger.info { "#{@log_prefix} added: #{new_files.size}" }
+
+    # remove tracks
+    DropboxAccount.remove_tracks(dropbox, missing_files)
+
+    # add new tracks
+    new_files.each_slice(25) do |batch|
+      new_tracks = process_batch(dropbox, dropbox_client, batch)
+      new_tracks_counter = new_tracks_counter + new_tracks.size
+      batch_counter = batch_counter + 1
+
+      DropboxAccount.add_new_tracks(dropbox, new_tracks)
+
+      logger.info { "#{@log_prefix} batch *#{batch_counter}* added: #{batch.size} tracks" }
+    end
+
+    # update some attributes if needed
+    if current_file_list.empty? && (missing_files.size > 0 or new_tracks_counter > 0)
+      dropbox.activated = true
+      dropbox.processed = true
+      dropbox.save
+    end
+
+    # bind favourites to tracks
+    made_bindings = Favourite.bind_favourites_with_tracks(dropbox.user_id)
+
+    # if changes -> save
+    if missing_files.size > 0 or new_tracks_counter > 0 or made_bindings
+      dropbox.updated_at = Time.now
+      dropbox.save
+    end
+
+    # remove from redis queue
+    dropbox.remove_from_redis_queue()
+  end
+
+
+  def make_dropbox_file_list(dropbox_client, dropbox_directory_metadata)
+    file_list = dropbox_directory_metadata["contents"].map do |obj|
+      if obj["is_dir"]
+        make_dropbox_file_list(dropbox_client, dropbox_client.metadata(obj["path"]))
+      else
+        obj["path"]
+      end
+    end.compact
+
+    file_list = file_list.flatten.select do |path|
+      path.end_with?(*OngakuRyoho::SUPPORTED_FILE_FORMATS)
+    end
+
+    file_list
+  end
+
+
+  def process_batch(dropbox, dropbox_client, batch)
+    batch.map do |path|
+      path = "/#{path}"
+      media_response = dropbox_client.media(path)
+      media_url = media_response["url"]
+      tags = Source.probe_audio_file_via_url(media_url, path)
+
+      logger.info { "#{@log_prefix} processed: #{path}" }
+
+      tags
+    end.compact
+  end
+
+end

@@ -41,7 +41,18 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
   #  Other event handlers
   #
   data_window_click_handler: (e) =>
-    @view.show_window(e.currentTarget.getAttribute("data-window"))
+    w = e.currentTarget.getAttribute("data-window")
+    view = @view
+    view.show_window(w)
+
+    # extra extra
+    if w is "add-source-dropbox"
+      promise = OngakuRyoho.Classes.SourceTypes.DropboxAccount.prototype.get_authorize_url()
+      promise.then((response) ->
+        authorize_url = response.authorize_url
+        view.$el.find(".window.shown .auth-code").attr("href", authorize_url)
+      )
+
 
 
   form_submit_handler: (e) ->
@@ -78,12 +89,15 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
     )
 
     # validate attrs
+    type = attrs.type
     errors = []
+    optional_fields =
+        DropboxAccount: ["directory"]
 
     validate_object = (obj) ->
       _.each(obj, (v, k) ->
         if typeof(v) is "string"
-          errors.push(k) if v.length is 0
+          errors.push(k) if v.length is 0 and !_.contains(optional_fields[type], k)
         else if typeof(v) is "object"
           validate_object(v)
       )
@@ -98,15 +112,19 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
     # action -> create
     if $form.attr("data-action") is "CREATE"
       OngakuRyoho.SourceManager.collection.create(attrs, {
-        wait: true,
-        success: () ->
-          OngakuRyoho.SourceManager.view.render("SourceList", "main")
-          OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
-          OngakuRyoho.SourceManager.collection.update_tracks_on_all()
-            .then (changes) ->
-              unless _.contains(changes, true)
-                OngakuRyoho.RecordBox.Tracks.collection.fetch()
-              OngakuRyoho.SourceManager.view.render("SourceList", "main")
+        success: (model) ->
+          model.fetch({ success: () ->
+            OngakuRyoho.SourceManager.view.render("SourceList", "main")
+            OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
+            OngakuRyoho.SourceManager.collection.update_tracks_on_all()
+              .then (changes) ->
+                unless _.contains(changes, true)
+                  OngakuRyoho.RecordBox.Tracks.collection.fetch()
+                OngakuRyoho.SourceManager.view.render("SourceList", "main")
+          })
+        error: (model) ->
+          OngakuRyoho.SourceManager.collection.remove(model)
+          alert("Could not add this source")
       })
 
       OngakuRyoho.SourceManager.view.show_window("main")

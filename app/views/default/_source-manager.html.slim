@@ -30,11 +30,9 @@
             .select-button[data-window="add-source-ors"] Select
           / Dropbox
           .menu-item
-            .title ?
-            p
-              | Suggestions are welcome<br>
-              a[href="https://twitter.com/icidasset" target="_blank"] @icidasset
-            .select-button.disabled Not available yet
+            .title Dropbox
+            p Account<br>&nbsp;
+            .select-button[data-window="add-source-dropbox"] Select
 
         .toolbar
           a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
@@ -126,6 +124,57 @@
           a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
           a[rel="close-modal" data-icon="&#10006;"] Close
 
+  /
+  /  Add source
+  /  -> Dropbox
+  /
+  .window.add-source-dropbox
+    header: .box Add source &nbsp;&mdash;&nbsp; Dropbox
+    section
+      .flexible
+        form.scrollable[data-type="DropboxAccount" data-action="CREATE"]
+          .left
+            .title Data
+            .field
+              = label_tag "name"
+              = text_field_tag "name"
+            .field
+              = label_tag "configuration[directory]", "Directory (optional)"
+              = text_field_tag "configuration[directory]"
+            .long-field.do-not-edit
+              p
+                | Go to this
+                = " "
+                strong
+                  a[href="" class="auth-code" target="_blank"] url
+                |  and copy the
+                strong  authorization code
+                |  below
+              = label_tag "configuration[authorize_code]", "Authorization code"
+              = text_field_tag "configuration[authorize_code]"
+            .field.clear
+              = submit_tag "Save"
+          .right
+            = render partial: "default/parts/source-settings"
+
+        .toolbar
+          a[rel="go-back" data-icon="&#59229" data-to="add-source-menu"] Go back
+          a[rel="close-modal" data-icon="&#10006;"] Close
+
+  /
+  /  Edit source
+  /  -> Dropbox
+  /
+  .window.edit-source-dropbox
+    header: .box Edit source
+    section
+      .flexible
+        form.scrollable[data-type="DropboxAccount" data-action="UPDATE"]
+
+        .toolbar
+          a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
+          a[rel="close-modal" data-icon="&#10006;"] Close
+
 
 
   /
@@ -146,7 +195,7 @@
 
   script type="text/x-handlebars-template" data-template-name="source"
     | <div class="light"><span></span></div>
-      <div rel="type">{{type}}</div>
+      <div rel="type">{{type_text}}</div>
       <div rel="label">{{{label}}}</div>
 
       {{#if type_server}}
@@ -175,6 +224,10 @@
             <span>Not processed yet</span>
           {{/if}}
         </div>
+      {{/if}}
+
+      {{#if type_dropbox}}
+        <div rel="info"></div>
       {{/if}}
 
       <div class="menu">

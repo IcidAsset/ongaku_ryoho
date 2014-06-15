@@ -11,6 +11,11 @@ OngakuRyoho::Application.routes.draw do
         get :file_list
         post :update_tracks
         get :s3_signed_url
+        get :dropbox_media_url
+      end
+
+      collection do
+        get :dropbox_authorize_url
       end
     end
   end

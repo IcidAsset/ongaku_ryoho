@@ -1,5 +1,10 @@
 class OngakuRyoho.Classes.SourceTypes.Server
 
+  type_text: () ->
+    "ONGAKU RYOHO SERVER"
+
+
+
   label: () ->
     this.server.get("name")
 

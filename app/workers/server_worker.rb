@@ -19,12 +19,12 @@ class ServerWorker
         logger.info { e.message }
         logger.info { e.backtrace.inspect }
         server.remove_from_redis_queue
-        logger.info { "ServerWorker could not be processed!" }
+        logger.info { "#{@log_prefix} ServerWorker could not be processed!" }
       end
 
     else
       server.remove_from_redis_queue
-      logger.info { "Server instance not found!" }
+      logger.info { "#{@log_prefix} Server instance not found!" }
 
     end
   end

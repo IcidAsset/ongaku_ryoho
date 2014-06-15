@@ -85,7 +85,8 @@ class Api::SourcesController < ApplicationController
     end
 
     # render
-    render json: Oj.dump({ "working" => allowed_to_proceed })
+    is_working = !!(source && source.busy) || allowed_to_proceed
+    render json: Oj.dump({ "working" => is_working })
   end
 
 
@@ -101,6 +102,36 @@ class Api::SourcesController < ApplicationController
     render json: Oj.dump({
       "signed_url" => signed_url,
       "expire_date" => expire_date
+    })
+  end
+
+
+  #
+  #  Members / Dropbox
+  #
+  def dropbox_media_url
+    dropbox = current_user.sources.find(params[:id])
+    access_token = dropbox.configuration["access_token"]
+    dropbox_client = DropboxClient.new(access_token)
+    path = URI.unescape(params[:track_location])
+    media_response = dropbox_client.media(path)
+
+    render json: Oj.dump({
+      "media_url" => media_response["url"],
+      "expire_date" => media_response["expires"]
+    })
+  end
+
+
+  #
+  #  Collection / Dropbox
+  #
+  def dropbox_authorize_url
+    flow = DropboxOAuth2FlowNoRedirect.new(DropboxAccount::APP_KEY, DropboxAccount::APP_SECRET)
+    authorize_url = flow.start
+
+    render json: Oj.dump({
+      "authorize_url" => authorize_url
     })
   end
 

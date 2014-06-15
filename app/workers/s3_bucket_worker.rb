@@ -31,7 +31,6 @@ class S3BucketWorker
 
 
   def update_tracks(s3_bucket, data, user_id)
-    parsed_data = Oj.load(data)
     file_list = s3_bucket.file_list
     signature_expire_date = DateTime.now.tomorrow.to_i
     new_tracks_counter = 0
@@ -87,26 +86,11 @@ class S3BucketWorker
   def process_keys_array(s3_bucket, bucket, signature_expire_date, array)
     array.map do |key|
       obj_signed_url = s3_bucket.signed_url(key, signature_expire_date, bucket.host)
-      ffprobe_command = Rails.env.development? ? "ffprobe" : "bin/ffprobe"
-      ffprobe_results = `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format "#{obj_signed_url}"`
-      ffprobe_results = Oj.load(ffprobe_results)
-      tags = ffprobe_results.try(:[], "format").try(:[], "tags")
+      tags = Source.probe_audio_file_via_url(obj_signed_url, key)
 
       logger.info { "#{@log_prefix} processed: #{key}" }
 
-      if tags
-        {
-          title: tags["title"],
-          artist: tags["artist"],
-          album: tags["album"],
-          year: tags["date"] || tags["year"],
-          tracknr: tags["track"].try(:split, "/").try(:first) || 0,
-          genre: tags["genre"],
-
-          filename: key.split("/").last,
-          location: key
-        }
-      end
+      tags
     end.compact
   end
 

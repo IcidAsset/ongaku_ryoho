@@ -1,5 +1,10 @@
 class OngakuRyoho.Classes.SourceTypes.S3Bucket
 
+  type_text: () ->
+    "S3 BUCKET"
+
+
+
   label: () ->
     this.s3bucket.get("name")
 

@@ -11,6 +11,7 @@ gem 'sidekiq', '~> 3.0'
 gem 'sorcery', '~> 0.8'
 gem 'closure-compiler', '~> 1.1'
 gem 's3', '~> 0.3'
+gem 'dropbox-sdk', '~> 1.6', require: "dropbox_sdk"
 gem 'skylight'
 
 gem 'activerecord-postgres-hstore', '~> 0.7'

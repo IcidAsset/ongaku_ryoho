@@ -38,15 +38,7 @@ class Server < Source
       tags["url"] = server.configuration["location"] + tags["location"]
 
       tags.each do |tag, value|
-        new_value = if !value
-          "Unknown"
-        elsif value.is_a?(String)
-          (value.length > 255 ? value[0...255] : value).scrub
-        else
-          value
-        end
-
-        tags[tag] = new_value
+        tags[tag] = Source.parse_track_tag_value(value)
       end
 
       new_track_model = Track.new(tags)
