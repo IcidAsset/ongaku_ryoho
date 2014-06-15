@@ -12,6 +12,15 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 
+  def redirect_if_logged_in
+    if current_user
+      redirect_to root_url
+      return false
+    else
+      return true
+    end
+  end
+
 private
 
   def set_pages

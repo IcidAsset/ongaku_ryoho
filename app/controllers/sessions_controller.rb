@@ -1,10 +1,8 @@
 class SessionsController < ApplicationController
+  before_filter :redirect_if_logged_in, only: [:new]
   layout 'pages'
 
   def new
-    if current_user
-      redirect_to "/"
-    end
   end
 
 

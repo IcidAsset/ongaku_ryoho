@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :require_login, only: [:edit, :update, :destroy]
+  before_filter :redirect_if_logged_in, only: [:new, :create]
   layout 'pages'
 
   def new
