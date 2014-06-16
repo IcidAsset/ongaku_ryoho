@@ -58,7 +58,7 @@ class ServerWorker
     end
 
     # update some attributes if needed
-    if parsed_data.kind_of?(Array) && (missing_files.present? or new_tracks.present?)
+    if parsed_data.kind_of?(Array) && (missing_files.present? || new_tracks.present?)
       server.activated = true
       server.processed = true
       server.save
@@ -68,7 +68,7 @@ class ServerWorker
     made_bindings = Favourite.bind_favourites_with_tracks(server.user_id)
 
     # if changes -> save
-    if missing_files.present? or new_tracks.present? or made_bindings
+    if missing_files.present? || new_tracks.present? || made_bindings
       server.updated_at = Time.now
       server.save
     end

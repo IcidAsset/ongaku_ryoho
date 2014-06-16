@@ -72,7 +72,7 @@ class DropboxWorker
     end
 
     # update some attributes if needed
-    if current_file_list.empty? && (missing_files.size > 0 or new_tracks_counter > 0)
+    if current_file_list.empty? && (missing_files.size > 0 || new_tracks_counter > 0)
       dropbox.activated = true
       dropbox.processed = true
       dropbox.save
@@ -82,7 +82,7 @@ class DropboxWorker
     made_bindings = Favourite.bind_favourites_with_tracks(dropbox.user_id)
 
     # if changes -> save
-    if missing_files.size > 0 or new_tracks_counter > 0 or made_bindings
+    if missing_files.size > 0 || new_tracks_counter > 0 || made_bindings
       dropbox.updated_at = Time.now
       dropbox.save
     end

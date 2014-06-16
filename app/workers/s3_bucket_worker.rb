@@ -63,7 +63,7 @@ class S3BucketWorker
     end
 
     # update some attributes if needed
-    if file_list.empty? && (missing_files.size > 0 or new_tracks_counter > 0)
+    if file_list.empty? && (missing_files.size > 0 || new_tracks_counter > 0)
       s3_bucket.activated = true
       s3_bucket.processed = true
       s3_bucket.save
@@ -73,7 +73,7 @@ class S3BucketWorker
     made_bindings = Favourite.bind_favourites_with_tracks(s3_bucket.user_id)
 
     # if changes -> save
-    if missing_files.size > 0 or new_tracks_counter > 0 or made_bindings
+    if missing_files.size > 0 || new_tracks_counter > 0 || made_bindings
       s3_bucket.updated_at = Time.now
       s3_bucket.save
     end
