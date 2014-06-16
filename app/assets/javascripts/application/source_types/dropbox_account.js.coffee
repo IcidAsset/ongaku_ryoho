@@ -23,8 +23,11 @@ class OngakuRyoho.Classes.SourceTypes.DropboxAccount
   insert_track_hook: (track) =>
     promise = new RSVP.Promise()
     source = OngakuRyoho.SourceManager.collection.get(track.get("source_id"))
-    data = { track_location: encodeURIComponent(track.get("location")) }
     url_expire_date = track.get("url_expire_date")
+
+    path = "/" + source.get("configuration")["directory"].replace(/(^\/+|\/+$)/g, "")
+    path = path.replace(/^\/{2,}/, "/") + "/" + track.get("location")
+    data = { track_location: encodeURIComponent(path) }
 
     # do nothing if the url is still valid
     if url_expire_date and (new Date(url_expire_date * 1000) > (new Date))
