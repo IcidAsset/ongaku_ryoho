@@ -107,7 +107,6 @@ class DropboxWorker
 
   def process_batch(dropbox, dropbox_client, batch)
     batch.map do |path|
-      path = "/#{path}"
       media_response = dropbox_client.media(path)
       media_url = media_response["url"]
       tags = Source.probe_audio_file_via_url(media_url, path)

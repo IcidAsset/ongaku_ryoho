@@ -46,7 +46,7 @@
     header: .box Add source &nbsp;&mdash;&nbsp; Ongaku Ryoho Server
     section
       .flexible
-        form.scrollable[data-type="Server" data-action="CREATE"]
+        form.scrollable[data-type="Server" data-action="CREATE" data-window="add-source-ors"]
           .left
             .title Data
             .field
@@ -72,7 +72,7 @@
     header: .box Edit source
     section
       .flexible
-        form.scrollable[data-type="Server" data-action="UPDATE"]
+        form.scrollable[data-type="Server" data-action="UPDATE" data-window="edit-source-ors"]
 
         .toolbar
           a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
@@ -86,7 +86,7 @@
     header: .box Add source &nbsp;&mdash;&nbsp; S3 Bucket
     section
       .flexible
-        form.scrollable[data-type="S3Bucket" data-action="CREATE"]
+        form.scrollable[data-type="S3Bucket" data-action="CREATE" data-window="add-source-s3-bucket"]
           .left
             .title Data
             .field
@@ -118,7 +118,7 @@
     header: .box Edit source
     section
       .flexible
-        form.scrollable[data-type="S3Bucket" data-action="UPDATE"]
+        form.scrollable[data-type="S3Bucket" data-action="UPDATE" data-window="edit-source-s3-bucket"]
 
         .toolbar
           a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
@@ -132,7 +132,7 @@
     header: .box Add source &nbsp;&mdash;&nbsp; Dropbox
     section
       .flexible
-        form.scrollable[data-type="DropboxAccount" data-action="CREATE"]
+        form.scrollable[data-type="DropboxAccount" data-action="CREATE" data-window="add-source-dropbox"]
           .left
             .title Data
             .field
@@ -169,7 +169,7 @@
     header: .box Edit source
     section
       .flexible
-        form.scrollable[data-type="DropboxAccount" data-action="UPDATE"]
+        form.scrollable[data-type="DropboxAccount" data-action="UPDATE" data-window="edit-source-dropbox"]
 
         .toolbar
           a[rel="go-back" data-icon="&#59229" data-to="main"] Go back
@@ -227,7 +227,20 @@
       {{/if}}
 
       {{#if type_dropbox}}
-        <div rel="info"></div>
+        <div rel="info">
+          {{#if processed}}
+            {{#if configuration.directory}}
+              {{configuration.directory}}
+              <span class="seperator"></span>
+            {{/if}}
+            {{configuration.dropbox_account_display_name}}
+            ({{configuration.dropbox_account_email}})
+            <span class="seperator"></span>
+            {{track_amount}} tracks
+          {{else}}
+            <span>Not processed yet</span>
+          {{/if}}
+        </div>
       {{/if}}
 
       <div class="menu">

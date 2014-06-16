@@ -50,8 +50,6 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
       source_attributes.type_s3bucket = (source_attributes.type is "S3Bucket")
       source_attributes.type_dropbox = (source_attributes.type is "DropboxAccount")
 
-      console.log(source.attributes)
-
       source_el = document.createElement("div")
       source_el.classList.add("source")
       source_el.classList.add("available") if source_attributes.available

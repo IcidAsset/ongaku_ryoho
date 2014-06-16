@@ -57,6 +57,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
 
   form_submit_handler: (e) ->
     $form = $(e.currentTarget)
+    data_window = $form.attr("data-window")
 
     # prevent default
     e.preventDefault()
@@ -124,7 +125,9 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
           })
         error: (model) ->
           OngakuRyoho.SourceManager.collection.remove(model)
-          alert("Could not add this source")
+          OngakuRyoho.SourceManager.view.remove_working_class_from_refresh_sources_button()
+          OngakuRyoho.SourceManager.view.show_window(data_window)
+          alert("Could not add this source, please try again.")
       })
 
       OngakuRyoho.SourceManager.view.show_window("main")
@@ -137,7 +140,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
       source = OngakuRyoho.SourceManager.collection.get(source_id)
       attrs.configuration = $.extend({}, source.get("configuration"), attrs.configuration)
       source.save(attrs, {
-        success: () ->
+        success: (model) ->
           OngakuRyoho.SourceManager.view.render("SourceList", "main")
           OngakuRyoho.SourceManager.view.add_working_class_to_refresh_sources_button()
           OngakuRyoho.SourceManager.collection.update_tracks_on_all()
@@ -145,6 +148,11 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
               unless _.contains(changes, true)
                 OngakuRyoho.RecordBox.Tracks.collection.fetch()
               OngakuRyoho.SourceManager.view.render("SourceList", "main")
+        error: (model) ->
+          OngakuRyoho.SourceManager.collection.remove(model)
+          OngakuRyoho.SourceManager.view.remove_working_class_from_refresh_sources_button()
+          OngakuRyoho.SourceManager.view.show_window(data_window)
+          alert("Could not edit this source, please try again.")
       })
 
       OngakuRyoho.SourceManager.view.show_window("main")
