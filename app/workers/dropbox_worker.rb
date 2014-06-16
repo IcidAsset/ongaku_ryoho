@@ -44,7 +44,11 @@ class DropboxWorker
 
     # dropbox file list
     dropbox_directory_metadata = dropbox_client.metadata("/#{directory}")
-    dropbox_file_list = make_dropbox_file_list(dropbox_client, dropbox_directory_metadata)
+    dropbox_file_list = make_dropbox_file_list(
+      dropbox_client,
+      dropbox_directory_metadata,
+      directory
+    )
 
     # new / missing
     missing_files = current_file_list - dropbox_file_list
@@ -58,7 +62,7 @@ class DropboxWorker
 
     # add new tracks
     new_files.each_slice(25) do |batch|
-      new_tracks = process_batch(dropbox, dropbox_client, batch)
+      new_tracks = process_batch(dropbox, dropbox_client, batch, directory)
       new_tracks_counter = new_tracks_counter + new_tracks.size
       batch_counter = batch_counter + 1
 
@@ -88,12 +92,16 @@ class DropboxWorker
   end
 
 
-  def make_dropbox_file_list(dropbox_client, dropbox_directory_metadata)
+  def make_dropbox_file_list(dropbox_client, dropbox_directory_metadata, directory)
     file_list = dropbox_directory_metadata["contents"].map do |obj|
       if obj["is_dir"]
-        make_dropbox_file_list(dropbox_client, dropbox_client.metadata(obj["path"]))
+        make_dropbox_file_list(
+          dropbox_client,
+          dropbox_client.metadata(obj["path"]),
+          directory
+        )
       else
-        obj["path"]
+        obj["path"].sub(/^\/*#{directory}\/*/i, "")
       end
     end.compact
 
@@ -105,9 +113,9 @@ class DropboxWorker
   end
 
 
-  def process_batch(dropbox, dropbox_client, batch)
+  def process_batch(dropbox, dropbox_client, batch, directory)
     batch.map do |path|
-      media_response = dropbox_client.media(path)
+      media_response = dropbox_client.media("/#{directory}/#{path}")
       media_url = media_response["url"]
       tags = Source.probe_audio_file_via_url(media_url, path)
 

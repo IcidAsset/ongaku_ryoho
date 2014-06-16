@@ -29,6 +29,7 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
           OngakuRyoho.RecordBox.Tracks.collection.fetch()
 
         OngakuRyoho.SourceManager.view.remove_working_class_from_refresh_sources_button()
+        OngakuRyoho.SourceManager.view.render("SourceList", "main")
 
 
 
