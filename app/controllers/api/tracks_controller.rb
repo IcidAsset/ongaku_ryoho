@@ -234,16 +234,18 @@ private
         conditions: conditions,
         order: order
       })
+      
+      total = if options[:offset] == 0 && favourites.length < options[:per_page]
+        favourites.length
+      else
+        Favourite.count(conditions: conditions)
+      end
     else
       favourites = Favourite.find(:all, {
         conditions: conditions
       })
-    end
-
-    total = if options[:offset] == 0 && favourites.length < options[:per_page]
-      favourites.length
-    else
-      Favourite.count(conditions: conditions)
+      
+      total = favourites.length
     end
 
     # process favourites
@@ -266,23 +268,6 @@ private
           unavailable_track_ids << track_id if track_id
         end
       end
-
-      unless track_id
-        imaginary_track = Track.new({
-          title: f.title,
-          artist: f.artist,
-          album: f.album,
-          tracknr: 0,
-          genre: "",
-          location: "NOT AVAILABLE"
-        })
-
-        imaginary_track.favourite_id = f.id
-        imaginary_track.available = false
-
-        index = tracks_placeholder.index(f.id)
-        tracks_placeholder[index] = imaginary_track
-      end
     end
 
     # get unavailable tracks
@@ -304,8 +289,32 @@ private
     end
 
     # clean up placeholder
-    tracks_placeholder = tracks_placeholder.map do |t|
-      t.is_a?(Fixnum) ? nil : t
+    tracks_placeholder = tracks_placeholder.map do |x|
+      if x.is_a?(Fixnum)
+        favourite = favourites.find { |f| f.id === x }
+        
+        if favourite
+          imaginary_track = Track.new({
+            title: favourite.title,
+            artist: favourite.artist,
+            album: favourite.album,
+            tracknr: 0,
+            genre: "",
+            location: "NOT AVAILABLE"
+          })
+    
+          imaginary_track.favourite_id = favourite.id
+          imaginary_track.available = false
+    
+          imaginary_track
+        else
+          nil
+        end
+      
+      else
+        t
+      
+      end
     end.compact
 
     # sort in ruby if needed
@@ -323,6 +332,11 @@ private
       if order[1] == :desc
         tracks_placeholder = tracks_placeholder.reverse
       end
+      
+      tracks_placeholder = tracks_placeholder.slice(
+        options[:offset],
+        options[:per_page]
+      )
     end
 
     # return
