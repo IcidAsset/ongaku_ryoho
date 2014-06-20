@@ -281,23 +281,24 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element ?= this.create_new_audio_element(track, autoplay)
 
     # check audio support
-    return false unless audio_element
+    return [null, null] unless audio_element
 
     # audio element volume
     audio_element.volume = 1
 
     # create, connect and play
-    setTimeout(() =>
-      source = @ac.createMediaElementSource(audio_element)
-      source.mediaElement = audio_element unless source.mediaElement
-      source.connect(@nodes.volume)
-      source.track = track
+    # setTimeout(() =>
+    source = @ac.createMediaElementSource(audio_element)
+    source.mediaElement = audio_element unless source.mediaElement
+    source.connect(@nodes.volume)
+    source.track = track
+    source.id = track.cid
 
-      @sources.push(source)
-    , 0)
+    @sources.push(source)
+    # , 0)
 
     # return
-    return audio_element
+    return [audio_element, source]
 
 
 
@@ -342,12 +343,23 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   #  Destroy all sources
   #
-  destroy_all_sources: () ->
-    # make a copy of the sources array
-    sources = @sources.splice(0, @sources.length)
+  destroy_all_sources: (exceptions) ->
+    exception_ids = _.map(exceptions, (e) -> e.id)
+    sources_to_remove = []
+
+    # sort sources
+    @sources = _.compact(_.map(@sources, (source) ->
+      if _.contains(exception_ids, source.id)
+        source
+      else
+        sources_to_remove.push(source)
+        null
+    ))
 
     # destroy each
-    _.each(sources, (source) => this.destroy_source(source))
+    _.each(sources_to_remove, (source) =>
+      this.destroy_source(source)
+    )
 
 
 

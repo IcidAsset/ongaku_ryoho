@@ -230,16 +230,16 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   insert_track_step_two: (track) ->
-    @audio_engine.destroy_all_sources()
-
-    # track attributes
     track_attributes = track.toJSON()
 
     # create new source
-    audio = @audio_engine.create_new_source(track, true)
+    [audio, source] = @audio_engine.create_new_source(track, true)
 
     # check audio support for filetype
     return this.audio_not_supported_callback() unless audio
+
+    # destroy other sources
+    @audio_engine.destroy_all_sources([source])
 
     # fill up queue
     OngakuRyoho.Engines.Queue.set_next()
