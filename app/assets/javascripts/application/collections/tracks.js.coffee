@@ -17,6 +17,7 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
   #  Fetch
   #
   fetch: (options={}) ->
+    collection = this
     success = options.success
     options.reset = true
 
@@ -39,11 +40,12 @@ class OngakuRyoho.Classes.Collections.Tracks extends Backbone.Collection
     # success
     options.success = (collection, response, request_options) =>
       success(collection, response, request_options) if success
-      OngakuRyoho.RecordBox.Playlists.collection.fetch()
       this.trigger("fetched")
 
-    # call super
-    Backbone.Collection.prototype.fetch.call(this, options)
+    # get playlist and then call super
+    OngakuRyoho.RecordBox.Playlists.collection.fetch({
+      success: () -> Backbone.Collection.prototype.fetch.call(collection, options)
+    })
 
 
 

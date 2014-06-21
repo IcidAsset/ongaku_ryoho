@@ -71,7 +71,7 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Tracks
     track = @group.collection.get(el.getAttribute("rel"))
 
     # insert track
-    OngakuRyoho.Engines.Queue.add_to_next(track, true)
+    OngakuRyoho.Engines.Queue.add_to_next(track, true, false)
     OngakuRyoho.People.SoundGuy.select_next_track()
 
 

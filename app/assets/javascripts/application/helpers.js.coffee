@@ -131,9 +131,11 @@ window.Helpers =
   #
   responsive_state: () ->
     w = document.body.offsetWidth
-    s = "large"
+    s = null
 
-    if w < 1240 and w >= 800
+    if w >= 1240
+      s = "large"
+    else if w < 1240 and w >= 800
       s = "medium"
     else if w < 800 and w >= 480
       s = "small"

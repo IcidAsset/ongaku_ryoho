@@ -16,7 +16,7 @@ class OngakuRyoho.Classes.Engines.Queue
 
 
 
-  add_to_next: (track, in_front=false) ->
+  add_to_next: (track, in_front=false, show_message=true) ->
     obj = { track: track, user: true }
     shuffle = OngakuRyoho.MixingConsole.model.get("shuffle")
 
@@ -30,17 +30,19 @@ class OngakuRyoho.Classes.Engines.Queue
     this.set_next()
 
     # add message
-    message = new OngakuRyoho.Classes.Models.Message
-      text: "<span class=\"icon\" data-icon=\"&#128340;\"></span>
-            #{track.get('artist')} - #{track.get('title')}"
+    if show_message
+      message = new OngakuRyoho.Classes.Models.Message
+        text: "<span class=\"icon\" data-icon=\"&#128340;\"></span>
+              #{track.get('artist')} - #{track.get('title')}"
 
-    OngakuRyoho.MessageCenter.collection.add(message)
+      OngakuRyoho.MessageCenter.collection.add(message)
 
     # remove message
-    _.delay(() ->
-      OngakuRyoho.MessageCenter.collection.remove(message)
-      message = null
-    , 1500)
+    if show_message
+      _.delay(() ->
+        OngakuRyoho.MessageCenter.collection.remove(message)
+        message = null
+      , 1500)
 
 
 
