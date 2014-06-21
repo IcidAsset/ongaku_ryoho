@@ -105,13 +105,20 @@
   // empty state
   .empty-state {
     display: none;
-    left: 8px;
-    letter-spacing: 1px;
-    line-height: 30px;
-    position: absolute;
-    text-transform: uppercase;
-    top: 0;
-    z-index: 0;
+
+    @media screen and (max-width: $breakpoint_small - 1px) {
+      display: none !important;
+    }
+
+    @media screen and (min-width: $breakpoint_small) {
+      left: 8px;
+      letter-spacing: 1px;
+      line-height: 30px;
+      position: absolute;
+      text-transform: uppercase;
+      top: 0;
+      z-index: 0;
+    }
   }
 
   &.is-empty .empty-state {
@@ -138,12 +145,15 @@
   }
 
   .extra-search-field {
-    min-width: 70px;
     position: relative;
     z-index: 1;
 
     @include flex-order(2);
     @include flex;
+
+    @media screen and (min-width: $breakpoint_small) {
+      min-width: 70px;
+    }
   }
 
   .add-buttons {

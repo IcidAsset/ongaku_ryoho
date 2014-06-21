@@ -10,10 +10,15 @@
               rgba(black, 0.025) -5px 0px 7px -1px;
   bottom: 0;
   position: absolute;
-  right: -38%;
+  right: -76%;
   top: 0;
-  width: 38%;
+  width: 76%;
   z-index: 99;
+
+  @media screen and (min-width: $breakpoint_small) {
+    right: -38%;
+    width: 38%;
+  }
 
   @include flex-container;
   @include flex-stretch-vertically;

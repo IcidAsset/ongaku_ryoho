@@ -27,6 +27,10 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
   #  Add & remove
   #
   add_message: (message) =>
+    # do nothing if extra-small resolution
+    return if Helpers.responsive_state() is "extra-small"
+
+    # make a view
     message.view = new OngakuRyoho.Classes.Views.Message({ model: message })
 
     # render message and add to dom
@@ -50,5 +54,5 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
     this.$el.find(".message[rel=\"#{message.cid}\"]")
         .animate({ opacity: 0 }, {
           duration: 500
-          complete: -> view.remove()
+          complete: -> view.remove() if view
         })

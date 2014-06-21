@@ -11,10 +11,16 @@ body {
   font-size: 13px;
   line-height: 1.7em;
   margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   -webkit-text-size-adjust: none;
   -moz-text-size-adjust: none;
   -ms-text-size-adjust: none;
+
+  @media screen and (min-width: $breakpoint_small) {
+    overflow-x: auto;
+  }
 
   @media screen and (min-width: $breakpoint_medium) {
     font-size: 15px;

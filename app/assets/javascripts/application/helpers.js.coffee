@@ -44,7 +44,7 @@ window.Helpers =
 
 
   #
-  #  Get template
+  #  Template, view helpers
   #
   get_template: (template_name) ->
     html = $("[data-template-name=\"#{template_name}\"]").html()
@@ -52,9 +52,6 @@ window.Helpers =
 
 
 
-  #
-  #  Set view element
-  #
   set_view_element: (view, element) ->
     element = if typeof element is String
       document.querySelector(element)
@@ -65,14 +62,16 @@ window.Helpers =
 
 
 
-  #
-  #  Setup handlebars helpers
-  #
   setup_handlebars_helpers: () ->
     # icons
     Handlebars.registerHelper("if_has_icon", (block) ->
       return block(this) if @icon and @icon_type
     )
+
+
+  set_document_title: (text, set_original_title) ->
+    this.original_document_title = document.title if set_original_title
+    document.title = text
 
 
 
@@ -113,15 +112,6 @@ window.Helpers =
 
 
   #
-  #  Set document title
-  #
-  set_document_title: (text, set_original_title) ->
-    this.original_document_title = document.title if set_original_title
-    document.title = text
-
-
-
-  #
   #  Async stuff
   #
   promise_fetch: (obj) ->
@@ -133,3 +123,22 @@ window.Helpers =
     })
 
     return promise
+
+
+
+  #
+  #  Other
+  #
+  responsive_state: () ->
+    w = document.body.offsetWidth
+    s = "large"
+
+    if w < 1240 and w >= 800
+      s = "medium"
+    else if w < 800 and w >= 480
+      s = "small"
+    else
+      s = "extra-small"
+
+    # return
+    s

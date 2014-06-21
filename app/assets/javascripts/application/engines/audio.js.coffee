@@ -344,7 +344,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #  Destroy all sources
   #
   destroy_all_sources: (exceptions) ->
-    exception_ids = _.map(exceptions, (e) -> e.id)
+    exception_ids = _.map(exceptions || [], (e) -> e.id)
     sources_to_remove = []
 
     # sort sources
