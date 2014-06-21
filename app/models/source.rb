@@ -98,9 +98,10 @@ class Source < ActiveRecord::Base
 
 
   def self.probe_audio_file(options={})
-    ffprobe_command = Rails.env.development? ? "ffprobe" : "bin/ffprobe"
+    # ffprobe_command = Rails.env.development? ? "ffprobe" : "bin/ffprobe"
+    ffprobe_command = "ffprobe"
     ffprobe_results = if options[:url]
-      url = options[:url].sub("https://", "http://")
+      url = options[:url]
       `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format "#{url}"`
     else
       {} # fallback

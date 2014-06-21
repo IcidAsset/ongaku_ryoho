@@ -39,7 +39,7 @@ class OngakuRyoho.Classes.SourceTypes.DropboxAccount
         response = JSON.parse(response)
 
         track.set({
-          url: response.media_url.replace("https://", "http://"),
+          url: response.media_url,
           url_expire_date: response.expire_date
         })
 

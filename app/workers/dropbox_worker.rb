@@ -119,6 +119,8 @@ class DropboxWorker
       media_url = media_response["url"]
       tags = Source.probe_audio_file_via_url(media_url, path)
 
+      logger.info { "#{@log_prefix} #{media_url}" }
+      logger.info { "#{@log_prefix} #{tags.inspect}" }
       logger.info { "#{@log_prefix} processed: #{path}" }
 
       tags
