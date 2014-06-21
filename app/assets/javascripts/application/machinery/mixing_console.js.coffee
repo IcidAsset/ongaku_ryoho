@@ -56,6 +56,8 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
 
   now_playing_marquee_animation: () =>
     marquee_wrapper = @group.view.el_now_playing.querySelector(".marquee-wrapper")
+    return unless marquee_wrapper
+
     text_width = marquee_wrapper.querySelector("span").offsetWidth
     anim_speed = text_width * 39.5
 
