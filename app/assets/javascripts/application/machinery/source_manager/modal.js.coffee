@@ -41,8 +41,8 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
   #
   #  Other event handlers
   #
-  data_window_click_handler: (e) =>
-    w = e.currentTarget.getAttribute("data-window")
+  data_show_window_click_handler: (e) =>
+    w = e.currentTarget.getAttribute("data-show-window")
     view = @view
     view.show_window(w)
 

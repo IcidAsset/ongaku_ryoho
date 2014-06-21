@@ -5,7 +5,7 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
     "click .toolbar [rel='add-source']"                     : @machine.toolbar_add_source
     "click .toolbar [rel='refresh-sources']:not(.working)"  : @machine.toolbar_refresh_sources
     "click .toolbar [rel='go-back']"                        : @machine.toolbar_go_back
-    "click [data-window]"                                   : @machine.data_window_click_handler
+    "click [data-show-window]"                              : @machine.data_show_window_click_handler
     "submit form"                                           : @machine.form_submit_handler
 
 
