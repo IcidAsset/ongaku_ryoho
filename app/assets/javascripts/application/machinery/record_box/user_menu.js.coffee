@@ -88,12 +88,17 @@ class OngakuRyoho.Classes.Machinery.RecordBox.UserMenu
 
 
 
-  check_theater_mode: () ->
+  get_theater_mode: () ->
     theater_mode_state = window.localStorage.getItem("theater_mode_state")
     theater_mode_state ?= "off"
+    theater_mode_state
 
-    # set
-    this.set_theater_mode_visibility(theater_mode_state)
+
+
+  check_theater_mode: () ->
+    this.set_theater_mode_visibility(
+      this.get_theater_mode()
+    )
 
 
 

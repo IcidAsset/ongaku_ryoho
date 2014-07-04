@@ -10,6 +10,12 @@ p.a-word-of-advice
 
     br
 
+    = settings_checkbox(s, user, :disable_visualizations)
+    = s.label :disable_visualizations do
+      | Disable visualizations (e.g. for slow computers)
+
+    br
+
     = settings_checkbox(s, user, :hide_playlist_menu)
     = s.label :hide_playlist_menu do
       | Hide playlist menu when playlist is chosen/clicked

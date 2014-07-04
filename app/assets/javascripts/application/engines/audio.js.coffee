@@ -97,7 +97,9 @@ class OngakuRyoho.Classes.Engines.Audio
     low.connect(mid)
     mid.connect(hi)
     hi.connect(@ac.destination)
-    hi.connect(@nodes.channel_splitter)
+
+    if this.should_analyse()
+      hi.connect(@nodes.channel_splitter)
 
     @nodes.biquad =
       low: low
@@ -174,6 +176,11 @@ class OngakuRyoho.Classes.Engines.Audio
     data_left = null
     data_right = null
     dimensions = null
+
+
+
+  should_analyse: () ->
+    (OngakuRyohoPreloadedData.user.settings.disable_visualizations isnt "1") and (!$.os.tablet and !$.os.phone)
 
 
 
@@ -368,7 +375,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   play: (source) ->
     source.mediaElement.play()
-    this.start_analysing() unless $.os.tablet or $.os.phone
+    this.start_analysing() if this.should_analyse()
 
 
 
@@ -377,7 +384,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   pause: (source) ->
     source.mediaElement.pause()
-    this.stop_analysing() unless $.os.tablet or $.os.phone
+    this.stop_analysing() if this.should_analyse()
 
 
 

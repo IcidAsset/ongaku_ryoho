@@ -40,6 +40,11 @@ class OngakuRyoho.Classes.Views.SourceManager.Modal extends Backbone.View
 
 
 
+  is_shown: () ->
+    this.el.classList.contains("show")
+
+
+
   #
   #  Windows
   #
