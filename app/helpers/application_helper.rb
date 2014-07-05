@@ -5,7 +5,7 @@ module ApplicationHelper
   end
 
   def application_css_filename
-    default = "blue-silver"
+    default = "evening"
 
     if current_user
       theme = current_user.settings["theme"] || default

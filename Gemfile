@@ -7,7 +7,7 @@ gem 'puma', '~> 2.8'
 
 gem 'pg', '~> 0.17'
 gem 'redis', '~> 3.0'
-gem 'sidekiq', '~> 3.0'
+gem 'sidekiq', '~> 3.2'
 gem 'sorcery', '~> 0.8'
 gem 'closure-compiler', '~> 1.1'
 gem 's3', '~> 0.3'

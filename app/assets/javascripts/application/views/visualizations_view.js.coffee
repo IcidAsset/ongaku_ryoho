@@ -13,6 +13,10 @@ class OngakuRyoho.Classes.Views.Visualizations extends Backbone.View
 
     @peak_data_context = peak_data_canvas.getContext("2d")
 
+    # settings
+    if OngakuRyohoPreloadedData.user.settings.disable_visualizations is "1"
+      this.$el.css("display", "none")
+
 
 
   #
