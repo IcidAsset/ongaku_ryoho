@@ -7,7 +7,7 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
     searches: []
     favourites: off
     page: 1
-    per_page: 500
+    per_page: 1000
     total: 0
     sort_by: "artist"
     sort_direction: "asc"

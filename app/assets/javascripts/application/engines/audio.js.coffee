@@ -259,7 +259,7 @@ class OngakuRyoho.Classes.Engines.Audio
       audio_element.addEventListener("canplay", (e) =>
         if autoplay
           e.target.play()
-          this.start_analysing()
+          this.start_analysing() if this.should_analyse()
       )
 
     # add element to dom

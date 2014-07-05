@@ -69,33 +69,28 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     a = (typeof OngakuRyoho.RecordBox.Filter.model.get("playlist") is "number")
     b = (this.mode is "default")
 
-    # list element
-    list_element = document.createElement("ol")
-    list_element.className = "tracks"
-
-    # background element
-    background = document.createElement("div")
-    background.className = "background"
-
-    # list fragment
-    [list_fragment, footer_contents] = this["render_#{@mode}_mode"]()
+    # list html
+    [list_html, footer_contents] = this["render_#{@mode}_mode"]()
 
     # if there are no tracks
-    if list_fragment.childNodes.length is 0
-      this.el.innerHTML = ""
-      this.el.scrollTop = 0
-      this.el.appendChild(background)
+    if list_html.length is 0
+      this.el.innerHTML = """
+        <div class="background"></div>
+      """
+
+      # this.el.scrollTop = 0
       this.add_nothing_here_message()
 
       OngakuRyoho.RecordBox.Footer.view.set_contents("")
 
     # and if there are
     else
-      list_element.appendChild(list_fragment)
-      this.el.innerHTML = ""
-      this.el.scrollTop = 0
-      this.el.appendChild(background)
-      this.el.appendChild(list_element)
+      this.el.innerHTML = """
+        <div class="background"></div>
+        <ol class="tracks">#{list_html}</ol>
+      """
+
+      # this.el.scrollTop = 0
 
       if a and b then this.el.parentNode.classList.add("with-position-column")
       else this.el.parentNode.classList.remove("with-position-column")
@@ -117,14 +112,15 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
   render_default_layout: () ->
     page_info = @group.collection.page_info()
-    list_fragment = document.createDocumentFragment()
     track_template = this.get_correct_track_template()
     last_group_by_value = null
     group = OngakuRyoho.RecordBox.TLS.model.get("group")
     should_group = OngakuRyoho.RecordBox.TLS.model.should_group()
+    tracks_view = this
+    html = ""
 
     # render tracks
-    @group.collection.each((track) =>
+    @group.collection.each((track) ->
       if should_group
         group_by_value = switch group
           when "directory"
@@ -146,14 +142,10 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
             ""
 
         if group_by_value isnt last_group_by_value
-          list_fragment.appendChild(
-            this.make_group_element(group_by_value)
-          )
-
+          html = html + tracks_view.make_group_html(group_by_value)
           last_group_by_value = group_by_value
 
-      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track })
-      list_fragment.appendChild(track_view.render(track_template).el)
+      html = html + tracks_view.make_track_html(track, track_template, [])
     )
 
     # set footer contents
@@ -161,14 +153,15 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     message = "#{page_info.total} #{word_tracks} found &mdash; page #{page_info.page} / #{page_info.pages}"
 
     # return
-    [list_fragment, message]
+    [html, message]
 
 
 
-  render_playlist_layout: (list_fragment) ->
+  render_playlist_layout: () ->
     page_info = @group.collection.page_info()
-    list_fragment = document.createDocumentFragment()
     track_template = this.get_correct_track_template()
+    tracks_view = this
+    html = ""
 
     # collect
     filter_playlist = OngakuRyoho.RecordBox.Filter.model.get("playlist")
@@ -179,8 +172,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     # tracks
     _.each(tracks_with_position, (pt) ->
       track = OngakuRyoho.RecordBox.Tracks.collection.get(pt.track_id)
-      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: track }) if track
-      list_fragment.appendChild(track_view.render(track_template, pt).el) if track
+      html = html + tracks_view.make_track_html(track, track_template, [], pt) if track
     )
 
     # set footer contents
@@ -188,33 +180,54 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
     message = "#{tracks_with_position.length} #{word_tracks} found &mdash; page #{page_info.page} / #{page_info.pages}"
 
     # return
-    [list_fragment, message]
+    [html, message]
 
 
 
-  render_queue_mode: (list_element) ->
+  render_queue_mode: () ->
     queue = OngakuRyoho.Engines.Queue
     message = "Queue &mdash; The next #{queue.data.combined_next.length} items"
-    list_fragment = document.createDocumentFragment()
     track_template = this.get_correct_track_template()
+    tracks_view = this
+    html = ""
 
     # group
-    list_fragment.appendChild(
-      this.make_group_element("Queue")
-    )
+    html = html + this.make_group_html("Queue")
 
     # tracks
     _.each(queue.data.combined_next, (map) ->
       return unless map.track
-      track_view = new OngakuRyoho.Classes.Views.RecordBox.Track({ model: map.track })
-      track_view.el.classList.add("queue-item")
-      track_view.el.classList.add("user-selected") if map.user
+      extra_classes = ["queue-item"]
+      extra_classes.push("user-selected") if map.user
 
-      list_fragment.appendChild(track_view.render(track_template).el)
+      html = html + tracks_view.make_track_html(map.track, track_template, extra_classes)
     )
 
     # return
-    [list_fragment, message]
+    [html, message]
+
+
+
+  #
+  #  Track
+  #
+  make_track_html: (model, template, extra_classes, playlist_track) ->
+    model_attr = model.toJSON()
+    model_attr = _.extend(model_attr, { position: playlist_track.position }) if playlist_track
+
+    # location
+    if OngakuRyoho.RecordBox.Filter.model.get("playlist_isspecial")
+      model_attr.location = model_attr.location.replace(/^([^\/]+\/)/, "")
+
+    # content
+    html = "<li class=\"track #{extra_classes.join(" ")}\" draggable=\"1\">#{template(model_attr)}</li>"
+    html = html.replace("<li", "<li rel=\"#{model.id}\"") if model.id
+
+    # extra data and classes
+    html = html.replace("<li", "<li data-playlist-track-id=\"#{playlist_track.id}\"") if playlist_track
+    html = html.replace("class=\"track", "class=\"track unavailable") unless model_attr.available
+
+    html
 
 
 
@@ -240,11 +253,12 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
 
 
 
-  make_group_element: (content) ->
-    group = document.createElement("li")
-    group.className = "group"
-    group.innerHTML = "<span>#{content}</span>"
-    group
+  make_group_html: (content) ->
+    """
+      <li class="group">
+        <span>#{content}</span>
+      <li>
+    """
 
 
 
