@@ -62,9 +62,10 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
     anim_speed = text_width * 39.5
 
     $(marquee_wrapper).animate(
-      { left: -text_width }, anim_speed, "linear",
-      this.now_playing_marquee_animation_callback
+      { left: -text_width }, anim_speed, "linear"
     )
+
+    @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation_callback, anim_speed + 50)
 
 
 

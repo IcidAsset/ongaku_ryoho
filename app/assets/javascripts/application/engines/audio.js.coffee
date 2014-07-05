@@ -400,7 +400,8 @@ class OngakuRyoho.Classes.Engines.Audio
   #  Seek
   #
   seek: (source, percent) ->
-    source.mediaElement.currentTime = source.mediaElement.duration * percent
+    unless _.isNaN(source.mediaElement.duration)
+      source.mediaElement.currentTime = source.mediaElement.duration * percent
 
 
 

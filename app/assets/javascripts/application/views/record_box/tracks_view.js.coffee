@@ -78,7 +78,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
         <div class="background"></div>
       """
 
-      # this.el.scrollTop = 0
+      this.el.scrollTop = 0
       this.add_nothing_here_message()
 
       OngakuRyoho.RecordBox.Footer.view.set_contents("")
@@ -90,7 +90,7 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
         <ol class="tracks">#{list_html}</ol>
       """
 
-      # this.el.scrollTop = 0
+      this.el.scrollTop = 0
 
       if a and b then this.el.parentNode.classList.add("with-position-column")
       else this.el.parentNode.classList.remove("with-position-column")

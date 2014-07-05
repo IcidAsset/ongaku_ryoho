@@ -220,6 +220,11 @@ class OngakuRyoho.Classes.People.SoundGuy
     # get source model
     source = OngakuRyoho.SourceManager.collection.get(track.get("source_id"))
 
+    # set controller attributes
+    @mixing_console.model.set("now_playing",
+      "<strong>Loading</strong> &nbsp;&mdash;&nbsp; #{track.attributes.artist} - #{track.attributes.title}"
+    )
+
     # check if pre-hook
     hook = source.type_instance.insert_track_hook
 
@@ -253,7 +258,7 @@ class OngakuRyoho.Classes.People.SoundGuy
       title:       track_attributes.title
       album:       track_attributes.album
 
-      now_playing: "#{track_attributes.artist} - <strong> #{track_attributes.title}</strong>"
+      now_playing: "#{track_attributes.artist} - <strong>#{track_attributes.title}</strong>"
 
     # set controller attributes
     @mixing_console.model.set(controller_attributes)

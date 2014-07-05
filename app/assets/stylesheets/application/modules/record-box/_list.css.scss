@@ -21,7 +21,9 @@
     .artist, .album, .location {
       float: left;
     }
+  }
 
+  header {
     .favourite  { width: 29px }
     .position   { display: none; width: 47px }
     .title      { width: calc(40% - 29px * 0.4) }
@@ -34,14 +36,30 @@
     .album span { padding-right: 10px }
   }
 
+  .track {
+    .favourite  { padding: 0 7px 0 10px; width: 29px - 17px }
+    .position   { display: none; padding: 0 7px; width: 47px - 14px }
+    .title      { padding: 0 7px; width: calc(40% - 29px * 0.4 - 14px) }
+    .artist     { padding: 0 7px; width: calc(30% - 29px * 0.3 - 14px) }
+    .album      { padding: 0 10px 0 7px; width: calc(30% - 29px * 0.3 - 17px) }
+    .location   { display: none; padding: 0 10px 0 7px; width: calc(100% - 29px * 1 - 17px) }
+  }
+
   // playlist -> position
-  &.with-position-column header,
-  &.with-position-column .track {
+  &.with-position-column header {
     .position   { display: block }
     .title      { width: calc(40% - (47px + 29px) * 0.4) }
     .artist     { width: calc(30% - (47px + 29px) * 0.3) }
     .album      { width: calc(30% - (47px + 29px) * 0.3) }
     .location   { width: calc(100% - (47px + 29px) * 1) }
+  }
+
+  &.with-position-column .track {
+    .position   { display: block }
+    .title      { width: calc(40% - (47px + 29px) * 0.4 - 14px) }
+    .artist     { width: calc(30% - (47px + 29px) * 0.3 - 14px) }
+    .album      { width: calc(30% - (47px + 29px) * 0.3 - 17px) }
+    .location   { width: calc(100% - (47px + 29px) * 1 - 17px) }
   }
 
   // data-cols: location
@@ -131,7 +149,8 @@
     line-height: 26px;
     white-space: nowrap;
 
-    span {
+    // children
+    & > div {
       overflow: hidden;
       text-overflow: ellipsis;
     }

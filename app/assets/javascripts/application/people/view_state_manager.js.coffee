@@ -18,7 +18,7 @@ class OngakuRyoho.Classes.People.ViewStateManager
   #
   save_state_in_local_storage: () ->
     state = {
-      filter_attributes: OngakuRyoho.RecordBox.Filter.model.attributes
+      filter_attributes: _.omit(OngakuRyoho.RecordBox.Filter.model.attributes, "page", "per_page", "total")
       queue_status: this.get_queue_status()
       tls_attributes: OngakuRyoho.RecordBox.TLS.model.attributes
     }
