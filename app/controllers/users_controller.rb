@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     if User.count < 100
       if @user.save
         auto_login(@user, true)
-        redirect_to root_url
+        redirect_to "/account-created"
       else
         render :new
       end
@@ -82,6 +82,11 @@ class UsersController < ApplicationController
   def destroy
     current_user.try(:destroy)
     logout
+  end
+
+
+  def account_created
+    @page_title = "Account created"
   end
 
 end

@@ -1,7 +1,7 @@
 module ApplicationHelper
 
-  def body_class
-    @page[:title].parameterize
+  def body_class(title)
+    title.parameterize
   end
 
   def application_css_filename

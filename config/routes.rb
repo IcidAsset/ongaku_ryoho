@@ -30,16 +30,17 @@ OngakuRyoho::Application.routes.draw do
   put 'settings'    => 'pages#update_settings'
 
   # sessions/users
-  get 'sign-up'     => 'users#new', as: 'sign_up'
-  get 'sign-in'     => 'sessions#new', as: 'sign_in'
-  get 'sign-out'    => 'sessions#destroy', as: 'sign_out'
+  get 'sign-up'           => 'users#new', as: 'sign_up'
+  get 'sign-in'           => 'sessions#new', as: 'sign_in'
+  get 'sign-out'          => 'sessions#destroy', as: 'sign_out'
 
-  post 'sign-in'    => 'sessions#create'
-  post 'sign-up'    => 'users#create'
+  post 'sign-in'          => 'sessions#create'
+  post 'sign-up'          => 'users#create'
 
-  get 'account'     => 'users#edit', as: 'account'
-  put 'account'     => 'users#update'
-  get 'sign-dead'   => 'users#destroy'
+  get 'account'           => 'users#edit', as: 'account'
+  put 'account'           => 'users#update'
+  get 'sign-dead'         => 'users#destroy'
+  get 'account-created'   => 'users#account_created'
 
   # root
   root :to => 'default#index'

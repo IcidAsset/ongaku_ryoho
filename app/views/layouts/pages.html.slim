@@ -3,9 +3,12 @@ html
   head
     meta charset="utf-8"
 
+    - page_title = @page ? @page[:title] : @page_title
+    - body_klass = body_class(page_title)
+
     title
       | Ongaku Ryoho &mdash;
-      = " #{@page[:title]}"
+      = " #{page_title}"
 
     meta name="viewport" content="width=device-height"
     meta name="apple-mobile-web-app-capable" content="yes"
@@ -16,7 +19,7 @@ html
     = stylesheet_link_tag "pages"
     = csrf_meta_tags
 
-  body[class=body_class]
+  body[class=body_klass]
 
     /
     /  Header
@@ -36,7 +39,7 @@ html
     /
     /  Content
     /
-    - if body_class.include? "about"
+    - if body_klass.include? "about"
       = yield
     - else
       .wrapper.content= yield

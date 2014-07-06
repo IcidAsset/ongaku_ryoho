@@ -1,0 +1,42 @@
+.mod-account-created {
+  margin-top: 48px;
+  text-align: center;
+
+  .title {
+    // color: #444;
+    font-size: 60px;
+    font-weight: 100;
+    letter-spacing: -0.025em;
+    line-height: 0.9em;
+    margin-bottom: 39px;
+    text-transform: uppercase;
+
+    @include font-smoothing;
+  }
+
+  p {
+    font-style: italic;
+  }
+
+  p a {
+    background-color: $green_2;
+    border-radius: 3px;
+    color: white;
+    display: inline-block;
+    margin: 0 3px;
+    padding: 3px 23px 3px 9px;
+    position: relative;
+    text-decoration: none;
+  }
+
+  p [data-icon] {
+    display: inline-block;
+    font-size: 24px;
+    margin-left: 3px;
+    position: absolute;
+    right: 10px;
+    top: 1px;
+  }
+
+
+}

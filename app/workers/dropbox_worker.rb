@@ -43,7 +43,7 @@ class DropboxWorker
     directory = directory.sub(/^\/+/, "")
 
     # dropbox file list
-    dropbox_directory_metadata = dropbox_client.metadata("/#{directory}")
+    dropbox_directory_metadata = dropbox_client.metadata("/#{directory}", 25000)
     dropbox_file_list = make_dropbox_file_list(
       dropbox_client,
       dropbox_directory_metadata,
@@ -68,7 +68,7 @@ class DropboxWorker
 
       DropboxAccount.add_new_tracks(dropbox, new_tracks)
 
-      logger.info { "#{@log_prefix} batch *#{batch_counter}* added: #{batch.size} tracks" }
+      logger.info { "#{@log_prefix} batch *#{batch_counter}* added: #{new_tracks.size} (#{batch.size}) tracks" }
     end
 
     # update some attributes if needed
@@ -93,11 +93,14 @@ class DropboxWorker
 
 
   def make_dropbox_file_list(dropbox_client, dropbox_directory_metadata, directory)
-    file_list = dropbox_directory_metadata["contents"].map do |obj|
+    contents = dropbox_directory_metadata ? dropbox_directory_metadata["contents"] : nil
+    contents ||= { "contents" => [] }
+
+    file_list = contents.map do |obj|
       if obj["is_dir"]
         make_dropbox_file_list(
           dropbox_client,
-          dropbox_client.metadata(obj["path"]),
+          dropbox_client.metadata(obj["path"], 25000),
           directory
         )
       else

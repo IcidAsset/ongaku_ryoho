@@ -84,6 +84,14 @@ header nav {
     text-align: right;
   }
 
+  body.account-created & {
+    opacity: .2;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   a, a.sign-in.active {
     border: 0;
     padding: 7px 12px 6px;
