@@ -162,6 +162,56 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
 
 
   #
+  #  Box Show More -> Tooltip
+  #
+  setup_showmore_tooltip: () ->
+    machine = this
+
+    @tooltip = new BareTooltip(@group.view.$el, {
+      trigger_type: "click",
+      tooltip_klass: "tooltip grey",
+      delegate_selector: ".box .show-more-button",
+      animation_speed: 0,
+      timeout_duration: 0,
+      template: """
+        <div class="{{CLASSES}}">
+          <div class="arrow"></div>
+          {{CONTENT}}
+        </div>
+      """
+    })
+
+    # extend
+    @tooltip.show_tooltip = () ->
+      this.state.$tooltip_element.on("click", "a", machine.showmore_tooltip_item_click_handler)
+
+      BareTooltip.prototype.show_tooltip.apply(this)
+
+    @tooltip.hide_tooltip = () ->
+      this.state.$tooltip_element.off("click")
+
+      BareTooltip.prototype.hide_tooltip.apply(this, arguments)
+
+    @tooltip.move_tooltip = (e) ->
+      $t = this.state.$tooltip_element
+      $trigger = $(e.currentTarget)
+
+      $t.css({
+        left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2),
+        top: $trigger.offset().top + $trigger.height() / 2 + 15
+      })
+
+    # setup
+    @tooltip.setup()
+
+
+
+  showmore_tooltip_item_click_handler: (e) =>
+    this["item_#{e.currentTarget.getAttribute('data-type')}_click_handler"](e)
+
+
+
+  #
   #  Other event handlers
   #
   cancel_default_click: (e) ->

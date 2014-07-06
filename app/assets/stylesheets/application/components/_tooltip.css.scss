@@ -92,6 +92,39 @@
     opacity: .7;
   }
 
+  a .keyword {
+    display: inline-block;
+    margin-right: 3px;
+    opacity: .625;
+  }
+
+  a.with-icon {
+    padding-left: 30px;
+
+    .icon {
+      font-size: 23px;
+      left: 11px;
+      line-height: 20px;
+      margin-top: -11px;
+      position: absolute;
+      top: 50%;
+    }
+
+    .icon.close {
+      display: none;
+    }
+
+    &:hover .icon { display: none; }
+    &:hover .icon.close { display: block; }
+  }
+
+  a[data-query] {
+    font-size: 10px;
+    padding-bottom: 3px;
+    padding-top: 6px;
+    text-transform: uppercase;
+  }
+
   // checkbox
   .checkbox {
     border: 1px solid rgba(black, .125);

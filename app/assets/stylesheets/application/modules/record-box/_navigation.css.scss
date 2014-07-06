@@ -144,6 +144,29 @@
     @include flex-order(1);
   }
 
+  .box .show-more-button {
+    background: rgba(saturate(lighten($rbn_inner_color_a, 5), 7.5), .85);
+    color: rgba(saturate(lighten($rbn_inner_color_a, 25), 7.5), .85);
+    cursor: pointer;
+    font-size: 18px;
+    height: 14px;
+    line-height: 16px;
+    margin-right: 2px;
+    margin-top: 2px;
+    opacity: 0;
+    overflow: hidden;
+    padding: 5px 11px 4px 12px;
+    text-transform: uppercase;
+
+    @include button-gradient;
+    @include icon-font;
+    @include transition(opacity 125ms ease);
+  }
+
+  .box.visible .show-more-button {
+    opacity: 1;
+  }
+
   .extra-search-field {
     position: relative;
     z-index: 1;
@@ -218,11 +241,17 @@
     line-height: 14px;
     margin-right: 2px;
     margin-top: 2px;
+    opacity: 0;
     overflow: hidden;
     padding: 5px 12px 4px 24px;
     text-transform: uppercase;
 
     @include button-gradient;
+    @include transition(opacity 125ms ease);
+  }
+
+  .box.visible .item {
+    opacity: 1;
   }
 
   .item .icon {
