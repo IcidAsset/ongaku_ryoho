@@ -27,7 +27,7 @@ class OngakuRyoho.Classes.SourceTypes.S3Bucket
     signature_expire_date = track.get("signature_expire_date")
 
     # do nothing if the signature is still valid
-    if signature_expire_date and (new Date(signature_expire_date * 1000) > (new Date))
+    if signature_expire_date and (new Date()) < (new Date(signature_expire_date * 1000))
       promise.resolve()
 
     # otherwise request a new signature

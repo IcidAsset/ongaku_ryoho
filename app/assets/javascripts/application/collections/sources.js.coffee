@@ -71,13 +71,10 @@ class OngakuRyoho.Classes.Collections.Sources extends Backbone.Collection
       loading: true
     })
 
-    console.log(message)
-
     OngakuRyoho.MessageCenter.collection.add(message)
 
     # exec
     RSVP.all(queue).then (changes) =>
-      console.log("remove message")
       OngakuRyoho.MessageCenter.collection.remove(message)
 
       if _.contains(changes, true)

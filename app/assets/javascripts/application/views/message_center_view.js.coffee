@@ -36,7 +36,6 @@ class OngakuRyoho.Classes.Views.MessageCenter extends Backbone.View
     # render message and add to dom
     $message = message.view.render().$el
     $message.appendTo(this.$el)
-    console.log($message)
 
     # fade in message
     $message.css({ display: "block", opacity: 0 })

@@ -30,7 +30,7 @@ class OngakuRyoho.Classes.SourceTypes.DropboxAccount
     data = { track_location: encodeURIComponent(path) }
 
     # do nothing if the url is still valid
-    if url_expire_date and (new Date(url_expire_date * 1000) > (new Date))
+    if url_expire_date and (new Date) < (new Date(url_expire_date))
       promise.resolve()
 
     # otherwise request a new url

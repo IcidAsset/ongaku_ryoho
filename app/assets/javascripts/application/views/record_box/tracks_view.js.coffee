@@ -220,10 +220,11 @@ class OngakuRyoho.Classes.Views.RecordBox.Tracks extends Backbone.View
       model_attr.location = model_attr.location.replace(/^([^\/]+\/)/, "")
 
     # content
-    html = "<li class=\"track #{extra_classes.join(" ")}\" draggable=\"1\">#{template(model_attr)}</li>"
+    html = "<li class=\"track #{extra_classes.join(" ")}\">#{template(model_attr)}</li>"
     html = html.replace("<li", "<li rel=\"#{model.id}\"") if model.id
 
     # extra data and classes
+    html = html.replace("<li", "<li draggable=\"1\"") if model_attr.available
     html = html.replace("<li", "<li data-playlist-track-id=\"#{playlist_track.id}\"") if playlist_track
     html = html.replace("class=\"track", "class=\"track unavailable") unless model_attr.available
 
