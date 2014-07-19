@@ -25,8 +25,8 @@ $ ->
 remove_account_click_handler = (e) =>
   if confirm("Are you sure?") is true
     $.ajax(
-      type: "GET",
-      url: "/sign-dead",
+      type: "DELETE",
+      url: "/account",
       data: "confirm=1",
       success: redirect,
       error: redirect

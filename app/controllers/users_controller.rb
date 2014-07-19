@@ -1,23 +1,16 @@
-class UsersController < ApplicationController
-  before_filter :require_login, only: [:edit, :update, :destroy]
+class UsersController < Devise::RegistrationsController
+  # before_filter :authenticate_user!, only: [:edit, :update, :destroy]
   before_filter :redirect_if_logged_in, only: [:new, :create]
   layout 'pages'
 
-  def new
-    @user = User.new
-  end
+  # def new
+  #   @user = User.new
+  # end
 
 
   def create
-    @user = User.new(params[:user])
-
     if User.count < 100
-      if @user.save
-        auto_login(@user, true)
-        redirect_to "/account-created"
-      else
-        render :new
-      end
+      super
 
     else
       @user_capacity_error = "The user capacity for the alpha version has been reached"
@@ -27,66 +20,76 @@ class UsersController < ApplicationController
   end
 
 
-  def edit
-    @user = current_user
-  end
+  # def edit
+  #   @user = current_user
+  # end
 
 
-  def update
-    @user = current_user
+  # def update
+  #   @user = current_user
 
-    paru = params[:user]
-    old_password = paru[:old_password]
+  #   paru = params[:user]
+  #   old_password = paru[:old_password]
 
-    # check old password, stop if invalid
-    unless User.authenticate(@user.email, old_password)
-      flash.now[:error] = "Old password was invalid"
+  #   # check old password, stop if invalid
+  #   unless User.authenticate(@user.email, old_password)
+  #     flash.now[:error] = "Old password was invalid"
 
-      return render :edit
-    end
+  #     return render :edit
+  #   end
 
-    # attributes object
-    email_attr = { email: paru[:email] }
+  #   # attributes object
+  #   email_attr = { email: paru[:email] }
 
-    # only update e-mail
-    if paru[:password].blank?
-      if @user.update_attributes(email_attr)
-        flash.now[:success] = "E-mail updated"
-      end
+  #   # only update e-mail
+  #   if paru[:password].blank?
+  #     if @user.update_attributes(email_attr)
+  #       flash.now[:success] = "E-mail updated"
+  #     end
 
-    # update e-mail and password
-    else
-      password = paru[:password]
-      password_confirmation = paru[:password_confirmation]
+  #   # update e-mail and password
+  #   else
+  #     password = paru[:password]
+  #     password_confirmation = paru[:password_confirmation]
 
-      if password === password_confirmation
-        attributes = email_attr.merge({
-          password: password,
-          password_confirmation: password_confirmation
-        })
+  #     if password === password_confirmation
+  #       attributes = email_attr.merge({
+  #         password: password,
+  #         password_confirmation: password_confirmation
+  #       })
 
-        if @user.update_attributes(attributes)
-          flash.now[:success] = "Account settings updated"
-        end
-      else
-        flash.now[:error] = "Password doesn't match confirmation"
-      end
+  #       if @user.update_attributes(attributes)
+  #         flash.now[:success] = "Account settings updated"
+  #       end
+  #     else
+  #       flash.now[:error] = "Password doesn't match confirmation"
+  #     end
 
-    end
+  #   end
 
-    # render page
-    render :edit
-  end
+  #   # render page
+  #   render :edit
+  # end
 
 
-  def destroy
-    current_user.try(:destroy)
-    logout
-  end
+  # def destroy
+  #   current_user.try(:destroy)
+  #   logout
+  # end
 
 
   def account_created
     @page_title = "Account created"
+  end
+
+protected
+
+  def after_sign_up_path_for(resource)
+    "/account-created"
+  end
+
+  def after_update_path_for(resource)
+    edit_user_registration_path
   end
 
 end

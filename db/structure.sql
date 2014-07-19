@@ -236,13 +236,18 @@ ALTER SEQUENCE tracks_id_seq OWNED BY tracks.id;
 CREATE TABLE users (
     id integer NOT NULL,
     email character varying(255) NOT NULL,
-    crypted_password character varying(255),
-    salt character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    remember_me_token character varying(255) DEFAULT NULL::character varying,
-    remember_me_token_expires_at timestamp without time zone,
-    settings hstore
+    settings hstore,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying(255),
+    last_sign_in_ip character varying(255)
 );
 
 
@@ -447,10 +452,17 @@ CREATE INDEX index_tracks_on_source_id ON tracks USING btree (source_id);
 
 
 --
--- Name: index_users_on_remember_me_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_users_on_remember_me_token ON users USING btree (remember_me_token);
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
 
 
 --
@@ -554,3 +566,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130415192126');
 INSERT INTO schema_migrations (version) VALUES ('20130509125536');
 
 INSERT INTO schema_migrations (version) VALUES ('20131019180939');
+
+INSERT INTO schema_migrations (version) VALUES ('20140714205536');

@@ -1,5 +1,5 @@
 class Api::FavouritesController < ApplicationController
-  before_filter :require_login
+  before_filter :authenticate_user!
   layout false
 
   def index

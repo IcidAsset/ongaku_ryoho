@@ -2,19 +2,19 @@ p.a-word-of-advice
   | Here you can choose a new e-mail address and/or password.
 
 
-= form_for @user, url: account_path, method: "PUT" do |f|
+= form_for(resource, as: resource_name, url: update_user_registration_path, html: { method: :put }) do |f|
   .fields
     .text
-      = f.text_field :email, placeholder: "ongaku@ryoho.com"
+      = f.text_field :email, autofocus: true, placeholder: "ongaku@ryoho.com"
 
     .text
-      = f.password_field :old_password, placeholder: "old password"
+      = f.password_field :current_password, autocomplete: "off", placeholder: "current password"
 
     .text
-      = f.password_field :password, placeholder: "new password"
+      = f.password_field :password, autocomplete: "off", placeholder: "new password"
 
     .text
-      = f.password_field :password_confirmation, placeholder: "repeat new password"
+      = f.password_field :password_confirmation, autocomplete: "off", placeholder: "repeat new password"
 
     .submit
       = f.submit "Edit account"
@@ -22,7 +22,7 @@ p.a-word-of-advice
 
 - if @user.errors.any?
   .flash.error
-    i &#x004d;
+    i &#59272;
     = @user.errors.full_messages.first
 
 

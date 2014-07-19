@@ -30,17 +30,26 @@ OngakuRyoho::Application.routes.draw do
   put 'settings'    => 'pages#update_settings'
 
   # sessions/users
-  get 'sign-up'           => 'users#new', as: 'sign_up'
-  get 'sign-in'           => 'sessions#new', as: 'sign_in'
-  get 'sign-out'          => 'sessions#destroy', as: 'sign_out'
+  devise_for :users, skip: [:sessions, :registrations]
+  as :user do
+    get     'sign-in'  => 'sessions#new',     as: 'new_user_session'
+    post    'sign-in'  => 'sessions#create',  as: 'user_session'
+    get     'sign-out' => 'sessions#destroy', as: 'destroy_user_session'
 
-  post 'sign-in'          => 'sessions#create'
-  post 'sign-up'          => 'users#create'
+    # registrations
+    get   'sign-up' => 'users#new',    as: 'new_user_registration'
+    post  'sign-up' => 'users#create', as: 'user_registration'
 
-  get 'account'           => 'users#edit', as: 'account'
-  put 'account'           => 'users#update'
-  get 'sign-dead'         => 'users#destroy'
-  get 'account-created'   => 'users#account_created'
+    # account
+    get 'account' => 'users#edit',   as: 'edit_user_registration'
+    put 'account' => 'users#update', as: 'update_user_registration'
+
+    # account deletion
+    delete 'account' => 'users#destroy'
+
+    # account created page
+    get 'account-created'   => 'users#account_created'
+  end
 
   # root
   root :to => 'default#index'

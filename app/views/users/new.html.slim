@@ -2,16 +2,16 @@ p.a-word-of-advice
   | To sign up, we will need an e-mail address and a password.
 
 
-= form_for @user, url: sign_up_path, method: "POST" do |f|
+= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   .fields
     .text
-      = f.email_field :email, placeholder: "ongaku@ryoho.com"
+      = f.email_field :email, autofocus: true, placeholder: "ongaku@ryoho.com"
 
     .text
-      = f.password_field :password, placeholder: "password"
+      = f.password_field :password, autocomplete: "off", placeholder: "password"
 
     .text
-      = f.password_field :password_confirmation, placeholder: "repeat password"
+      = f.password_field :password_confirmation, autocomplete: "off", placeholder: "repeat password"
 
     .submit
       = f.submit "Create account"

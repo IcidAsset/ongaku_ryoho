@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  before_filter :require_login, only: [:settings, :update_settings, :account]
+  before_filter :authenticate_user!, only: [:settings, :update_settings, :account]
   before_filter :redirect_if_logged_in, only: [:about]
   helper FormHelpers
 

@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_if_logged_in
-    if current_user
+    if user_signed_in?
       redirect_to root_url
       return false
     else
@@ -29,7 +29,7 @@ private
   end
 
   def pages
-    if logged_in?
+    if user_signed_in?
       [
         { title: "Application", url: "/" },
         { title: "Settings", url: "/settings" },

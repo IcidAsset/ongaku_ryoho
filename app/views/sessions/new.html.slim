@@ -2,16 +2,18 @@ p.a-word-of-advice
   | To sign in, please provide us your e-mail address and password.
 
 
-= form_tag sign_in_path, method: "POST" do
+= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   .fields
-    .text
-      = email_field_tag :email, params[:email], placeholder: "ongaku@ryoho.com"
+    = f.hidden_field :remember_me, value: "1"
 
     .text
-      = password_field_tag :password, "", placeholder: "password"
+      = f.email_field :email, autofocus: true, placeholder: "ongaku@ryoho.com"
+
+    .text
+      = f.password_field :password, autocomplete: "off", placeholder: "password"
 
     .submit
-      = submit_tag "Sign in"
+      = f.submit "Sign in"
 
 
 - flash.each do |name, msg|
