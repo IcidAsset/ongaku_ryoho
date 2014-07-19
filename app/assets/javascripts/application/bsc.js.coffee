@@ -56,4 +56,5 @@ window.BSC =
     # tablet / phone
     if $.os.tablet or $.os.phone
       $(".knob.volume").parent().css("opacity", "0.25")
+      $(".switch.volume").parent().css("opacity", "0.25")
       $(".controls.alt").find("a, .subtitle").css("opacity", "0.25")

@@ -193,13 +193,27 @@ class OngakuRyoho.Classes.Machinery.RecordBox.Filter
       BareTooltip.prototype.hide_tooltip.apply(this, arguments)
 
     @tooltip.move_tooltip = (e) ->
-      $t = this.state.$tooltip_element
+      $tooltip = this.state.$tooltip_element
       $trigger = $(e.currentTarget)
+      trigger_offset = $trigger.offset()
 
-      $t.css({
-        left: $trigger.offset().left + Math.round($trigger.width() / 2) - Math.round($t.width() / 2),
-        top: $trigger.offset().top + $trigger.height() / 2 + 15
-      })
+      if trigger_offset.left < Math.ceil($tooltip.width() / 2)
+        $tooltip.addClass("lefty")
+        is_lefty = true
+      else
+        $tooltip.removeClass("lefty")
+        is_lefty = false
+
+      if is_lefty
+        $tooltip.css({
+          left: trigger_offset.left - 24 + $trigger.width() / 2
+          top: trigger_offset.top + $trigger.height() / 2 + 15
+        })
+      else
+        $tooltip.css({
+          left: trigger_offset.left + Math.round($trigger.width() / 2) - Math.round($tooltip.width() / 2),
+          top: trigger_offset.top + $trigger.height() / 2 + 15
+        })
 
     # setup
     @tooltip.setup()

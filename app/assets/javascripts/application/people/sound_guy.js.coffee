@@ -221,8 +221,15 @@ class OngakuRyoho.Classes.People.SoundGuy
     source = OngakuRyoho.SourceManager.collection.get(track.get("source_id"))
 
     # set controller attributes
-    @mixing_console.model.set("now_playing",
-      "<strong>Loading</strong> &nbsp;&mdash;&nbsp; #{track.attributes.artist} - #{track.attributes.title}"
+    @mixing_console.model.set(
+      time:        0
+      duration:    0
+
+      artist:      track.attributes.artist
+      title:       track.attributes.title
+      album:       track.attributes.album
+
+      now_playing: "<strong>Loading</strong> &nbsp;&mdash;&nbsp; #{track.attributes.artist} - #{track.attributes.title}"
     )
 
     # check if pre-hook
@@ -235,33 +242,23 @@ class OngakuRyoho.Classes.People.SoundGuy
 
 
   insert_track_step_two: (track) ->
-    track_attributes = track.toJSON()
-
-    # destroy other sources
     @audio_engine.destroy_all_sources()
 
     # create new source
-    audio = @audio_engine.create_new_source(track, true)
+    audio_promise = @audio_engine.create_new_source(track, true)
 
     # check audio support for filetype
-    return this.audio_not_supported_callback() unless audio
+    return this.audio_not_supported_callback() unless audio_promise
 
     # fill up queue
     OngakuRyoho.Engines.Queue.set_next()
 
     # controller attributes
     controller_attributes =
-      time:        0
-      duration:    0
-
-      artist:      track_attributes.artist
-      title:       track_attributes.title
-      album:       track_attributes.album
-
-      now_playing: "#{track_attributes.artist} - <strong>#{track_attributes.title}</strong>"
+      now_playing: "#{track.attributes.artist} - <strong>#{track.attributes.title}</strong>"
 
     # set controller attributes
-    @mixing_console.model.set(controller_attributes)
+    audio_promise.then(() => @mixing_console.model.set(controller_attributes))
 
     # add playing class to track
     OngakuRyoho.RecordBox.Tracks.machine.add_playing_class_to_track(track)

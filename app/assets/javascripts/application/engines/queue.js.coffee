@@ -89,7 +89,7 @@ class OngakuRyoho.Classes.Engines.Queue
 
     # loop
     indexof_last = @tracks.indexOf(@tracks.get(last_track_in_line_id))
-    indexof_last = 0 if indexof_last < 0
+    indexof_last = -1 if indexof_last < 0
     counter = indexof_last
 
     for n in [0...x]

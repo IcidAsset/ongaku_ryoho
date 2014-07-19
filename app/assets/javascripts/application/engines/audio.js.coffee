@@ -278,6 +278,7 @@ class OngakuRyoho.Classes.Engines.Audio
   #
   create_new_source: (track, autoplay=false) ->
     track_id = track.get("id")
+    promise = new RSVP.Promise()
 
     # find existing audio element
     audio_element = _.find(@audio_elements, (audio_element) ->
@@ -288,7 +289,7 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element ?= this.create_new_audio_element(track, autoplay)
 
     # check audio support
-    return [null, null] unless audio_element
+    return null unless audio_element
 
     # audio element volume
     audio_element.volume = 1
@@ -304,8 +305,11 @@ class OngakuRyoho.Classes.Engines.Audio
     @sources.push(source)
     # , 0)
 
+    # wait until first timeupdate
+    $(audio_element).one("timeupdate", -> promise.resolve())
+
     # return
-    return [audio_element, source]
+    return promise
 
 
 

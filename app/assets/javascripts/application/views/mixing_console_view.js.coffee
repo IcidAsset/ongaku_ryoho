@@ -74,7 +74,10 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     minutes = Math.floor(time / 60)
     seconds = Math.floor(time - (minutes * 60))
 
-    progress = (time / duration) * 100
+    if duration is 0
+      progress = 0
+    else
+      progress = (time / duration) * 100
 
     # prepare
     minutes = "0#{minutes}" if minutes.toString().length is 1
