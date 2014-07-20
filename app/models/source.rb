@@ -102,26 +102,31 @@ class Source < ActiveRecord::Base
     ffprobe_command = "ffprobe"
     ffprobe_results = if options[:url]
       url = options[:url]
-      `#{ffprobe_command} -v quiet -print_format json=compact=1 -show_format "#{url}"`
+      `#{ffprobe_command} -v quiet -show_format "#{url}"`
     else
-      {} # fallback
+      "" # fallback
     end
 
-    ffprobe_results = Oj.load(ffprobe_results)
-    tags = ffprobe_results.try(:[], "format").try(:[], "tags")
+    tags = ffprobe_results.split("\n")
+    tags = tags.select { |l| l.start_with?("TAG:") }
+    tags = tags.map { |l| l.sub("TAG:", "").split("=") }
 
-    if tags
-      {
-        title: tags["title"],
-        artist: tags["artist"],
-        album: tags["album"],
-        year: tags["date"] || tags["year"],
-        tracknr: tags["track"].try(:split, "/").try(:first) || 0,
-        genre: tags["genre"],
+    if tags.length
+      tags = Hash[*tags.flatten]
 
-        filename: options[:file_path].split("/").last,
-        location: options[:file_path]
-      }
+      if tags["title"] && tags["artist"]
+        {
+          title: tags["title"],
+          artist: tags["artist"],
+          album: tags["album"],
+          year: tags["date"] || tags["year"],
+          tracknr: tags["track"].try(:split, "/").try(:first) || 0,
+          genre: tags["genre"],
+
+          filename: options[:file_path].split("/").last,
+          location: options[:file_path]
+        }
+      end
     end
   end
 
