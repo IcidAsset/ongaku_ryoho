@@ -1,0 +1,21 @@
+h2.lowercase Change your password
+
+
+= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+  .fields
+    = f.hidden_field :reset_password_token
+
+    .text
+      = f.password_field :password, autocomplete: "off", placeholder: "new password"
+
+    .text
+      = f.password_field :password_confirmation, autocomplete: "off", placeholder: "repeat new password"
+
+    .submit
+      = f.submit "Change"
+
+
+- flash.each do |name, msg|
+  == content_tag :div,
+      content_tag(:i, raw("&#59272;")) + msg,
+      class: "flash #{name}"

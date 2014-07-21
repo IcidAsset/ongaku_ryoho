@@ -86,6 +86,10 @@ h2 {
   @media screen and (min-width: $breakpoint_medium) {
     font-size: 23px;
   }
+
+  &.lowercase {
+    text-transform: none;
+  }
 }
 
 p,
@@ -122,6 +126,11 @@ i {
   border-bottom: 1px dashed #dadada;
 }
 
+
+
+//
+//  Remove account
+//
 .remove-account {
   margin-top: 19px;
 }
@@ -139,4 +148,19 @@ i {
   margin-right: 5px;
   position: relative;
   top: 1px;
+}
+
+
+
+//
+//  Sub links
+//
+.sub-links {
+  font-size: 14px;
+  margin-top: 19px;
+
+  a {
+    color: $blue_2;
+    text-decoration: none;
+  }
 }

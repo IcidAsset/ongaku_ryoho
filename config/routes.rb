@@ -30,7 +30,13 @@ OngakuRyoho::Application.routes.draw do
   put 'settings'    => 'pages#update_settings'
 
   # sessions/users
-  devise_for :users, skip: [:sessions, :registrations]
+  devise_for :users,
+    path: "",
+    skip: [:sessions, :registrations],
+    controllers: {
+      passwords: "passwords"
+    }
+
   as :user do
     get     'sign-in'  => 'sessions#new',     as: 'new_user_session'
     post    'sign-in'  => 'sessions#create',  as: 'user_session'

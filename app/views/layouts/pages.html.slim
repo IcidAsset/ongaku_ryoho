@@ -30,7 +30,7 @@ html
           span.name Ongaku Ryoho
           span.alpha Alpha
         nav
-          - @pages.each do |page|
+          - @pages.reject { |p| p[:visible] === false }.each do |page|
             - klass = page[:title].parameterize
             - klass << " active" if page === @page
             a[href=page[:url] class="#{klass}"]

@@ -18,6 +18,10 @@ window.BSC =
        typeof webkitAudioContext is "undefined"
       passed = false
 
+    # ios homescreen app
+    if $.os.ios and ("standalone" in window.navigator) and !window.navigator.standalone
+      passed = false
+
     # return
     return passed
 
@@ -39,6 +43,10 @@ window.BSC =
           CSS box-shadow,
           SVG,
           etc.
+        </p>
+        <p>
+          If you want to use this application on iOS,
+          you will have to add it to your homescreen.
         </p>
       </div>
       <div class="background"></div>

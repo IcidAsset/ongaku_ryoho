@@ -112,6 +112,7 @@ class Source < ActiveRecord::Base
     tags = tags.map { |l| l.sub("TAG:", "").split("=") }
 
     if tags.length
+      tags = tags.map { |t| [t[0], t[1..-1].join(" ")] }
       tags = Hash[*tags.flatten]
 
       if tags["title"] && tags["artist"]

@@ -1,0 +1,16 @@
+h2.lowercase Forgot your password?
+
+
+= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+  .fields
+    .text
+      = f.email_field :email, autofocus: true, placeholder: "ongaku@ryoho.com"
+
+    .submit
+      = f.submit "Send me reset password instructions"
+
+
+- flash.each do |name, msg|
+  == content_tag :div,
+      content_tag(:i, raw("&#59272;")) + msg,
+      class: "flash #{name}"

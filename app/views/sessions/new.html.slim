@@ -20,3 +20,7 @@ p.a-word-of-advice
   == content_tag :div,
       content_tag(:i, raw("&#59272;")) + msg,
       class: "flash #{name}"
+
+
+.sub-links
+  = link_to "Forgot your password?", new_password_path(resource_name)
