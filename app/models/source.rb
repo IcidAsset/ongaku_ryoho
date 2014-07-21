@@ -118,10 +118,10 @@ class Source < ActiveRecord::Base
         {
           title: tags["title"],
           artist: tags["artist"],
-          album: tags["album"],
-          year: tags["date"] || tags["year"],
+          album: tags["album"] || "Unknown",
+          year: tags["date"] || tags["year"] || "Unknown",
           tracknr: tags["track"].try(:split, "/").try(:first) || 0,
-          genre: tags["genre"],
+          genre: tags["genre"] || "Unknown",
 
           filename: options[:file_path].split("/").last,
           location: options[:file_path]

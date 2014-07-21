@@ -43,10 +43,8 @@ class DropboxWorker
     directory = directory.sub(/^\/+/, "")
 
     # dropbox file list
-    dropbox_directory_metadata = dropbox_client.metadata("/#{directory}", 25000)
     dropbox_file_list = make_dropbox_file_list(
       dropbox_client,
-      dropbox_directory_metadata,
       directory
     )
 
@@ -92,18 +90,16 @@ class DropboxWorker
   end
 
 
-  def make_dropbox_file_list(dropbox_client, dropbox_directory_metadata, directory)
-    contents = dropbox_directory_metadata ? dropbox_directory_metadata["contents"] : nil
-    contents ||= { "contents" => [] }
+  def make_dropbox_file_list(dropbox_client, directory)
+    contents = []
 
-    file_list = contents.map do |obj|
-      if obj["is_dir"]
-        make_dropbox_file_list(
-          dropbox_client,
-          dropbox_client.metadata(obj["path"], 25000),
-          directory
-        )
-      else
+    OngakuRyoho::SUPPORTED_FILE_FORMATS.each do |format|
+      # extension === format
+      contents.push dropbox_client.search("/#{directory}", ".#{format}")
+    end
+
+    file_list = contents.flatten.map do |obj|
+      unless obj["is_dir"]
         obj["path"].sub(/^\/*#{directory}\/*/i, "")
       end
     end.compact
@@ -122,8 +118,6 @@ class DropboxWorker
       media_url = media_response["url"]
       tags = Source.probe_audio_file_via_url(media_url, path)
 
-      logger.info { "#{@log_prefix} #{media_url}" }
-      logger.info { "#{@log_prefix} #{tags.inspect}" }
       logger.info { "#{@log_prefix} processed: #{path}" }
 
       tags
