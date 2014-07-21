@@ -2,9 +2,9 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable
+         :recoverable, :rememberable, :trackable, :validatable
 
-  attr_accessible :email, :password, :password_confirmation, :settings
+  attr_accessible :email, :password, :password_confirmation, :settings, :remember_me
   serialize :settings, ActiveRecord::Coders::Hstore
 
 
@@ -16,20 +16,6 @@ class User < ActiveRecord::Base
 
   has_many :favourites
   has_many :playlists
-
-
-  #
-  #  Validations
-  #
-  validates_presence_of :email
-  validates_uniqueness_of :email
-  validates_format_of :email,
-    :with => /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/,
-    :on => :create,
-    :messsage => "is invalid"
-
-  validates_confirmation_of :password
-  validates_presence_of :password, :on => :create
 
 
   #

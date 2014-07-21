@@ -41,6 +41,7 @@ private
         { title: "About", url: "/about" },
         { title: "Sign in", url: "/sign-in" },
         { title: "Sign up", url: "/sign-up" },
+        { title: "Recover password", url: "/password", visible: false },
         { title: "Recover password", url: "/password/new", visible: false },
         { title: "Recover password", url: "/password/edit", visible: false }
       ]
