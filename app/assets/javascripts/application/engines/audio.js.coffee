@@ -180,7 +180,10 @@ class OngakuRyoho.Classes.Engines.Audio
 
 
   should_analyse: () ->
-    (OngakuRyohoPreloadedData.user.settings.disable_visualizations isnt "1") and (!$.os.tablet and !$.os.phone)
+    if (OngakuRyohoPreloadedData.user.settings.disable_visualizations isnt "1") and (!$.os.tablet and !$.os.phone)
+      true
+    else
+      false
 
 
 
@@ -295,15 +298,15 @@ class OngakuRyoho.Classes.Engines.Audio
     audio_element.volume = 1
 
     # create, connect and play
-    # setTimeout(() =>
-    source = @ac.createMediaElementSource(audio_element)
-    source.mediaElement = audio_element unless source.mediaElement
-    source.connect(@nodes.volume)
-    source.track = track
-    source.id = track.cid
+    setTimeout(() =>
+      source = @ac.createMediaElementSource(audio_element)
+      source.mediaElement = audio_element unless source.mediaElement
+      source.connect(@nodes.volume)
+      source.track = track
+      source.id = track.cid
 
-    @sources.push(source)
-    # , 0)
+      @sources.push(source)
+    , 0)
 
     # wait until first timeupdate
     $(audio_element).one("timeupdate", -> promise.resolve())
