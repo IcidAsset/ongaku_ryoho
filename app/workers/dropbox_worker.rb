@@ -70,7 +70,8 @@ class DropboxWorker
     end
 
     # update some attributes if needed
-    if current_file_list.empty? && (missing_files.size > 0 || new_tracks_counter > 0)
+    if (current_file_list.empty? && (missing_files.size > 0 || new_tracks_counter > 0)) ||
+       (!current_file_list.empty? && !dropbox.processed)
       dropbox.activated = true
       dropbox.processed = true
       dropbox.save

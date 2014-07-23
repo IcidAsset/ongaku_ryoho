@@ -63,7 +63,8 @@ class S3BucketWorker
     end
 
     # update some attributes if needed
-    if file_list.empty? && (missing_files.size > 0 || new_tracks_counter > 0)
+    if (file_list.empty? && (missing_files.size > 0 || new_tracks_counter > 0)) ||
+       (!file_list.empty? && !s3_bucket.processed)
       s3_bucket.activated = true
       s3_bucket.processed = true
       s3_bucket.save
