@@ -42,7 +42,7 @@ window.BSC =
       other = """
         <strong>Firefox currently does not work with this application.</strong><br>
         Because of <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=937718">this bug</a>.
-        No way to get around it, so you'll have to use another browser,
+        No way to get around it, so you'll have to use another browser.
         <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> works best.
       """
 

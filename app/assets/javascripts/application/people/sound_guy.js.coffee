@@ -232,6 +232,10 @@ class OngakuRyoho.Classes.People.SoundGuy
       now_playing: "<strong>Loading</strong> &nbsp;&mdash;&nbsp; #{track.attributes.artist} - #{track.attributes.title}"
     )
 
+    OngakuRyoho.MixingConsole.view.el_progress_bar
+        .querySelector(".progress.loader")
+        .style.width = "0%"
+
     # check if pre-hook
     hook = source.type_instance.insert_track_hook
 
