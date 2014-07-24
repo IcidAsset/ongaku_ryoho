@@ -7,8 +7,8 @@
 .mod-browser-not-supported {
   background: black;
   color: #444;
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 15px;
+  line-height: 24px;
 
   @include stretch_fixed;
   @include lato-font;
@@ -26,11 +26,15 @@
     background: white;
     left: 50%;
     margin-left: -230px - 34;
-    padding: 36px 34px;
+    padding: 35px 33px;
     position: absolute;
     top: 25%;
     width: 460px;
     z-index: 2;
+  }
+
+  .content h2 {
+    margin-top: 0.25em;
   }
 
   .content p {
@@ -38,8 +42,8 @@
     width: 90%;
   }
 
-  .content p.bold {
-    font-weight: bolder;
+  .content p a {
+    color: $blue_2;
   }
 
 

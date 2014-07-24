@@ -39,6 +39,34 @@ COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: btree_hstore_ops; Type: OPERATOR FAMILY; Schema: public; Owner: -
+--
+
+CREATE OPERATOR FAMILY btree_hstore_ops USING btree;
+
+
+--
+-- Name: gin_hstore_ops; Type: OPERATOR FAMILY; Schema: public; Owner: -
+--
+
+CREATE OPERATOR FAMILY gin_hstore_ops USING gin;
+
+
+--
+-- Name: gist_hstore_ops; Type: OPERATOR FAMILY; Schema: public; Owner: -
+--
+
+CREATE OPERATOR FAMILY gist_hstore_ops USING gist;
+
+
+--
+-- Name: hash_hstore_ops; Type: OPERATOR FAMILY; Schema: public; Owner: -
+--
+
+CREATE OPERATOR FAMILY hash_hstore_ops USING hash;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
