@@ -180,10 +180,14 @@ class OngakuRyoho.Classes.Engines.Audio
 
 
   should_analyse: () ->
-    if (OngakuRyohoPreloadedData.user.settings.disable_visualizations isnt "1") and (!$.os.tablet and !$.os.phone)
-      true
-    else
+    if OngakuRyohoPreloadedData.user.settings.disable_visualizations is "1"
       false
+    else if $.os.tablet or $.os.phone
+      false
+    else if $.browser.safari
+      false
+    else
+      true
 
 
 

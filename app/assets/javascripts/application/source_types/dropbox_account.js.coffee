@@ -35,9 +35,7 @@ class OngakuRyoho.Classes.SourceTypes.DropboxAccount
 
     # otherwise request a new url
     else
-      $.get("/api/sources/#{this.dropboxaccount.id}/dropbox_media_url", data, (response) ->
-        response = JSON.parse(response)
-
+      $.getJSON("/api/sources/#{this.dropboxaccount.id}/dropbox_media_url", data, (response) ->
         track.set({
           url: response.media_url,
           url_expire_date: response.expire_date
