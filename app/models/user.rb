@@ -11,11 +11,10 @@ class User < ActiveRecord::Base
   #
   #  Associations
   #
-  has_many :sources
-  has_many :servers
+  has_many :sources, dependent: :destroy
 
-  has_many :favourites
-  has_many :playlists
+  has_many :favourites, dependent: :destroy
+  has_many :playlists, dependent: :destroy
 
 
   #
