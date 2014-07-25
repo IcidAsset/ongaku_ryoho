@@ -28,7 +28,7 @@ html
       .wrapper
         a.logo[href="/"]
           span.name Ongaku Ryoho
-          span.alpha Alpha
+          span.alpha Beta
         nav
           - @pages.reject { |p| p[:visible] === false }.each do |page|
             - klass = page[:title].parameterize
