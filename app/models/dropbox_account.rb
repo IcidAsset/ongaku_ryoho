@@ -17,7 +17,16 @@ class DropboxAccount < Source
   def self.new(attributes=nil, options={}, user_id, ip_address)
     flow = DropboxOAuth2FlowNoRedirect.new(DropboxAccount::APP_KEY, DropboxAccount::APP_SECRET)
     authorize_code = attributes[:configuration].delete(:authorize_code).strip
-    access_token, dropbox_user_id = flow.finish(authorize_code)
+
+    attributes[:name].strip!
+
+    begin
+      access_token, dropbox_user_id = flow.finish(authorize_code)
+    rescue Exception
+      # bad auth code
+      return nil
+    end
+
     client = DropboxClient.new(access_token)
     account_info = client.account_info
     attributes[:configuration][:access_token] = access_token

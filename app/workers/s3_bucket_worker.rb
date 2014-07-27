@@ -59,7 +59,7 @@ class S3BucketWorker
 
       S3Bucket.add_new_tracks(s3_bucket, new_tracks)
 
-      logger.info { "#{@log_prefix} batch *#{batch_counter}* added: #{batch.size} tracks" }
+      logger.info { "#{@log_prefix} batch *#{batch_counter}* added: #{new_tracks.size} (#{batch.size}) tracks" }
     end
 
     # update some attributes if needed
@@ -89,7 +89,7 @@ class S3BucketWorker
       obj_signed_url = s3_bucket.signed_url(key, signature_expire_date, bucket.host)
       tags = Source.probe_audio_file_via_url(obj_signed_url, key)
 
-      logger.info { "#{@log_prefix} processed: #{key}" }
+      logger.info { "#{@log_prefix} processed: #{key} (#{obj_signed_url})" }
 
       tags
     end.compact

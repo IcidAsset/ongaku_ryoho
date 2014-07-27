@@ -31,7 +31,7 @@ class DropboxWorker
 
 
   def update_tracks(dropbox, data, user_id)
-    directory = dropbox.configuration["directory"]
+    directory = dropbox.configuration["directory"].strip
     access_token = dropbox.configuration["access_token"]
     dropbox_client = DropboxClient.new(access_token)
     current_file_list = dropbox.file_list
@@ -119,7 +119,7 @@ class DropboxWorker
       media_url = media_response["url"]
       tags = Source.probe_audio_file_via_url(media_url, path)
 
-      logger.info { "#{@log_prefix} processed: #{path}" }
+      logger.info { "#{@log_prefix} processed: #{path} (#{media_url})" }
 
       tags
     end.compact

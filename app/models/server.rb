@@ -12,7 +12,9 @@ class Server < Source
   #  Override ActiveRecord::Base.new
   #
   def self.new(attributes=nil, options={}, user_id, ip_address)
-    location = attributes[:configuration][:location]
+    attributes[:name].strip!
+
+    location = attributes[:configuration][:location].strip
     location = "http://#{location}" unless location.include?('http://')
     location << (location.end_with?('/') ? '' : '/')
 

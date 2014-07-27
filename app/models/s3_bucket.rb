@@ -35,6 +35,12 @@ class S3Bucket < Source
   #  Override ActiveRecord::Base.new
   #
   def self.new(attributes=nil, options={}, user_id, ip_address)
+    attributes[:name].strip!
+
+    attributes[:configuration][:access_key].strip!
+    attributes[:configuration][:secret_key].strip!
+    attributes[:configuration][:bucket].strip!
+
     s3_bucket = super(attributes, options)
     s3_bucket.user_id = user_id
     s3_bucket

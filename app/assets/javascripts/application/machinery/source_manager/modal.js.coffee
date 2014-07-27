@@ -128,7 +128,14 @@ class OngakuRyoho.Classes.Machinery.SourceManager.Modal
           OngakuRyoho.SourceManager.collection.remove(model)
           OngakuRyoho.SourceManager.view.remove_working_class_from_refresh_sources_button()
           OngakuRyoho.SourceManager.view.show_window(data_window)
-          alert("Could not add this source, please try again.")
+
+          error_message = "Could not add this source, please try again."
+
+          switch model.get("type")
+            when "DropboxAccount"
+              alert("#{error_message} Make sure the authorization code is correct.")
+            else
+              alert(error_message)
       })
 
       OngakuRyoho.SourceManager.view.show_window("main")
