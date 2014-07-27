@@ -2,6 +2,7 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
 
   defaults:
     available: false
+    processing: false
 
 
 
@@ -84,8 +85,12 @@ class OngakuRyoho.Classes.Models.Source extends Backbone.Model
     # check
     this.set_type_instance() unless this.type_instance
 
+    # state
+    this.set("processing", true)
+
     # after
-    after = (has_changed) ->
+    after = (has_changed) =>
+      this.set("processing", false)
       promise.resolve(has_changed)
 
     # update

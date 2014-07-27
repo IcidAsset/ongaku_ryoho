@@ -4,7 +4,7 @@
 
 */
 
-@include keyframes(full-rotation) {
-  0% { @include rotate(0deg); }
-  100% { @include rotate(-360deg); }
+@include keyframes(refresh) {
+  0% { @include transform(scaleX(-1) rotate(0deg)); }
+  100% { @include transform(scaleX(-1) rotate(-360deg)); }
 }

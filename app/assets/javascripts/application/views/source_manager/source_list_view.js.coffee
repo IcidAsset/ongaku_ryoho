@@ -16,6 +16,9 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
     # templates
     @template = Helpers.get_template("source-list")
 
+    # child views
+    @child_views = []
+
     # collection events
     this.listenTo(OngakuRyoho.SourceManager.collection, "reset", this.render)
     this.listenTo(OngakuRyoho.SourceManager.collection, "add", this.render)
@@ -41,23 +44,16 @@ class OngakuRyoho.Classes.Views.SourceManager.SourceList extends Backbone.View
     fragment = document.createDocumentFragment()
     source_template = Helpers.get_template("source")
 
+    # remove old views
+    _.each(@child_views, (v) -> v.remove())
+    @child_views.length = 0
+
     # add sources
-    OngakuRyoho.SourceManager.collection.each((source) ->
-      source_attributes = source.toJSON()
-      source_attributes.type_text = source.type_instance.type_text()
-      source_attributes.label = source.type_instance.label()
-      source_attributes.type_server = (source_attributes.type is "Server")
-      source_attributes.type_s3bucket = (source_attributes.type is "S3Bucket")
-      source_attributes.type_dropbox = (source_attributes.type is "DropboxAccount")
-
-      source_el = document.createElement("div")
-      source_el.classList.add("source")
-      source_el.classList.add("available") if source_attributes.available
-      source_el.classList.add("activated") if source_attributes.activated
-      source_el.setAttribute("rel", source_attributes.id)
-      source_el.innerHTML = source_template(source_attributes)
-
-      fragment.appendChild(source_el)
+    OngakuRyoho.SourceManager.collection.each((source) =>
+      view = new OngakuRyoho.Classes.Views.SourceManager.Source({ model: source })
+      view.template = source_template
+      fragment.appendChild(view.render().el)
+      @child_views.push(view)
     )
 
     # replace

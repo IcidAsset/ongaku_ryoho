@@ -89,8 +89,12 @@
   }
 
   // refresh
+  [rel="refresh-sources"]:after {
+    @include transform(scaleX(-1) rotate(0deg));
+  }
+
   [rel="refresh-sources"].working:after {
-    @include animation(full-rotation 5s infinite linear);
+    @include animation(refresh 5s infinite linear);
   }
 
   // close

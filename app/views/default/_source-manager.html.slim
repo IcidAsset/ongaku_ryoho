@@ -200,45 +200,63 @@
 
       {{#if type_server}}
         <div rel="info">
-          {{#if processed}}
-            {{configuration.location}}
-            <span class="seperator"></span>
-            bound to {{configuration.boundary}}
-            <span class="seperator"></span>
-            {{track_amount}} tracks
+          {{#if processing}}
+            <span>Processing ...</span>
+
           {{else}}
-            <em>Not processed yet</em>
+            {{#if processed}}
+              {{configuration.location}}
+              <span class="seperator"></span>
+              bound to {{configuration.boundary}}
+              <span class="seperator"></span>
+              {{track_amount}} tracks
+            {{else}}
+              <em>Not processed yet</em>
+            {{/if}}
+
           {{/if}}
         </div>
       {{/if}}
 
       {{#if type_s3bucket}}
         <div rel="info">
-          {{#if processed}}
-            {{configuration.bucket}}
-            <span class="seperator"></span>
-            {{configuration.access_key}}
-            <span class="seperator"></span>
-            {{track_amount}} tracks
+          {{#if processing}}
+            <span>Processing ...</span>
+
           {{else}}
-            <span>Not processed yet</span>
+            {{#if processed}}
+              {{configuration.bucket}}
+              <span class="seperator"></span>
+              {{configuration.access_key}}
+              <span class="seperator"></span>
+              {{track_amount}} tracks
+            {{else}}
+              <span>Not processed yet</span>
+            {{/if}}
+
           {{/if}}
         </div>
       {{/if}}
 
       {{#if type_dropbox}}
         <div rel="info">
-          {{#if processed}}
-            {{#if configuration.directory}}
-              {{configuration.directory}}
-              <span class="seperator"></span>
-            {{/if}}
-            {{configuration.dropbox_account_display_name}}
-            ({{configuration.dropbox_account_email}})
-            <span class="seperator"></span>
-            {{track_amount}} tracks
+          {{#if processing}}
+            <span>Processing ...</span>
+
           {{else}}
-            <span>Not processed yet</span>
+            {{#if processed}}
+              {{#if configuration.directory}}
+                {{configuration.directory}}
+                <span class="seperator"></span>
+              {{/if}}
+              {{configuration.dropbox_account_display_name}}
+              ({{configuration.dropbox_account_email}})
+              <span class="seperator"></span>
+              {{track_amount}} tracks
+            {{else}}
+              <span>Not processed yet</span>
+            {{/if}}
+
           {{/if}}
         </div>
       {{/if}}
