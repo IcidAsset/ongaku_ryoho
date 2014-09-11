@@ -2,7 +2,7 @@ p.a-word-of-advice
   | Application settings
 
 - user = current_user
-= form_for user, url: settings_path, method: :put do |f|
+= form_for user, url: settings_path, method: :put, html: { class: "settings-form" } do |f|
   = f.fields_for :settings do |s|
     = settings_checkbox(s, user, :alternative_knob)
     = s.label :alternative_knob do
@@ -22,6 +22,19 @@ p.a-word-of-advice
       | Hide playlist menu when playlist is chosen/clicked
 
     br
+    br
+
+    - tpp_default = 500
+    - tpp = user.settings["tracks_per_page"] || tpp_default
+    - tpp = tpp_default if tpp == ""
+
+    = s.label :tracks_per_page, "Tracks per page: "
+    = text_field_tag "user[settings][tracks_per_page]", tpp
+    p
+      small
+        em note:
+        |  It's best to keep this number below 1000
+
     br
 
     = s.label :theme, "Color theme: "

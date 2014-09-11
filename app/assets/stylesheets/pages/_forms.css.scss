@@ -71,3 +71,23 @@ form {
 
 
 }
+
+
+//
+//  Settings form
+//
+form.settings-form {
+
+  input[type="text"] {
+    margin-top: 3px;
+    padding-bottom: 10px;
+    padding-top: 11px;
+    width: 50%;
+
+    & + p {
+      line-height: 1.15em;
+      margin-top: 5px;
+    }
+  }
+
+}

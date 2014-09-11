@@ -15,6 +15,12 @@ class OngakuRyoho.Classes.Models.Filter extends Backbone.Model
 
 
   initialize: () ->
+    tpp = OngakuRyohoPreloadedData.user.settings.tracks_per_page
+
+    if tpp
+      tpp = parseInt(tpp, 10) if typeof tpp is "string"
+      this.set("per_page", tpp, { silent: true })
+
     this.on("change", this.change_handler)
     this.on("change:playlist", this.playlist_change_handler)
     this.on("change:sort_by", this.sort_by_change_handler)
