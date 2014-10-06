@@ -51,7 +51,7 @@ class Api::FavouritesController < ApplicationController
     favourite.track_ids.each do |source_id, track_ids|
       track_ids = track_ids.split(",")
       track_ids.each do |track_id|
-        track = Track.find(track_id)
+        track = Track.find(track_id) rescue nil
         if track
           track.favourite_id = nil
           track.save
