@@ -422,10 +422,8 @@ class OngakuRyoho.Classes.Engines.Audio
   events:
 
     progress: (e) ->
-      buffered = e.target.buffered
-      return unless buffered.length
-
-      percent_loaded = ((buffered.end(0) / e.target.duration) * 100) + "%"
+      return unless e.target.buffered.length
+      percent_loaded = ((e.target.buffered.end(0) / e.target.duration) * 100) + "%"
 
       OngakuRyoho.MixingConsole.view.el_progress_bar
         .querySelector(".progress.loader")
@@ -455,4 +453,4 @@ class OngakuRyoho.Classes.Engines.Audio
 
 
     duration_change: (e) =>
-      OngakuRyoho.MixingConsole.model.set({ duration: e.target.duration })
+      OngakuRyoho.MixingConsole.model.set("duration", e.target.duration)

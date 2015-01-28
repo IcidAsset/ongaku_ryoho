@@ -42,7 +42,9 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
 
     # cache dom elements
     this.el_now_playing = this.el.querySelector(".now-playing")
+    this.el_now_playing_time = this.el_now_playing.querySelector(".time")
     this.el_progress_bar = this.el.querySelector(".progress-bar")
+    this.el_progress_bar_track = this.el_progress_bar.querySelector(".progress.track")
     this.$controls = this.$el.find(".controls")
 
     # render
@@ -84,14 +86,10 @@ class OngakuRyoho.Classes.Views.MixingConsole extends Backbone.View
     seconds = "0#{seconds}" if seconds.toString().length is 1
 
     # time
-    this.el_now_playing
-      .querySelector(".time")
-      .innerHTML = "#{minutes}:#{seconds}"
+    this.el_now_playing_time.innerHTML = "#{minutes}:#{seconds}"
 
     # progress bar
-    this.el_progress_bar
-      .querySelector(".progress.track")
-      .style.width = "#{progress}%"
+    this.el_progress_bar_track.style.width = "#{progress}%"
 
 
 

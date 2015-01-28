@@ -50,30 +50,54 @@ class OngakuRyoho.Classes.Machinery.MixingConsole
     # continue
     if marquee_wrapper
       marquee_wrapper.style.cssText = "left:0px;overflow:hidden;position:absolute;width:5000px;"
-      @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation, 3000)
+
+      @marquee_wrapper_el = marquee_wrapper
+
+      timeout = =>
+        marquee_wrapper_el_span = @marquee_wrapper_el.querySelector("span")
+        @marquee_text_width = marquee_wrapper_el_span.offsetWidth
+        @npm_timeout_ids.push(setTimeout(@now_playing_marquee_animation, 3000))
+
+      setTimeout(timeout, 0)
+
+    else
+      @marquee_wrapper_el = null
 
 
 
   now_playing_marquee_animation: () =>
-    marquee_wrapper = @group.view.el_now_playing.querySelector(".marquee-wrapper")
-    return unless marquee_wrapper
+    return unless @marquee_wrapper_el
 
-    text_width = marquee_wrapper.querySelector("span").offsetWidth
-    anim_speed = text_width * 39.5
+    anim_speed = @marquee_text_width * 39.5
+    transition = "left #{anim_speed}ms linear"
 
-    $(marquee_wrapper).animate(
-      { left: -text_width }, anim_speed, "linear"
-    )
+    @marquee_wrapper_el.style.MozTransition = transition
+    @marquee_wrapper_el.style.WebkitTransition = transition
+    @marquee_wrapper_el.style.transition = transition
+    @marquee_wrapper_el.style.left = (-@marquee_text_width).toString() + "px"
 
-    @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation_callback, anim_speed + 50)
+    @npm_timeout_ids.push(setTimeout(
+      @now_playing_marquee_animation_callback,
+      anim_speed + 50
+    ))
+
+    anim_speed = null
+    transition = null
 
 
 
   now_playing_marquee_animation_callback: () =>
-    marquee_wrapper = @group.view.el_now_playing.querySelector(".marquee-wrapper")
-    marquee_wrapper.style.left = 0 if marquee_wrapper
+    return unless @marquee_wrapper_el
 
-    @npm_timeout_ids.push setTimeout(this.now_playing_marquee_animation, 3000)
+    @marquee_wrapper_el.style.MozTransition = null
+    @marquee_wrapper_el.style.WebkitTransition = null
+    @marquee_wrapper_el.style.transition = null
+    @marquee_wrapper_el.style.left = 0
+
+    @npm_timeout_ids.push(setTimeout(
+      @now_playing_marquee_animation,
+      3000
+    ))
 
 
 
