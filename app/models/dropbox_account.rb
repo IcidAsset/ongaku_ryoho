@@ -1,7 +1,4 @@
 class DropboxAccount < Source
-  APP_KEY = "jo267gt08kdrzjt"
-  APP_SECRET = "k9dzobfv7eue03n"
-
 
   #
   #  Worker
@@ -15,7 +12,7 @@ class DropboxAccount < Source
   #  Override ActiveRecord::Base.new
   #
   def self.new(attributes=nil, options={}, user_id, ip_address)
-    flow = DropboxOAuth2FlowNoRedirect.new(DropboxAccount::APP_KEY, DropboxAccount::APP_SECRET)
+    flow = DropboxOAuth2FlowNoRedirect.new(ENV["DROPBOX_APP_KEY"], ENV["DROPBOX_APP_SECRET"])
     authorize_code = attributes[:configuration].delete(:authorize_code).strip
 
     attributes[:name].strip!
