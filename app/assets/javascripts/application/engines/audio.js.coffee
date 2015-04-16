@@ -247,6 +247,7 @@ class OngakuRyoho.Classes.Engines.Audio
     # track
     audio_element.setAttribute("src", src)
     audio_element.setAttribute("rel", related_track.id)
+    audio_element.setAttribute("crossorigin", "anonymous")
 
     # events, in order of the w3c spec
     audio_element.addEventListener("progress", this.events.progress)

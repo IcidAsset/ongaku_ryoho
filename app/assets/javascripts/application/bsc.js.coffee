@@ -22,10 +22,6 @@ window.BSC =
     if $.os.ios and ("standalone" in window.navigator) and !window.navigator.standalone
       passed = false
 
-    # TEMPORARY: firefox
-    if $.browser.firefox
-      passed = false
-
     # return
     return passed
 
@@ -37,13 +33,6 @@ window.BSC =
       other = """
         If you want to use this application on iOS,
         you will have to add it to your homescreen.
-      """
-    else if $.browser.firefox
-      other = """
-        <strong>Firefox currently does not work with this application.</strong><br>
-        Because of <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=937718">this bug</a>.
-        No way to get around it, so you'll have to use another browser.
-        <a href="https://www.google.com/intl/en/chrome/browser/">Chrome</a> works best.
       """
 
     # the html
