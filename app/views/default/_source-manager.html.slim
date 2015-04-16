@@ -89,6 +89,8 @@
         form.scrollable[data-type="S3Bucket" data-action="CREATE" data-window="add-source-s3-bucket"]
           .left
             .title Data
+            p
+              small You must enable <strong>CORS</strong> on your S3 bucket!
             .field
               = label_tag "name", "Source label"
               = text_field_tag "name"
